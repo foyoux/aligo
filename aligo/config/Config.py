@@ -38,12 +38,15 @@ V2_FILE_COPY = '/v2/file/copy'
 V2_FILE_CREATE_WITH_PROOF = '/v2/file/create_with_proof'
 ADRIVE_V2_FILE_CREATE = '/adrive/v2/file/create'
 ADRIVE_V2_FILE_CREATEWITHFOLDERS = '/adrive/v2/file/createWithFolders'
+V2_FILE_LIST_BY_CUSTOM_INDEX_KEY = '/v2/file/list_by_custom_index_key'
 
 ADRIVE_V2_SHARE_LINK_CREATE = '/adrive/v2/share_link/create'
 ADRIVE_V2_SHARE_LINK_CANCEL = '/adrive/v2/share_link/cancel'
 ADRIVE_V2_SHARE_LINK_LIST = '/adrive/v2/share_link/list'
 ADRIVE_V2_BATCH = '/adrive/v2/batch'
 V2_SHARE_LINK_UPDATE = '/v2/share_link/update'
+V2_BATCH = '/v2/batch'
+
 # 参数
 # USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) ????/2.1.1 Chrome/89.0.4389.82 Electron/12.0.1 Safari/537.36'
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36'
@@ -114,4 +117,8 @@ SearchCategory = Optional[
 
 GetShareLinkListOrderBy = Optional[
     Literal['share_name', 'created_at', 'description', 'updated_at']
+]
+
+GetStarredListFields = Optional[
+    Literal['*', 'thumbnail']
 ]

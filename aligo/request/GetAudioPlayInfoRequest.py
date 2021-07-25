@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from aligo.types import DataClass
 
 
-@dataclass(unsafe_hash=True)
+@dataclass
 class GetAudioPlayInfoRequest(DataClass):
     """..."""
     file_id: str

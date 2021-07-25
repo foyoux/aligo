@@ -16,3 +16,4 @@ from .Share import Share
 from .Update import Update
 from .User import User
 from .VideoInfo import VideoInfo
+from .Star import Star

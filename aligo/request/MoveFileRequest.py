@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 from aligo.types import DataClass
 
 
-@dataclass(unsafe_hash=True)
+@dataclass
 class MoveFileRequest(DataClass):
     """..."""
     file_id: str

@@ -14,7 +14,10 @@ from aligo.types import *
 
 
 class BaseAligo(BaseClass):
-    """Aliyundrive apis lib"""
+    """阿里网盘基础APIs
+
+    :param auth: 认证对象
+    """
 
     def __init__(self, auth: Optional[Auth] = None):
         self._auth: Auth = auth or Auth()
@@ -25,60 +28,49 @@ class BaseAligo(BaseClass):
         self._default_drive: Optional[BaseDrive] = None
 
     def _post(self, path: str, host: str = API_HOST, body: Union[DataType, Dict] = None) -> requests.Response:
-        """..."""
+        """统一处理数据类型和 drive_id"""
         if body is None:
             body = {}
         elif isinstance(body, DataClass):
             body = body.__dict__
-        # else:
-        #     body = body
 
         if 'drive_id' in body and body['drive_id'] is None:
-            # if exist attr drive_id and it is None, and set default_drive_id to it
+            # 如果存在 attr drive_id 并且它是 None，并将 default_drive_id 设置为它
             body['drive_id'] = self.default_drive_id
 
         return self._auth.post(path=path, host=host, body=body)
 
-    def __hash__(self):
-        """简化cacheout key的计算"""
-        return self._token.user_id
-
     @property
     def default_drive_id(self):
-        """..."""
+        """默认 drive_id"""
         return self._token.default_drive_id
 
     @property
     def default_sbox_drive_id(self):
-        """..."""
+        """默认保险箱 drive_id"""
         return self._token.default_sbox_drive_id
 
     @property
     def user_name(self):
-        """..."""
+        """用户名"""
         return self._token.user_name
 
     @property
     def user_id(self):
-        """..."""
+        """用户 id"""
         return self._token.user_id
 
     @property
-    def device_id(self):
-        """..."""
-        return self._token.device_id
-
-    @property
     def nick_name(self):
-        """..."""
+        """昵称"""
         return self._token.nick_name
 
     @classmethod
     def _result(cls, response: requests.Response,
                 dcls: Generic[DataType],
                 status_code: Union[List, int] = 200) -> Union[Null, DataType]:
-        """
-        Unified processing response
+        """统一处理响应
+
         :param response:
         :param dcls:
         :param status_code:
@@ -99,7 +91,7 @@ class BaseAligo(BaseClass):
         return Null(response)
 
     def _list_file(self, PATH: str, body: DataType, ResponseType: Generic[DataType]) -> Iterator[BaseFile]:
-        """..."""
+        """枚举文件: 用于统一处理 1.文件列表 2.搜索文件列表 3.收藏列表 4.回收站列表"""
         response = self._post(PATH, body=body)
         file_list = self._result(response, ResponseType)
         if isinstance(file_list, Null):

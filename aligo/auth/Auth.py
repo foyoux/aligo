@@ -22,7 +22,8 @@ _aligo.mkdir(parents=True, exist_ok=True)
 
 
 class Auth(BaseClass):
-    """
+    """认证对象
+
     login & auth
     :param name: (可选) 默认: "aligo", 保存到的配置文件名称(ID)
     :param refresh_token: (可选) refresh_token
@@ -58,7 +59,7 @@ class Auth(BaseClass):
             level=logging.DEBUG,
             loglog: bool = False
     ):
-        """refresh_token登录"""
+        """refresh_token 登录"""
 
     def __init__(
             self, name: str = 'aligo',

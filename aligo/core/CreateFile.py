@@ -5,6 +5,7 @@ import os
 from typing import Union
 
 import requests
+from requests.adapters import HTTPAdapter
 
 from aligo.config import *
 from aligo.core import *
@@ -78,9 +79,12 @@ class CreateFile(BaseAligo):
         with open(file_path, 'rb') as f:
             for i in part_info.part_info_list:
                 # 不能使用 self._session.put
-                # requests.put(data=f.read(CHUNK_SIZE), url=i.upload_url)
-                response = requests.put(data=f.read(CHUNK_SIZE), url=i.upload_url)
-                print(response)
+                ss = requests.session()
+                # ss.mount('http://', HTTPAdapter(max_retries=5))
+                ss.mount('https://', HTTPAdapter(max_retries=5))
+                ss.put(data=f.read(CHUNK_SIZE), url=i.upload_url)
+                # response = requests.put(data=f.read(CHUNK_SIZE), url=i.upload_url)
+                # print(response)
         # complete
         return self._complete_file(CompleteFileRequest(
             drive_id=part_info.drive_id,
@@ -132,25 +136,37 @@ class CreateFile(BaseAligo):
     #         bys = f.read(min(8, file_size - n3))
     #         return base64.b64encode(bys).decode()
 
-    # def upload_by_content_hash(
-    #         self,
-    #         name: str,
-    #         content_hash: str,
-    #         size: int,
-    #         parent_file_id: str = 'root',
-    #         drive_id=None
-    # ) -> CreateFileResponse:
-    #     """..."""
-    #     # 无需缓存, 无需处理drive_id
-    #     return self._create_file(CreateFileRequest(
-    #         name=name,
-    #         content_hash=content_hash,
-    #         size=size,
-    #         parent_file_id=parent_file_id,
-    #         drive_id=drive_id,
-    #         type='file'
-    #     ))
+    def create_by_content_hash(
+            self,
+            name: str,
+            content_hash: str,
+            size: int,
+            parent_file_id: str = 'root',
+            drive_id=None
+    ) -> CreateFileResponse:
+        """..."""
+        # 无需缓存, 无需处理drive_id
+        return self._create_file(CreateFileRequest(
+            name=name,
+            content_hash=content_hash,
+            size=size,
+            parent_file_id=parent_file_id,
+            drive_id=drive_id,
+            type='file'
+        ))
 
     # def share_by_content_hash(self, content_hash: str, size: int, name: str = None, password: str = None) -> str:
     #     """..."""
     #     raise NotImplementedError
+
+    @staticmethod
+    def download_file(file_path: str, url: str):
+        """..."""
+        with requests.get(url, headers={
+            'referer': 'https://www.aliyundrive.com/'
+        }, stream=True) as resp:
+            # resp.raise_for_status()
+            with open(file_path, 'wb') as f:
+                for chunk in resp.iter_content(chunk_size=int(CHUNK_SIZE / 8)):
+                    f.write(chunk)
+        return file_path

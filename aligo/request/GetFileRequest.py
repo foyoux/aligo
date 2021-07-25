@@ -8,7 +8,6 @@ from aligo.config import GetFileFields
 
 @dataclass
 class GetFileRequest(DataClass):
-    # @dataclass(unsafe_hash=True)
     """..."""
     file_id: str
     drive_id: str = None

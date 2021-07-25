@@ -1,5 +1,5 @@
 """todo"""
-from typing import Iterator, List
+from typing import Iterator
 
 from aligo.config import *
 from aligo.core import *
@@ -29,24 +29,25 @@ class Share(BaseAligo):
         response = self._post(ADRIVE_V2_SHARE_LINK_CANCEL, body=body)
         return self._result(response, CancelShareLinkResponse)
 
-    def batch_cancel_share(self, body: List[CancelShareLinkRequest]):
+    def batch_cancel_share(self, body: BatchCancelShareRequest) -> Iterator[BatchResponse]:
         """批量取消分享"""
-        requests = []
-        for i in body:
-            requests.append(
+        response = self._post(ADRIVE_V2_BATCH, body={
+            'requests': [
                 {
-                    "body": {
-                        "share_id": i.share_id
-                    },
-                    "headers": {
-                        "Content-Type": "application/json"
-                    },
-                    "id": "dunNKhtSmUE",
+                    "body": {"share_id": share_id},
+                    "headers": {"Content-Type": "application/json"},
+                    "id": share_id,
                     "method": "POST",
                     "url": "/share_link/cancel"
-                }
-            )
-        response = self._post(ADRIVE_V2_BATCH, body={"requests": requests, "resource": "file"})
+                } for share_id in body.share_id_list
+            ],
+            'resource': 'file'
+        })
+        if response.status_code != 200:
+            return Null(response)
+
+        for share in response.json()['responses']:
+            yield BatchResponse(**share)
 
     def get_share_list(self, body: GetShareLinkListRequest = None) -> Iterator[ShareLinkSchema]:
         """获取自己的分享链接

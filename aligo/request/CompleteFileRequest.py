@@ -6,7 +6,7 @@ from aligo.types import DataClass
 from aligo.types import UploadPartInfo
 
 
-@dataclass(unsafe_hash=True)
+@dataclass
 class CompleteFileRequest(DataClass):
     """..."""
     file_id: str

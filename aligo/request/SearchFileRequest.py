@@ -6,7 +6,6 @@ from aligo.types import DataClass
 
 @dataclass
 class SearchFileRequest(DataClass):
-    # @dataclass(unsafe_hash=True)
     """..."""
     query: str
     drive_id: str = None

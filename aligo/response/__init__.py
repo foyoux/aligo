@@ -1,5 +1,6 @@
 """..."""
 
+from .ListResponse import ListResponse
 from .CancelShareLinkResponse import CancelShareLinkResponse
 from .CopyFileResponse import CopyFileResponse
 from .CreateFileResponse import CreateFileResponse
@@ -17,3 +18,5 @@ from .SearchFileResponse import SearchFileResponse
 from .UpdateShareLinkResponse import UpdateShareLinkResponse
 from .GetShareLinkListResponse import GetShareLinkListResponse
 from .GetDownloadUrlResponse import GetDownloadUrlResponse
+from .GetStarredListResponse import GetStarredListResponse
+from .BatchResponse import BatchResponse

@@ -18,8 +18,8 @@ class BaseClass:
     @classmethod
     def _show_console(cls, qr_link: str) -> NoReturn:
         """
-        show qrcode on console
-        :param qr_link: qrcode link
+        在控制台上显示二维码
+        :param qr_link: 二维码链接
         :return: NoReturn
         """
         qrcode_terminal.draw(qr_link)
@@ -27,8 +27,8 @@ class BaseClass:
     @classmethod
     def _show_plt(cls, qr_link: str) -> NoReturn:
         """
-        show qrcode by matplotlib
-        :param qr_link: qrcode link
+        通过 matplotlib 显示 qrcode
+        :param qr_link: 二维码链接
         :return: NoReturn
         """
         qr_img = qrcode.make(qr_link)
@@ -38,8 +38,8 @@ class BaseClass:
     @classmethod
     def _show_windows(cls, qr_link: str) -> NoReturn:
         """
-        show qrcode by Associated application of *.png
-        :param qr_link: qrcode link
+        通过 *.png 的关联应用程序显示 qrcode
+        :param qr_link: 二维码链接
         :return: NoReturn
         """
         qr_img = qrcode.make(qr_link)
@@ -59,15 +59,15 @@ class BaseClass:
 
     @classmethod
     def _error_log_exit(cls, response: requests.Response) -> NoReturn:
-        """..."""
+        """打印错误日志并退出"""
         cls._debug_log(response)
         exit(-1)
 
     @classmethod
     def _rsa_password(cls, password: str) -> str:
         """
-        RSA algorithm encryption
-        :param password: clear text password
+        RSA算法加密
+        :param password: 明文密码
         :return:
         """
         # "rsaExponent": "10001",

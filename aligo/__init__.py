@@ -30,9 +30,10 @@ class AligoCore(
     Recyclebin,
     Search,
     Share,
-    Update,
+    # Update,
     User,
-    VideoInfo
+    VideoInfo,
+    Star
 ):
     """..."""
     pass

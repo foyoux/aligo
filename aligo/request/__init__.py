@@ -21,3 +21,7 @@ from .UpdateFileRequest import UpdateFileRequest
 from .UpdateShareLinkRequest import UpdateShareLinkRequest
 from .GetShareLinkListRequest import GetShareLinkListRequest
 from .GetDownloadUrlRequest import GetDownloadUrlRequest
+from .StarredFileRequest import StarredFileRequest
+from .GetStarredListRequest import GetStarredListRequest
+from .BatchStarFilesRequest import BatchStarFilesRequest
+from .BatchCancelShareRequest import BatchCancelShareRequest

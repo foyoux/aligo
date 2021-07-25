@@ -8,7 +8,6 @@ from aligo.config import BaseFileCategory, GetFileListFields, GetFileListOrderBy
 
 @dataclass
 class GetFileListRequest(DataClass):
-    # @dataclass(unsafe_hash=True)
     """..."""
     drive_id: str = None
     parent_file_id: str = 'root'

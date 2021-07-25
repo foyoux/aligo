@@ -1,12 +1,9 @@
 """..."""
-from dataclasses import dataclass, field
-from typing import List
+from dataclasses import dataclass
 
-from aligo.types import DataClass, BaseFile
+from .ListResponse import ListResponse
 
 
 @dataclass
-class GetFileListResponse(DataClass):
+class GetFileListResponse(ListResponse):
     """..."""
-    items: List[BaseFile]
-    next_marker: str = field(default='', repr=False)

@@ -6,7 +6,7 @@ from aligo.types import DataClass
 from aligo.config import CheckNameMode
 
 
-@dataclass(unsafe_hash=True)
+@dataclass
 class UpdateFileRequest(DataClass):
     """...."""
     name: str = None

@@ -5,7 +5,7 @@ from aligo.types import DataClass
 from aligo.config import OrderDirection, GetRecycleBinListOrderBy, BaseFileType
 
 
-@dataclass(unsafe_hash=True)
+@dataclass
 class GetRecycleBinListRequest(DataClass):
     """..."""
     drive_id: str = None
