@@ -9,6 +9,7 @@ from aligo.types import *
 
 class Copy(BaseAligo):
     """..."""
+    MAX_COPY_COUNT = 100
 
     def copy_file(self, body: CopyFileRequest) -> CopyFileResponse:
         """..."""
@@ -19,30 +20,32 @@ class Copy(BaseAligo):
         """..."""
         if body.drive_id is None:
             body.drive_id = self.default_drive_id
-        response = self._post(V2_BATCH, body={
-            "requests": [
-                {
-                    "body": {
-                        "drive_id": body.drive_id,
-                        "file_id": file_id,
-                        "to_parent_file_id": body.to_parent_file_id,
-                        "overwrite": body.overwrite,
-                        "auto_rename": body.auto_rename
-                    },
-                    "headers": {"Content-Type": "application/json"},
-                    "id": file_id,
-                    "method": "POST",
-                    "url": "/file/copy"
-                } for file_id in body.file_id_list
-            ],
-            "resource": "file"
-        })
+        for file_id_list in self._list_split(body.file_id_list, self.MAX_COPY_COUNT):
+            response = self._post(V2_BATCH, body={
+                "requests": [
+                    {
+                        "body": {
+                            "drive_id": body.drive_id,
+                            "file_id": file_id,
+                            "to_parent_file_id": body.to_parent_file_id,
+                            "overwrite": body.overwrite,
+                            "auto_rename": body.auto_rename
+                        },
+                        "headers": {"Content-Type": "application/json"},
+                        "id": file_id,
+                        "method": "POST",
+                        "url": "/file/copy"
+                    } for file_id in file_id_list
+                ],
+                "resource": "file"
+            })
 
-        if response.status_code != 200:
-            return Null(response)
+            if response.status_code != 200:
+                yield Null(response)
+                return
 
-        for batch in response.json()['responses']:
-            yield BatchResponse(**batch)
+            for batch in response.json()['responses']:
+                yield BatchResponse(**batch)
 
 # @overload
 # def copy_file(self, body: CopyFileRequest) -> CopyFileResponse:

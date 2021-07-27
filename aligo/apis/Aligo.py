@@ -1,6 +1,5 @@
 """..."""
-from .Core import Core
-
+from aligo.core import Core
 
 class Aligo(Core):
     """..."""

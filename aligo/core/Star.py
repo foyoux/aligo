@@ -1,10 +1,11 @@
 """收藏相关"""
-from typing import Iterator, List
+from typing import Iterator
 
 from aligo.core import *
 from aligo.request import *
 from aligo.response import *
 from aligo.types import *
+from .Update import Update
 
 
 class Star(Update):
@@ -15,7 +16,7 @@ class Star(Update):
         """收藏(或取消) 文件"""
         return self.update_file(UpdateFileRequest(**body.__dict__))
 
-    def _batch_star_files(self, body: BatchStarFilesRequest) -> List[BatchResponse]:
+    def batch_star_files(self, body: BatchStarFilesRequest) -> Iterator[BatchResponse]:
         """批量收藏文件"""
         if body.drive_id is None:
             body.drive_id = self.default_drive_id
@@ -23,33 +24,27 @@ class Star(Update):
             custom_index_key = 'starred_yes'
         else:
             custom_index_key = ''
-        response = self._post(V2_BATCH, body={
-            "requests": [
-                {
-                    "body": {"drive_id": body.drive_id, "file_id": file, "starred": body.starred,
-                             "custom_index_key": custom_index_key},
-                    "headers": {"Content-Type": "application/json"},
-                    "id": file,
-                    "method": "PUT",
-                    "url": "/file/update"
-                } for file in body.file_id_list
-            ],
-            "resource": "file"
-        })
-        if response.status_code != 200:
-            return Null(response)
 
-        return [BatchResponse(**file) for file in response.json()['responses']]
+        for file_id_list in self._list_split(body.file_id_list, self.MAX_STAR_COUNT):
+            response = self._post(V2_BATCH, body={
+                "requests": [
+                    {
+                        "body": {"drive_id": body.drive_id, "file_id": file, "starred": body.starred,
+                                 "custom_index_key": custom_index_key},
+                        "headers": {"Content-Type": "application/json"},
+                        "id": file,
+                        "method": "PUT",
+                        "url": "/file/update"
+                    } for file in file_id_list
+                ],
+                "resource": "file"
+            })
+            if response.status_code != 200:
+                yield Null(response)
+                return
 
-    def batch_star_files(self, body: BatchStarFilesRequest) -> Iterator[BatchResponse]:
-        """..."""
-        for i in range(0, len(body.file_id_list), self.MAX_STAR_COUNT):
-            for j in self._batch_star_files(BatchStarFilesRequest(
-                    drive_id=body.drive_id,
-                    file_id_list=body.file_id_list[i:i + self.MAX_STAR_COUNT],
-                    starred=body.starred
-            )):
-                yield j
+            for file in response.json()['responses']:
+                yield BatchResponse(**file)
 
     def get_starred_list(self, body: GetStarredListRequest) -> Iterator[BaseFile]:
         """收藏(或取消) 文件列表"""

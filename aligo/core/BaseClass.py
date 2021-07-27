@@ -23,3 +23,10 @@ class BaseClass:
         """打印错误日志并退出"""
         cls._debug_log(response)
         exit(-1)
+
+    @staticmethod
+    def _list_split(ll: list, n: int):
+        rt = []
+        for i in range(0, len(ll), n):
+            rt.append(ll[i:i + n])
+        return rt

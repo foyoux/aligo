@@ -1,7 +1,6 @@
 """..."""
 from typing import Iterator
 
-
 from aligo.core import *
 from aligo.request import *
 from aligo.response import *
@@ -10,6 +9,7 @@ from aligo.types import *
 
 class Recyclebin(BaseAligo):
     """删除文件太过危险, 只提供移动文件到回收站的功能"""
+    MAX_MOVE_TRASH = 100
 
     def move_file_to_trash(self, body: MoveFileToTrashRequest) -> MoveFileToTrashResponse:
         """移动文件到回收站"""
@@ -20,27 +20,29 @@ class Recyclebin(BaseAligo):
         """..."""
         if body.drive_id is None:
             body.drive_id = self.default_drive_id
-        response = self._post(V2_BATCH, body={
-            "requests": [
-                {
-                    "body": {
-                        "drive_id": body.drive_id,
-                        "file_id": file_id
-                    },
-                    "headers": {"Content-Type": "application/json"},
-                    "id": file_id,
-                    "method": "POST",
-                    "url": "/recyclebin/trash"
-                } for file_id in body.file_id_list
-            ],
-            "resource": "file"
-        })
+        for file_id_list in self._list_split(body.file_id_list, self.MAX_MOVE_TRASH):
+            response = self._post(V2_BATCH, body={
+                "requests": [
+                    {
+                        "body": {
+                            "drive_id": body.drive_id,
+                            "file_id": file_id
+                        },
+                        "headers": {"Content-Type": "application/json"},
+                        "id": file_id,
+                        "method": "POST",
+                        "url": "/recyclebin/trash"
+                    } for file_id in file_id_list
+                ],
+                "resource": "file"
+            })
 
-        if response.status_code != 200:
-            return Null(response)
+            if response.status_code != 200:
+                yield Null(response)
+                return
 
-        for batch in response.json()['responses']:
-            yield BatchResponse(**batch)
+            for batch in response.json()['responses']:
+                yield BatchResponse(**batch)
 
     def restore_file(self, body: RestoreFileRequest) -> RestoreFileResponse:
         """恢复文件"""
