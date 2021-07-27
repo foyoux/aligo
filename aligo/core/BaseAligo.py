@@ -12,7 +12,7 @@ from aligo.response import *
 from aligo.types import *
 
 
-class BaseAligo(Base):
+class BaseAligo(BaseClass):
     """阿里网盘基础APIs
 
     :param auth: 认证对象
@@ -107,3 +107,10 @@ class BaseAligo(Base):
         """获取文件信息, 其他类中可能会用到, 所以放到基类中"""
         response = self._post(V2_FILE_GET, body=body)
         return self._result(response, BaseFile)
+
+    def get_personal_info(self, f5: bool = False) -> GetPersonalInfoResponse:
+        """..."""
+        if self._personal_info is None or f5:
+            response = self._post(V2_DATABOX_GET_PERSONAL_INFO)
+            self._personal_info = self._result(response, GetPersonalInfoResponse)
+        return self._personal_info

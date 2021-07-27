@@ -16,7 +16,7 @@ CHUNK_SIZE: int = 10485760
 
 
 class Create(BaseAligo):
-    """创建文件: 1.创建文件 2.上串文件"""
+    """创建文件: 1.创建文件 2.上传文件 3.下载文件"""
 
     def create_file(self, body: CreateFileRequest) -> CreateFileResponse:
         """创建文件, 可用于上传文件"""
@@ -38,7 +38,8 @@ class Create(BaseAligo):
         # 以10MB为一块: 10485760
         return [UploadPartInfo(part_number=i) for i in range(1, math.ceil(file_size / CHUNK_SIZE) + 1)]
 
-    def _pre_hash(self, check_name_mode, drive_id, file_path, file_size, name, parent_file_id) -> CreateFileResponse:
+    def _pre_hash(self, file_path: str, file_size: int, name: str, parent_file_id='root', drive_id=None,
+                  check_name_mode: CheckNameMode = 'auto_rename') -> CreateFileResponse:
         with open(file_path, 'rb') as f:
             pre_hash = hashlib.sha1(f.read(1024)).hexdigest()
         body = CreateFileRequest(
@@ -55,8 +56,8 @@ class Create(BaseAligo):
         part_info = self._result(response, CreateFileResponse, [201, 409])
         return part_info
 
-    def _content_hash(self, check_name_mode, drive_id, file_path, file_size, name,
-                      parent_file_id) -> CreateFileResponse:
+    def _content_hash(self, file_path: str, file_size: int, name: str, parent_file_id='root', drive_id=None,
+                      check_name_mode: CheckNameMode = 'auto_rename') -> CreateFileResponse:
         with open(file_path, 'rb') as f:
             content_hash = hashlib.sha1(f.read()).hexdigest().upper()
         body = CreateFileRequest(
@@ -111,30 +112,27 @@ class Create(BaseAligo):
         file_size = os.path.getsize(file_path)
         if file_size > 1024:  # 1kB
             # 1. pre_hash
-            part_info = self._pre_hash(check_name_mode, drive_id, file_path, file_size, name, parent_file_id)
+            part_info = self._content_hash(file_path=file_path, file_size=file_size, name=name,
+                                           parent_file_id=parent_file_id, drive_id=drive_id,
+                                           check_name_mode=check_name_mode)
             if part_info.code == 'PreHashMatched':
-                part_info = self._content_hash(check_name_mode, drive_id, file_path, file_size, name, parent_file_id)
+                # 2. content_hash
+                part_info = self._content_hash(file_path=file_path, file_size=file_size, name=name,
+                                               parent_file_id=parent_file_id, drive_id=drive_id,
+                                               check_name_mode=check_name_mode)
                 if part_info.rapid_upload:
                     return self.get_file(GetFileRequest(file_id=part_info.file_id))
             # 开始上传
             return self._put_data(file_path, part_info)
 
         # 2. content_hash
-        part_info = self._content_hash(check_name_mode, drive_id, file_path, file_size, name, parent_file_id)
+        part_info = self._content_hash(file_path=file_path, file_size=file_size, name=name,
+                                       parent_file_id=parent_file_id, drive_id=drive_id,
+                                       check_name_mode=check_name_mode)
         if part_info.rapid_upload:
             return self.get_file(GetFileRequest(file_id=part_info.file_id))
         # 开始上传
         return self._put_data(file_path, part_info)
-
-    # def _proof_code(self, file_path: str) -> str:
-    #     """计算pre_hash"""
-    #     with open(file_path, 'rb') as f:
-    #         n1 = int(md5(self._token.access_token.encode()).hexdigest()[:16], 16)
-    #         file_size = os.path.getsize(file_path)
-    #         n3 = n1 % file_size
-    #         f.seek(n3)
-    #         bys = f.read(min(8, file_size - n3))
-    #         return base64.b64encode(bys).decode()
 
     def create_by_content_hash(
             self,
@@ -145,7 +143,6 @@ class Create(BaseAligo):
             drive_id=None
     ) -> CreateFileResponse:
         """..."""
-        # 无需缓存, 无需处理drive_id
         return self.create_file(CreateFileRequest(
             name=name,
             content_hash=content_hash,
@@ -155,17 +152,12 @@ class Create(BaseAligo):
             type='file'
         ))
 
-    # def share_by_content_hash(self, content_hash: str, size: int, name: str = None, password: str = None) -> str:
-    #     """..."""
-    #     raise NotImplementedError
-
     @staticmethod
     def download_file(file_path: str, url: str):
         """..."""
         with requests.get(url, headers={
             'referer': 'https://www.aliyundrive.com/'
         }, stream=True) as resp:
-            # resp.raise_for_status()
             with open(file_path, 'wb') as f:
                 for chunk in resp.iter_content(chunk_size=int(CHUNK_SIZE / 8)):
                     f.write(chunk)

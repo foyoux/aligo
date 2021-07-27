@@ -1,7 +1,7 @@
 """..."""
 # 导入顺序不能变, BaseClass 在前
 from .Config import *
-from .Base import Base
+from .BaseClass import BaseClass
 from .Auth import Auth
 from .BaseAligo import BaseAligo
 
@@ -13,7 +13,6 @@ from .File import File
 from .Client import Client
 from .Move import Move
 from .Other import Other
-from .PersonalInfo import PersonalInfo
 from .Recyclebin import Recyclebin
 from .Search import Search
 from .Share import Share

@@ -3,6 +3,7 @@
 import base64
 import logging
 import os
+import tempfile
 import time
 from pathlib import Path
 from typing import Callable, overload, List, NoReturn, Dict
@@ -10,6 +11,8 @@ from urllib import parse
 
 import coloredlogs
 import jsonpickle
+import qrcode
+import qrcode_terminal
 import requests
 import ujson
 
@@ -20,7 +23,7 @@ _aligo = Path.home().joinpath('.aligo')
 _aligo.mkdir(parents=True, exist_ok=True)
 
 
-class Auth(Base):
+class Auth(BaseClass):
     """认证对象
 
     login & auth
@@ -227,24 +230,12 @@ class Auth(Base):
                 params: Dict = None, headers: Dict = None, data=None,
                 files: object = None, verify: bool = None, body: Dict = None) -> requests.Response:
         """统一请求方法"""
-        # 添加头参数
-        # if params is None:
-        #     params = {}
-        # params.update({**UNI_PARAMS})
-        # if headers is None:
-        #     headers = {}
-        # headers.update({**UNI_HEADERS})
-        # 移至session.headers中
-
         # 删除值为None的键
         if body is not None:
             body = {k: v for k, v in body.items() if v is not None}
 
         if data is not None and isinstance(data, dict):
             data = {k: v for k, v in data.items() if v is not None}
-
-        # if 'part_info_list' in body:
-        #     body['part_info_list'] = [i.__dict__ for i in body['part_info_list']]
 
         while True:
             # 移至session.headers中
@@ -271,3 +262,24 @@ class Auth(Base):
         """..."""
         return self.request(method='POST', url=host + path, params=params, data=data,
                             headers=headers, files=files, verify=verify, body=body)
+
+    @classmethod
+    def _show_console(cls, qr_link: str) -> NoReturn:
+        """
+        在控制台上显示二维码
+        :param qr_link: 二维码链接
+        :return: NoReturn
+        """
+        qrcode_terminal.draw(qr_link)
+
+    @classmethod
+    def _show_windows(cls, qr_link: str) -> NoReturn:
+        """
+        通过 *.png 的关联应用程序显示 qrcode
+        :param qr_link: 二维码链接
+        :return: NoReturn
+        """
+        qr_img = qrcode.make(qr_link)
+        png = tempfile.mktemp('.png')
+        qr_img.save(png)
+        os.startfile(png)

@@ -12,7 +12,6 @@ class Core(
     Client,
     Move,
     Other,
-    PersonalInfo,
     Recyclebin,
     Search,
     Share,
