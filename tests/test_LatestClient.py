@@ -4,7 +4,7 @@ from aligo import *
 
 def test_LatestClient():
     """..."""
-    ali = AligoCore()
+    ali = Core()
 
     win = ali.get_latest_win32_client()
 

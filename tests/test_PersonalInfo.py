@@ -3,7 +3,7 @@ from aligo import *
 
 
 def test_get_personal_info():
-    ali = AligoCore()
+    ali = Core()
     info = ali.get_personal_info()
     assert isinstance(info, GetPersonalInfoResponse)
 

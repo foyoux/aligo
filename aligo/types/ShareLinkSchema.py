@@ -4,6 +4,7 @@ from dataclasses import dataclass, field
 from typing import List
 
 from .DataClass import DataClass
+from .Enum import *
 from .ShareLinkBaseFile import ShareLinkBaseFile
 
 
@@ -49,7 +50,7 @@ class ShareLinkSchema(DataClass):
     file_id: str = field(default=None, repr=False)
     file_id_list: List[str] = field(default=None, repr=False)
     share_msg: str = field(default=None, repr=False)
-    share_policy: str = field(default=None, repr=False)
+    share_policy: SharePolicy = field(default=None, repr=False)
     share_url: str = field(default=None, repr=False)
     status: str = field(default=None, repr=False)
     first_file: ShareLinkBaseFile = field(default=None, repr=False)

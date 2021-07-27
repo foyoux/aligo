@@ -1,7 +1,7 @@
 """..."""
 from typing import Iterator
 
-from aligo.config import *
+
 from aligo.core import *
 from aligo.request import *
 from aligo.response import *
@@ -16,19 +16,71 @@ class Recyclebin(BaseAligo):
         response = self._post(V2_RECYCLEBIN_TRASH, body=body)
         return self._result(response, MoveFileToTrashResponse, [202, 204])
 
+    def batch_move_to_trash(self, body: BatchMoveToTrashRequest) -> Iterator[BatchResponse]:
+        """..."""
+        if body.drive_id is None:
+            body.drive_id = self.default_drive_id
+        response = self._post(V2_BATCH, body={
+            "requests": [
+                {
+                    "body": {
+                        "drive_id": body.drive_id,
+                        "file_id": file_id
+                    },
+                    "headers": {"Content-Type": "application/json"},
+                    "id": file_id,
+                    "method": "POST",
+                    "url": "/recyclebin/trash"
+                } for file_id in body.file_id_list
+            ],
+            "resource": "file"
+        })
+
+        if response.status_code != 200:
+            return Null(response)
+
+        for batch in response.json()['responses']:
+            yield BatchResponse(**batch)
+
     def restore_file(self, body: RestoreFileRequest) -> RestoreFileResponse:
         """恢复文件"""
         response = self._post(V2_RECYCLEBIN_RESTORE, body=body)
         return self._result(response, RestoreFileResponse, 204)
+
+    def batch_restore_files(self, body: BatchRestoreRequest):
+        """..."""
+        if body.drive_id is None:
+            body.drive_id = self.default_drive_id
+        response = self._post(V2_BATCH, body={
+            "requests": [
+                {
+                    "body": {
+                        "drive_id": body.drive_id,
+                        "file_id": file_id
+                    },
+                    "headers": {"Content-Type": "application/json"},
+                    "id": file_id,
+                    "method": "POST",
+                    "url": "/recyclebin/restore"
+                } for file_id in body.file_id_list
+            ],
+            "resource": "file"
+        })
+
+        if response.status_code != 200:
+            return Null(response)
+
+        for batch in response.json()['responses']:
+            yield BatchResponse(**batch)
 
     def get_recyclebin_list(self, body: GetRecycleBinListRequest) -> Iterator[BaseFile]:
         """获取回收站文件列表"""
         for i in self._list_file(V2_RECYCLEBIN_LIST, body, GetRecycleBinListResponse):
             yield i
 
-    def delete_file(self):
-        """删除文件"""
-        raise NotImplementedError
+    # def delete_file(self):
+    #     """删除文件"""
+    #     raise NotImplementedError
 
     # @overload
     # def trash_file(self, body: Union[MoveFileToTrashRequest, BaseFile]) -> MoveFileToTrashResponse:

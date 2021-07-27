@@ -1,12 +1,11 @@
 """..."""
 
-from aligo.config import *
 from aligo.core import *
 from aligo.request import *
 from aligo.types import *
 
 
-class DriveInfo(BaseAligo):
+class Drive(BaseAligo):
     """..."""
 
     def get_drive(self, body: GetDriveRequest) -> BaseDrive:

@@ -2,8 +2,7 @@
 from dataclasses import dataclass, field
 from typing import Dict
 
-from aligo.config import BaseFileCategory
-from aligo.config import BaseFileType
+from .Enum import *
 from .DataClass import DataClass
 from .ImageMedia import ImageMedia
 from .VideoMedia import VideoMedia

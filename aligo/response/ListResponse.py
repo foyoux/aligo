@@ -1,5 +1,5 @@
 """..."""
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import List
 
 from aligo.types import BaseFile
@@ -10,4 +10,4 @@ from aligo.types import DataClass
 class ListResponse(DataClass):
     """..."""
     items: List[BaseFile]
-    next_marker: str = field(default='', repr=False)
+    next_marker: str = ''

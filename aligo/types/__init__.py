@@ -1,4 +1,6 @@
 """..."""
+# 必须在头部, 不能使用Pycharm的自动格式化
+from .Enum import *
 
 from .AudioMeta import AudioMeta
 from .AudioMusicMeta import AudioMusicMeta
@@ -19,6 +21,9 @@ from .Null import Null
 from .PersonalRightsInfo import PersonalRightsInfo
 from .PersonalSpaceInfo import PersonalSpaceInfo
 from .Privilege import Privilege
+from .RateLimit import RateLimit
+from .ShareLinkBaseFile import ShareLinkBaseFile
+from .ShareLinkSchema import ShareLinkSchema
 from .SystemTag import SystemTag
 from .Token import Token
 from .UploadPartInfo import UploadPartInfo
@@ -28,6 +33,3 @@ from .VideoMediaVideoStream import VideoMediaVideoStream
 from .VideoPreview import VideoPreview
 from .VideoPreviewSprite import VideoPreviewSprite
 from .VideoTranscodeTemplate import VideoTranscodeTemplate
-from .ShareLinkSchema import ShareLinkSchema
-from .ShareLinkBaseFile import ShareLinkBaseFile
-from .RateLimit import RateLimit

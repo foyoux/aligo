@@ -1,7 +1,13 @@
 """..."""
 from dataclasses import dataclass
-from .ListResponse import ListResponse
+from typing import List
+
+from aligo.types import BaseFile
+from aligo.types import DataClass
+
 
 @dataclass
-class GetStarredListResponse(ListResponse):
+class GetStarredListResponse(DataClass):
     """..."""
+    items: List[BaseFile]
+    next_marker: str = ''

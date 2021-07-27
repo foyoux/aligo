@@ -2,9 +2,7 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from aligo.config import BaseFileContentHashName
-from aligo.config import BaseFileType
-from aligo.config import CheckNameMode
+from aligo.types import *
 from aligo.types import DataClass
 from aligo.types import UploadPartInfo
 
@@ -32,6 +30,3 @@ class CreateFileRequest(DataClass):
     part_info_list: List[UploadPartInfo] = field(default=None, repr=False)
     pre_hash: str = field(default=None, repr=False)
     user_meta: str = field(default=None, repr=False)
-
-    # def __post_init__(self):
-    #     self.part_info_list = _null_list(UploadPartInfo, self.part_info_list)

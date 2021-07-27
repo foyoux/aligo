@@ -1,6 +1,6 @@
 """..."""
 
-from aligo.config import *
+
 from aligo.core import *
 from aligo.request import *
 from aligo.types import *
@@ -13,6 +13,10 @@ class Update(BaseAligo):
         """..."""
         response = self._post(V2_FILE_UPDATE, body=body)
         return self._result(response, BaseFile)
+
+    def rename_file(self, body: RenameFileRequest) -> BaseFile:
+        """..."""
+        return self.update_file(UpdateFileRequest(**body.__dict__))
 
     # @overload
     # def rename_name(self, body: str, new_name: str, drive_id: str = None) -> BaseFile:

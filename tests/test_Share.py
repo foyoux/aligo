@@ -6,8 +6,9 @@ from aligo import *
 share_file = '60f8970585be42d7b6b5466db2f033f161361fe9'
 share_file2 = '60f898a1e1538782abe84b2c8bcc89cb09017b40'
 
+
 def test_share():
-    ali = AligoCore()
+    ali = Core()
 
     share_request = ali.share_file(CreateShareLinkRequest(
         file_id_list=[share_file, share_file2],
@@ -20,7 +21,6 @@ def test_share():
     assert isinstance(share_request.creator, str)
     assert isinstance(share_request.file_id_list, list)
     assert share_request.file_id_list.__len__() == 2
-    assert isinstance(share_request.first_file, ShareLinkBaseFile)
     assert share_request.share_pwd == '2021'
     assert share_request.description == 'aligo share test'
 

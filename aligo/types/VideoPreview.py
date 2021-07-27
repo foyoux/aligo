@@ -28,10 +28,3 @@ class VideoPreview(DataClass):
     template_list: List[VideoTranscodeTemplate] = None
     thumbnail: str = None
     width: int = None
-
-    # def __post_init__(self):
-    #     self.audio_template_list = _null_list(AudioTranscodeTemplate, self.audio_template_list)
-    #     self.audio_meta = _null_dict(AudioMeta, self.audio_meta)
-    #     self.audio_music_meta = _null_dict(AudioMusicMeta, self.audio_music_meta)
-    #     self.sprite_info = _null_dict(VideoPreviewSprite, self.sprite_info)
-    #     self.template_list = _null_list(VideoTranscodeTemplate, self.template_list)

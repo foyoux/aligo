@@ -4,7 +4,7 @@ import time
 
 from aligo import *
 
-ali = AligoCore()
+ali = Core()
 
 test_folder = '60fd508e43f9a6ced80a45b8873ee2fc8edde5aa'
 test_file = '60fd50c77a0dee3fcb074070bfd86e3d43e2445a'

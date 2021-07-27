@@ -1,8 +1,7 @@
 """..."""
 from dataclasses import dataclass
 
-from aligo.config import GetShareLinkListOrderBy, OrderDirection
-from aligo.types import DataClass
+from aligo.types import *
 
 
 @dataclass

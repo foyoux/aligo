@@ -6,14 +6,13 @@ from typing import Union
 import requests
 import ujson
 
-from aligo.auth import *
-from aligo.config import *
+from aligo.core import *
 from aligo.request import *
 from aligo.response import *
 from aligo.types import *
 
 
-class BaseAligo(BaseClass):
+class BaseAligo(Base):
     """阿里网盘基础APIs
 
     :param auth: 认证对象

@@ -1,5 +1,5 @@
 """..."""
-from aligo.config import *
+
 from aligo.core import *
 from aligo.types import *
 

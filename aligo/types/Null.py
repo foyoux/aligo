@@ -5,7 +5,7 @@ import requests
 class Null:
     """表示一个失败的结果"""
 
-    def __init__(self, response: requests.Response = None):
+    def __init__(self, response: requests.Response):
         self.response = response
 
     def __repr__(self):
@@ -13,6 +13,3 @@ class Null:
 
     def __bool__(self):
         return False
-
-    def __getattr__(self, item):
-        return None

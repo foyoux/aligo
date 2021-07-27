@@ -1,12 +1,11 @@
 """..."""
 
-from aligo.config import *
 from aligo.core import *
 from aligo.request import *
 from aligo.response import *
 
 
-class VideoInfo(BaseAligo):
+class Video(BaseAligo):
     """..."""
 
     def get_video_play_info(self, body: GetVideoPlayInfoRequest) -> GetVideoPlayInfoResponse:

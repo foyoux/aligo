@@ -13,15 +13,14 @@ import jsonpickle
 import requests
 import ujson
 
-from aligo.auth import *
-from aligo.config import *
+from aligo.core import *
 from aligo.types import *
 
 _aligo = Path.home().joinpath('.aligo')
 _aligo.mkdir(parents=True, exist_ok=True)
 
 
-class Auth(BaseClass):
+class Auth(Base):
     """认证对象
 
     login & auth
@@ -114,18 +113,18 @@ class Auth(BaseClass):
                 show = self._show_console
         self._show = show
 
-        # refresh_token 登录
-        if refresh_token:
-            self._refesh_token(refresh_token)
-            return
-
         if self._name.exists():
             logging.info(f'发现配置文件: {self._name}')
             # logging.info(f'Loading configuration: {self._name}')
             self.token = Token(**ujson.load(self._name.open()))
         else:
             logging.info(f'未发现配置文件: {self._name}')
-            self._login_()
+            # refresh_token 登录
+            if refresh_token:
+                self._refesh_token(refresh_token)
+                return
+            # other login - qrcode
+            self._login()
 
         #
         self.session.headers.update({
@@ -137,7 +136,7 @@ class Auth(BaseClass):
         logging.info(f'保存配置文件: {self._name}')
         ujson.dump(self.token.__dict__, self._name.open('w'))
 
-    def _login_(self):
+    def _login(self):
         """登录"""
         logging.info('开始登录 ...')
         response = self._login_by_qrcode()
@@ -221,7 +220,7 @@ class Auth(BaseClass):
         else:
             logging.error('刷新 token 失败 ~')
             self._debug_log(response)
-            self._login_()
+            self._login()
             # error_log_exit(response)
 
     def request(self, method: str, url: str,

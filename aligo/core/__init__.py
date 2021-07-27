@@ -1,13 +1,17 @@
 """..."""
-
-from .AudioInfo import AudioInfo
+# 导入顺序不能变, BaseClass 在前
+from .Config import *
+from .Base import Base
+from .Auth import Auth
 from .BaseAligo import BaseAligo
-from .CopyFile import CopyFile
-from .CreateFile import CreateFile
-from .DriveInfo import DriveInfo
-from .FileList import FileList
-from .LatestClient import LatestClient
-from .MoveFile import MoveFile
+
+from .Audio import Audio
+from .Copy import Copy
+from .Create import Create
+from .Drive import Drive
+from .File import File
+from .Client import Client
+from .Move import Move
 from .Other import Other
 from .PersonalInfo import PersonalInfo
 from .Recyclebin import Recyclebin
@@ -15,5 +19,5 @@ from .Search import Search
 from .Share import Share
 from .Update import Update
 from .User import User
-from .VideoInfo import VideoInfo
+from .Video import Video
 from .Star import Star

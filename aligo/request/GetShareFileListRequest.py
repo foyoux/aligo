@@ -1,7 +1,8 @@
 """todo"""
 from dataclasses import dataclass
-from aligo.config import BaseFileCategory, GetShareFileListOrderBy, OrderDirection, BaseFileType
-from aligo.types import DataClass
+
+from aligo.types import *
+
 
 @dataclass
 class GetShareFileListRequest(DataClass):

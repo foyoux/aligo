@@ -6,6 +6,7 @@ from typing import get_type_hints, get_args, get_origin, TypeVar, Generic, Optio
 @dataclass
 class DataClass:
     """..."""
+
     def __post_init__(self):
         """
         Unified instantiation of attributes through type hints to avoid repeated implementation of the __post_init__ method
@@ -46,7 +47,8 @@ def _null_list(cls: Generic[DataType], may_null: Optional[List[DataType]]) -> Li
 
 def _null_dict(cls: Type[DataType], may_null: Optional[Dict]) -> DataType:
     if may_null is None:
-        may_null = {}  # for unity of code
+        # may_null = {}  # 统一代码调用
+        return None  # 后面发现, 这样浪费内存, 有些东西完全是None, 却暂用很多对象
     if isinstance(may_null, dict):
         return cls(**may_null)
     # return cls(**may_null.__dict__)

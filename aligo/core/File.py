@@ -1,14 +1,13 @@
 """..."""
 from typing import Iterator
 
-from aligo.config import *
 from aligo.core import *
 from aligo.request import *
 from aligo.response import *
 from aligo.types import *
 
 
-class FileList(BaseAligo):
+class File(BaseAligo):
     """..."""
 
     def get_file_list(self, body: GetFileListRequest) -> Iterator[BaseFile]:

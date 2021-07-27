@@ -1,7 +1,7 @@
 """..."""
 from typing import Iterator
 
-from aligo.config import *
+
 from aligo.core import *
 from aligo.request import *
 from aligo.response import *

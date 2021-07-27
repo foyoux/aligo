@@ -2,7 +2,7 @@
 
 from aligo import *
 
-ali = AligoCore()
+ali = Core()
 
 
 def test_search():

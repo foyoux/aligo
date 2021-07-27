@@ -1,7 +1,7 @@
 """todo"""
 from dataclasses import dataclass
 
-from aligo.config import BaseFileCategory, BaseFileType
+from .Enum import BaseFileCategory, BaseFileType
 from .DataClass import DataClass
 from .ImageMedia import ImageMedia
 from .VideoMedia import VideoMedia

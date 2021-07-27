@@ -1,13 +1,11 @@
 """..."""
 
-from aligo.config import V2_DATABOX_GET_AUDIO_PLAY_INFO
-from aligo.request import GetAudioPlayInfoRequest
-from aligo.response import GetAudioPlayInfoResponse
-
-from .BaseAligo import BaseAligo
+from aligo.core import *
+from aligo.request import *
+from aligo.response import *
 
 
-class AudioInfo(BaseAligo):
+class Audio(BaseAligo):
     """..."""
 
     def get_audio_play_info(self, body: GetAudioPlayInfoRequest) -> GetAudioPlayInfoResponse:

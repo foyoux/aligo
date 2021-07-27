@@ -7,7 +7,6 @@ from typing import Union
 import requests
 from requests.adapters import HTTPAdapter
 
-from aligo.config import *
 from aligo.core import *
 from aligo.request import *
 from aligo.response import *
@@ -16,15 +15,19 @@ from aligo.types import *
 CHUNK_SIZE: int = 10485760
 
 
-class CreateFile(BaseAligo):
+class Create(BaseAligo):
     """创建文件: 1.创建文件 2.上串文件"""
 
-    def _create_file(self, body: CreateFileRequest) -> CreateFileResponse:
+    def create_file(self, body: CreateFileRequest) -> CreateFileResponse:
         """创建文件, 可用于上传文件"""
         response = self._post(V2_FILE_CREATE, body=body)
         return self._result(response, CreateFileResponse, status_code=201)
 
-    def _complete_file(self, body: CompleteFileRequest) -> BaseFile:
+    def create_folder(self, body: CreateFolderRequest) -> CreateFileResponse:
+        """..."""
+        return self.create_file(CreateFileRequest(**body.__dict__))
+
+    def complete_file(self, body: CompleteFileRequest) -> BaseFile:
         """当文件上传完成时调用"""
         response = self._post(V2_FILE_COMPLETE, body=body)
         return self._result(response, BaseFile)
@@ -32,11 +35,8 @@ class CreateFile(BaseAligo):
     @staticmethod
     def _get_part_info_list(file_size: int):
         """根据文件大小, 返回 part_info_list """
-        info_list = []
         # 以10MB为一块: 10485760
-        for i in range(1, math.ceil(file_size / CHUNK_SIZE) + 1):
-            info_list.append(UploadPartInfo(part_number=i))
-        return info_list
+        return [UploadPartInfo(part_number=i) for i in range(1, math.ceil(file_size / CHUNK_SIZE) + 1)]
 
     def _pre_hash(self, check_name_mode, drive_id, file_path, file_size, name, parent_file_id) -> CreateFileResponse:
         with open(file_path, 'rb') as f:
@@ -86,7 +86,7 @@ class CreateFile(BaseAligo):
                 # response = requests.put(data=f.read(CHUNK_SIZE), url=i.upload_url)
                 # print(response)
         # complete
-        return self._complete_file(CompleteFileRequest(
+        return self.complete_file(CompleteFileRequest(
             drive_id=part_info.drive_id,
             file_id=part_info.file_id,
             upload_id=part_info.upload_id,
@@ -146,7 +146,7 @@ class CreateFile(BaseAligo):
     ) -> CreateFileResponse:
         """..."""
         # 无需缓存, 无需处理drive_id
-        return self._create_file(CreateFileRequest(
+        return self.create_file(CreateFileRequest(
             name=name,
             content_hash=content_hash,
             size=size,

@@ -2,8 +2,7 @@
 
 from dataclasses import dataclass, field
 
-from aligo.types import DataClass
-from aligo.config import BaseFileCategory, GetFileListFields, GetFileListOrderBy, OrderDirection, BaseFileType
+from aligo.types import *
 
 
 @dataclass
@@ -25,6 +24,3 @@ class GetFileListRequest(DataClass):
     type: BaseFileType = field(default=None, repr=False)
     url_expire_sec: int = field(default=None, repr=False)
     video_thumbnail_process: str = field(default='video/snapshot,t_0,f_jpg,ar_auto,w_300', repr=False)
-
-    def __hash__(self):
-        return self.__dict__.__str__().__hash__()

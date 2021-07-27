@@ -10,7 +10,7 @@ upload_test = r'./upload_test.txt'
 
 
 def test_upload():
-    ali = AligoCore()
+    ali = Core()
     with open(upload_test, 'wb') as f:
         f.write(requests.get('https://juejin.cn/user/817692383391879').content)
     file = ali.upload_file(upload_test, parent_file_id=CreateFile_file, name=arrow.now().__str__() + '.html')

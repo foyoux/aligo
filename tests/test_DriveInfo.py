@@ -5,7 +5,7 @@ from aligo import *
 
 def test_drive():
     """..."""
-    ali = AligoCore()
+    ali = Core()
 
     drive = ali.get_default_drive()
     assert isinstance(drive, BaseDrive)

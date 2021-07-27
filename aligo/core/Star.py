@@ -1,7 +1,6 @@
 """收藏相关"""
 from typing import Iterator, List
 
-from aligo.config import *
 from aligo.core import *
 from aligo.request import *
 from aligo.response import *
@@ -25,7 +24,7 @@ class Star(Update):
         else:
             custom_index_key = ''
         response = self._post(V2_BATCH, body={
-            'requests': [
+            "requests": [
                 {
                     "body": {"drive_id": body.drive_id, "file_id": file, "starred": body.starred,
                              "custom_index_key": custom_index_key},
@@ -35,7 +34,7 @@ class Star(Update):
                     "url": "/file/update"
                 } for file in body.file_id_list
             ],
-            'resource': 'file'
+            "resource": "file"
         })
         if response.status_code != 200:
             return Null(response)

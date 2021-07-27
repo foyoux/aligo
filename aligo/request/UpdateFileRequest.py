@@ -2,8 +2,7 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from aligo.types import DataClass
-from aligo.config import CheckNameMode
+from aligo.types import *
 
 
 @dataclass

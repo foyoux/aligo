@@ -27,8 +27,3 @@ class ImageMedia(DataClass):
     story_image_score: int = None
     township: str = None
     width: int = None
-
-    # def __post_init__(self):
-    #     self.cropping_suggestion = _null_list(CroppingSuggestionItem, self.cropping_suggestion)
-    #     self.image_quality = _null_dict(ImageQuality, self.image_quality)
-    #     self.image_tags = _null_list(SystemTag, self.image_tags)

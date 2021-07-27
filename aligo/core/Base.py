@@ -5,14 +5,14 @@ import os
 import tempfile
 from typing import NoReturn
 
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import qrcode
 import qrcode_terminal
 import requests
 import rsa
 
 
-class BaseClass:
+class Base:
     """..."""
 
     @classmethod
@@ -24,16 +24,16 @@ class BaseClass:
         """
         qrcode_terminal.draw(qr_link)
 
-    @classmethod
-    def _show_plt(cls, qr_link: str) -> NoReturn:
-        """
-        通过 matplotlib 显示 qrcode
-        :param qr_link: 二维码链接
-        :return: NoReturn
-        """
-        qr_img = qrcode.make(qr_link)
-        plt.imshow(qr_img)
-        plt.show()
+    # @classmethod
+    # def _show_plt(cls, qr_link: str) -> NoReturn:
+    #     """
+    #     通过 matplotlib 显示 qrcode
+    #     :param qr_link: 二维码链接
+    #     :return: NoReturn
+    #     """
+    #     qr_img = qrcode.make(qr_link)
+    #     plt.imshow(qr_img)
+    #     plt.show()
 
     @classmethod
     def _show_windows(cls, qr_link: str) -> NoReturn:

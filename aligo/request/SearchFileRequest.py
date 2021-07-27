@@ -16,6 +16,3 @@ class SearchFileRequest(DataClass):
     order_by: str = field(default=None, repr=False)
     url_expire_sec: str = field(default=None, repr=False)
     video_thumbnail_process: str = field(default='video/snapshot,t_0,f_jpg,ar_auto,w_300', repr=False)
-
-    def __hash__(self):
-        return self.__dict__.__str__().__hash__()

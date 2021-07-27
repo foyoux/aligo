@@ -1,10 +1,9 @@
 """aligo"""
-from .auth import *
-from .config import *
-from .core import *
+from .types import *
 from .request import *
 from .response import *
-from .types import *
+from .core import *
+from .apis import *
 
 __title__ = 'aligo'
 __description__ = 'apis lib for aliyundrive.'
@@ -17,23 +16,3 @@ __copyright__ = f'Copyright 2021 {__author__}'
 __ide__ = 'PyCharm - https://www.jetbrains.com/pycharm/'
 
 
-class AligoCore(
-    AudioInfo,
-    CopyFile,
-    CreateFile,
-    DriveInfo,
-    FileList,
-    LatestClient,
-    MoveFile,
-    Other,
-    PersonalInfo,
-    Recyclebin,
-    Search,
-    Share,
-    # Update,
-    User,
-    VideoInfo,
-    Star
-):
-    """..."""
-    pass

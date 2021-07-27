@@ -2,8 +2,7 @@
 from dataclasses import dataclass, field
 from typing import List, Dict
 
-from aligo.types import DataClass, UploadPartInfo
-from aligo.config import BaseFileStatus, BaseFileType
+from aligo.types import *
 
 
 @dataclass
@@ -28,6 +27,3 @@ class CreateFileResponse(DataClass):
     pre_hash: str = None
     code: str = None
     message: str = None
-
-    # def __post_init__(self):
-    #     self.part_info_list = _null_list(UploadPartInfo, self.part_info_list)

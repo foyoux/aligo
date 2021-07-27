@@ -6,7 +6,7 @@ FileList_folder = '60f7d1940849a9c9924e4ce8ab90a61c4623e4aa'
 
 def test_get_file_list():
     """..."""
-    ali = AligoCore()
+    ali = Core()
 
     files = ali.get_file_list(GetFileListRequest(parent_file_id=FileList_folder))
 

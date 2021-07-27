@@ -6,7 +6,7 @@ test_file = '60f89ce1579e1c6622c645169cc0f1b9756ad743'
 
 
 def test_Recyclebin():
-    ali = AligoCore()
+    ali = Core()
 
     # 1. move_file_to_trash
     trash = ali.move_file_to_trash(MoveFileToTrashRequest(file_id=test_file))
@@ -21,3 +21,17 @@ def test_Recyclebin():
     # 3. restore_file
     file = ali.restore_file(RestoreFileRequest(file_id=test_file))
     assert isinstance(file, RestoreFileResponse)
+
+    # 4. batch_move_to_trash
+    batch = ali.batch_move_to_trash(BatchMoveToTrashRequest(
+        file_id_list=[test_file]
+    ))
+    for i in batch:
+        assert isinstance(i, BatchResponse)
+
+    # 5. batch_restore_file
+    batch = ali.batch_restore_files(BatchRestoreRequest(
+        file_id_list=[test_file]
+    ))
+    for i in batch:
+        assert isinstance(i, BatchResponse)

@@ -25,8 +25,3 @@ class VideoMedia(DataClass):
     video_media_video_stream: List[VideoMediaVideoStream] = None
     width: int = None
     image_tags: List[ImageTag] = None
-
-    # def __post_init__(self):
-    #     self.video_media_audio_stream = _null_list(VideoMediaAudioStream, self.video_media_audio_stream)
-    #     self.video_media_video_stream = _null_list(VideoMediaVideoStream, self.video_media_video_stream)
-    #     self.image_tags = _null_list(ImageTag, self.image_tags)

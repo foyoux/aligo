@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 
 from .DataClass import DataClass
-from aligo.config import MediaTranscodeStatus
+from .Enum import MediaTranscodeStatus
 
 
 @dataclass

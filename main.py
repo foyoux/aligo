@@ -2,5 +2,5 @@
 
 from aligo import *
 
-ali = AligoCore()
+ali = Core()
 

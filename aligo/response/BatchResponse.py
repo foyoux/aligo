@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 
-from aligo.types import DataClass, BaseFile
+from aligo.types import *
 
 
 @dataclass

@@ -2,8 +2,7 @@
 
 from dataclasses import dataclass
 
-from aligo.config import *
-from aligo.types import DataClass
+from aligo.types import *
 
 
 @dataclass

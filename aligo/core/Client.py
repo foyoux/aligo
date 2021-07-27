@@ -8,7 +8,7 @@ from aligo.core import *
 from aligo.types import *
 
 
-class LatestClient(BaseAligo):
+class Client(BaseAligo):
     """..."""
 
     @overload
