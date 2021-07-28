@@ -115,3 +115,31 @@ class BaseAligo(BaseClass):
             response = self._post(V2_DATABOX_GET_PERSONAL_INFO)
             self._personal_info = self._result(response, GetPersonalInfoResponse)
         return self._personal_info
+
+    BATCH_COUNT = 100
+
+    def batch_request(self, body: BatchRequest, body_type: DataType):
+        """..."""
+        for request_list in self._list_split(body.requests, self.BATCH_COUNT):
+            response = self._post(V2_BATCH, body={
+                "requests": [
+                    {
+                        "body": asdict(request.body),
+                        "headers": request.headers,
+                        "id": request.id,
+                        "method": request.method,
+                        "url": request.url
+                    } for request in request_list
+                ],
+                "resource": body.resource
+            })
+
+            if response.status_code != 200:
+                yield Null(response)
+                return
+
+            for batch in response.json()['responses']:
+                i = BatchSubResponse(**batch)
+                if i.body:
+                    i.body = body_type(**i.body)
+                yield i

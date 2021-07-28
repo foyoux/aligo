@@ -33,7 +33,7 @@ class Copy(Core):
                          to_parent_file_id: str = 'root',
                          drive_id: str = None,
                          body: BatchCopyFilesRequest = None,
-                         **kwargs) -> List[BatchResponse]:
+                         **kwargs) -> List[BatchSubResponse]:
         """..."""
         if body is None:
             body = BatchCopyFilesRequest(drive_id=drive_id,

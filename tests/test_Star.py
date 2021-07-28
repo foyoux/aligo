@@ -38,7 +38,7 @@ def test_batch_star_files():
         file_id_list=[test_file]
     ))
     for i in batch:
-        assert isinstance(i, BatchResponse)
+        assert isinstance(i, BatchSubResponse)
 
         time.sleep(2)
 
@@ -48,4 +48,4 @@ def test_batch_star_files():
             starred=False
         ))
         for j in batch2:
-            assert isinstance(j, BatchResponse)
+            assert isinstance(j, BatchSubResponse)

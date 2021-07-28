@@ -9,7 +9,6 @@ from aligo.types import *
 
 class Share(BaseAligo):
     """分享相关"""
-    MAX_CANCEL_SHARE = 100
 
     def share_file(self, body: CreateShareLinkRequest) -> CreateShareLinkResponse:
         """分享文件, 支持批量分享
@@ -29,28 +28,18 @@ class Share(BaseAligo):
         response = self._post(ADRIVE_V2_SHARE_LINK_CANCEL, body=body)
         return self._result(response, CancelShareLinkResponse)
 
-    def batch_cancel_share(self, body: BatchCancelShareRequest) -> Iterator[BatchResponse]:
+    def batch_cancel_share(self, body: BatchCancelShareRequest) -> Iterator[BatchSubResponse]:
         """批量取消分享"""
-        for share_id_list in self._list_split(body.share_id_list, self.MAX_CANCEL_SHARE):
-            response = self._post(ADRIVE_V2_BATCH, body={
-                "requests": [
-                    {
-                        "body": {"share_id": share_id},
-                        "headers": {"Content-Type": "application/json"},
-                        "id": share_id,
-                        "method": "POST",
-                        "url": "/share_link/cancel"
-                    } for share_id in share_id_list
-                ],
-                "resource": "file"
-            })
-
-            if response.status_code != 200:
-                yield Null(response)
-                return
-
-            for batch in response.json()['responses']:
-                yield BatchResponse(**batch)
+        for i in self.batch_request(BatchRequest(
+                requests=[BatchSubRequest(
+                    id=share_id,
+                    url='/share_link/cancel',
+                    body=CancelShareLinkRequest(
+                        share_id=share_id
+                    )
+                ) for share_id in body.share_id_list]
+        ), BaseFile):
+            yield i
 
     def get_share_list(self, body: GetShareLinkListRequest = None) -> Iterator[ShareLinkSchema]:
         """获取自己的分享链接

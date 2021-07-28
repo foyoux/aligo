@@ -8,6 +8,7 @@ from .BatchMoveToTrashRequest import BatchMoveToTrashRequest
 from .BatchRestoreRequest import BatchRestoreRequest
 from .BatchStarFilesRequest import BatchStarFilesRequest
 from .BatchSubRequest import BatchSubRequest
+from .BatchRequest import BatchRequest
 from .CancelShareLinkRequest import CancelShareLinkRequest
 from .CompleteFileRequest import CompleteFileRequest
 from .CopyFileRequest import CopyFileRequest

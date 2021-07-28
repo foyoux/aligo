@@ -11,4 +11,10 @@ def test_get_download_url():
     file = ali.get_download_url(GetDownloadUrlRequest(file_id=test_file))
     assert isinstance(file, GetDownloadUrlResponse)
     assert file.size == 129465082
-    
+
+    batch = ali.batch_download_url(BatchDownloadUrlRequest(
+        file_id_list=[test_file]
+    ))
+    for i in batch:
+        assert isinstance(i, BatchSubResponse)
+        assert isinstance(i.body, GetDownloadUrlResponse)

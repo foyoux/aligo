@@ -23,5 +23,5 @@ def test_move_file():
         to_parent_file_id=origin_folder
     ))
     for i in batch_move:
-        assert isinstance(i, BatchResponse)
+        assert isinstance(i, BatchSubResponse)
         assert i.body.file_id == test_file

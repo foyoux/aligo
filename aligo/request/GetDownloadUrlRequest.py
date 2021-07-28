@@ -6,8 +6,6 @@ from aligo.types import DataClass
 
 @dataclass
 class GetDownloadUrlRequest(DataClass):
-    """..."""
-    drive_id: str = None
     """
     /**
    * 过期时间
@@ -16,6 +14,7 @@ class GetDownloadUrlRequest(DataClass):
    * 最大值 : 14400
    */
     """
-    expire_sec: int = 14400
     file_id: str = None
     file_name: str = None
+    expire_sec: int = 14400
+    drive_id: str = None

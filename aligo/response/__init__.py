@@ -1,6 +1,6 @@
 """..."""
 
-from .BatchResponse import BatchResponse
+from .BatchSubResponse import BatchSubResponse
 from .CancelShareLinkResponse import CancelShareLinkResponse
 from .CopyFileResponse import CopyFileResponse
 from .CreateFileResponse import CreateFileResponse

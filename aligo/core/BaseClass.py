@@ -1,8 +1,10 @@
 """..."""
 import logging
-from typing import NoReturn
+from typing import NoReturn, List
 
 import requests
+
+from aligo.types import DataType
 
 
 class BaseClass:
@@ -25,7 +27,7 @@ class BaseClass:
         exit(-1)
 
     @staticmethod
-    def _list_split(ll: list, n: int):
+    def _list_split(ll: List[DataType], n: int) -> List[List[DataType]]:
         rt = []
         for i in range(0, len(ll), n):
             rt.append(ll[i:i + n])

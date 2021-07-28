@@ -49,7 +49,7 @@ class Share(Core):
         body = CancelShareLinkRequest(share_id=share_id)
         return super(Share, self).cancel_share(body)
 
-    def batch_cancel_share(self, share_id_list: List[str]) -> List[BatchResponse]:
+    def batch_cancel_share(self, share_id_list: List[str]) -> List[BatchSubResponse]:
         """批量取消分享"""
         body = BatchCancelShareRequest(share_id_list=share_id_list)
         result = super(Share, self).batch_cancel_share(body)

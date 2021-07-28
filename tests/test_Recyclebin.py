@@ -27,11 +27,11 @@ def test_Recyclebin():
         file_id_list=[test_file]
     ))
     for i in batch:
-        assert isinstance(i, BatchResponse)
+        assert isinstance(i, BatchSubResponse)
 
     # 5. batch_restore_file
     batch = ali.batch_restore_files(BatchRestoreRequest(
         file_id_list=[test_file]
     ))
     for i in batch:
-        assert isinstance(i, BatchResponse)
+        assert isinstance(i, BatchSubResponse)

@@ -6,9 +6,9 @@ from aligo.types import *
 
 
 @dataclass
-class BatchResponse(DataClass):
+class BatchSubResponse(DataClass):
     """..."""
     id: str = None
     status: int = None
-    body: BaseFile = None
+    body: DataType = None
     method: str = None

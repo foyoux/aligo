@@ -2,17 +2,15 @@
 from dataclasses import dataclass, is_dataclass
 from typing import get_type_hints, get_args, get_origin, TypeVar, Generic, Optional, List, Dict, Type
 
+DataType = TypeVar('DataType')
+
 
 @dataclass
 class DataClass:
     """..."""
 
     def __post_init__(self):
-        """
-        Unified instantiation of attributes through type hints to avoid repeated implementation of the __post_init__ method
-        So type hints is necessary
-        :return:
-        """
+        """序列化属性"""
         hints = get_type_hints(self)
         for k, v in hints.items():
             origin = get_origin(v)
@@ -25,9 +23,6 @@ class DataClass:
                     if origin is list:
                         setattr(self, k, _null_list(hint_type, getattr(self, k)))
                     break
-
-
-DataType = TypeVar('DataType', DataClass, DataClass, covariant=True)
 
 
 def _null_list(cls: Generic[DataType], may_null: Optional[List[DataType]]) -> List[DataType]:
@@ -45,4 +40,4 @@ def _null_dict(cls: Type[DataType], may_null: Optional[Dict]) -> DataType:
         return None
     if isinstance(may_null, dict):
         return cls(**may_null)
-    return may_null  # type: ignore
+    return may_null

@@ -26,7 +26,7 @@ class Star(Core):
     def batch_star_files(self,
                          file_id_list: List[str],
                          starred: bool = True,
-                         drive_id: str = None) -> List[BatchResponse]:
+                         drive_id: str = None) -> List[BatchSubResponse]:
         """批量收藏文件"""
         body = BatchStarFilesRequest(
             drive_id=drive_id,
