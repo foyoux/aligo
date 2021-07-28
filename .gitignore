@@ -7,6 +7,7 @@ __pycache__/
 *.so
 main.py
 files
+upload_test.txt
 # Distribution / packaging
 .Python
 aliyun
