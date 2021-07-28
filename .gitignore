@@ -5,7 +5,8 @@ __pycache__/
 
 # C extensions
 *.so
-./main.py
+main.py
+files
 # Distribution / packaging
 .Python
 aliyun

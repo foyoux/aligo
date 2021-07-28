@@ -4,7 +4,7 @@
 from aligo.core import *
 from aligo.request import *
 from aligo.types import *
-
+from dataclasses import asdict
 
 class Update(BaseAligo):
     """..."""
@@ -16,7 +16,7 @@ class Update(BaseAligo):
 
     def rename_file(self, body: RenameFileRequest) -> BaseFile:
         """..."""
-        return self.update_file(UpdateFileRequest(**body.__dict__))
+        return self.update_file(UpdateFileRequest(**asdict(body)))
 
     # @overload
     # def rename_name(self, body: str, new_name: str, drive_id: str = None) -> BaseFile:

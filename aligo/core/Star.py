@@ -6,6 +6,7 @@ from aligo.request import *
 from aligo.response import *
 from aligo.types import *
 from .Update import Update
+from dataclasses import asdict
 
 
 class Star(Update):
@@ -14,7 +15,7 @@ class Star(Update):
 
     def starred_file(self, body: StarredFileRequest) -> BaseFile:
         """收藏(或取消) 文件"""
-        return self.update_file(UpdateFileRequest(**body.__dict__))
+        return self.update_file(UpdateFileRequest(**asdict(body)))
 
     def batch_star_files(self, body: BatchStarFilesRequest) -> Iterator[BatchResponse]:
         """批量收藏文件"""

@@ -6,7 +6,7 @@ from .Create import Create
 from .Drive import Drive
 from .File import File
 from .Move import Move
-from .Other import Other
+from .Download import Download
 from .Recyclebin import Recyclebin
 from .Search import Search
 from .Share import Share
@@ -23,7 +23,7 @@ class Core(
     File,
     Client,
     Move,
-    Other,
+    Download,
     Recyclebin,
     Search,
     Share,

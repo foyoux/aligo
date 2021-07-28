@@ -11,3 +11,4 @@ class BatchResponse(DataClass):
     id: str = None
     status: int = None
     body: BaseFile = None
+    method: str = None

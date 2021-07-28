@@ -20,3 +20,4 @@ from .MoveFileToTrashResponse import MoveFileToTrashResponse
 from .RestoreFileResponse import RestoreFileResponse
 from .SearchFileResponse import SearchFileResponse
 from .UpdateShareLinkResponse import UpdateShareLinkResponse
+from .BatchDownloadUrlResponse import BatchDownloadUrlResponse

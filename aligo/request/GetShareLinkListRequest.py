@@ -18,7 +18,7 @@ class GetShareLinkListRequest(DataClass):
         include_canceled (bool): 列举结果是否包含已经取消的分享
     """
     creator: str = None
-    limit: int = None
+    limit: int = 100
     marker: int = ''
     order_by: GetShareLinkListOrderBy = 'created_at'
     order_direction: OrderDirection = 'DESC'

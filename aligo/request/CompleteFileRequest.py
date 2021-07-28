@@ -9,7 +9,7 @@ from aligo.types import UploadPartInfo
 @dataclass
 class CompleteFileRequest(DataClass):
     """..."""
-    file_id: str
+    file_id: str = None
     drive_id: str = None
     upload_id: str = None
     part_info_list: List[UploadPartInfo] = None

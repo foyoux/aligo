@@ -5,12 +5,12 @@ import logging
 import os
 import tempfile
 import time
+from dataclasses import asdict
 from pathlib import Path
 from typing import Callable, overload, List, NoReturn, Dict
 from urllib import parse
 
 import coloredlogs
-import jsonpickle
 import qrcode
 import qrcode_terminal
 import requests
@@ -137,7 +137,7 @@ class Auth(BaseClass):
     def _save(self) -> NoReturn:
         """保存配置文件"""
         logging.info(f'保存配置文件: {self._name}')
-        ujson.dump(self.token.__dict__, self._name.open('w'))
+        ujson.dump(asdict(self.token), self._name.open('w'))
 
     def _login(self):
         """登录"""
@@ -243,7 +243,7 @@ class Auth(BaseClass):
             response = self.session.request(method=method, url=url, params=params,
                                             data=data, headers=headers, files=files,
                                             verify=verify,
-                                            json=jsonpickle.loads(jsonpickle.dumps(body, unpicklable=False)))
+                                            json=body)
             status_code = response.status_code
             if status_code == 401:
                 self._refesh_token()

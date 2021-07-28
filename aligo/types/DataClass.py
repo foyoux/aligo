@@ -26,20 +26,15 @@ class DataClass:
                         setattr(self, k, _null_list(hint_type, getattr(self, k)))
                     break
 
-        # Object of type UploadPartInfo is not JSON serializable
-        # super(DataClass, self).__init__(**self.__dict__)
-
 
 DataType = TypeVar('DataType', DataClass, DataClass, covariant=True)
 
 
 def _null_list(cls: Generic[DataType], may_null: Optional[List[DataType]]) -> List[DataType]:
-    # 'NoneType' object is not iterable
     if may_null and len(may_null) != 0:
         if isinstance(may_null[0], dict):
             return [cls(**i) for i in may_null]
         else:
-            # return [cls(**i.__dict__) for i in may_null]
             return may_null
     else:
         return []
@@ -47,9 +42,7 @@ def _null_list(cls: Generic[DataType], may_null: Optional[List[DataType]]) -> Li
 
 def _null_dict(cls: Type[DataType], may_null: Optional[Dict]) -> DataType:
     if may_null is None:
-        # may_null = {}  # 统一代码调用
-        return None  # 后面发现, 这样浪费内存, 有些东西完全是None, 却暂用很多对象
+        return None
     if isinstance(may_null, dict):
         return cls(**may_null)
-    # return cls(**may_null.__dict__)
     return may_null  # type: ignore

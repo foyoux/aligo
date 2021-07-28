@@ -1,13 +1,15 @@
-"""todo"""
-from dataclasses import dataclass
+"""..."""
+from dataclasses import dataclass, field
+from typing import List
 
 from aligo.types import DataClass
 
 
 @dataclass
-class GetDownloadUrlRequest(DataClass):
+class BatchDownloadUrlRequest(DataClass):
     """..."""
     drive_id: str = None
+    file_id_list: List[str] = field(default_factory=list)
     """
     /**
    * 过期时间
@@ -17,5 +19,3 @@ class GetDownloadUrlRequest(DataClass):
    */
     """
     expire_sec: int = 14400
-    file_id: str = None
-    file_name: str = None

@@ -2,10 +2,12 @@
 
 from .BatchCancelShareRequest import BatchCancelShareRequest
 from .BatchCopyFilesRequest import BatchCopyFilesRequest
+from .BatchDownloadUrlRequest import BatchDownloadUrlRequest
 from .BatchMoveFilesRequest import BatchMoveFilesRequest
 from .BatchMoveToTrashRequest import BatchMoveToTrashRequest
 from .BatchRestoreRequest import BatchRestoreRequest
 from .BatchStarFilesRequest import BatchStarFilesRequest
+from .BatchSubRequest import BatchSubRequest
 from .CancelShareLinkRequest import CancelShareLinkRequest
 from .CompleteFileRequest import CompleteFileRequest
 from .CopyFileRequest import CopyFileRequest

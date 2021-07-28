@@ -20,6 +20,6 @@ class CreateShareLinkRequest(DataClass):
     drive_id: str = None
     file_id_list: List[str] = None
     share_pwd: str = None
-    expiration: str = None
+    expiration: str = ''
     description: str = None
     share_name: str = None

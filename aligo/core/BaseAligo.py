@@ -1,5 +1,6 @@
 """..."""
 import traceback
+from dataclasses import asdict
 from typing import Generic, List, Iterator, Dict
 from typing import Union
 
@@ -31,7 +32,7 @@ class BaseAligo(BaseClass):
         if body is None:
             body = {}
         elif isinstance(body, DataClass):
-            body = body.__dict__
+            body = asdict(body)
 
         if 'drive_id' in body and body['drive_id'] is None:
             # 如果存在 attr drive_id 并且它是 None，并将 default_drive_id 设置为它

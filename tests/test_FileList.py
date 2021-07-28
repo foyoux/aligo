@@ -15,6 +15,6 @@ def test_get_file_list():
     for file in files:
         assert isinstance(file, BaseFile)
     assert files[0].name == '文件夹'
-    assert files[1].name == 'image1.jpg'
-    assert files[2].name == 'image2.jpg'
+    assert files[1].name.startswith('image')
+    assert files[2].name.startswith('image')
 

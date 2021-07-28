@@ -17,8 +17,10 @@ class GetStarredListRequest(DataClass):
     video_thumbnail_process: str = field(default='video/snapshot,t_0,f_jpg,ar_auto,w_800', repr=False)
     order_by: GetFileListOrderBy = 'name'
     order_direction: OrderDirection = 'DESC'
+    parent_file_id: str = None
+    custom_index_key: str = None
 
     def __post_init__(self):
-        super(GetStarredListRequest, self).__post_init__()
         self.custom_index_key: str = 'starred_yes'
         self.parent_file_id: str = 'root'
+        super(GetStarredListRequest, self).__post_init__()

@@ -49,7 +49,7 @@ class Recyclebin(BaseAligo):
         response = self._post(V2_RECYCLEBIN_RESTORE, body=body)
         return self._result(response, RestoreFileResponse, 204)
 
-    def batch_restore_files(self, body: BatchRestoreRequest):
+    def batch_restore_files(self, body: BatchRestoreRequest) -> Iterator[BatchResponse]:
         """..."""
         if body.drive_id is None:
             body.drive_id = self.default_drive_id

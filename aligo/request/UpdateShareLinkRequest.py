@@ -18,6 +18,6 @@ class UpdateShareLinkRequest(DataClass):
     """
     share_id: str
     share_pwd: str = None
-    expiration: str = None
+    expiration: str = ''
     description: str = None
     share_name: str = None

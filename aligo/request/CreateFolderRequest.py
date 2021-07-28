@@ -12,7 +12,8 @@ class CreateFolderRequest(DataClass):
     parent_file_id: str = 'root'
     drive_id: str = None
     check_name_mode: CheckNameMode = 'refuse'
+    type: BaseFileType = None
 
     def __post_init__(self):
-        super(CreateFolderRequest, self).__post_init__()
         self.type: BaseFileType = 'folder'
+        super(CreateFolderRequest, self).__post_init__()
