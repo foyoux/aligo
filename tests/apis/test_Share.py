@@ -3,18 +3,18 @@ import time
 
 from aligo import *
 
-share_file = '60f8970585be42d7b6b5466db2f033f161361fe9'
-share_file2 = '60f898a1e1538782abe84b2c8bcc89cb09017b40'
+share_file = '6102292d8344dce69ca8463084cc6022b67d2b24'
+share_file2 = '6102292d902476876869429791bedf531b67e13b'
 
 
 def test_share():
-    ali = Core()
+    ali = Aligo()
 
-    share_request = ali.share_file(CreateShareLinkRequest(
+    share_request = ali.share_file(
         file_id_list=[share_file, share_file2],
         share_pwd='2021',
         description='aligo share test'
-    ))
+    )
 
     assert isinstance(share_request, CreateShareLinkResponse)
     assert isinstance(share_request.created_at, str)
@@ -25,10 +25,10 @@ def test_share():
     assert share_request.description == 'aligo share test'
 
     # 2.
-    share_update = ali.update_share(UpdateShareLinkRequest(
+    share_update = ali.update_share(
         share_id=share_request.share_id,
         share_pwd='6666'
-    ))
+    )
     assert isinstance(share_update, UpdateShareLinkResponse)
     assert share_update.share_pwd == '6666'
 
@@ -44,7 +44,9 @@ def test_share():
         assert isinstance(i.file_id_list, list)
         assert isinstance(i.first_file, ShareLinkBaseFile)
         # 4. 取消
-        cancel_share = ali.cancel_share(CancelShareLinkRequest(
-            share_id=i.share_id
-        ))
-        assert isinstance(cancel_share, CancelShareLinkResponse)
+        cancel_share = ali.batch_cancel_share(
+            share_id_list=[i.share_id]
+        )
+        for j in cancel_share:
+            assert isinstance(j, BatchSubResponse)
+            # assert isinstance(j.body, CancelShareLinkResponse)

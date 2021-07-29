@@ -8,12 +8,12 @@ video_file_id = '60f89518ffd8497344f048c89fe465c103904337'
 
 def test_play_info():
     """..."""
-    ali = Core()
+    ali = Aligo()
 
-    audio_info = ali.get_audio_play_info(GetAudioPlayInfoRequest(file_id=audio_file_id))
+    audio_info = ali.get_audio_play_info(file_id=audio_file_id)
     assert isinstance(audio_info, GetAudioPlayInfoResponse)
     assert audio_info.template_list.__len__() > 0
 
-    video_info = ali.get_video_play_info(GetVideoPlayInfoRequest(file_id=video_file_id))
+    video_info = ali.get_video_play_info(file_id=video_file_id)
     assert isinstance(video_info, GetVideoPlayInfoResponse)
     assert video_info.template_list.__len__() > 0

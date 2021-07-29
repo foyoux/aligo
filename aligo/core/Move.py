@@ -4,7 +4,6 @@ from typing import Iterator
 from aligo.core import *
 from aligo.request import *
 from aligo.response import *
-from aligo.types import *
 
 
 class Move(BaseAligo):
@@ -30,5 +29,5 @@ class Move(BaseAligo):
                         overwrite=body.overwrite, auto_rename=body.auto_rename
                     )
                 ) for file_id in body.file_id_list]
-        ), BaseFile):
+        ), MoveFileResponse):
             yield i

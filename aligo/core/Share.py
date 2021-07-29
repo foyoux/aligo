@@ -38,7 +38,7 @@ class Share(BaseAligo):
                         share_id=share_id
                     )
                 ) for share_id in body.share_id_list]
-        ), BaseFile):
+        ), CancelShareLinkResponse):
             yield i
 
     def get_share_list(self, body: GetShareLinkListRequest = None) -> Iterator[ShareLinkSchema]:

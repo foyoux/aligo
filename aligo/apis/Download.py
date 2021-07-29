@@ -10,10 +10,10 @@ class Download(Core):
     """..."""
 
     def get_download_url(self,
-                         file_id,
-                         drive_id=None,
-                         file_name=None,
+                         file_id: str,
+                         file_name: str = None,
                          expire_sec: int = 14400,
+                         drive_id: str = None,
                          ) -> GetDownloadUrlResponse:
         """..."""
         body = GetDownloadUrlRequest(
@@ -26,8 +26,8 @@ class Download(Core):
 
     def batch_download_url(self,
                            file_id_list: List[str],
-                           drive_id=None,
-                           expire_sec: int = 14400) -> List[BatchDownloadUrlResponse]:
+                           expire_sec: int = 14400,
+                           drive_id=None) -> List[BatchDownloadUrlResponse]:
         """..."""
         body = BatchDownloadUrlRequest(
             drive_id=drive_id,

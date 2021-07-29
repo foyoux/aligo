@@ -28,7 +28,7 @@ class Recyclebin(BaseAligo):
                         drive_id=body.drive_id, file_id=file_id
                     )
                 ) for file_id in body.file_id_list]
-        ), BaseFile):
+        ), MoveFileToTrashResponse):
             yield i
 
     def restore_file(self, body: RestoreFileRequest) -> RestoreFileResponse:
@@ -49,7 +49,7 @@ class Recyclebin(BaseAligo):
                         drive_id=body.drive_id, file_id=file_id
                     )
                 ) for file_id in body.file_id_list]
-        ), BaseFile):
+        ), RestoreFileResponse):
             yield i
 
     def get_recyclebin_list(self, body: GetRecycleBinListRequest) -> Iterator[BaseFile]:

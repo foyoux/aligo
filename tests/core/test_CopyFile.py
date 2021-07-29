@@ -24,4 +24,5 @@ def test_copy_file():
     ))
     for i in batch_copy_file:
         assert isinstance(i, BatchSubResponse)
+        assert isinstance(i.body, CopyFileResponse)
         ali.move_file_to_trash(MoveFileToTrashRequest(file_id=i.body.file_id))

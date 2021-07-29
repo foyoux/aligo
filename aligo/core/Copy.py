@@ -30,5 +30,5 @@ class Copy(BaseAligo):
                         overwrite=body.overwrite, auto_rename=body.auto_rename
                     )
                 ) for file_id in body.file_id_list]
-        ), BaseFile):
+        ), CopyFileResponse):
             yield i

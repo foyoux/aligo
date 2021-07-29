@@ -1,20 +1,13 @@
 """测试上传文件"""
 
-import os
-
-import arrow
-import requests
-
 from aligo import *
 
-CreateFile_file = '60f8fc0b3119e2cd76bf412481426947eb97aed6'
-upload_test = os.path.join(os.path.dirname(__file__), 'upload_test.txt')
+test_folder = '610221762cbc9455e5fb4eac8b7a7ac217285cbb'
 
 
-def test_upload():
-    ali = Core()
-    with open(upload_test, 'wb') as f:
-        f.write(requests.get('https://juejin.cn/user/817692383391879').content)
-    file = ali.upload_file(upload_test, parent_file_id=CreateFile_file, name=arrow.now().__str__() + '.html')
-    assert isinstance(file, BaseFile)
-    print(file)
+def test_create_folder():
+    ali = Aligo()
+    folder = ali.create_folder(name='test_create_folder', parent_file_id=test_folder)
+    assert isinstance(folder, CreateFileResponse)
+    assert folder.type == 'folder'
+    ali.move_file_to_trash(file_id=folder.file_id)

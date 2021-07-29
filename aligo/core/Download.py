@@ -1,4 +1,5 @@
 """..."""
+import os
 from typing import Iterator
 
 import requests
@@ -42,4 +43,4 @@ class Download(BaseAligo):
             with open(file_path, 'wb') as f:
                 for chunk in resp.iter_content(chunk_size=int(Download.CHUNK_SIZE)):
                     f.write(chunk)
-        return file_path
+        return os.path.abspath(file_path)
