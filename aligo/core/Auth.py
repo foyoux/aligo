@@ -245,7 +245,10 @@ class Auth(BaseClass):
                                             verify=verify,
                                             json=body)
             status_code = response.status_code
-            if status_code == 401:
+            if status_code == 401 or (
+                    # aims search 手机端apis
+                    status_code == 400 and response.text == 'AccessToken is invalid. AccessTokenExpired'
+            ):
                 self._refesh_token()
                 continue
 

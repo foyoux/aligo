@@ -16,9 +16,9 @@ class GetShareFileListRequest(DataClass):
     image_url_process: str = field(default='image/resize,w_1920/format,jpeg', repr=False)
     limit: int = None
     marker: str = None
-    order_by: GetShareFileListOrderBy = None
-    order_direction: OrderDirection = None
-    parent_file_id: str = None
+    order_by: GetShareFileListOrderBy = 'name'
+    order_direction: OrderDirection = 'DESC'
+    parent_file_id: str = 'root'
     status: str = None
     type: BaseFileType = None
     url_expire_sec: int = field(default=14400, repr=False)

@@ -35,6 +35,8 @@ ADRIVE_V2_FILE_CREATE = '/adrive/v2/file/create'
 V2_FILE_CREATE_WITH_PROOF = '/v2/file/create_with_proof'
 ADRIVE_V2_FILE_CREATEWITHFOLDERS = '/adrive/v2/file/createWithFolders'
 
+V2_AIMS_SEARCH = '/v2/aims/search'
+
 V2_FILE_GET_DOWNLOAD_URL = '/v2/file/get_download_url'
 
 V2_RECYCLEBIN_TRASH = '/v2/recyclebin/trash'
@@ -51,6 +53,9 @@ V2_SHARE_LINK_UPDATE = '/v2/share_link/update'
 ADRIVE_V2_SHARE_LINK_LIST = '/adrive/v2/share_link/list'
 ADRIVE_V2_SHARE_LINK_CREATE = '/adrive/v2/share_link/create'
 ADRIVE_V2_SHARE_LINK_CANCEL = '/adrive/v2/share_link/cancel'
+ADRIVE_V2_SHARE_LINK_GET_SHARE_BY_ANONYMOUS = '/adrive/v2/share_link/get_share_by_anonymous'
+V2_SHARE_LINK_GET_SHARE_TOKEN = '/v2/share_link/get_share_token'
+V2_FILE_GET_SHARE_LINK_DOWNLOAD_URL = '/v2/file/get_share_link_download_url'
 
 V2_BATCH = '/v2/batch'
 ADRIVE_V2_BATCH = '/adrive/v2/batch'
@@ -58,4 +63,5 @@ ADRIVE_V2_BATCH = '/adrive/v2/batch'
 # 参数
 CLIENT_ID = '25dzX3vbYqktVxyX'
 UNI_PARAMS = {'appName': 'aliyun_drive'}
-UNI_HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36'}
+UNI_HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36'}

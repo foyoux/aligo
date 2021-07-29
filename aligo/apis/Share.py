@@ -69,3 +69,97 @@ class Share(Core):
         )
         result = super(Share, self).get_share_list(body)
         return [i for i in result]
+
+    # 处理其他人的分享
+    def get_share_info(self, share_id: str) -> GetShareInfoResponse:
+        """..."""
+        body = GetShareInfoRequest(share_id=share_id)
+        return super(Share, self).get_share_info(body)
+
+    def get_share_token(self, share_id: str, share_pwd: str = '') -> GetShareTokenResponse:
+        """..."""
+        body = GetShareTokenRequest(share_id=share_id, share_pwd=share_pwd)
+        return super(Share, self).get_share_token(body)
+
+    def get_share_file_list(
+            self,
+            share_id: str,
+            share_token: str,
+            body: GetShareFileListRequest = None,
+            **kwargs
+    ) -> List[BaseShareFile]:
+        """..."""
+        if body is None:
+            body = GetShareFileListRequest(share_id=share_id, **kwargs)
+        result = super(Share, self).get_share_file_list(body, share_token)
+        return [i for i in result]
+
+    def get_share_file(
+            self,
+            share_id: str,
+            share_token: str,
+            body: GetShareFileRequest = None,
+            **kwargs
+    ) -> BaseShareFile:
+        """..."""
+        if body is None:
+            body = GetShareFileRequest(share_id=share_id, **kwargs)
+        return super(Share, self).get_share_file(body, share_token)
+
+    def get_share_link_download_url(
+            self,
+            share_id: str,
+            file_id: str,
+            share_token: str,
+            body: GetShareLinkDownloadUrlRequest = None,
+            **kwargs
+    ) -> GetShareLinkDownloadUrlResponse:
+        """..."""
+        if body is None:
+            body = GetShareLinkDownloadUrlRequest(share_id=share_id, file_id=file_id, **kwargs)
+        return super(Share, self).get_share_link_download_url(body, share_token)
+
+    def share_file_saveto_drive(
+            self,
+            share_id: str,
+            file_id: str,
+            share_token: str,
+            to_parent_file_id: str = 'root',
+            to_drive_id: str = None,
+            new_name: str = None,
+            body: ShareFileSaveToDriveRequest = None,
+            **kwargs
+    ) -> ShareFileSaveToDriveResponse:
+        """..."""
+        if body is None:
+            body = ShareFileSaveToDriveRequest(
+                share_id=share_id,
+                file_id=file_id,
+                to_parent_file_id=to_parent_file_id,
+                to_drive_id=to_drive_id,
+                new_name=new_name,
+                **kwargs
+            )
+        return super(Share, self).share_file_saveto_drive(body, share_token)
+
+    def batch_share_file_saveto_drive(
+            self,
+            share_id: str,
+            file_id_list: List[str],
+            share_token: str,
+            to_parent_file_id: str = 'root',
+            to_drive_id: str = None,
+            body: BatchShareFileSaveToDriveRequest = None,
+            **kwargs
+    ) -> List[BatchShareFileSaveToDriveResponse]:
+        """..."""
+        if body is None:
+            body = BatchShareFileSaveToDriveRequest(
+                share_id=share_id,
+                file_id_list=file_id_list,
+                to_parent_file_id=to_parent_file_id,
+                to_drive_id=to_drive_id,
+                **kwargs
+            )
+        result = super(Share, self).batch_share_file_saveto_drive(body, share_token)
+        return [i for i in result]

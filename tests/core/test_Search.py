@@ -12,13 +12,8 @@ def test_search():
     for file in file_list:
         assert isinstance(file, BaseFile)
 
-
-def xxx():
-    file_list = ali.search_file(SearchFileRequest(
-        query='name match "png"'
+    aims = ali.search_aims(AimSearchRequest(
+        query="keywords ='画画' and type = 'file' and category = 'image'",
     ))
-    i = 1
-    for file in file_list:
-        assert isinstance(file, BaseFile)
-        print('%04d. ' % i, file.name)
-        i += 1
+    for i in aims:
+        isinstance(i, BaseFile)

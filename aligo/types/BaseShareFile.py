@@ -1,8 +1,8 @@
 """todo"""
 from dataclasses import dataclass
 
-from .Enum import BaseFileCategory, BaseFileType
 from .DataClass import DataClass
+from .Enum import BaseFileCategory, BaseFileType
 from .ImageMedia import ImageMedia
 from .VideoMedia import VideoMedia
 from .VideoPreview import VideoPreview
@@ -30,3 +30,7 @@ class BaseShareFile(DataClass):
     image_media_metadata: ImageMedia = None
     video_media_metadata: VideoMedia = None
     video_preview_metadata: VideoPreview = None
+    # 2021年07月29日16时15分41秒
+    mime_extension: str = None
+    mime_type: str = None
+    punish_flag: int = 0

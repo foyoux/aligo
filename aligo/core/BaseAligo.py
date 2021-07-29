@@ -1,7 +1,7 @@
 """..."""
 import traceback
 from dataclasses import asdict
-from typing import Generic, List, Iterator, Dict
+from typing import Generic, List, Iterator, Dict, Callable
 from typing import Union
 
 import requests
@@ -90,7 +90,7 @@ class BaseAligo(BaseClass):
         # debug_log(response)
         return Null(response)
 
-    def _list_file(self, PATH: str, body: DataType, ResponseType: Generic[DataType]) -> Iterator[BaseFile]:
+    def _list_file(self, PATH: str, body: DataClass, ResponseType: Callable) -> Iterator[DataType]:
         """枚举文件: 用于统一处理 1.文件列表 2.搜索文件列表 3.收藏列表 4.回收站列表"""
         response = self._post(PATH, body=body)
         file_list = self._result(response, ResponseType)

@@ -12,4 +12,6 @@ def test_search():
     for file in file_list:
         assert isinstance(file, BaseFile)
 
-
+    aims = ali.search_aims(keyword='画画')
+    for i in aims:
+        isinstance(i, BaseFile)

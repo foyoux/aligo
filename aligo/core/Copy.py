@@ -4,7 +4,6 @@ from typing import Iterator
 from aligo.core import *
 from aligo.request import *
 from aligo.response import *
-from aligo.types import *
 
 
 class Copy(BaseAligo):

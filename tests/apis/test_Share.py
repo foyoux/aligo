@@ -3,15 +3,20 @@ import time
 
 from aligo import *
 
-share_file = '6102292d8344dce69ca8463084cc6022b67d2b24'
-share_file2 = '6102292d902476876869429791bedf531b67e13b'
+test_share_file = '6102292d8344dce69ca8463084cc6022b67d2b24'
+test_share_file2 = '6102292d902476876869429791bedf531b67e13b'
+share_folder = '610227e8754759f1555645e79fba1f89771043fb'
+
+share_id = 'kGyJ5u3GmKy'
+share_id2 = 'nDtTamX9vTP'
+share_pwd2 = 'w652'
+
+ali = Aligo()
 
 
 def test_share():
-    ali = Aligo()
-
     share_request = ali.share_file(
-        file_id_list=[share_file, share_file2],
+        file_id_list=[test_share_file, test_share_file2],
         share_pwd='2021',
         description='aligo share test'
     )
@@ -50,3 +55,44 @@ def test_share():
         for j in cancel_share:
             assert isinstance(j, BatchSubResponse)
             # assert isinstance(j.body, CancelShareLinkResponse)
+
+
+def test_other_share():
+    """..."""
+    share_info = ali.get_share_info(share_id=share_id)
+    assert isinstance(share_info, GetShareInfoResponse)
+
+    share_info = ali.get_share_info(share_id=share_id2)
+    assert isinstance(share_info, GetShareInfoResponse)
+
+    share_token = ali.get_share_token(share_id=share_id2, share_pwd=share_pwd2)
+    assert isinstance(share_token, GetShareTokenResponse)
+
+    share_list = ali.get_share_file_list(share_id=share_id2, share_token=share_token.share_token)
+    file_list = []
+    for i in share_list:
+        file_list.append(i.file_id)
+        assert isinstance(i, BaseShareFile)
+        share_file = ali.get_share_file(share_token=share_token.share_token,
+                                        share_id=share_id2, file_id=i.file_id)
+        assert isinstance(share_file, BaseShareFile)
+        url = ali.get_share_link_download_url(
+            share_id=share_id2, file_id=i.file_id,
+            share_token=share_token.share_token
+        )
+        assert isinstance(url, GetShareLinkDownloadUrlResponse)
+        x = ali.share_file_saveto_drive(share_id=share_id2, file_id=i.file_id, to_parent_file_id=share_folder,
+                                        share_token=share_token.share_token)
+        assert isinstance(x, ShareFileSaveToDriveResponse)
+        assert isinstance(x.file_id, str)
+        assert len(x.file_id) > 10
+        y = ali.move_file_to_trash(file_id=x.file_id)
+        assert isinstance(y, MoveFileToTrashResponse)
+
+    x = ali.batch_share_file_saveto_drive(share_id=share_id2, file_id_list=file_list,
+                                          share_token=share_token.share_token)
+    for i in x:
+        assert isinstance(i, BatchSubResponse)
+        assert isinstance(i.body, BatchShareFileSaveToDriveResponse)
+        y = ali.move_file_to_trash(file_id=i.body.file_id)
+        assert isinstance(y, MoveFileToTrashResponse)
