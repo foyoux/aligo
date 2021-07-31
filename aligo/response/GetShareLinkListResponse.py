@@ -1,5 +1,5 @@
 """..."""
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List
 
 from aligo.types import DataClass, ShareLinkSchema
@@ -8,5 +8,5 @@ from aligo.types import DataClass, ShareLinkSchema
 @dataclass
 class GetShareLinkListResponse(DataClass):
     """..."""
-    items: List[ShareLinkSchema]
+    items: List[ShareLinkSchema] = field(default_factory=list)
     next_marker: str = ''

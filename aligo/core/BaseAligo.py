@@ -13,11 +13,8 @@ from aligo.response import *
 from aligo.types import *
 
 
-class BaseAligo(BaseClass):
-    """阿里网盘基础APIs
-
-    :param auth: 认证对象
-    """
+class BaseAligo:
+    """..."""
 
     def __init__(self, auth: Optional[Auth] = None):
         self._auth: Auth = auth or Auth()
@@ -65,8 +62,7 @@ class BaseAligo(BaseClass):
         """昵称"""
         return self._token.nick_name
 
-    @classmethod
-    def _result(cls, response: requests.Response,
+    def _result(self, response: requests.Response,
                 dcls: Generic[DataType],
                 status_code: Union[List, int] = 200) -> Union[Null, DataType]:
         """统一处理响应
@@ -85,9 +81,9 @@ class BaseAligo(BaseClass):
             try:
                 return dcls(**ujson.loads(text))
             except TypeError:
-                cls._debug_log(response)
+                self._auth.debug_log(response)
                 traceback.print_exc()
-        # debug_log(response)
+        self._auth.log.warning(f'{response.status_code} {response.text}')
         return Null(response)
 
     def _list_file(self, PATH: str, body: DataClass, ResponseType: Callable) -> Iterator[DataType]:
@@ -115,6 +111,13 @@ class BaseAligo(BaseClass):
         return self._result(response, GetPersonalInfoResponse)
 
     BATCH_COUNT = 100
+
+    @staticmethod
+    def _list_split(ll: List[DataType], n: int) -> List[List[DataType]]:
+        rt = []
+        for i in range(0, len(ll), n):
+            rt.append(ll[i:i + n])
+        return rt
 
     def batch_request(self, body: BatchRequest, body_type: DataType):
         """..."""

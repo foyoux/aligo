@@ -23,25 +23,31 @@ _aligo = Path.home().joinpath('.aligo')
 _aligo.mkdir(parents=True, exist_ok=True)
 
 
-class Auth(BaseClass):
-    """认证对象
+def get_configurations() -> List[str]:
+    """获取配置文件列表"""
+    list_: List[str] = []
+    file_: os.DirEntry
+    for file_ in os.scandir(_aligo):
+        list_.append(os.path.splitext(file_.name)[0])
+    return list_
 
-    login & auth
-    :param name: (可选) 默认: "aligo", 保存到的配置文件名称(ID)
-    :param refresh_token: (可选) refresh_token
-    :param show: (可选) 默认: 用于显示二维码, 参数是一个链接字符串, Windows上默认 BaseClass._show_windows, Linux上默认 BaseClass._show_console(Linux)
-    :param level: (可选) 默认: logging.DEBUG, 日志等级
-    :param loglog: (可选) 默认: False, 记录日志文件文件
-    """
 
-    @staticmethod
-    def get_configurations() -> List[str]:
-        """获取配置文件列表"""
-        list_: List[str] = []
-        file_: os.DirEntry
-        for file_ in os.scandir(_aligo):
-            list_.append(os.path.splitext(file_.name)[0])
-        return list_
+class Auth:
+    """..."""
+
+    def debug_log(self, response: requests.Response) -> NoReturn:
+        """打印错误日志, 便于分析调试"""
+        r = response.request
+        self.log.warning(f'[method status_code] {r.method} {response.status_code}')
+        self.log.warning(f'[url] {response.url}')
+        self.log.warning(f'[headers] {r.headers}')
+        self.log.warning(f'[request body] {r.body}')
+        self.log.warning(f'[response body] {response.text[:1024]}')
+
+    def error_log_exit(self, response: requests.Response) -> NoReturn:
+        """打印错误日志并退出"""
+        self.debug_log(response)
+        exit(-1)
 
     @overload
     def __init__(
@@ -67,16 +73,32 @@ class Auth(BaseClass):
             self, name: str = 'aligo',
             refresh_token: str = None,
             show: Callable[[str], NoReturn] = None,
-            level=logging.DEBUG,
+            level: int = logging.DEBUG,
             loglog: bool = False
     ):
+        """登录验证
+
+        :param name: (可选, 默认: aligo) 配置文件名称, 便于使用不同配置文件进行身份验证
+        :param refresh_token:
+        :param show: (可选) 显示二维码的函数
+        :param level: (可选) 控制控制台输出
+        :param loglog: (可选) 控制文件输出
+        """
         self._name = _aligo.joinpath(f'{name}.json')
+
+        self.log = logging.getLogger(f'{__name__}:{name}')
+
+        # if level <= logging.DEBUG:
+        #     fmt = '%(asctime)s.%(msecs)03d %(levelname)5s %(message)s :%(filename)s %(lineno)s'
+        # else:
+        fmt = '%(asctime)s.%(msecs)03d %(levelname)5s %(message)s'
 
         coloredlogs.install(
             level=level,
+            logger=self.log,
             milliseconds=True,
             datefmt='%X',
-            fmt='%(asctime)s.%(msecs)03d %(levelname)5s %(message)s'
+            fmt=fmt
         )
 
         if loglog:
@@ -85,13 +107,14 @@ class Auth(BaseClass):
             formatter = logging.Formatter('%(asctime)s  %(filename)s  %(funcName)s : %(levelname)s  %(message)s',
                                           datefmt='%F %X')
             logfile.setFormatter(formatter)
-            logging.getLogger().addHandler(logfile)
+            self.log.addHandler(logfile)
 
-        logging.debug(f'name {self._name}')
+        self.log.info(f'Config {self._name}')
+        self.log.info(f'日志等级 {logging.getLevelName(level)}')
 
         #
         self.session = requests.session()
-        self.session.params.update(UNI_PARAMS)
+        self.session.params.update(UNI_PARAMS)  # type:ignore
         self.session.headers.update(UNI_HEADERS)
 
         self.session.get(AUTH_HOST + V2_OAUTH_AUTHORIZE, params={
@@ -105,28 +128,28 @@ class Auth(BaseClass):
 
         #
         SESSIONID = self.session.cookies.get('SESSIONID')
-        logging.debug(f'SESSIONID {SESSIONID}')
+        self.log.debug(f'SESSIONID {SESSIONID}')
 
         #
         self.token: Optional[Token] = None
         if show is None:
             if os.name == 'nt':
+                self.log.debug('Windows 操作系统')
                 show = self._show_windows
             else:
+                self.log.debug('类 Unix 操作系统')
                 show = self._show_console
         self._show = show
 
         if self._name.exists():
-            logging.info(f'发现配置文件: {self._name}')
-            # logging.info(f'Loading configuration: {self._name}')
+            self.log.info(f'加载配置文件 {self._name}')
             self.token = Token(**ujson.load(self._name.open()))
         else:
-            logging.info(f'未发现配置文件: {self._name}')
-            # refresh_token 登录
             if refresh_token:
+                self.log.debug('使用 refresh_token 方式登录')
                 self._refesh_token(refresh_token)
                 return
-            # other login - qrcode
+            self.log.info('使用 扫描二维码 方式登录')
             self._login()
 
         #
@@ -136,17 +159,17 @@ class Auth(BaseClass):
 
     def _save(self) -> NoReturn:
         """保存配置文件"""
-        logging.info(f'保存配置文件: {self._name}')
+        self.log.info(f'保存配置文件: {self._name}')
         ujson.dump(asdict(self.token), self._name.open('w'))
 
     def _login(self):
         """登录"""
-        logging.info('开始登录 ...')
+        self.log.info('开始登录 ...')
         response = self._login_by_qrcode()
 
         if response.status_code != 200:
-            logging.error('登录失败 ~')
-            self._error_log_exit(response)
+            self.log.error('登录失败 ~')
+            self.error_log_exit(response)
 
         bizExt = response.json()['content']['data']['bizExt']
         bizExt = base64.b64decode(bizExt).decode('gb18030')
@@ -172,8 +195,9 @@ class Auth(BaseClass):
         self.token = Token(**response.json())
 
         #
-        logging.info('登录成功 ~')
-        logging.info(f'username: {self.token.user_name} nickname: {self.token.nick_name} user_id: {self.token.user_id}')
+        self.log.info('登录成功 ~')
+        self.log.info(
+            f'username: {self.token.user_name} nickname: {self.token.nick_name} user_id: {self.token.user_id}')
 
         # 保存
         self._save()
@@ -193,36 +217,35 @@ class Auth(BaseClass):
             login_data = response.json()['content']['data']
             qrCodeStatus = login_data['qrCodeStatus']
             if qrCodeStatus == 'NEW':
-                logging.info('等待扫描二维码 ...')
+                self.log.info('等待扫描二维码 ...')
             elif qrCodeStatus == 'SCANED':
-                logging.info('已扫描, 等待确认 ...')
+                self.log.info('已扫描, 等待确认 ...')
             elif qrCodeStatus == 'CONFIRMED':
-                logging.info(f'已确认 (你可以关闭二维码图像了.)')
+                self.log.info(f'已确认 (你可以关闭二维码图像了.)')
                 return response
             else:
-                logging.warning('未知错误: 可能二维码已经过期.')
-                self._error_log_exit(response)
+                self.log.warning('未知错误: 可能二维码已经过期.')
+                self.error_log_exit(response)
             time.sleep(2)
 
     def _refesh_token(self, refresh_token=None):
         """刷新 token"""
         if refresh_token is None:
             refresh_token = self.token.refresh_token
-        logging.info('刷新 token ...')
+        self.log.info('刷新 token ...')
         response = self.session.post(
             WEBSV_HOST + TOKEN_REFRESH,
             json={'refresh_token': refresh_token}
         )
         if response.status_code == 200:
-            logging.info('刷新 token 成功')
             self.token = Token(**response.json())
             self.session.headers.update({
                 'Authorization': f'Bearer {self.token.access_token}'
             })
             self._save()
         else:
-            logging.error('刷新 token 失败 ~')
-            self._debug_log(response)
+            self.log.error('刷新 token 失败 ~')
+            self.debug_log(response)
             self._login()
             # error_log_exit(response)
 
@@ -238,13 +261,14 @@ class Auth(BaseClass):
             data = {k: v for k, v in data.items() if v is not None}
 
         while True:
-            # 移至session.headers中
-            # headers['Authorization'] = f'Bearer {self.token.access_token}'
             response = self.session.request(method=method, url=url, params=params,
                                             data=data, headers=headers, files=files,
                                             verify=verify,
                                             json=body)
             status_code = response.status_code
+            self.log.info(
+                f'{response.request.method} {response.url} {status_code} {response.headers.get("Content-Length", 0)}'
+            )
             if status_code == 401 or (
                     # aims search 手机端apis
                     status_code == 400 and response.text == 'AccessToken is invalid. AccessTokenExpired'
@@ -266,8 +290,7 @@ class Auth(BaseClass):
         return self.request(method='POST', url=host + path, params=params, data=data,
                             headers=headers, files=files, verify=verify, body=body)
 
-    @classmethod
-    def _show_console(cls, qr_link: str) -> NoReturn:
+    def _show_console(self, qr_link: str) -> NoReturn:
         """
         在控制台上显示二维码
         :param qr_link: 二维码链接
@@ -275,8 +298,7 @@ class Auth(BaseClass):
         """
         qrcode_terminal.draw(qr_link)
 
-    @classmethod
-    def _show_windows(cls, qr_link: str) -> NoReturn:
+    def _show_windows(self, qr_link: str) -> NoReturn:
         """
         通过 *.png 的关联应用程序显示 qrcode
         :param qr_link: 二维码链接
