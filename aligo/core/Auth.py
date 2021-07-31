@@ -263,8 +263,7 @@ class Auth:
         while True:
             response = self.session.request(method=method, url=url, params=params,
                                             data=data, headers=headers, files=files,
-                                            verify=verify,
-                                            json=body)
+                                            verify=verify, json=body)
             status_code = response.status_code
             self.log.info(
                 f'{response.request.method} {response.url} {status_code} {response.headers.get("Content-Length", 0)}'

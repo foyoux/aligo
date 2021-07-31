@@ -22,3 +22,7 @@ class Create(Core):
             check_name_mode=check_name_mode,
         )
         return super(Create, self).create_folder(body)
+
+    def sync_folder(self, local_folder: str = '.', folder_file_id: str = 'root', delete: bool = False) -> str:
+        """同步/上传 文件夹"""
+        raise NotImplementedError

@@ -1,12 +1,14 @@
 """..."""
 import os
-from typing import Iterator
+import re
+from typing import Iterator, List
 
 import requests
 
 from aligo.core import *
 from aligo.request import *
 from aligo.response import *
+from aligo.types import *
 
 
 class Download(BaseAligo):
@@ -34,13 +36,35 @@ class Download(BaseAligo):
         ), GetDownloadUrlResponse):
             yield i
 
-    @staticmethod
-    def download_file(file_path: str, url: str):
+    def download_file(self, file_path: str, url: str) -> str:
         """..."""
+        file_path = re.sub(r'[\/:*?"<>|]', '_', file_path)
+        file_path = os.path.abspath(file_path)
+        # 递归创建目录
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+
+        if os.path.exists(file_path):
+            self._auth.log.warning(f'文件已存在,跳过下载 {file_path}')
+            return file_path
+
+        tmp_file = file_path + '.ali'
+
         with requests.get(url, headers={
             'referer': 'https://www.aliyundrive.com/'
         }, stream=True) as resp:
-            with open(file_path, 'wb') as f:
+            with open(tmp_file, 'wb') as f:
                 for chunk in resp.iter_content(chunk_size=int(Download.CHUNK_SIZE)):
                     f.write(chunk)
-        return os.path.abspath(file_path)
+
+        os.renames(tmp_file, file_path)
+        self._auth.log.info(f'文件下载完成 {file_path}')
+        return file_path
+
+    def download_files(self, files: List[BaseFile], local_folder: str = '.') -> List[str]:
+        """..."""
+        rt = []
+        for file in files:
+            file_name = os.path.join(local_folder, file.name)
+            file_path = self.download_file(file_name, file.download_url)
+            rt.append(file_path)
+        return rt

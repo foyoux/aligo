@@ -1,4 +1,5 @@
 """..."""
+import os
 from typing import List
 
 from aligo.core import *
@@ -36,3 +37,15 @@ class Download(Core):
         )
         result = super(Download, self).batch_download_url(body)
         return [i for i in result]
+
+    def download_folder(self, folder_file_id: str, local_folder: str = '.', drive_id: str = None) -> str:
+        """..."""
+        files = []
+        for file in self.get_file_list(parent_file_id=folder_file_id, drive_id=drive_id):
+            if file.type == 'folder':
+                self.download_folder(folder_file_id=file.file_id,
+                                     local_folder=os.path.join(local_folder, file.name))
+            else:
+                files.append(file)
+        self.download_files(files, local_folder=local_folder)
+        return local_folder
