@@ -2,6 +2,7 @@
 from dataclasses import asdict
 from typing import Iterator
 
+from aligo.core.Config import *
 from aligo.request import *
 from aligo.response import *
 from aligo.types import *

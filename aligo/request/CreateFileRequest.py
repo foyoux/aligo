@@ -14,11 +14,7 @@ class CreateFileRequest(DataClass):
     type: BaseFileType = 'folder'
     parent_file_id: str = 'root'
     size: int = field(default=None, repr=False)
-<<<<<<< HEAD
     check_name_mode: CheckNameMode = field(default='auto_rename', repr=False)
-=======
-    check_name_mode: CheckNameMode = field(default='refuse', repr=False)
->>>>>>> b_custom_share
     content_hash: str = field(default=None, repr=False)
     content_hash_name: BaseFileContentHashName = field(default='sha1', repr=False)
     content_md5: str = field(default=None, repr=False)
