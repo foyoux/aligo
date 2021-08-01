@@ -37,9 +37,13 @@ class Download(BaseAligo):
         ), GetDownloadUrlResponse):
             yield i
 
+    @staticmethod
+    def _del_special_symbol(s: str) -> str:
+        """删除Windows文件名中不允许的字符"""
+        return re.sub(r'[\\/:*?"<>|]', '_', s)
+
     def download_file(self, file_path: str, url: str) -> str:
         """下载文件"""
-        file_path = re.sub(r'[\/:*?"<>|]', '_', file_path)
         file_path = os.path.abspath(file_path)
         # 递归创建目录
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
@@ -65,7 +69,7 @@ class Download(BaseAligo):
         """批量下载文件"""
         rt = []
         for file in files:
-            file_name = os.path.join(local_folder, file.name)
+            file_name = os.path.join(local_folder, self._del_special_symbol(file.name))
             file_path = self.download_file(file_name, file.download_url)
             rt.append(file_path)
         return rt

@@ -44,7 +44,7 @@ class Download(Core):
         for file in self.get_file_list(parent_file_id=folder_file_id, drive_id=drive_id):
             if file.type == 'folder':
                 self.download_folder(folder_file_id=file.file_id,
-                                     local_folder=os.path.join(local_folder, file.name))
+                                     local_folder=os.path.join(local_folder, self._del_special_symbol(file.name)))
                 continue
             files.append(file)
         self.download_files(files, local_folder=local_folder)
