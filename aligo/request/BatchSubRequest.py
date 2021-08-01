@@ -2,7 +2,8 @@
 from dataclasses import dataclass
 from typing import Dict
 
-from aligo.types import DataClass, DataType
+from aligo.types import DataClass
+from aligo.types.DataClass import DataType
 
 
 @dataclass

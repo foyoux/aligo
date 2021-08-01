@@ -3,12 +3,14 @@ from dataclasses import dataclass, field
 from typing import List, Dict
 
 from aligo.types import *
+from aligo.types.Enum import *
 
 
 @dataclass
 class CreateFileResponse(DataClass):
     """..."""
     file_name: str = None
+    type: BaseFileType = None
     file_id: str = None
     parent_file_id: str = None
     domain_id: str = field(default=None, repr=False)
@@ -18,12 +20,11 @@ class CreateFileResponse(DataClass):
     rapid_upload: bool = field(default=None, repr=False)
     status: BaseFileStatus = field(default=None, repr=False)
     streams_upload_info: Dict = field(default=None, repr=False)
-    type: BaseFileType = field(default=None, repr=False)
     upload_id: str = field(default=None, repr=False)
     exist: bool = field(default=None, repr=False)
     location: str = field(default=None, repr=False)
 
     # pre_hash
-    pre_hash: str = None
-    code: str = None
-    message: str = None
+    pre_hash: str = field(default=None, repr=False)
+    code: str = field(default=None, repr=False)
+    message: str = field(default=None, repr=False)

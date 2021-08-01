@@ -9,6 +9,7 @@ from .Move import Move
 from .Recyclebin import Recyclebin
 from .Search import Search
 from .Share import Share
+from .CustomShare import CustomShare
 from .Star import Star
 from .Update import Update
 from .Video import Video
@@ -26,6 +27,7 @@ class Aligo(
     Recyclebin,
     Search,
     Share,
+    CustomShare,
     Star,
     Update,
 ):

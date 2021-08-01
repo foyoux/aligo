@@ -1,4 +1,4 @@
-"""todo"""
+"""取消分享链接请求"""
 
 from dataclasses import dataclass
 

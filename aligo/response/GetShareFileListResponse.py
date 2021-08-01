@@ -1,4 +1,4 @@
-"""todo"""
+"""分享文件列表响应"""
 
 from dataclasses import dataclass, field
 from typing import List

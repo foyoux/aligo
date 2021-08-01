@@ -1,6 +1,7 @@
 """认证模块"""
 
 import base64
+import json
 import logging
 import os
 import tempfile
@@ -14,10 +15,10 @@ import coloredlogs
 import qrcode
 import qrcode_terminal
 import requests
-import ujson
 
-from aligo.core import *
+from aligo.core.Config import *
 from aligo.types import *
+from aligo.types.Enum import *
 
 _aligo = Path.home().joinpath('.aligo')
 _aligo.mkdir(parents=True, exist_ok=True)
@@ -143,7 +144,7 @@ class Auth:
 
         if self._name.exists():
             self.log.info(f'加载配置文件 {self._name}')
-            self.token = Token(**ujson.load(self._name.open()))
+            self.token = Token(**json.load(self._name.open()))
         else:
             if refresh_token:
                 self.log.debug('使用 refresh_token 方式登录')
@@ -160,7 +161,7 @@ class Auth:
     def _save(self) -> NoReturn:
         """保存配置文件"""
         self.log.info(f'保存配置文件: {self._name}')
-        ujson.dump(asdict(self.token), self._name.open('w'))
+        json.dump(asdict(self.token), self._name.open('w'))
 
     def _login(self):
         """登录"""
@@ -173,7 +174,7 @@ class Auth:
 
         bizExt = response.json()['content']['data']['bizExt']
         bizExt = base64.b64decode(bizExt).decode('gb18030')
-        accessToken = ujson.loads(bizExt)['pds_login_result']['accessToken']
+        accessToken = json.loads(bizExt)['pds_login_result']['accessToken']
 
         # 使用accessToken持久化身份认证
         response = self.session.post(
@@ -263,8 +264,7 @@ class Auth:
         while True:
             response = self.session.request(method=method, url=url, params=params,
                                             data=data, headers=headers, files=files,
-                                            verify=verify,
-                                            json=body)
+                                            verify=verify, json=body)
             status_code = response.status_code
             self.log.info(
                 f'{response.request.method} {response.url} {status_code} {response.headers.get("Content-Length", 0)}'
@@ -290,7 +290,8 @@ class Auth:
         return self.request(method='POST', url=host + path, params=params, data=data,
                             headers=headers, files=files, verify=verify, body=body)
 
-    def _show_console(self, qr_link: str) -> NoReturn:
+    @staticmethod
+    def _show_console(qr_link: str) -> NoReturn:
         """
         在控制台上显示二维码
         :param qr_link: 二维码链接
@@ -298,7 +299,8 @@ class Auth:
         """
         qrcode_terminal.draw(qr_link)
 
-    def _show_windows(self, qr_link: str) -> NoReturn:
+    @staticmethod
+    def _show_windows(qr_link: str) -> NoReturn:
         """
         通过 *.png 的关联应用程序显示 qrcode
         :param qr_link: 二维码链接

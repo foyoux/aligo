@@ -1,4 +1,4 @@
-"""todo"""
+"""更新分享链接请求"""
 from dataclasses import dataclass
 
 from aligo.types import DataClass
