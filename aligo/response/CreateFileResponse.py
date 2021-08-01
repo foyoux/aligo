@@ -3,6 +3,7 @@ from dataclasses import dataclass, field
 from typing import List, Dict
 
 from aligo.types import *
+from aligo.types.Enum import *
 
 
 @dataclass

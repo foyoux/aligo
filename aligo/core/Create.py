@@ -1,4 +1,4 @@
-"""todo"""
+"""创建文件夹, 上传文件等"""
 import hashlib
 import math
 import os
@@ -9,9 +9,11 @@ import requests
 from requests.adapters import HTTPAdapter
 
 from aligo.core import *
+from aligo.core.Config import *
 from aligo.request import *
 from aligo.response import *
 from aligo.types import *
+from aligo.types.Enum import *
 
 
 class Create(BaseAligo):
@@ -104,6 +106,8 @@ class Create(BaseAligo):
             check_name_mode: CheckNameMode = "refuse"
     ) -> BaseFile:
         """..."""
+        self._auth.log.info(f'开始上传文件 {file_path}')
+
         if name is None:
             name = os.path.basename(file_path)
 
@@ -135,20 +139,28 @@ class Create(BaseAligo):
         # 开始上传
         return self._put_data(file_path, part_info)
 
-    def create_by_content_hash(
+    def create_by_hash(
             self,
             name: str,
             content_hash: str,
             size: int,
             parent_file_id: str = 'root',
-            drive_id=None
+            check_name_mode: CheckNameMode = 'refuse',
+            drive_id: str = None
     ) -> CreateFileResponse:
         """..."""
-        return self.create_file(CreateFileRequest(
+        self._auth.log.info(f'开始秒传 {name} {content_hash} {size}')
+        body = CreateFileRequest(
             name=name,
             content_hash=content_hash,
             size=size,
             parent_file_id=parent_file_id,
             drive_id=drive_id,
-            type='file'
-        ))
+            type='file',
+            content_hash_name='sha1',
+            check_name_mode=check_name_mode
+        )
+        return self.create_file(body)
+
+    # def batch_create_by_hash(self, ) -> List[BaseFile]:
+    #     """..."""

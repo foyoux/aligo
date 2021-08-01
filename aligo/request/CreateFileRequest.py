@@ -2,9 +2,8 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from aligo.types import *
-from aligo.types import DataClass
-from aligo.types import UploadPartInfo
+from aligo.types import DataClass, UploadPartInfo
+from aligo.types.Enum import *
 
 
 @dataclass
@@ -15,9 +14,9 @@ class CreateFileRequest(DataClass):
     type: BaseFileType = 'folder'
     parent_file_id: str = 'root'
     size: int = field(default=None, repr=False)
-    check_name_mode: CheckNameMode = field(default=None, repr=False)
+    check_name_mode: CheckNameMode = field(default='refuse', repr=False)
     content_hash: str = field(default=None, repr=False)
-    content_hash_name: BaseFileContentHashName = field(default=None, repr=False)
+    content_hash_name: BaseFileContentHashName = field(default='sha1', repr=False)
     content_md5: str = field(default=None, repr=False)
     content_type: str = field(default=None, repr=False)
     description: str = field(default=None, repr=False)

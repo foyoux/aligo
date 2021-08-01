@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 
 from aligo.types import *
+from aligo.types.DataClass import DataType
 
 
 @dataclass

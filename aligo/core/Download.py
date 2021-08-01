@@ -6,6 +6,7 @@ from typing import Iterator, List
 import requests
 
 from aligo.core import *
+from aligo.core.Config import *
 from aligo.request import *
 from aligo.response import *
 from aligo.types import *
@@ -37,7 +38,7 @@ class Download(BaseAligo):
             yield i
 
     def download_file(self, file_path: str, url: str) -> str:
-        """..."""
+        """下载文件"""
         file_path = re.sub(r'[\/:*?"<>|]', '_', file_path)
         file_path = os.path.abspath(file_path)
         # 递归创建目录
@@ -61,7 +62,7 @@ class Download(BaseAligo):
         return file_path
 
     def download_files(self, files: List[BaseFile], local_folder: str = '.') -> List[str]:
-        """..."""
+        """批量下载文件"""
         rt = []
         for file in files:
             file_name = os.path.join(local_folder, file.name)

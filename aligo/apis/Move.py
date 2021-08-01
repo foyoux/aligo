@@ -16,7 +16,7 @@ class Move(Core):
                   to_drive_id: str = None,
                   body: MoveFileRequest = None,
                   **kwargs) -> MoveFileResponse:
-        """..."""
+        """移动文件"""
         if body is None:
             body = MoveFileRequest(
                 file_id=file_id,
@@ -34,7 +34,7 @@ class Move(Core):
                          drive_id: str = None,
                          body: BatchMoveFilesRequest = None,
                          **kwargs) -> List[BatchSubResponse]:
-        """..."""
+        """批量移动"""
         if body is None:
             body = BatchMoveFilesRequest(drive_id=drive_id,
                                          file_id_list=file_id_list,

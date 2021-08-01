@@ -16,7 +16,7 @@ class Download(Core):
                          expire_sec: int = 14400,
                          drive_id: str = None,
                          ) -> GetDownloadUrlResponse:
-        """..."""
+        """获取下载链接"""
         body = GetDownloadUrlRequest(
             file_id=file_id,
             drive_id=drive_id,
@@ -29,7 +29,7 @@ class Download(Core):
                            file_id_list: List[str],
                            expire_sec: int = 14400,
                            drive_id=None) -> List[BatchDownloadUrlResponse]:
-        """..."""
+        """批量获取下载链接"""
         body = BatchDownloadUrlRequest(
             drive_id=drive_id,
             file_id_list=file_id_list,
@@ -39,13 +39,13 @@ class Download(Core):
         return [i for i in result]
 
     def download_folder(self, folder_file_id: str, local_folder: str = '.', drive_id: str = None) -> str:
-        """..."""
+        """下载文件夹"""
         files = []
         for file in self.get_file_list(parent_file_id=folder_file_id, drive_id=drive_id):
             if file.type == 'folder':
                 self.download_folder(folder_file_id=file.file_id,
                                      local_folder=os.path.join(local_folder, file.name))
-            else:
-                files.append(file)
+                continue
+            files.append(file)
         self.download_files(files, local_folder=local_folder)
         return local_folder

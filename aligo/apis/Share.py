@@ -1,10 +1,11 @@
-"""todo"""
+"""分享相关"""
 from typing import List
 
 from aligo.core import *
 from aligo.request import *
 from aligo.response import *
 from aligo.types import *
+from aligo.types.Enum import *
 
 
 class Share(Core):

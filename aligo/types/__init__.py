@@ -1,6 +1,6 @@
 """..."""
 # 必须在头部, 不能使用Pycharm的自动格式化
-from .Enum import *
+# from .Enum import *
 
 from .AudioMeta import AudioMeta
 from .AudioMusicMeta import AudioMusicMeta
@@ -12,7 +12,7 @@ from .BaseUser import BaseUser
 from .ClientInfo import ClientInfo
 from .CroppingBoundary import CroppingBoundary
 from .CroppingSuggestionItem import CroppingSuggestionItem
-from .DataClass import DataClass, DataType
+from .DataClass import DataClass
 from .ImageMedia import ImageMedia
 from .ImageQuality import ImageQuality
 from .ImageTag import ImageTag

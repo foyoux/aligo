@@ -1,0 +1,6 @@
+requests
+qrcode
+pyyaml
+coloredlogs
+qrcode_terminal
+pytest

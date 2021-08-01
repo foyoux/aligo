@@ -1,4 +1,4 @@
-"""todo"""
+"""获取下载链接请求"""
 from dataclasses import dataclass
 
 from aligo.types import DataClass

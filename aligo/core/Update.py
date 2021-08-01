@@ -1,10 +1,12 @@
 """..."""
 
+from dataclasses import asdict
 
 from aligo.core import *
+from aligo.core.Config import *
 from aligo.request import *
 from aligo.types import *
-from dataclasses import asdict
+
 
 class Update(BaseAligo):
     """..."""

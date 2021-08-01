@@ -1,6 +1,7 @@
 """..."""
 
 from aligo.core import *
+from aligo.core.Config import *
 from aligo.request import *
 from aligo.response import *
 

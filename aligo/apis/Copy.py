@@ -16,7 +16,7 @@ class Copy(Core):
                   to_drive_id: str = None,
                   body: CopyFileRequest = None,
                   **kwargs) -> CopyFileResponse:
-        """..."""
+        """复制文件"""
         if body is None:
             body = CopyFileRequest(
                 file_id=file_id,
@@ -34,7 +34,7 @@ class Copy(Core):
                          drive_id: str = None,
                          body: BatchCopyFilesRequest = None,
                          **kwargs) -> List[BatchSubResponse]:
-        """..."""
+        """批量复制"""
         if body is None:
             body = BatchCopyFilesRequest(drive_id=drive_id,
                                          file_id_list=file_id_list,

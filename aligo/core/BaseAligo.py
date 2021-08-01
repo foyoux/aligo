@@ -1,16 +1,19 @@
 """..."""
+import json
 import traceback
 from dataclasses import asdict
 from typing import Generic, List, Iterator, Dict, Callable
 from typing import Union
 
 import requests
-import ujson
 
 from aligo.core import *
+from aligo.core.Config import *
 from aligo.request import *
 from aligo.response import *
 from aligo.types import *
+from aligo.types.DataClass import DataType
+from aligo.types.Enum import *
 
 
 class BaseAligo:
@@ -79,7 +82,7 @@ class BaseAligo:
             if not text.startswith('{'):
                 return dcls()
             try:
-                return dcls(**ujson.loads(text))
+                return dcls(**json.loads(text))
             except TypeError:
                 self._auth.debug_log(response)
                 traceback.print_exc()

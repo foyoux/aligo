@@ -1,7 +1,8 @@
-"""todo"""
+"""获取分享文件列表"""
 from dataclasses import dataclass, field
 
 from aligo.types import *
+from aligo.types.Enum import *
 
 
 @dataclass
