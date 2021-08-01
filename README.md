@@ -30,7 +30,7 @@ ali = Aligo()
 
 user = ali.get_user()
 
-BaseUser(user_name='155***151', user_id='3e935da769594ca4849c7c1409efb96f', default_drive_id='1066884')
+BaseUser(user_name='155***151', user_id='3e935da****************9efb96f', default_drive_id='1******4')
 
 # 获取网盘根目录文件列表
 ll = ali.get_file_list()
@@ -116,9 +116,185 @@ ll = ali.get_file_list()
 
 ## 用法示例
 
-TODO
+```python
+from aligo import *
+
+ali = Aligo()
+```
+
+> 1. 如果是第一次使用, 则会弹出二维码, 使用移动端 阿里云盘 扫描授权后即可. 在Windows中默认调用图片查看器打开二维码, ;类Unix中, 直接打印到终端. 
+> 2. 如果已经登录过, 则会直接加载保存的配置文件, 如果过期, 则自动刷新, 如果 refresh_token 过期, 则重新弹出二维码供扫描登录
 
 
+
+### 1. 获取文件列表
+
+```python
+# 所有参数可选, 默认 获取网盘根目录文件列表, 即 parent_file_id='root'
+root_list = ali.get_file_list()
+# 等价于 root_list = ali.get_file_list(parent_file_id='root')
+
+# 获取指定目录列表
+file_list = ali.get_file_list(parent_file_id='<file_id>')
+```
+
+![image-20210801220111374](images/image-20210801220111374.png)
+
+
+
+### 2. 保存他人分享文件
+
+在阿里云盘分享中, 链接末尾那一段, 代表 **share_id**, 即代表一个分享的唯一识别码, 例如: **https://www.aliyundrive.com/s/nDtTamX9vTP**, 此分享密码 **share_pwd='w652'**
+
+其中 **nDtTamX9vTP** 即为 **share_id**
+
+```python
+share_id = 'nDtTamX9vTP'
+# 如果一个分享是公开分享, 那么 share_pwd = '', 默认就是此值, 所以没有密码时, 直接忽略此参数即可.
+# 具体情况你可以在开发工具中查看源码
+share_pwd = 'w652'
+
+# 1.如果想获取 此 share_id 对应分享信息, 可以这样做
+info = ali.get_share_info(share_id)
+
+# 2.现在你想访问 此分享, 首先你需要获取 share_token
+share_token = ali.get_share_token(share_id, share_pwd)
+
+# 3.现在你可以获取分享文件列表了
+share_file_list = ali.get_share_file_list(share_id, share_token.share_token)
+
+# 4.这里还有一个 get_share_file 方法
+file = ali.get_share_file(share_id, file_id=share_file_list[0].file_id, share_token=share_token.share_token)
+
+# 5.现在我们可以进行保存了, 比如我们保存到网盘根目录, 此时 to_parent_file_id 可以省略
+save_file = ali.share_file_saveto_drive(share_id, file_id=share_file_list[0].file_id, share_token=share_token.share_token, to_parent_file_id='root')
+
+# 6.批量保存
+batch_save_file = ali.batch_share_file_saveto_drive(share_id, [i.file_id for i in share_file_list], share_token.share_token, 'root')
+
+```
+
+
+
+### 3. 重名文件
+
+```python
+new_file = ali.rename_file('新名字.jpg', '<file_id>', check_name_mode='refuse', drive_id=ali.default_drive_id)
+```
+
+
+
+### 4. 移动文件
+
+```python
+# 移动默认 drive_id 下的 file_id 文件到 默认 drive_id 的 'root' 下
+move_file = ali.move_file('<file_id>', 'root')
+
+# 批量可使用 batch_move_files 方法
+
+# 复制文件
+# ali.copy_file()
+# ali.batch_copy_files()
+```
+
+
+
+### 5. 移动文件到回收站
+
+```python
+trash_file = ali.move_file_to_trash('<file_id>')
+
+# 批量 batch_move_to_trash
+```
+
+
+
+### 6. 获取回收站文件列表
+
+```python
+recyclebin_list = ali.get_recyclebin_list()
+```
+
+
+
+### 7. 从回收站恢复文件
+
+```python
+restore_file = ali.restore_file('<file_id>')
+
+# 批量 batch_restore_files
+```
+
+
+
+### 8. 收藏/取消收藏
+
+```python
+ali.starred_file('<file_id>', starred=True)
+
+# starred=True 表示收藏
+# starred=False 表示取消收藏
+
+# 获取收藏列表, 具体参数用法, 请查看 代码提示 或 源码
+starred_list = ali.ali.get_starred_list()
+```
+
+
+
+### 9. 秒传文件
+
+```python
+# 具体参数看源码
+# 必须参数, 取个name, 随意
+
+# content_hash, size 这两个就是唯一确定一个文件的参数, 即秒传所需参数
+ali.create_by_hash(...)
+```
+
+
+
+### 10. 下载文件(夹)
+
+```python
+# ali.download_file()
+# ali.download_files()
+# ali.download_folder()
+```
+
+
+
+### 11. 上传文件(夹)
+
+```python
+# ali.upload_file()
+# ali.upload_files()
+# ali.upload_folder()
+```
+
+
+
+### 12. 分享文件, 可设置密码, 有效期
+
+```python
+# ali.share_file()
+```
+
+
+
+### 13. 自定义分享, 突破官方限制
+
+```python
+# ali.share_files_by_aligo()
+# ali.share_folder_by_aligo()
+```
+
+
+
+### 14. 保存自定义分享
+
+```python
+# ali.save_files_by_aligo()
+```
 
 
 
@@ -129,21 +305,25 @@ TODO
 > 其他例子我想不出来了, 因为基本上都实现了
 
 ```python
+"""..."""
 from aligo import Aligo
+
 
 class CustomAligo(Aligo):
     """自定义 aligo """
-    
-    # devtools ...
+
     V2_FILE_DELETE = '/v2/file/delete'
-    
-	def delete_file(self, file_id:str):
-		"""删除文件"""
-        self._post(V2_FILE_DELETE, body={'file_id':file_id})
-        
+
+    def delete_file(self, file_id: str):
+        """删除文件"""
+        response = self._post(self.V2_FILE_DELETE, body={'file_id': file_id})
+        return response.json()
+
+
 cali = CustomAligo()
 
-cali.delete_file('<file_id>')        
+cali.delete_file('<file_id>')
+
 ```
 
 
@@ -192,4 +372,7 @@ cali.delete_file('<file_id>')
 
    如果 **出现BUG** 或 **使用问题**, 或 **不合逻辑的设计**, 或者 **建议**, 请 [issue](https://github.com/foyoux/aligo/issues/new)
 
-   
+
+
+
+![aligo反馈交流群](images/wechat.png)

@@ -98,13 +98,14 @@ class Share(Core):
     def get_share_file(
             self,
             share_id: str,
+            file_id: str,
             share_token: str,
             body: GetShareFileRequest = None,
             **kwargs
     ) -> BaseShareFile:
         """..."""
         if body is None:
-            body = GetShareFileRequest(share_id=share_id, **kwargs)
+            body = GetShareFileRequest(share_id=share_id, file_id=file_id, **kwargs)
         return super(Share, self).get_share_file(body, share_token)
 
     def get_share_link_download_url(
