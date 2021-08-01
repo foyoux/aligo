@@ -16,7 +16,11 @@ class Create(Core):
                       name: str,
                       parent_file_id: str = 'root',
                       drive_id: str = None,
+<<<<<<< HEAD
                       check_name_mode: CheckNameMode = 'auto_rename') -> CreateFileResponse:
+=======
+                      check_name_mode: CheckNameMode = 'refuse') -> CreateFileResponse:
+>>>>>>> b_custom_share
         """创建文件夹"""
         body = CreateFolderRequest(
             name=name,
@@ -27,7 +31,11 @@ class Create(Core):
         return super(Create, self).create_folder(body)
 
     def upload_files(self, file_paths: List[str], parent_file_id: str = 'root', drive_id: str = None,
+<<<<<<< HEAD
                      check_name_mode: CheckNameMode = "auto_rename") -> List[BaseFile]:
+=======
+                     check_name_mode: CheckNameMode = "refuse") -> List[BaseFile]:
+>>>>>>> b_custom_share
         """..."""
         file_list = []
         for file_path in file_paths:
@@ -37,7 +45,11 @@ class Create(Core):
         return file_list
 
     def upload_folder(self, folder_path: str, parent_file_id: str = 'root', drive_id: str = None,
+<<<<<<< HEAD
                       check_name_mode: CheckNameMode = "auto_rename") -> List:
+=======
+                      check_name_mode: CheckNameMode = "refuse") -> List:
+>>>>>>> b_custom_share
         """上传本地文件夹"""
         result = []
         # 1. 获取文件夹名

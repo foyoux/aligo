@@ -45,7 +45,11 @@ class CustomShare(Core):
         return CustomShare.ALIGO_SHARE_SCHEMA + base64.b64encode(
             json.dumps(self.__share_folder_by_aligo(parent_file_id=parent_file_id)).encode()).decode()
 
+<<<<<<< HEAD
     def save_files_by_aligo(self, data: str, parent_file_id: str = 'root', check_name_mode: CheckNameMode = 'auto_rename',
+=======
+    def save_files_by_aligo(self, data: str, parent_file_id: str = 'root', check_name_mode: CheckNameMode = 'refuse',
+>>>>>>> b_custom_share
                             drive_id: str = None):
         """..."""
         if not data.startswith(self.ALIGO_SHARE_SCHEMA):

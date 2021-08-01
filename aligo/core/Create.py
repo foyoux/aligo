@@ -145,7 +145,11 @@ class Create(BaseAligo):
             content_hash: str,
             size: int,
             parent_file_id: str = 'root',
+<<<<<<< HEAD
             check_name_mode: CheckNameMode = 'auto_rename',
+=======
+            check_name_mode: CheckNameMode = 'refuse',
+>>>>>>> b_custom_share
             drive_id: str = None
     ) -> CreateFileResponse:
         """..."""
