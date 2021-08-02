@@ -28,18 +28,13 @@ from aligo import Aligo
 
 ali = Aligo()
 
+# 获取用户信息
 user = ali.get_user()
-
-# BaseUser(user_name='155***151', user_id='3e935da****************9efb96f', default_drive_id='1******4')
 
 # 获取网盘根目录文件列表
 ll = ali.get_file_list()
 
 ```
-
-- 阿里云盘和百度不同, 百度网盘使用的是 **路径** 方式定位文件, 而阿里云盘使用的是 **drive_id** / **share_id** + **file_id** 定位文件
-- 在 **aligo** 中, 所有默认 **drive_id** 都可省略, 所以一般只需提供 **file_id** 参数即可
-- 以前阿里云盘时允许同名文件的, 但现在已更改了此策略, 文件名区分大小写
 
 
 
@@ -165,6 +160,10 @@ assert file.file_id == all_folder
 ```
 
 ![image-20210801220111374](images/image-20210801220111374.png)
+
+- 阿里云盘和百度不同, 百度网盘使用的是 **路径** 方式定位文件, 而阿里云盘使用的是 **drive_id** / **share_id** + **file_id** 定位文件
+- 在 **aligo** 中, 所有默认 **drive_id** 都可省略, 所以一般只需提供 **file_id** 参数即可
+- 以前阿里云盘时允许同名文件的, 但现在已更改了此策略, 文件名区分大小写
 
 
 
