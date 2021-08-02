@@ -1,5 +1,5 @@
 # aligo
-🚀🔥使用Python连接阿里云盘 👍👍👍 实现了官方大部分功能
+🚀🔥使用Python连接阿里云盘, 实现了官方大部分功能 👍👍
 
 
 
@@ -30,7 +30,7 @@ ali = Aligo()
 
 user = ali.get_user()
 
-BaseUser(user_name='155***151', user_id='3e935da****************9efb96f', default_drive_id='1******4')
+# BaseUser(user_name='155***151', user_id='3e935da****************9efb96f', default_drive_id='1******4')
 
 # 获取网盘根目录文件列表
 ll = ali.get_file_list()
