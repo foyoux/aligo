@@ -19,19 +19,3 @@ class Update(BaseAligo):
     def rename_file(self, body: RenameFileRequest) -> BaseFile:
         """..."""
         return self.update_file(UpdateFileRequest(**asdict(body)))
-
-    # @overload
-    # def rename_name(self, body: str, new_name: str, drive_id: str = None) -> BaseFile:
-    #     """..."""
-    #     pass
-    #
-    # @overload
-    # def rename_name(self, body: BaseFile, new_name: str, drive_id: str = None) -> BaseFile:
-    #     """..."""
-    #     pass
-    #
-    # def rename_name(self, body: Union[str, BaseFile], new_name: str, drive_id: str = None) -> BaseFile:
-    #     """..."""
-    #     if isinstance(body, BaseFile):
-    #         body = body.file_id
-    #     return self.update_file(UpdateFileRequest(file_id=body, name=new_name, drive_id=drive_id))

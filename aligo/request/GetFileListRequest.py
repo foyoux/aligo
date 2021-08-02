@@ -9,8 +9,8 @@ from aligo.types.Enum import *
 @dataclass
 class GetFileListRequest(DataClass):
     """..."""
-    drive_id: str = None
     parent_file_id: str = 'root'
+    drive_id: str = None
     starred: bool = field(default=None, repr=False)
     all: bool = field(default=False, repr=False)
     category: BaseFileCategory = field(default=None, repr=False)

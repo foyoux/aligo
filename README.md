@@ -39,6 +39,7 @@ ll = ali.get_file_list()
 
 - 阿里云盘和百度不同, 百度网盘使用的是 **路径** 方式定位文件, 而阿里云盘使用的是 **drive_id** / **share_id** + **file_id** 定位文件
 - 在 **aligo** 中, 所有默认 **drive_id** 都可省略, 所以一般只需提供 **file_id** 参数即可
+- 以前阿里云盘时允许同名文件的, 但现在已更改了此策略, 文件名区分大小写
 
 
 
@@ -127,7 +128,7 @@ ali = Aligo()
 
 
 
-### 1. 获取文件列表
+### 1. 获取文件(列表)
 
 ```python
 # 所有参数可选, 默认 获取网盘根目录文件列表, 即 parent_file_id='root'
@@ -136,6 +137,14 @@ root_list = ali.get_file_list()
 
 # 获取指定目录列表
 file_list = ali.get_file_list(parent_file_id='<file_id>')
+
+# 获取指定文件
+file = ali.get_file('<file_id>')
+
+# 通过路径获取文件, 默认以 网盘根目录为基础目录
+all_folder = '61076daaa84228b3b3f643a6a32829c30a23785f'
+file = ali.get_file_by_path('aligo/All_Test', parent_file_id='root')
+assert file.file_id == all_folder
 ```
 
 ![image-20210801220111374](images/image-20210801220111374.png)
@@ -294,6 +303,22 @@ ali.create_by_hash(...)
 
 ```python
 # ali.save_files_by_aligo()
+```
+
+
+
+### 15. 搜索文件
+
+```python
+# ali.search_file()
+```
+
+
+
+### 16. 搜索目标/标签
+
+```python
+# ali.searech_aims()
 ```
 
 

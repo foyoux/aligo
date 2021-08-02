@@ -3,6 +3,7 @@ import os
 from typing import List
 
 from aligo.core import *
+from aligo.core.File import File
 from aligo.request import *
 from aligo.response import *
 
@@ -41,7 +42,7 @@ class Download(Core):
     def download_folder(self, folder_file_id: str, local_folder: str = '.', drive_id: str = None) -> str:
         """下载文件夹"""
         files = []
-        for file in self.get_file_list(parent_file_id=folder_file_id, drive_id=drive_id):
+        for file in File.get_file_list(self, GetFileListRequest(parent_file_id=folder_file_id, drive_id=drive_id)):
             if file.type == 'folder':
                 self.download_folder(folder_file_id=file.file_id,
                                      local_folder=os.path.join(local_folder, self._del_special_symbol(file.name)))

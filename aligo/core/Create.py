@@ -163,4 +163,4 @@ class Create(BaseAligo):
         return self.create_file(body)
 
     # def batch_create_by_hash(self, ) -> List[BaseFile]:
-    #     """..."""
+    #     """无法实现"""
