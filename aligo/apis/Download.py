@@ -49,4 +49,4 @@ class Download(Core):
                 continue
             files.append(file)
         self.download_files(files, local_folder=local_folder)
-        return local_folder
+        return os.path.abspath(local_folder)
