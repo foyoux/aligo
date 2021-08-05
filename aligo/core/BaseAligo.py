@@ -145,5 +145,12 @@ class BaseAligo:
             for batch in response.json()['responses']:
                 i = BatchSubResponse(**batch)
                 if i.body:
-                    i.body = body_type(**i.body)
+                    try:
+                        # 不是都会成功
+                        # eg: {'code': 'AlreadyExist.File', 'message': "The resource file has already exists. drive has the same file, can't update, file_id 609887cca951bf4feca54c6ebd0a91a03b826949"}
+                        # status 409
+                        i.body = body_type(**i.body)
+                    except TypeError:
+                        # self._auth.log.warning(i)
+                        pass
                 yield i

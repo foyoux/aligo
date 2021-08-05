@@ -9,6 +9,19 @@ from aligo.types import *
 class File(Core):
     """..."""
 
+    def get_file(self,
+                 file_id: str,
+                 drive_id: str = None,
+                 body: GetFileRequest = None,
+                 **kwargs) -> BaseFile:
+        """获取文件信息, 其他类中可能会用到, 所以放到基类中"""
+        if body is None:
+            body = GetFileRequest(
+                file_id=file_id, drive_id=drive_id,
+                **kwargs
+            )
+        return super(File, self).get_file(body)
+
     def get_file_list(self, parent_file_id: str = 'root', drive_id: str = None, body: GetFileListRequest = None,
                       **kwargs) -> List[BaseFile]:
         """获取文件列表"""

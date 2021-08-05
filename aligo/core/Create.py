@@ -104,7 +104,7 @@ class Create(BaseAligo):
             name: str = None,
             drive_id: str = None,
             check_name_mode: CheckNameMode = "auto_rename"
-    ) -> BaseFile:
+    ) -> Union[BaseFile, CreateFileResponse]:
         """..."""
         self._auth.log.info(f'开始上传文件 {file_path}')
 
@@ -120,13 +120,20 @@ class Create(BaseAligo):
             part_info = self._content_hash(file_path=file_path, file_size=file_size, name=name,
                                            parent_file_id=parent_file_id, drive_id=drive_id,
                                            check_name_mode=check_name_mode)
+            # exists=True
+            if part_info.exist:
+                self._auth.log.warning(f'文件已存在, 跳过 {file_path} {part_info.file_id}')
+                # return self.get_file(GetFileRequest(file_id=part_info.file_id))
+                return part_info
+
             if part_info.code == 'PreHashMatched':
                 # 2. content_hash
                 part_info = self._content_hash(file_path=file_path, file_size=file_size, name=name,
                                                parent_file_id=parent_file_id, drive_id=drive_id,
                                                check_name_mode=check_name_mode)
                 if part_info.rapid_upload:
-                    return self.get_file(GetFileRequest(file_id=part_info.file_id))
+                    # return self.get_file(GetFileRequest(file_id=part_info.file_id))
+                    return part_info
             # 开始上传
             return self._put_data(file_path, part_info)
 
@@ -135,7 +142,8 @@ class Create(BaseAligo):
                                        parent_file_id=parent_file_id, drive_id=drive_id,
                                        check_name_mode=check_name_mode)
         if part_info.rapid_upload:
-            return self.get_file(GetFileRequest(file_id=part_info.file_id))
+            # return self.get_file(GetFileRequest(file_id=part_info.file_id))
+            return part_info
         # 开始上传
         return self._put_data(file_path, part_info)
 
