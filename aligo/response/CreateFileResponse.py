@@ -26,6 +26,6 @@ class CreateFileResponse(DataClass):
 
     # pre_hash
     pre_hash: str = field(default=None, repr=False)
-    # 这应该是批量中错误的响应, 不应该在这里
-    # code: str = field(default=None, repr=False)
-    # message: str = field(default=None, repr=False)
+    # 与批量操作中的错误不同, 此处code为是否命中秒传的结果
+    code: str = field(default=None, repr=False)
+    message: str = field(default=None, repr=False)

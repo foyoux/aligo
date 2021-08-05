@@ -193,6 +193,10 @@ class Auth:
             }
         )
 
+        if response.status_code != 200:
+            self.log.error(f'登陆失败 ~')
+            self.error_log_exit(response)
+
         self.token = Token(**response.json())
 
         #
@@ -261,7 +265,7 @@ class Auth:
         if data is not None and isinstance(data, dict):
             data = {k: v for k, v in data.items() if v is not None}
 
-        while True:
+        for i in range(3):
             response = self.session.request(method=method, url=url, params=params,
                                             data=data, headers=headers, files=files,
                                             verify=verify, json=body)
@@ -277,6 +281,9 @@ class Auth:
                 continue
 
             return response
+
+        self.log.info(f'重试3次仍旧失败~')
+        self.error_log_exit(response)
 
     def get(self, path: str, host: str = API_HOST, params: dict = None, headers: dict = None,
             verify: bool = None) -> requests.Response:
