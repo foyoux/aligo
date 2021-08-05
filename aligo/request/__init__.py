@@ -4,6 +4,7 @@ from .AimSearchRequest import AimSearchRequest
 from .BatchCancelShareRequest import BatchCancelShareRequest
 from .BatchCopyFilesRequest import BatchCopyFilesRequest
 from .BatchDownloadUrlRequest import BatchDownloadUrlRequest
+from .BatchGetFileRequest import BatchGetFileRequest
 from .BatchMoveFilesRequest import BatchMoveFilesRequest
 from .BatchMoveToTrashRequest import BatchMoveToTrashRequest
 from .BatchRequest import BatchRequest

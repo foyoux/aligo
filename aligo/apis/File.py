@@ -3,6 +3,7 @@ from typing import List
 
 from aligo.core import *
 from aligo.request import *
+from aligo.response import *
 from aligo.types import *
 
 
@@ -28,4 +29,10 @@ class File(Core):
         if body is None:
             body = GetFileListRequest(drive_id=drive_id, parent_file_id=parent_file_id, **kwargs)
         result = super(File, self).get_file_list(body)
+        return [i for i in result]
+
+    def batch_get_files(self, file_id_list: List[str], drive_id: str = None) -> List[BatchSubResponse]:
+        """..."""
+        body = BatchGetFileRequest(file_id_list=file_id_list, drive_id=drive_id)
+        result = super(File, self).batch_get_files(body)
         return [i for i in result]
