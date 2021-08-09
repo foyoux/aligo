@@ -20,7 +20,7 @@ class Copy(BaseAligo):
         if body.drive_id is None:
             body.drive_id = self.default_drive_id
 
-        for i in self.batch_request(BatchRequest(
+        yield from self.batch_request(BatchRequest(
                 requests=[BatchSubRequest(
                     id=file_id,
                     url='/file/copy',
@@ -30,5 +30,4 @@ class Copy(BaseAligo):
                         overwrite=body.overwrite, auto_rename=body.auto_rename
                     )
                 ) for file_id in body.file_id_list]
-        ), CopyFileResponse):
-            yield i
+        ), CopyFileResponse)

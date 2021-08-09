@@ -21,7 +21,7 @@ class Recyclebin(BaseAligo):
         if body.drive_id is None:
             body.drive_id = self.default_drive_id
 
-        for i in self.batch_request(BatchRequest(
+        yield from self.batch_request(BatchRequest(
                 requests=[BatchSubRequest(
                     id=file_id,
                     url='/recyclebin/trash',
@@ -29,8 +29,7 @@ class Recyclebin(BaseAligo):
                         drive_id=body.drive_id, file_id=file_id
                     )
                 ) for file_id in body.file_id_list]
-        ), MoveFileToTrashResponse):
-            yield i
+        ), MoveFileToTrashResponse)
 
     def restore_file(self, body: RestoreFileRequest) -> RestoreFileResponse:
         """恢复文件"""
@@ -42,7 +41,7 @@ class Recyclebin(BaseAligo):
         if body.drive_id is None:
             body.drive_id = self.default_drive_id
 
-        for i in self.batch_request(BatchRequest(
+        yield from self.batch_request(BatchRequest(
                 requests=[BatchSubRequest(
                     id=file_id,
                     url='/recyclebin/restore',
@@ -50,10 +49,8 @@ class Recyclebin(BaseAligo):
                         drive_id=body.drive_id, file_id=file_id
                     )
                 ) for file_id in body.file_id_list]
-        ), RestoreFileResponse):
-            yield i
+        ), RestoreFileResponse)
 
     def get_recyclebin_list(self, body: GetRecycleBinListRequest) -> Iterator[BaseFile]:
         """获取回收站文件列表"""
-        for i in self._list_file(V2_RECYCLEBIN_LIST, body, GetRecycleBinListResponse):
-            yield i
+        yield from self._list_file(V2_RECYCLEBIN_LIST, body, GetRecycleBinListResponse)

@@ -13,8 +13,7 @@ class File(BaseAligo):
 
     def get_file_list(self, body: GetFileListRequest) -> Iterator[BaseFile]:
         """..."""
-        for i in self._list_file(V2_FILE_LIST, body, GetFileListResponse):
-            yield i
+        yield from self._list_file(V2_FILE_LIST, body, GetFileListResponse)
 
     def get_file_by_path(self, path: str = '/', parent_file_id: str = 'root',
                          drive_id: str = None) -> Union[BaseFile, None]:
@@ -44,7 +43,7 @@ class File(BaseAligo):
         if body.drive_id is None:
             body.drive_id = self.default_drive_id
 
-        for i in self.batch_request(BatchRequest(
+        yield from self.batch_request(BatchRequest(
                 requests=[BatchSubRequest(
                     id=file_id,
                     url='/file/get',
@@ -52,5 +51,4 @@ class File(BaseAligo):
                         drive_id=body.drive_id, file_id=file_id
                     )
                 ) for file_id in body.file_id_list]
-        ), GetFileRequest):
-            yield i
+        ), GetFileRequest)

@@ -26,7 +26,7 @@ class Download(BaseAligo):
         if body.drive_id is None:
             body.drive_id = self.default_drive_id
 
-        for i in self.batch_request(BatchRequest(
+        yield from self.batch_request(BatchRequest(
                 requests=[BatchSubRequest(
                     id=file_id,
                     url='/file/get_download_url',
@@ -34,8 +34,7 @@ class Download(BaseAligo):
                         drive_id=body.drive_id, file_id=file_id
                     )
                 ) for file_id in body.file_id_list]
-        ), GetDownloadUrlResponse):
-            yield i
+        ), GetDownloadUrlResponse)
 
     @staticmethod
     def _del_special_symbol(s: str) -> str:

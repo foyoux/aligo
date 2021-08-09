@@ -24,8 +24,7 @@ class Search(BaseAligo):
         eg: 'name match "epub" and category = "image"'
         category : BaseFileCategory
         """
-        for i in self._list_file(V2_FILE_SEARCH, body, SearchFileResponse):
-            yield i
+        yield from self._list_file(V2_FILE_SEARCH, body, SearchFileResponse)
 
     def search_aims(self, body: AimSearchRequest) -> Iterator[BaseFile]:
         """
@@ -38,5 +37,4 @@ class Search(BaseAligo):
           "return_total_count": true
         }
         """
-        for i in self._list_file(V2_AIMS_SEARCH, body, AimSearchResponse):
-            yield i
+        yield from self._list_file(V2_AIMS_SEARCH, body, AimSearchResponse)

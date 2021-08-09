@@ -32,7 +32,7 @@ class Share(BaseAligo):
 
     def batch_cancel_share(self, body: BatchCancelShareRequest) -> Iterator[BatchSubResponse]:
         """批量取消分享"""
-        for i in self.batch_request(BatchRequest(
+        yield from self.batch_request(BatchRequest(
                 requests=[BatchSubRequest(
                     id=share_id,
                     url='/share_link/cancel',
@@ -40,8 +40,7 @@ class Share(BaseAligo):
                         share_id=share_id
                     )
                 ) for share_id in body.share_id_list]
-        ), CancelShareLinkResponse):
-            yield i
+        ), CancelShareLinkResponse)
 
     def get_share_list(self, body: GetShareLinkListRequest = None) -> Iterator[ShareLinkSchema]:
         """获取自己的分享链接
@@ -49,8 +48,7 @@ class Share(BaseAligo):
         :param body: GetShareLinkListRequest对象
         :return: ShareLinkSchema对象的迭代器
         """
-        for i in self._list_file(ADRIVE_V2_SHARE_LINK_LIST, body, GetShareLinkListResponse):
-            yield i
+        yield from self._list_file(ADRIVE_V2_SHARE_LINK_LIST, body, GetShareLinkListResponse)
 
     # 处理其他人的分享
     def get_share_info(self, body: GetShareInfoRequest) -> GetShareInfoResponse:
@@ -72,12 +70,10 @@ class Share(BaseAligo):
         if isinstance(file_list, Null):
             yield file_list
             return
-        for item in file_list.items:
-            yield item
+        yield from file_list.items
         if file_list.next_marker != '':
             body.marker = file_list.next_marker
-            for it in self.get_share_file_list(body=body, x_share_token=x_share_token):
-                yield it
+            yield from self.get_share_file_list(body=body, x_share_token=x_share_token)
 
     def get_share_file(self, body: GetShareFileRequest, x_share_token: str) -> BaseShareFile:
         """..."""

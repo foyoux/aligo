@@ -100,8 +100,7 @@ class BaseAligo:
             yield item
         if file_list.next_marker != '':
             body.marker = file_list.next_marker
-            for it in self._list_file(PATH=PATH, body=body, ResponseType=ResponseType):
-                yield it
+            yield from self._list_file(PATH=PATH, body=body, ResponseType=ResponseType)
 
     def get_file(self, body: GetFileRequest) -> BaseFile:
         """获取文件信息, 其他类中可能会用到, 所以放到基类中"""

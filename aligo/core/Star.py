@@ -26,7 +26,7 @@ class Star(Update):
         else:
             custom_index_key = ''
 
-        for i in self.batch_request(BatchRequest(
+        yield from self.batch_request(BatchRequest(
                 requests=[BatchSubRequest(
                     id=file_id,
                     url='/file/update',
@@ -36,10 +36,8 @@ class Star(Update):
                         starred=body.starred, custom_index_key=custom_index_key
                     )
                 ) for file_id in body.file_id_list]
-        ), BaseFile):
-            yield i
+        ), BaseFile)
 
     def get_starred_list(self, body: GetStarredListRequest) -> Iterator[BaseFile]:
         """收藏(或取消) 文件列表"""
-        for i in self._list_file(V2_FILE_LIST_BY_CUSTOM_INDEX_KEY, body, GetStarredListResponse):
-            yield i
+        yield from self._list_file(V2_FILE_LIST_BY_CUSTOM_INDEX_KEY, body, GetStarredListResponse)
