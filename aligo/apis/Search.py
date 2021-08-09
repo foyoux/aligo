@@ -21,7 +21,7 @@ class Search(Core):
         result = super(Search, self).search_file(body)
         return [i for i in result]
 
-    def search_aims(self, keyword: str, category: BaseFileCategory = 'image', drive_id: str = None,
+    def search_aims(self, keyword: str = None, category: BaseFileCategory = 'image', drive_id: str = None,
                     body: AimSearchRequest = None, **kwargs) -> List[BaseFile]:
         """搜索目标/标签"""
         if body is None:
