@@ -24,6 +24,7 @@ from .ListResponse import ListResponse
 from .MoveFileResponse import MoveFileResponse
 from .MoveFileToTrashResponse import MoveFileToTrashResponse
 from .RestoreFileResponse import RestoreFileResponse
+from .RewardSpaceResponse import RewardSpaceResponse
 from .SearchFileResponse import SearchFileResponse
 from .ShareFileSaveToDriveResponse import ShareFileSaveToDriveResponse
 from .ShareItemInfo import ShareItemInfo

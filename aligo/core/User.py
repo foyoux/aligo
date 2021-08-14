@@ -2,6 +2,7 @@
 
 from aligo.core import *
 from aligo.core.Config import *
+from aligo.response import RewardSpaceResponse
 from aligo.types import *
 
 
@@ -16,3 +17,10 @@ class User(BaseAligo):
             # self._user = BaseUser(**response.json())
             self._user = self._result(response, BaseUser)
         return self._user
+
+    def rewards_space(self, code: str):
+        """兑换福利码接口"""
+        response = self._post(V1_USERS_REWARDS, MEMBER_HOST, body={
+            'code': code
+        })
+        return self._result(response, RewardSpaceResponse)

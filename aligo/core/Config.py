@@ -4,6 +4,7 @@ API_HOST = 'https://api.aliyundrive.com'
 AUTH_HOST = 'https://auth.aliyundrive.com'
 WEBSV_HOST = 'https://websv.aliyundrive.com'
 PASSPORT_HOST = 'https://passport.aliyundrive.com'
+MEMBER_HOST = 'https://member.aliyundrive.com'
 
 # 路径
 NEWLOGIN_LOGIN_DO = '/newlogin/login.do'
@@ -59,6 +60,8 @@ V2_FILE_GET_SHARE_LINK_DOWNLOAD_URL = '/v2/file/get_share_link_download_url'
 
 V2_BATCH = '/v2/batch'
 ADRIVE_V2_BATCH = '/adrive/v2/batch'
+
+V1_USERS_REWARDS = '/v1/users/rewards'
 
 # 参数
 CLIENT_ID = '25dzX3vbYqktVxyX'
