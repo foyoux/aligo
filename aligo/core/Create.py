@@ -61,8 +61,18 @@ class Create(BaseAligo):
 
     def _content_hash(self, file_path: str, file_size: int, name: str, parent_file_id='root', drive_id=None,
                       check_name_mode: CheckNameMode = 'auto_rename') -> CreateFileResponse:
+
+        content_hash = hashlib.sha1()
+
         with open(file_path, 'rb') as f:
-            content_hash = hashlib.sha1(f.read()).hexdigest().upper()
+            while True:
+                segment = f.read(self.CHUNK_SIZE)
+                if not segment:
+                    break
+                content_hash.update(segment)
+
+        content_hash = content_hash.hexdigest().upper()
+
         body = CreateFileRequest(
             drive_id=drive_id,
             part_info_list=self._get_part_info_list(file_size),
@@ -82,6 +92,7 @@ class Create(BaseAligo):
         """上传数据"""
         with open(file_path, 'rb') as f:
             for i in part_info.part_info_list:
+                self._auth.log.info(f'分段上传第 [{i.part_number}] 段数据 {file_path}')
                 # 不能使用 self._session.put
                 ss = requests.session()
                 # ss.mount('http://', HTTPAdapter(max_retries=5))
@@ -117,9 +128,9 @@ class Create(BaseAligo):
         file_size = os.path.getsize(file_path)
         if file_size > 1024:  # 1kB
             # 1. pre_hash
-            part_info = self._content_hash(file_path=file_path, file_size=file_size, name=name,
-                                           parent_file_id=parent_file_id, drive_id=drive_id,
-                                           check_name_mode=check_name_mode)
+            part_info = self._pre_hash(file_path=file_path, file_size=file_size, name=name,
+                                       parent_file_id=parent_file_id, drive_id=drive_id,
+                                       check_name_mode=check_name_mode)
             # exists=True
             if part_info.exist:
                 self._auth.log.warning(f'文件已存在, 跳过 {file_path} {part_info.file_id}')
