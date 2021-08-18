@@ -90,9 +90,10 @@ class Create(BaseAligo):
 
     def _put_data(self, file_path: str, part_info: CreateFileResponse) -> Union[BaseFile, Null]:
         """上传数据"""
+        llen = len(part_info.part_info_list)
         with open(file_path, 'rb') as f:
             for i in part_info.part_info_list:
-                self._auth.log.info(f'分段上传第 [{i.part_number}] 段数据 {file_path}')
+                self._auth.log.info(f'分段上传第 [{i.part_number}/{llen}] 段数据 {file_path}')
                 # 不能使用 self._session.put
                 ss = requests.session()
                 # ss.mount('http://', HTTPAdapter(max_retries=5))
