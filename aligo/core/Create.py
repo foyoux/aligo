@@ -7,6 +7,7 @@ from typing import Union
 
 import requests
 from requests.adapters import HTTPAdapter
+from tqdm import tqdm
 
 from aligo.core import *
 from aligo.core.Config import *
@@ -19,7 +20,7 @@ from aligo.types.Enum import *
 class Create(BaseAligo):
     """创建文件: 1.创建文件 2.上传文件 3.下载文件"""
 
-    CHUNK_SIZE: int = 10485760
+    UPLOAD_CHUNK_SIZE: int = 10485760
 
     def create_file(self, body: CreateFileRequest) -> CreateFileResponse:
         """创建文件, 可用于上传文件"""
@@ -39,7 +40,7 @@ class Create(BaseAligo):
     def _get_part_info_list(file_size: int):
         """根据文件大小, 返回 part_info_list """
         # 以10MB为一块: 10485760
-        return [UploadPartInfo(part_number=i) for i in range(1, math.ceil(file_size / Create.CHUNK_SIZE) + 1)]
+        return [UploadPartInfo(part_number=i) for i in range(1, math.ceil(file_size / Create.UPLOAD_CHUNK_SIZE) + 1)]
 
     def _pre_hash(self, file_path: str, file_size: int, name: str, parent_file_id='root', drive_id=None,
                   check_name_mode: CheckNameMode = 'auto_rename') -> CreateFileResponse:
@@ -66,7 +67,7 @@ class Create(BaseAligo):
 
         with open(file_path, 'rb') as f:
             while True:
-                segment = f.read(self.CHUNK_SIZE)
+                segment = f.read(self.UPLOAD_CHUNK_SIZE)
                 if not segment:
                     break
                 content_hash.update(segment)
@@ -88,26 +89,34 @@ class Create(BaseAligo):
         part_info = self._result(response, CreateFileResponse, 201)
         return part_info
 
-    def _put_data(self, file_path: str, part_info: CreateFileResponse) -> Union[BaseFile, Null]:
+    def _put_data(self, file_path: str, part_info: CreateFileResponse, file_size: int) -> Union[BaseFile, Null]:
         """上传数据"""
-        llen = len(part_info.part_info_list)
+        # llen = len(part_info.part_info_list)
         with open(file_path, 'rb') as f:
+            progress_bar = tqdm(total=file_size, unit='B', unit_scale=True, colour='#21d789')
             for i in part_info.part_info_list:
-                self._auth.log.info(f'分段上传第 [{i.part_number}/{llen}] 段数据 {file_path}')
+                # self._auth.log.info(f'分段上传第 [{i.part_number}/{llen}] 段数据 {file_path}')
                 # 不能使用 self._session.put
                 ss = requests.session()
                 # ss.mount('http://', HTTPAdapter(max_retries=5))
                 ss.mount('https://', HTTPAdapter(max_retries=5))
-                ss.put(data=f.read(Create.CHUNK_SIZE), url=i.upload_url)
+                data = f.read(Create.UPLOAD_CHUNK_SIZE)
+                ss.put(data=data, url=i.upload_url)
                 # response = requests.put(data=f.read(Create.CHUNK_SIZE), url=i.upload_url)
                 # print(response)
+                progress_bar.update(len(data))
+
+        progress_bar.close()
+
         # complete
-        return self.complete_file(CompleteFileRequest(
+        complete = self.complete_file(CompleteFileRequest(
             drive_id=part_info.drive_id,
             file_id=part_info.file_id,
             upload_id=part_info.upload_id,
             part_info_list=part_info.part_info_list
         ))
+        self._auth.log.info(f'文件上传完成 {file_path}')
+        return complete
 
     def upload_file(
             self,
@@ -144,20 +153,22 @@ class Create(BaseAligo):
                                                parent_file_id=parent_file_id, drive_id=drive_id,
                                                check_name_mode=check_name_mode)
                 if part_info.rapid_upload:
+                    self._auth.log.warning(f'文件秒传成功 {file_path}')
                     # return self.get_file(GetFileRequest(file_id=part_info.file_id))
                     return part_info
             # 开始上传
-            return self._put_data(file_path, part_info)
+            return self._put_data(file_path, part_info, file_size)
 
         # 2. content_hash
         part_info = self._content_hash(file_path=file_path, file_size=file_size, name=name,
                                        parent_file_id=parent_file_id, drive_id=drive_id,
                                        check_name_mode=check_name_mode)
         if part_info.rapid_upload:
+            self._auth.log.warning(f'文件秒传成功 {file_path}')
             # return self.get_file(GetFileRequest(file_id=part_info.file_id))
             return part_info
         # 开始上传
-        return self._put_data(file_path, part_info)
+        return self._put_data(file_path, part_info, file_size)
 
     def create_by_hash(
             self,
