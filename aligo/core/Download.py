@@ -68,7 +68,7 @@ class Download(BaseAligo):
             'referer': 'https://www.aliyundrive.com/'
         }, stream=True) as resp:
             llen = int(resp.headers.get('content-length', 0))
-            progress_bar = tqdm(total=llen, unit='B', unit_scale=True, colour='#ff6f00')
+            progress_bar = tqdm(total=llen, unit='B', unit_scale=True, colour='#31a8ff')
             with open(tmp_file, 'wb') as f:
                 for content in resp.iter_content(chunk_size=Download.DOWNLOAD_CHUNK_SIZE):
                     progress_bar.update(len(content))

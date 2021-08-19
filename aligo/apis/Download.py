@@ -1,11 +1,12 @@
 """..."""
 import os
-from typing import List
+from typing import List, overload
 
 from aligo.core import *
 from aligo.core.File import File
 from aligo.request import *
 from aligo.response import *
+from aligo.types import *
 
 
 class Download(Core):
@@ -50,3 +51,33 @@ class Download(Core):
             files.append(file)
         self.download_files(files, local_folder=local_folder)
         return os.path.abspath(local_folder)
+
+    @overload
+    def download_file(self, file_path: str, url: str) -> str:
+        """..."""
+
+    @overload
+    def download_file(self, file_id: str, local_folder: str = '.') -> str:
+        """..."""
+
+    @overload
+    def download_file(self, file: BaseFile, local_folder: str = '.') -> str:
+        """..."""
+
+    def download_file(self, file_path: str = None, url: str = None,
+                      local_folder: str = '.', file_id: str = None, file: BaseFile = None, drive_id=None) -> str:
+        """..."""
+        if file_id:
+            # file = self.get_download_url(file_id, drive_id)
+            # url = file.url
+            # file_name = parse.parse_qs(url).get('response-content-disposition')[0]
+            # file_name = file_name.split("''")[1]
+            # file_name = parse.unquote_plus(file_name)
+            # file_path = os.path.join(local_folder, file_name)
+            file = File.get_file(self, GetFileRequest(file_id=file_id, drive_id=drive_id))
+
+        if file:
+            file_path = os.path.join(local_folder, file.name)
+            url = file.download_url
+
+        return super(Download, self).download_file(file_path, url)
