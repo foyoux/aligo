@@ -41,7 +41,8 @@ class Create(Core):
         """上传本地文件夹"""
         result = []
         # 1. 获取文件夹名
-        folder_name = os.path.basename(folder_path)
+        # 防止文件夹末尾存在分隔符时, 返回为空 "" 的情况
+        folder_name = os.path.basename(folder_path.rstrip('/').rstrip('\\'))
         # 2. 在指定 parent_file_id 下创建 folder_name 文件夹, 并获取 folder BaseFile 对象
         folder = self.create_folder(folder_name, parent_file_id=parent_file_id, drive_id=drive_id,
                                     check_name_mode=check_name_mode)
