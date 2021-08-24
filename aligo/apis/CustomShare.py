@@ -52,7 +52,8 @@ class CustomShare(Core):
     def share_folder_by_aligo(self, parent_file_id: str, drive_id: str = None) -> str:
         """..."""
         result = self.__share_folder_by_aligo(parent_file_id=parent_file_id, drive_id=drive_id)
-        return CustomShare.ALIGO_SHARE_SCHEMA + base64.b64encode(json.dumps(result).encode()).decode()
+        folder = File.get_file(self, GetFileRequest(file_id=parent_file_id))
+        return CustomShare.ALIGO_SHARE_SCHEMA + base64.b64encode(json.dumps([[folder.name, result]]).encode()).decode()
 
     def __save_files_by_aligo(self, data: str, parent_file_id: str = 'root',
                               check_name_mode: CheckNameMode = 'auto_rename',
