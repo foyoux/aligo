@@ -128,7 +128,7 @@ class Create(BaseAligo):
     ) -> Union[BaseFile, CreateFileResponse]:
         """..."""
         self._auth.log.info(f'开始上传文件 {file_path}')
-
+        file_path=os.path.abspath(file_path)
         if name is None:
             name = os.path.basename(file_path)
 
