@@ -23,3 +23,4 @@ class BaseDrive(DataClass):
     relative_path: str = field(default=None, repr=False)
     encrypt_mode: str = field(default=None, repr=False)
     encrypt_data_access: bool = field(default=None, repr=False)
+    permission: str = field(default=None, repr=False)

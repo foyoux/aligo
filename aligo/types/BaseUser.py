@@ -29,3 +29,4 @@ class BaseUser(DataClass):
     user_data: dict = field(default=None, repr=False)
     deny_change_password_by_self: bool = field(default=False, repr=False)
     need_change_password_next_login: bool = field(default=False, repr=False)
+    permission: str = field(default=None, repr=False)

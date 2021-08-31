@@ -1,5 +1,6 @@
 """基本分享文件"""
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import List
 
 from .DataClass import DataClass
 from .Enum import BaseFileCategory, BaseFileType
@@ -34,3 +35,5 @@ class BaseShareFile(DataClass):
     mime_extension: str = None
     mime_type: str = None
     punish_flag: int = 0
+    # 2021年08月31日17时56分14秒
+    action_list: List[str] = field(default_factory=list, repr=False)
