@@ -221,8 +221,10 @@ class Auth:
             )
             login_data = response.json()['content']['data']
             qrCodeStatus = login_data['qrCodeStatus']
+            self.log.info('等待扫描二维码 ...')
             if qrCodeStatus == 'NEW':
-                self.log.info('等待扫描二维码 ...')
+                # self.log.info('等待扫描二维码 ...')
+                pass
             elif qrCodeStatus == 'SCANED':
                 self.log.info('已扫描, 等待确认 ...')
             elif qrCodeStatus == 'CONFIRMED':
