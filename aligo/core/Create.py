@@ -89,19 +89,32 @@ class Create(BaseAligo):
         part_info = self._result(response, CreateFileResponse, 201)
         return part_info
 
+    def get_upload_url(self, body: GetUploadUrlRequest) -> GetUploadUrlResponse:
+        """刷新上传链接"""
+        response = self._post(V2_FILE_GET_UPLOAD_URL, body=body)
+        return self._result(response, GetUploadUrlResponse)
+
     def _put_data(self, file_path: str, part_info: CreateFileResponse, file_size: int) -> Union[BaseFile, Null]:
         """上传数据"""
         # llen = len(part_info.part_info_list)
         with open(file_path, 'rb') as f:
             progress_bar = tqdm(total=file_size, unit='B', unit_scale=True, colour='#21d789')
-            for i in part_info.part_info_list:
+            for i in range(len(part_info.part_info_list)):
                 # self._auth.log.info(f'分段上传第 [{i.part_number}/{llen}] 段数据 {file_path}')
                 # 不能使用 self._session.put
                 ss = requests.session()
                 # ss.mount('http://', HTTPAdapter(max_retries=5))
                 ss.mount('https://', HTTPAdapter(max_retries=5))
                 data = f.read(Create.UPLOAD_CHUNK_SIZE)
-                ss.put(data=data, url=i.upload_url)
+                r = ss.put(data=data, url=part_info.part_info_list[i].upload_url)
+                if r.status_code == 403:
+                    part_info = self.get_upload_url(GetUploadUrlRequest(
+                        drive_id=part_info.drive_id,
+                        file_id=part_info.file_id,
+                        upload_id=part_info.upload_id,
+                        part_info_list=[UploadPartInfo(part_number=i.part_number) for i in part_info.part_info_list]
+                    ))
+                    ss.put(data=data, url=part_info.part_info_list[i].upload_url)
                 # response = requests.put(data=f.read(Create.CHUNK_SIZE), url=i.upload_url)
                 # print(response)
                 progress_bar.update(len(data))
@@ -128,7 +141,7 @@ class Create(BaseAligo):
     ) -> Union[BaseFile, CreateFileResponse]:
         """..."""
         self._auth.log.info(f'开始上传文件 {file_path}')
-        file_path=os.path.abspath(file_path)
+        file_path = os.path.abspath(file_path)
         if name is None:
             name = os.path.basename(file_path)
 
@@ -157,17 +170,18 @@ class Create(BaseAligo):
                     # return self.get_file(GetFileRequest(file_id=part_info.file_id))
                     return part_info
             # 开始上传
-            return self._put_data(file_path, part_info, file_size)
-
-        # 2. content_hash
-        part_info = self._content_hash(file_path=file_path, file_size=file_size, name=name,
-                                       parent_file_id=parent_file_id, drive_id=drive_id,
-                                       check_name_mode=check_name_mode)
-        if part_info.rapid_upload:
-            self._auth.log.warning(f'文件秒传成功 {file_path}')
-            # return self.get_file(GetFileRequest(file_id=part_info.file_id))
-            return part_info
-        # 开始上传
+            # return self._put_data(file_path, part_info, file_size)
+        else:
+            # 2. content_hash
+            part_info = self._content_hash(file_path=file_path, file_size=file_size, name=name,
+                                           parent_file_id=parent_file_id, drive_id=drive_id,
+                                           check_name_mode=check_name_mode)
+            if part_info.rapid_upload:
+                self._auth.log.warning(f'文件秒传成功 {file_path}')
+                # return self.get_file(GetFileRequest(file_id=part_info.file_id))
+                return part_info
+            # 开始上传
+            # return self._put_data(file_path, part_info, file_size)
         return self._put_data(file_path, part_info, file_size)
 
     def create_by_hash(

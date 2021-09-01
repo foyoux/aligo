@@ -32,6 +32,7 @@ from .GetShareLinkDownloadUrlRequest import GetShareLinkDownloadUrlRequest
 from .GetShareLinkListRequest import GetShareLinkListRequest
 from .GetShareTokenRequest import GetShareTokenRequest
 from .GetStarredListRequest import GetStarredListRequest
+from .GetUploadUrlRequest import GetUploadUrlRequest
 from .GetVideoPlayInfoRequest import GetVideoPlayInfoRequest
 from .MoveFileRequest import MoveFileRequest
 from .MoveFileToTrashRequest import MoveFileToTrashRequest

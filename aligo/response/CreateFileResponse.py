@@ -16,7 +16,7 @@ class CreateFileResponse(DataClass):
     domain_id: str = field(default=None, repr=False)
     drive_id: str = field(default=None, repr=False)
     encrypt_mode: str = field(default=None, repr=False)
-    part_info_list: List[UploadPartInfo] = field(default=None, repr=False)
+    part_info_list: List[UploadPartInfo] = field(default_factory=list, repr=False)
     rapid_upload: bool = field(default=None, repr=False)
     status: BaseFileStatus = field(default=None, repr=False)
     streams_upload_info: Dict = field(default=None, repr=False)

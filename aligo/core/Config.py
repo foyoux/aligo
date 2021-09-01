@@ -35,6 +35,7 @@ V2_FILE_COMPLETE = '/v2/file/complete'
 ADRIVE_V2_FILE_CREATE = '/adrive/v2/file/create'
 V2_FILE_CREATE_WITH_PROOF = '/v2/file/create_with_proof'
 ADRIVE_V2_FILE_CREATEWITHFOLDERS = '/adrive/v2/file/createWithFolders'
+V2_FILE_GET_UPLOAD_URL = '/v2/file/get_upload_url'
 
 V2_AIMS_SEARCH = '/v2/aims/search'
 

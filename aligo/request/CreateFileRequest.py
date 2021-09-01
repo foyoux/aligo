@@ -26,7 +26,7 @@ class CreateFileRequest(DataClass):
     labels: List[str] = field(default=None, repr=False)
     last_updated_at: str = field(default=None, repr=False)
     meta: str = field(default=None, repr=False)
-    part_info_list: List[UploadPartInfo] = field(default=None, repr=False)
+    part_info_list: List[UploadPartInfo] = field(default_factory=list, repr=False)
     pre_hash: str = field(default=None, repr=False)
     user_meta: str = field(default=None, repr=False)
 
