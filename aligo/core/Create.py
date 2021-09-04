@@ -154,11 +154,6 @@ class Create(BaseAligo):
             part_info = self._pre_hash(file_path=file_path, file_size=file_size, name=name,
                                        parent_file_id=parent_file_id, drive_id=drive_id,
                                        check_name_mode=check_name_mode)
-            # exists=True
-            if part_info.exist:
-                self._auth.log.warning(f'文件已存在, 跳过 {file_path} {part_info.file_id}')
-                # return self.get_file(GetFileRequest(file_id=part_info.file_id))
-                return part_info
 
             if part_info.code == 'PreHashMatched':
                 # 2. content_hash
@@ -182,6 +177,13 @@ class Create(BaseAligo):
                 return part_info
             # 开始上传
             # return self._put_data(file_path, part_info, file_size)
+
+        # exists=True
+        if part_info.exist:
+            self._auth.log.warning(f'文件已存在, 跳过 {file_path} {part_info.file_id}')
+            # return self.get_file(GetFileRequest(file_id=part_info.file_id))
+            return part_info
+
         return self._put_data(file_path, part_info, file_size)
 
     def create_by_hash(
