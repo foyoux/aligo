@@ -1,5 +1,6 @@
 """..."""
 import json
+import subprocess
 import traceback
 from dataclasses import asdict
 from typing import Generic, List, Iterator, Dict, Callable
@@ -19,13 +20,15 @@ from aligo.types.Enum import *
 class BaseAligo:
     """..."""
 
-    def __init__(self, auth: Optional[Auth] = None):
+    def __init__(self, use_aria2: bool = True, auth: Optional[Auth] = None):
         self._auth: Auth = auth or Auth()
         self._session: requests.Session = self._auth.session
         self._token: Token = self._auth.token
         self._user: Optional[BaseUser] = None
         self._personal_info: Optional[GetPersonalInfoResponse] = None
         self._default_drive: Optional[BaseDrive] = None
+        self._has_aria2c = True if subprocess.run(['aria2c', '-h'],
+                                                  capture_output=True).returncode == 0 and use_aria2 else False
 
     def _post(self, path: str, host: str = API_HOST, body: Union[DataType, Dict] = None) -> requests.Response:
         """统一处理数据类型和 drive_id"""

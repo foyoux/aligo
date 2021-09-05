@@ -49,20 +49,33 @@ class Download(BaseAligo):
         :param url: 下载地址
         :return: 下载完成保存文件的本地路径
         """
-        file_dir, file_name = os.path.split(file_path)
+        file_dir, file_name = os.path.split(os.path.abspath(file_path))
         file_name = self._del_special_symbol(file_name)
-        file_path = os.path.abspath(os.path.join(file_dir, file_name))
+        file_path = os.path.join(file_dir, file_name)
 
-        # 递归创建目录
-        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        self._auth.log.info(f'开始下载文件 {file_path}')
 
-        if os.path.exists(file_path):
+        if os.path.exists(file_path) and not os.path.exists(f'{file_path}.aria2'):
             self._auth.log.warning(f'文件已存在,跳过下载 {file_path}')
             return file_path
 
-        tmp_file = file_path + '.ali'
+        if self._has_aria2c:
+            cmd = ' '.join([
+                f'aria2c "{url}"',
+                f'--referer=https://www.aliyundrive.com/',
+                f'--console-log-level=warn',
+                f'--download-result=hide',
+                f'--auto-file-renaming=false',
+                f'--force-sequential=true',
+                f'-o "{file_path}"',
+            ])
+            # print(cmd)
+            os.system(cmd)
+            return file_path
 
-        self._auth.log.info(f'开始下载文件 {file_path}')
+        # 递归创建目录
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        tmp_file = file_path + '.ali'
 
         with requests.get(url, headers={
             'referer': 'https://www.aliyundrive.com/'
