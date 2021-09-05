@@ -77,17 +77,22 @@ class Download(BaseAligo):
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         tmp_file = file_path + '.ali'
 
+        tmp_size = 0
+        if os.path.exists(tmp_file):
+            tmp_size = os.path.getsize(tmp_file)
+
         try:
             with requests.get(url, headers={
-                'referer': 'https://www.aliyundrive.com/'
+                'referer': 'https://www.aliyundrive.com/',
+                'Range': f'bytes={tmp_size}-'
             }, stream=True) as resp:
                 llen = int(resp.headers.get('content-length', 0))
-                progress_bar = tqdm(total=llen, unit='B', unit_scale=True, colour='#31a8ff')
-                with open(tmp_file, 'wb') as f:
+                progress_bar = tqdm(total=llen + tmp_size, unit='B', unit_scale=True, colour='#31a8ff')
+                progress_bar.update(tmp_size)
+                with open(tmp_file, 'ab') as f:
                     for content in resp.iter_content(chunk_size=Download.DOWNLOAD_CHUNK_SIZE):
                         progress_bar.update(len(content))
                         f.write(content)
-
             os.renames(tmp_file, file_path)
         finally:
             progress_bar.close()
