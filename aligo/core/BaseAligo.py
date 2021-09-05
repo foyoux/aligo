@@ -27,8 +27,11 @@ class BaseAligo:
         self._user: Optional[BaseUser] = None
         self._personal_info: Optional[GetPersonalInfoResponse] = None
         self._default_drive: Optional[BaseDrive] = None
-        self._has_aria2c = True if subprocess.run(['aria2c', '-h'],
-                                                  capture_output=True).returncode == 0 and use_aria2 else False
+        try:
+            subprocess.run(['aria2c', '-h'], capture_output=True)
+            self._has_aria2c = use_aria2
+        except FileNotFoundError:
+            self._has_aria2c = False
 
     def _post(self, path: str, host: str = API_HOST, body: Union[DataType, Dict] = None) -> requests.Response:
         """统一处理数据类型和 drive_id"""

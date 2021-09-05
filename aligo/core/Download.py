@@ -77,19 +77,20 @@ class Download(BaseAligo):
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         tmp_file = file_path + '.ali'
 
-        with requests.get(url, headers={
-            'referer': 'https://www.aliyundrive.com/'
-        }, stream=True) as resp:
-            llen = int(resp.headers.get('content-length', 0))
-            progress_bar = tqdm(total=llen, unit='B', unit_scale=True, colour='#31a8ff')
-            with open(tmp_file, 'wb') as f:
-                for content in resp.iter_content(chunk_size=Download.DOWNLOAD_CHUNK_SIZE):
-                    progress_bar.update(len(content))
-                    f.write(content)
+        try:
+            with requests.get(url, headers={
+                'referer': 'https://www.aliyundrive.com/'
+            }, stream=True) as resp:
+                llen = int(resp.headers.get('content-length', 0))
+                progress_bar = tqdm(total=llen, unit='B', unit_scale=True, colour='#31a8ff')
+                with open(tmp_file, 'wb') as f:
+                    for content in resp.iter_content(chunk_size=Download.DOWNLOAD_CHUNK_SIZE):
+                        progress_bar.update(len(content))
+                        f.write(content)
 
-        os.renames(tmp_file, file_path)
-
-        progress_bar.close()
+            os.renames(tmp_file, file_path)
+        finally:
+            progress_bar.close()
 
         self._auth.log.info(f'文件下载完成 {file_path}')
         return file_path
