@@ -3,6 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+scripts
+
 # C extensions
 *.so
 main.py
@@ -32,7 +34,7 @@ share/python-wheels/
 MANIFEST
 
 # PyInstaller
-#  Usually these files are written by a python script from a template
+#  Usually these files are written by a python scripts from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
