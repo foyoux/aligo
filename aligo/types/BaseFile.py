@@ -51,6 +51,7 @@ class BaseFile(DataClass):
     video_preview_metadata: VideoPreview = field(default=None, repr=False)
     location: str = field(default=None, repr=False)
     action_list: List[str] = field(default_factory=list, repr=False)
+    user_tags: Dict = field(default=None, repr=False)
 
     # def __post_init__(self):
     #     self.image_media_metadata = _null_dict(ImageMedia, self.image_media_metadata)

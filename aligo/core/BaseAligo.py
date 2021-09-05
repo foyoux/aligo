@@ -20,7 +20,7 @@ from aligo.types.Enum import *
 class BaseAligo:
     """..."""
 
-    def __init__(self, auth: Optional[Auth] = None, use_aria2: bool = True):
+    def __init__(self, auth: Optional[Auth] = None, use_aria2: bool = False):
         self._auth: Auth = auth or Auth()
         self._session: requests.Session = self._auth.session
         self._token: Token = self._auth.token
