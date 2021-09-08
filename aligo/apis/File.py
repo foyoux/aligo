@@ -42,7 +42,7 @@ class File(Core):
     def get_folder_by_path(self, path: str = '/', parent_file_id: str = 'root',
                            check_name_mode: CheckNameMode = 'refuse', drive_id: str = None
                            ) -> Union[BaseFile, CreateFileResponse]:
-        """get_folder_by_path"""
+        """根据路径字符串获取或创建文件夹"""
         path = path.strip('/')
         if path == '':
             return self.get_file(file_id=parent_file_id, drive_id=drive_id)
@@ -57,7 +57,7 @@ class File(Core):
     def get_file_by_path(self, path: str = '/', parent_file_id: str = 'root',
                          check_name_mode: CheckNameMode = 'refuse',
                          drive_id: str = None) -> Union[BaseFile, CreateFileResponse]:
-        """成功则返回一个BaseFile对象, 失败返回None"""
+        """根据路径字符串获取文件或文件夹, 优先获取文件, 文件夹不存在则创建"""
         path = path.strip('/')
         folder_path, file_name = os.path.split(path)
         if folder_path != '':
