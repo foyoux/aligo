@@ -37,7 +37,8 @@ class Create(Core):
         return file_list
 
     def upload_folder(self, folder_path: str, parent_file_id: str = 'root', drive_id: str = None,
-                      check_name_mode: CheckNameMode = "auto_rename") -> List:
+                      check_name_mode: CheckNameMode = "auto_rename",
+                      folder_check_name_mode: CheckNameMode = 'refuse') -> List:
         """上传本地文件夹"""
         result = []
         folder_path = os.path.abspath(folder_path)
@@ -46,7 +47,7 @@ class Create(Core):
         folder_name = os.path.basename(folder_path)
         # 2. 在指定 parent_file_id 下创建 folder_name 文件夹, 并获取 folder BaseFile 对象
         folder = self.create_folder(folder_name, parent_file_id=parent_file_id, drive_id=drive_id,
-                                    check_name_mode=check_name_mode)
+                                    check_name_mode=folder_check_name_mode)
         # 3. 开始扫描目标文件夹
         file: os.DirEntry
         for file in os.scandir(folder_path):

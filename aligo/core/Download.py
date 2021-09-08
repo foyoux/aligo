@@ -66,8 +66,8 @@ class Download(BaseAligo):
                 f'--console-log-level=warn',
                 f'--download-result=hide',
                 f'--auto-file-renaming=false',
-                f'--force-sequential=true',
-                f'-o "{file_path}"',
+                f'-d "{file_dir}"',
+                f'-o "{file_name}"',
             ])
             # print(cmd)
             os.system(cmd)

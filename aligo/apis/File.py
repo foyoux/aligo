@@ -1,10 +1,12 @@
 """文件相关"""
-from typing import List
+import os
+from typing import List, Union
 
 from aligo.core import *
 from aligo.request import *
 from aligo.response import *
 from aligo.types import *
+from aligo.types.Enum import *
 
 
 class File(Core):
@@ -36,3 +38,42 @@ class File(Core):
         body = BatchGetFileRequest(file_id_list=file_id_list, drive_id=drive_id)
         result = super(File, self).batch_get_files(body)
         return [i for i in result]
+
+    def get_folder_by_path(self, path: str = '/', parent_file_id: str = 'root',
+                           check_name_mode: CheckNameMode = 'refuse', drive_id: str = None
+                           ) -> Union[BaseFile, CreateFileResponse]:
+        """get_folder_by_path"""
+        path = path.strip('/')
+        if path == '':
+            return self.get_file(file_id=parent_file_id, drive_id=drive_id)
+        folder = None
+        for name in path.split('/'):
+            folder = Create.create_folder(self, CreateFolderRequest(
+                name=name, parent_file_id=parent_file_id, check_name_mode=check_name_mode, drive_id=drive_id
+            ))
+            parent_file_id = folder.file_id
+        return folder
+
+    def get_file_by_path(self, path: str = '/', parent_file_id: str = 'root',
+                         check_name_mode: CheckNameMode = 'refuse',
+                         drive_id: str = None) -> Union[BaseFile, CreateFileResponse]:
+        """成功则返回一个BaseFile对象, 失败返回None"""
+        path = path.strip('/')
+        folder_path, file_name = os.path.split(path)
+        if folder_path != '':
+            parent_file_id = self.get_folder_by_path(folder_path, parent_file_id=parent_file_id,
+                                                     check_name_mode=check_name_mode, drive_id=drive_id).file_id
+        if file_name == '':
+            return self.get_file(file_id=parent_file_id, drive_id=drive_id)
+
+        file_list = super(File, self).get_file_list(
+            GetFileListRequest(parent_file_id=parent_file_id, drive_id=drive_id)
+        )
+
+        for file in file_list:
+            if file_name == file.name:
+                return file
+
+        return Create.create_folder(self, CreateFolderRequest(
+            name=file_name, parent_file_id=parent_file_id, check_name_mode=check_name_mode, drive_id=drive_id
+        ))
