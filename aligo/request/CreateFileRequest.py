@@ -29,6 +29,8 @@ class CreateFileRequest(DataClass):
     part_info_list: List[UploadPartInfo] = field(default_factory=list, repr=False)
     pre_hash: str = field(default=None, repr=False)
     user_meta: str = field(default=None, repr=False)
+    proof_code: str = field(default=None, repr=False)
+    proof_version: str = field(default=None, repr=False)
 
     def __post_init__(self):
         super(CreateFileRequest, self).__post_init__()

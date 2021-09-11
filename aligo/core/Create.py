@@ -1,4 +1,5 @@
 """创建文件夹, 上传文件等"""
+import base64
 import hashlib
 import math
 import os
@@ -60,6 +61,16 @@ class Create(BaseAligo):
         part_info = self._result(response, CreateFileResponse, [201, 409])
         return part_info
 
+    def _get_proof_code(self, file_path) -> str:
+        """计算proof_code"""
+        md5_int = int(hashlib.md5(self._token.access_token.encode()).hexdigest()[:16], 16)
+        file_size = os.path.getsize(file_path)
+        offset = md5_int % file_size
+        with open(file_path, 'rb') as file:
+            file.seek(offset)
+            bys = file.read(min(8, file_size - offset))
+            return base64.b64encode(bys).decode()
+
     def _content_hash(self, file_path: str, file_size: int, name: str, parent_file_id='root', drive_id=None,
                       check_name_mode: CheckNameMode = 'auto_rename') -> CreateFileResponse:
 
@@ -74,6 +85,8 @@ class Create(BaseAligo):
 
         content_hash = content_hash.hexdigest().upper()
 
+        proof_code = self._get_proof_code(file_path)
+
         body = CreateFileRequest(
             drive_id=drive_id,
             part_info_list=self._get_part_info_list(file_size),
@@ -83,9 +96,11 @@ class Create(BaseAligo):
             check_name_mode=check_name_mode,
             size=file_size,
             content_hash=content_hash,
-            content_hash_name="sha1"
+            content_hash_name="sha1",
+            proof_code=proof_code,
+            proof_version='v1'
         )
-        response = self._post(V2_FILE_CREATE, body=body)
+        response = self._post(V2_FILE_CREATE_WITH_PROOF, body=body)
         part_info = self._result(response, CreateFileResponse, 201)
         return part_info
 
