@@ -68,12 +68,6 @@ class Download(Core):
                       local_folder: str = '.', file_id: str = None, file: BaseFile = None, drive_id=None) -> str:
         """..."""
         if file_id:
-            # file = self.get_download_url(file_id, drive_id)
-            # url = file.url
-            # file_name = parse.parse_qs(url).get('response-content-disposition')[0]
-            # file_name = file_name.split("''")[1]
-            # file_name = parse.unquote_plus(file_name)
-            # file_path = os.path.join(local_folder, file_name)
             file = File.get_file(self, GetFileRequest(file_id=file_id, drive_id=drive_id))
 
         if file:

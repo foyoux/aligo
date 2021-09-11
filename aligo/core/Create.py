@@ -61,15 +61,21 @@ class Create(BaseAligo):
         part_info = self._result(response, CreateFileResponse, [201, 409])
         return part_info
 
-    def _get_proof_code(self, file_path) -> str:
+    def _get_proof_code(self, file_path: str, file_size: int) -> str:
         """计算proof_code"""
         md5_int = int(hashlib.md5(self._token.access_token.encode()).hexdigest()[:16], 16)
-        file_size = os.path.getsize(file_path)
+        # file_size = os.path.getsize(file_path)
         offset = md5_int % file_size
-        with open(file_path, 'rb') as file:
-            file.seek(offset)
-            bys = file.read(min(8, file_size - offset))
-            return base64.b64encode(bys).decode()
+        if file_path.startswith('http'):
+            bys = requests.get(file_path, headers={
+                'referer': 'https://www.aliyundrive.com/',
+                'Range': f'bytes={offset}-{min(8 + offset, file_size) - 1}'
+            }).content
+        else:
+            with open(file_path, 'rb') as file:
+                file.seek(offset)
+                bys = file.read(min(8, file_size - offset))
+        return base64.b64encode(bys).decode()
 
     def _content_hash(self, file_path: str, file_size: int, name: str, parent_file_id='root', drive_id=None,
                       check_name_mode: CheckNameMode = 'auto_rename') -> CreateFileResponse:
@@ -85,7 +91,7 @@ class Create(BaseAligo):
 
         content_hash = content_hash.hexdigest().upper()
 
-        proof_code = self._get_proof_code(file_path)
+        proof_code = self._get_proof_code(file_path, file_size)
 
         body = CreateFileRequest(
             drive_id=drive_id,
@@ -206,12 +212,14 @@ class Create(BaseAligo):
             name: str,
             content_hash: str,
             size: int,
+            url: str,
             parent_file_id: str = 'root',
             check_name_mode: CheckNameMode = 'auto_rename',
             drive_id: str = None
     ) -> CreateFileResponse:
         """..."""
         self._auth.log.info(f'开始秒传 {name} {content_hash} {size}')
+        proof_code = self._get_proof_code(url, size)
         body = CreateFileRequest(
             name=name,
             content_hash=content_hash,
@@ -220,9 +228,12 @@ class Create(BaseAligo):
             drive_id=drive_id,
             type='file',
             content_hash_name='sha1',
-            check_name_mode=check_name_mode
+            check_name_mode=check_name_mode,
+            proof_code=proof_code,
+            proof_version='v1'
         )
-        return self.create_file(body)
+        response = self._post(V2_FILE_CREATE_WITH_PROOF, body=body)
+        return self._result(response, CreateFileResponse, 201)
 
     # def batch_create_by_hash(self, ) -> List[BaseFile]:
     #     """无法实现"""

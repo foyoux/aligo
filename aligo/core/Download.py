@@ -87,6 +87,7 @@ class Download(BaseAligo):
                 'Range': f'bytes={tmp_size}-'
             }, stream=True) as resp:
                 llen = int(resp.headers.get('content-length', 0))
+                assert resp.headers.get('Accept-Ranges', None) == 'bytes', '请使用 download_url, 而不是 url'
                 progress_bar = tqdm(total=llen + tmp_size, unit='B', unit_scale=True, colour='#31a8ff')
                 progress_bar.update(tmp_size)
                 with open(tmp_file, 'ab') as f:

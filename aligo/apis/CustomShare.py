@@ -24,7 +24,8 @@ class CustomShare(Core):
             result.append({
                 'name': file.name,
                 'content_hash': file.content_hash,
-                'size': file.size
+                'size': file.size,
+                'url': file.download_url
             })
         return result
 
@@ -67,6 +68,14 @@ class CustomShare(Core):
         # data 肯定是list, 内含 文件夹 list 或文件 dict
         for obj in data:
 
+            if isinstance(obj, dict):
+                x = self.create_by_hash(
+                    name=obj['name'], content_hash=obj['content_hash'],
+                    size=obj['size'], url=obj['url'], parent_file_id=parent_file_id,
+                    check_name_mode=check_name_mode, drive_id=drive_id)
+                result.append(x)
+                continue
+
             if len(obj) > 0 and isinstance(obj[0], str):
                 # 创建文件夹
                 folder = Create.create_folder(self, CreateFolderRequest(name=obj[0], parent_file_id=parent_file_id,
@@ -77,9 +86,10 @@ class CustomShare(Core):
 
             file: Dict
             for file in obj:
-                x = self.create_by_hash(name=file['name'], content_hash=file['content_hash'], size=file['size'],
-                                        parent_file_id=parent_file_id, check_name_mode=check_name_mode,
-                                        drive_id=drive_id)
+                x = self.create_by_hash(
+                    name=file['name'], content_hash=file['content_hash'],
+                    size=file['size'], url=file['url'], parent_file_id=parent_file_id,
+                    check_name_mode=check_name_mode, drive_id=drive_id)
                 result.append(x)
 
         return result
