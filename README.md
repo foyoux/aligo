@@ -1,7 +1,8 @@
 # aligo
 🚀🔥使用Python连接阿里云盘, 实现了官方大部分功能 👍👍
 
-
+> 文档一直没维护, 有问题可以直接进群, 二维码在最底下
+>
 
 ![python version](https://img.shields.io/pypi/pyversions/aligo)  [![Downloads](https://static.pepy.tech/personalized-badge/aligo?period=total&units=international_system&left_color=black&right_color=orange&left_text=Downloads)](https://pepy.tech/project/aligo)
 
