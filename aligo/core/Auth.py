@@ -246,15 +246,16 @@ class Auth:
         )
         if response.status_code == 200:
             self.token = Token(**response.json())
-            self.session.headers.update({
-                'Authorization': f'Bearer {self.token.access_token}'
-            })
             self._save()
         else:
             self.log.error('刷新 token 失败 ~')
             self.debug_log(response)
             self._login()
-            # error_log_exit(response)
+
+        self.session.headers.update({
+            'Authorization': f'Bearer {self.token.access_token}'
+        })
+        # error_log_exit(response)
 
     def request(self, method: str, url: str,
                 params: Dict = None, headers: Dict = None, data=None,
