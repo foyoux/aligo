@@ -65,7 +65,7 @@ class Create(BaseAligo):
         """计算proof_code"""
         md5_int = int(hashlib.md5(self._token.access_token.encode()).hexdigest()[:16], 16)
         # file_size = os.path.getsize(file_path)
-        offset = md5_int % file_size
+        offset = md5_int % file_size if file_size else 0
         if file_path.startswith('http'):
             bys = requests.get(file_path, headers={
                 'referer': 'https://www.aliyundrive.com/',
