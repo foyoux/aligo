@@ -27,7 +27,7 @@ class Share(Core):
             drive_id=drive_id,
             description=description,
         )
-        return super(Share, self).share_file(body)
+        return self._core_share_file(body)
 
     def update_share(self,
                      share_id: str,
@@ -43,17 +43,17 @@ class Share(Core):
             description=description,
             share_name=share_name,
         )
-        return super(Share, self).update_share(body)
+        return self._core_update_share(body)
 
     def cancel_share(self, share_id: str) -> CancelShareLinkResponse:
         """取消分享"""
         body = CancelShareLinkRequest(share_id=share_id)
-        return super(Share, self).cancel_share(body)
+        return self._core_cancel_share(body)
 
     def batch_cancel_share(self, share_id_list: List[str]) -> List[BatchSubResponse]:
         """批量取消分享"""
         body = BatchCancelShareRequest(share_id_list=share_id_list)
-        result = super(Share, self).batch_cancel_share(body)
+        result = self._core_batch_cancel_share(body)
         return [i for i in result]
 
     def get_share_list(self,
@@ -68,19 +68,19 @@ class Share(Core):
             order_direction=order_direction,
             include_canceled=include_canceled,
         )
-        result = super(Share, self).get_share_list(body)
+        result = self._core_get_share_list(body)
         return [i for i in result]
 
     # 处理其他人的分享
     def get_share_info(self, share_id: str) -> GetShareInfoResponse:
         """..."""
         body = GetShareInfoRequest(share_id=share_id)
-        return super(Share, self).get_share_info(body)
+        return self._core_get_share_info(body)
 
     def get_share_token(self, share_id: str, share_pwd: str = '') -> GetShareTokenResponse:
         """..."""
         body = GetShareTokenRequest(share_id=share_id, share_pwd=share_pwd)
-        return super(Share, self).get_share_token(body)
+        return self._core_get_share_token(body)
 
     def get_share_file_list(
             self,
@@ -92,7 +92,7 @@ class Share(Core):
         """..."""
         if body is None:
             body = GetShareFileListRequest(share_id=share_id, **kwargs)
-        result = super(Share, self).get_share_file_list(body, share_token)
+        result = self._core_get_share_file_list(body, share_token)
         return [i for i in result]
 
     def get_share_file(
@@ -106,7 +106,7 @@ class Share(Core):
         """..."""
         if body is None:
             body = GetShareFileRequest(share_id=share_id, file_id=file_id, **kwargs)
-        return super(Share, self).get_share_file(body, share_token)
+        return self._core_get_share_file(body, share_token)
 
     def get_share_link_download_url(
             self,
@@ -119,7 +119,7 @@ class Share(Core):
         """..."""
         if body is None:
             body = GetShareLinkDownloadUrlRequest(share_id=share_id, file_id=file_id, **kwargs)
-        return super(Share, self).get_share_link_download_url(body, share_token)
+        return self._core_get_share_link_download_url(body, share_token)
 
     def share_file_saveto_drive(
             self,
@@ -142,7 +142,7 @@ class Share(Core):
                 new_name=new_name,
                 **kwargs
             )
-        return super(Share, self).share_file_saveto_drive(body, share_token)
+        return self._core_share_file_saveto_drive(body, share_token)
 
     def batch_share_file_saveto_drive(
             self,
@@ -163,5 +163,5 @@ class Share(Core):
                 to_drive_id=to_drive_id,
                 **kwargs
             )
-        result = super(Share, self).batch_share_file_saveto_drive(body, share_token)
+        result = self._core_batch_share_file_saveto_drive(body, share_token)
         return [i for i in result]

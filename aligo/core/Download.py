@@ -17,12 +17,12 @@ class Download(BaseAligo):
     """..."""
     DOWNLOAD_CHUNK_SIZE = 8388608
 
-    def get_download_url(self, body: GetDownloadUrlRequest) -> GetDownloadUrlResponse:
+    def _core_get_download_url(self, body: GetDownloadUrlRequest) -> GetDownloadUrlResponse:
         """..."""
         response = self._post(V2_FILE_GET_DOWNLOAD_URL, body=body)
         return self._result(response, GetDownloadUrlResponse)
 
-    def batch_download_url(self, body: BatchDownloadUrlRequest) -> Iterator[BatchDownloadUrlResponse]:
+    def _core_batch_download_url(self, body: BatchDownloadUrlRequest) -> Iterator[BatchDownloadUrlResponse]:
         """..."""
         if body.drive_id is None:
             body.drive_id = self.default_drive_id
@@ -42,7 +42,7 @@ class Download(BaseAligo):
         """删除Windows文件名中不允许的字符"""
         return re.sub(r'[\\/:*?"<>|]', '_', s)
 
-    def download_file(self, file_path: str, url: str) -> str:
+    def _core_download_file(self, file_path: str, url: str) -> str:
         """下载文件
 
         :param file_path: 下载到哪里, 比如: 123.jpg, ./123.jpg, D:\123.jpg
@@ -111,6 +111,6 @@ class Download(BaseAligo):
         rt = []
         for file in files:
             file_path = os.path.join(local_folder, file.name)
-            file_path = self.download_file(file_path, file.download_url)
+            file_path = self._core_download_file(file_path, file.download_url)
             rt.append(file_path)
         return rt

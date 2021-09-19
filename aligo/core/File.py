@@ -11,11 +11,11 @@ from aligo.types import *
 class File(BaseAligo):
     """..."""
 
-    def get_file_list(self, body: GetFileListRequest) -> Iterator[BaseFile]:
-        """get_file_list"""
+    def _core_get_file_list(self, body: GetFileListRequest) -> Iterator[BaseFile]:
+        """..."""
         yield from self._list_file(V2_FILE_LIST, body, GetFileListResponse)
 
-    def batch_get_files(self, body: BatchGetFileRequest) -> Iterator[BatchSubResponse]:
+    def _core_batch_get_files(self, body: BatchGetFileRequest) -> Iterator[BatchSubResponse]:
         """batch_get_files"""
         if body.drive_id is None:
             body.drive_id = self.default_drive_id

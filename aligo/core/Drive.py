@@ -9,7 +9,7 @@ from aligo.types import *
 class Drive(BaseAligo):
     """..."""
 
-    def get_drive(self, body: GetDriveRequest) -> BaseDrive:
+    def _core_get_drive(self, body: GetDriveRequest) -> BaseDrive:
         """..."""
         response = self._post(V2_DRIVE_GET, body=body)
         return self._result(response, BaseDrive)

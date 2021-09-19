@@ -4,8 +4,6 @@ import json
 from typing import List, Dict
 
 from aligo.core import *
-from aligo.core.Create import Create
-from aligo.core.File import File
 from aligo.request import *
 from aligo.types import *
 from aligo.types.Enum import *
@@ -40,7 +38,7 @@ class CustomShare(Core):
         result = []
         files = []
         # 1. 获取 parent_file_id 目录下文件列表
-        for file in File.get_file_list(self, GetFileListRequest(parent_file_id=parent_file_id, drive_id=drive_id)):
+        for file in self._core_get_file_list(GetFileListRequest(parent_file_id=parent_file_id, drive_id=drive_id)):
             if file.type == 'file':
                 # 2. 如果是文件, 添加到 files
                 files.append(file)
@@ -54,7 +52,7 @@ class CustomShare(Core):
         """..."""
         result = self.__share_folder_by_aligo(parent_file_id=parent_file_id, drive_id=drive_id)
         if parent_file_id != 'root':
-            folder = File.get_file(self, GetFileRequest(file_id=parent_file_id))
+            folder = self._core_get_file(GetFileRequest(file_id=parent_file_id))
             result = [[folder.name, result]]
         else:
             result = [['root', result]]
@@ -78,8 +76,8 @@ class CustomShare(Core):
 
             if len(obj) > 0 and isinstance(obj[0], str):
                 # 创建文件夹
-                folder = Create.create_folder(self, CreateFolderRequest(name=obj[0], parent_file_id=parent_file_id,
-                                                                        drive_id=drive_id))
+                folder = self._core_create_folder(CreateFolderRequest(name=obj[0], parent_file_id=parent_file_id,
+                                                                      drive_id=drive_id))
                 x = self.__save_files_by_aligo(obj[1], parent_file_id=folder.file_id)
                 result.append((folder, x))
                 continue

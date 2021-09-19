@@ -12,7 +12,7 @@ from aligo.types import *
 class Share(BaseAligo):
     """分享相关"""
 
-    def share_file(self, body: CreateShareLinkRequest) -> CreateShareLinkResponse:
+    def _core_share_file(self, body: CreateShareLinkRequest) -> CreateShareLinkResponse:
         """分享文件, 支持批量分享
 
         目前(2021年07月17日)官方只开放分享部分类型文件
@@ -20,29 +20,29 @@ class Share(BaseAligo):
         response = self._post(ADRIVE_V2_SHARE_LINK_CREATE, body=body)
         return self._result(response, CreateShareLinkResponse)
 
-    def update_share(self, body: UpdateShareLinkRequest) -> UpdateShareLinkResponse:
+    def _core_update_share(self, body: UpdateShareLinkRequest) -> UpdateShareLinkResponse:
         """更新分享, 如更新 密码, 有效期 等"""
         response = self._post(V2_SHARE_LINK_UPDATE, body=body)
         return self._result(response, UpdateShareLinkResponse)
 
-    def cancel_share(self, body: CancelShareLinkRequest) -> CancelShareLinkResponse:
+    def _core_cancel_share(self, body: CancelShareLinkRequest) -> CancelShareLinkResponse:
         """取消分享"""
         response = self._post(ADRIVE_V2_SHARE_LINK_CANCEL, body=body)
         return self._result(response, CancelShareLinkResponse)
 
-    def batch_cancel_share(self, body: BatchCancelShareRequest) -> Iterator[BatchSubResponse]:
+    def _core_batch_cancel_share(self, body: BatchCancelShareRequest) -> Iterator[BatchSubResponse]:
         """批量取消分享"""
         yield from self.batch_request(BatchRequest(
-                requests=[BatchSubRequest(
-                    id=share_id,
-                    url='/share_link/cancel',
-                    body=CancelShareLinkRequest(
-                        share_id=share_id
-                    )
-                ) for share_id in body.share_id_list]
+            requests=[BatchSubRequest(
+                id=share_id,
+                url='/share_link/cancel',
+                body=CancelShareLinkRequest(
+                    share_id=share_id
+                )
+            ) for share_id in body.share_id_list]
         ), CancelShareLinkResponse)
 
-    def get_share_list(self, body: GetShareLinkListRequest = None) -> Iterator[ShareLinkSchema]:
+    def _core_get_share_list(self, body: GetShareLinkListRequest = None) -> Iterator[ShareLinkSchema]:
         """获取自己的分享链接
 
         :param body: GetShareLinkListRequest对象
@@ -51,19 +51,19 @@ class Share(BaseAligo):
         yield from self._list_file(ADRIVE_V2_SHARE_LINK_LIST, body, GetShareLinkListResponse)
 
     # 处理其他人的分享
-    def get_share_info(self, body: GetShareInfoRequest) -> GetShareInfoResponse:
+    def _core_get_share_info(self, body: GetShareInfoRequest) -> GetShareInfoResponse:
         """..."""
         response = self._post(ADRIVE_V2_SHARE_LINK_GET_SHARE_BY_ANONYMOUS, body=body)
         share_info = self._result(response, GetShareInfoResponse)
         return share_info
 
-    def get_share_token(self, body: GetShareTokenRequest) -> GetShareTokenResponse:
+    def _core_get_share_token(self, body: GetShareTokenRequest) -> GetShareTokenResponse:
         """..."""
         response = self._post(V2_SHARE_LINK_GET_SHARE_TOKEN, body=body)
         share_token = self._result(response, GetShareTokenResponse)
         return share_token
 
-    def get_share_file_list(self, body: GetShareFileListRequest, x_share_token: str) -> Iterator[BaseShareFile]:
+    def _core_get_share_file_list(self, body: GetShareFileListRequest, x_share_token: str) -> Iterator[BaseShareFile]:
         """..."""
         response = self._auth.post(V2_FILE_LIST, body=asdict(body), headers={'x-share-token': x_share_token})
         file_list = self._result(response, GetShareFileListResponse)
@@ -73,37 +73,37 @@ class Share(BaseAligo):
         yield from file_list.items
         if file_list.next_marker != '':
             body.marker = file_list.next_marker
-            yield from self.get_share_file_list(body=body, x_share_token=x_share_token)
+            yield from self._core_get_share_file_list(body=body, x_share_token=x_share_token)
 
-    def get_share_file(self, body: GetShareFileRequest, x_share_token: str) -> BaseShareFile:
+    def _core_get_share_file(self, body: GetShareFileRequest, x_share_token: str) -> BaseShareFile:
         """..."""
         response = self._auth.post(V2_FILE_GET, body=asdict(body), headers={'x-share-token': x_share_token})
         share_file = self._result(response, BaseShareFile)
         return share_file
 
-    def get_share_link_download_url(self, body: GetShareLinkDownloadUrlRequest,
-                                    x_share_token: str) -> GetShareLinkDownloadUrlResponse:
+    def _core_get_share_link_download_url(self, body: GetShareLinkDownloadUrlRequest,
+                                          x_share_token: str) -> GetShareLinkDownloadUrlResponse:
         """..."""
         response = self._auth.post(V2_FILE_GET_SHARE_LINK_DOWNLOAD_URL, body=asdict(body),
                                    headers={'x-share-token': x_share_token})
         download_url = self._result(response, GetShareLinkDownloadUrlResponse)
         return download_url
 
-    def share_file_saveto_drive(self, body: ShareFileSaveToDriveRequest,
-                                x_share_token: str) -> ShareFileSaveToDriveResponse:
+    def _core_share_file_saveto_drive(self, body: ShareFileSaveToDriveRequest,
+                                      x_share_token: str) -> ShareFileSaveToDriveResponse:
         """..."""
         if body.to_drive_id is None:
             body.to_drive_id = self.default_drive_id
         response = self._auth.post(V2_FILE_COPY, body=asdict(body), headers={'x-share-token': x_share_token})
         return self._result(response, ShareFileSaveToDriveResponse, [201, 202])
 
-    def batch_share_file_saveto_drive(self, body: BatchShareFileSaveToDriveRequest,
-                                      x_share_token: str) -> Iterator[BatchShareFileSaveToDriveResponse]:
+    def _core_batch_share_file_saveto_drive(self, body: BatchShareFileSaveToDriveRequest,
+                                            x_share_token: str) -> Iterator[BatchShareFileSaveToDriveResponse]:
         """..."""
         if body.to_drive_id is None:
             body.to_drive_id = self.default_drive_id
 
-        for file_id_list in self._list_split(body.file_id_list, self.BATCH_COUNT):
+        for file_id_list in self._list_split(body.file_id_list, self._BATCH_COUNT):
             response = self._auth.post(ADRIVE_V2_BATCH, body={
                 "requests": [
                     {

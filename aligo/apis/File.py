@@ -23,20 +23,20 @@ class File(Core):
                 file_id=file_id, drive_id=drive_id,
                 **kwargs
             )
-        return super(File, self).get_file(body)
+        return self._core_get_file(body)
 
     def get_file_list(self, parent_file_id: str = 'root', drive_id: str = None, body: GetFileListRequest = None,
                       **kwargs) -> List[BaseFile]:
         """获取文件列表"""
         if body is None:
             body = GetFileListRequest(drive_id=drive_id, parent_file_id=parent_file_id, **kwargs)
-        result = super(File, self).get_file_list(body)
+        result = self._core_get_file_list(body)
         return [i for i in result]
 
     def batch_get_files(self, file_id_list: List[str], drive_id: str = None) -> List[BatchSubResponse]:
         """..."""
         body = BatchGetFileRequest(file_id_list=file_id_list, drive_id=drive_id)
-        result = super(File, self).batch_get_files(body)
+        result = self._core_batch_get_files(body)
         return [i for i in result]
 
     def get_folder_by_path(self, path: str = '/', parent_file_id: str = 'root',
@@ -48,7 +48,7 @@ class File(Core):
             return self.get_file(file_id=parent_file_id, drive_id=drive_id)
         folder = None
         for name in path.split('/'):
-            folder = Create.create_folder(self, CreateFolderRequest(
+            folder = self._core_create_folder(CreateFolderRequest(
                 name=name, parent_file_id=parent_file_id, check_name_mode=check_name_mode, drive_id=drive_id
             ))
             parent_file_id = folder.file_id
@@ -66,7 +66,7 @@ class File(Core):
         if file_name == '':
             return self.get_file(file_id=parent_file_id, drive_id=drive_id)
 
-        file_list = super(File, self).get_file_list(
+        file_list = self._core_get_file_list(
             GetFileListRequest(parent_file_id=parent_file_id, drive_id=drive_id)
         )
 
@@ -74,6 +74,6 @@ class File(Core):
             if file_name == file.name:
                 return file
 
-        return Create.create_folder(self, CreateFolderRequest(
+        return self._core_create_folder(CreateFolderRequest(
             name=file_name, parent_file_id=parent_file_id, check_name_mode=check_name_mode, drive_id=drive_id
         ))

@@ -11,7 +11,7 @@ from aligo.types import *
 class Search(BaseAligo):
     """..."""
 
-    def search_file(self, body: SearchFileRequest) -> Iterator[BaseFile]:
+    def _core_search_file(self, body: SearchFileRequest) -> Iterator[BaseFile]:
         """
         关于 query 的语法, 参考下段代码
         {
@@ -26,7 +26,7 @@ class Search(BaseAligo):
         """
         yield from self._list_file(V2_FILE_SEARCH, body, SearchFileResponse)
 
-    def search_aims(self, body: AimSearchRequest) -> Iterator[BaseFile]:
+    def _core_search_aims(self, body: AimSearchRequest) -> Iterator[BaseFile]:
         """
         {
           "drive_id": "1067819",

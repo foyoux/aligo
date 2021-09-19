@@ -9,7 +9,7 @@ from aligo.types import *
 
 class Star(Core):
     """..."""
-    MAX_STAR_COUNT: int = 500
+    _MAX_STAR_COUNT: int = 500
 
     def starred_file(self,
                      file_id: str,
@@ -21,7 +21,7 @@ class Star(Core):
             starred=starred,
             drive_id=drive_id,
         )
-        return super(Star, self).starred_file(body)
+        return self._core_starred_file(body)
 
     def batch_star_files(self,
                          file_id_list: List[str],
@@ -33,12 +33,12 @@ class Star(Core):
             file_id_list=file_id_list,
             starred=starred,
         )
-        result = super(Star, self).batch_star_files(body)
+        result = self._core_batch_star_files(body)
         return [i for i in result]
 
     def get_starred_list(self, body: GetStarredListRequest = None, **kwargs) -> List[BaseFile]:
         """收藏(或取消) 文件列表"""
         if body is None:
             body = GetStarredListRequest(**kwargs)
-        result = super(Star, self).get_starred_list(body)
+        result = self._core_get_starred_list(body)
         return [i for i in result]

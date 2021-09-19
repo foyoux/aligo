@@ -11,4 +11,4 @@ class Video(Core):
     def get_video_play_info(self, file_id: str, drive_id: str = None) -> GetVideoPlayInfoResponse:
         """获取视频播放信息"""
         body = GetVideoPlayInfoRequest(file_id=file_id, drive_id=drive_id)
-        return super(Video, self).get_video_play_info(body)
+        return self._core_get_video_play_info(body)

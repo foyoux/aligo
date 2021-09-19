@@ -26,7 +26,7 @@ class Move(Core):
                 new_name=new_name,
                 **kwargs
             )
-        return super(Move, self).move_file(body)
+        return self._core_move_file(body)
 
     def batch_move_files(self,
                          file_id_list: List[str] = None,
@@ -38,6 +38,7 @@ class Move(Core):
         if body is None:
             body = BatchMoveFilesRequest(drive_id=drive_id,
                                          file_id_list=file_id_list,
-                                         to_parent_file_id=to_parent_file_id)
-        result = super(Move, self).batch_move_files(body)
+                                         to_parent_file_id=to_parent_file_id,
+                                         **kwargs)
+        result = self._core_batch_move_files(body)
         return [i for i in result]

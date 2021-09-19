@@ -108,7 +108,7 @@ class BaseAligo:
             body.marker = file_list.next_marker
             yield from self._list_file(PATH=PATH, body=body, ResponseType=ResponseType)
 
-    def get_file(self, body: GetFileRequest) -> BaseFile:
+    def _core_get_file(self, body: GetFileRequest) -> BaseFile:
         """获取文件信息, 其他类中可能会用到, 所以放到基类中"""
         response = self._post(V2_FILE_GET, body=body)
         return self._result(response, BaseFile)
@@ -118,7 +118,7 @@ class BaseAligo:
         response = self._post(V2_DATABOX_GET_PERSONAL_INFO)
         return self._result(response, GetPersonalInfoResponse)
 
-    BATCH_COUNT = 100
+    _BATCH_COUNT = 100
 
     @staticmethod
     def _list_split(ll: List[DataType], n: int) -> List[List[DataType]]:
@@ -129,7 +129,7 @@ class BaseAligo:
 
     def batch_request(self, body: BatchRequest, body_type: DataType):
         """..."""
-        for request_list in self._list_split(body.requests, self.BATCH_COUNT):
+        for request_list in self._list_split(body.requests, self._BATCH_COUNT):
             response = self._post(V2_BATCH, body={
                 "requests": [
                     {

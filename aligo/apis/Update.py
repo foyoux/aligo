@@ -22,7 +22,7 @@ class Update(Core):
             check_name_mode=check_name_mode,
             drive_id=drive_id,
         )
-        return super(Update, self).rename_file(body)
+        return self._core_rename_file(body)
 
     def batch_rename_files(
             self,

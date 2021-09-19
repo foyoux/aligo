@@ -28,7 +28,7 @@ class Create(BaseAligo):
         response = self._post(V2_FILE_CREATE, body=body)
         return self._result(response, CreateFileResponse, status_code=201)
 
-    def create_folder(self, body: CreateFolderRequest) -> CreateFileResponse:
+    def _core_create_folder(self, body: CreateFolderRequest) -> CreateFileResponse:
         """..."""
         return self.create_file(CreateFileRequest(**asdict(body)))
 

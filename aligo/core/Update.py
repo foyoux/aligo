@@ -16,6 +16,6 @@ class Update(BaseAligo):
         response = self._post(V2_FILE_UPDATE, body=body)
         return self._result(response, BaseFile)
 
-    def rename_file(self, body: RenameFileRequest) -> BaseFile:
+    def _core_rename_file(self, body: RenameFileRequest) -> BaseFile:
         """..."""
         return self.update_file(UpdateFileRequest(**asdict(body)))

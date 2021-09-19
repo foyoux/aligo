@@ -24,7 +24,7 @@ class Create(Core):
             drive_id=drive_id,
             check_name_mode=check_name_mode,
         )
-        return super(Create, self).create_folder(body)
+        return self._core_create_folder(body)
 
     def upload_files(self, file_paths: List[str], parent_file_id: str = 'root', drive_id: str = None,
                      check_name_mode: CheckNameMode = "auto_rename") -> List[BaseFile]:

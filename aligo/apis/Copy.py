@@ -26,7 +26,7 @@ class Copy(Core):
                 new_name=new_name,
                 **kwargs
             )
-        return super(Copy, self).copy_file(body)
+        return self._core_copy_file(body)
 
     def batch_copy_files(self,
                          file_id_list: List[str] = None,
@@ -38,6 +38,7 @@ class Copy(Core):
         if body is None:
             body = BatchCopyFilesRequest(drive_id=drive_id,
                                          file_id_list=file_id_list,
-                                         to_parent_file_id=to_parent_file_id)
-        result = super(Copy, self).batch_copy_files(body)
+                                         to_parent_file_id=to_parent_file_id,
+                                         **kwargs)
+        result = self._core_batch_copy_files(body)
         return [i for i in result]
