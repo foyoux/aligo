@@ -23,6 +23,7 @@ from .GetDefaultDriveRequest import GetDefaultDriveRequest
 from .GetDownloadUrlRequest import GetDownloadUrlRequest
 from .GetDriveRequest import GetDriveRequest
 from .GetFileListRequest import GetFileListRequest
+from .GetFilePathRequest import GetFilePathRequest
 from .GetFileRequest import GetFileRequest
 from .GetRecycleBinListRequest import GetRecycleBinListRequest
 from .GetShareFileListRequest import GetShareFileListRequest

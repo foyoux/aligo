@@ -11,6 +11,7 @@ from .CreateShareLinkResponse import CreateShareLinkResponse
 from .GetAudioPlayInfoResponse import GetAudioPlayInfoResponse
 from .GetDownloadUrlResponse import GetDownloadUrlResponse
 from .GetFileListResponse import GetFileListResponse
+from .GetFilePathResponse import GetFilePathResponse
 from .GetPersonalInfoResponse import GetPersonalInfoResponse
 from .GetRecycleBinListResponse import GetRecycleBinListResponse
 from .GetShareFileListResponse import GetShareFileListResponse

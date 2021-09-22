@@ -3,10 +3,11 @@ from .Audio import Audio
 from .Client import Client
 from .Copy import Copy
 from .Create import Create
+from .Download import Download
 from .Drive import Drive
 from .File import File
 from .Move import Move
-from .Download import Download
+from .Other import Other
 from .Recyclebin import Recyclebin
 from .Search import Search
 from .Share import Share
@@ -29,6 +30,7 @@ class Core(
     Share,
     User,
     Video,
-    Star
+    Star,
+    Other,
 ):
     """..."""

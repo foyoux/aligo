@@ -64,6 +64,8 @@ ADRIVE_V2_BATCH = '/adrive/v2/batch'
 
 V1_USERS_REWARDS = '/v1/users/rewards'
 
+ADRIVE_V1_FILE_GET_PATH = '/adrive/v1/file/get_path'
+
 # 参数
 CLIENT_ID = '25dzX3vbYqktVxyX'
 UNI_PARAMS = {'appName': 'aliyun_drive'}
