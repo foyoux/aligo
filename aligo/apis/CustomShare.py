@@ -12,7 +12,7 @@ from aligo.types.Enum import *
 class CustomShare(Core):
     """..."""
 
-    ALIGO_SHARE_SCHEMA = 'aligo://'
+    _ALIGO_SHARE_SCHEMA = 'aligo://'
 
     @staticmethod
     def __share_files_by_aligo(files: List[BaseFile]) -> List:
@@ -31,7 +31,7 @@ class CustomShare(Core):
     def share_files_by_aligo(files: List[BaseFile]) -> str:
         """..."""
         result = CustomShare.__share_files_by_aligo(files)
-        return CustomShare.ALIGO_SHARE_SCHEMA + base64.b64encode(json.dumps(result).encode()).decode()
+        return CustomShare._ALIGO_SHARE_SCHEMA + base64.b64encode(json.dumps(result).encode()).decode()
 
     def __share_folder_by_aligo(self, parent_file_id: str, drive_id: str = None) -> List:
         """..."""
@@ -56,7 +56,7 @@ class CustomShare(Core):
             result = [[folder.name, result]]
         else:
             result = [['root', result]]
-        return CustomShare.ALIGO_SHARE_SCHEMA + base64.b64encode(json.dumps(result).encode()).decode()
+        return CustomShare._ALIGO_SHARE_SCHEMA + base64.b64encode(json.dumps(result).encode()).decode()
 
     def __save_files_by_aligo(self, data: str, parent_file_id: str = 'root',
                               check_name_mode: CheckNameMode = 'auto_rename',
@@ -96,7 +96,7 @@ class CustomShare(Core):
                             check_name_mode: CheckNameMode = 'auto_rename',
                             drive_id: str = None):
         """..."""
-        if not data.startswith(self.ALIGO_SHARE_SCHEMA):
+        if not data.startswith(self._ALIGO_SHARE_SCHEMA):
             self._auth.log.warning(f'这不是合法 aligo 分享协议: {data}')
             return
 

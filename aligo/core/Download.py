@@ -15,7 +15,7 @@ from aligo.types import *
 
 class Download(BaseAligo):
     """..."""
-    DOWNLOAD_CHUNK_SIZE = 8388608
+    _DOWNLOAD_CHUNK_SIZE = 8388608
 
     def _core_get_download_url(self, body: GetDownloadUrlRequest) -> GetDownloadUrlResponse:
         """..."""
@@ -91,7 +91,7 @@ class Download(BaseAligo):
                 progress_bar = tqdm(total=llen + tmp_size, unit='B', unit_scale=True, colour='#31a8ff')
                 progress_bar.update(tmp_size)
                 with open(tmp_file, 'ab') as f:
-                    for content in resp.iter_content(chunk_size=Download.DOWNLOAD_CHUNK_SIZE):
+                    for content in resp.iter_content(chunk_size=Download._DOWNLOAD_CHUNK_SIZE):
                         progress_bar.update(len(content))
                         f.write(content)
             os.renames(tmp_file, file_path)

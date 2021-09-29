@@ -11,3 +11,4 @@ class GetShareFileListResponse(DataClass):
     """..."""
     items: List[BaseShareFile] = field(default_factory=list)
     next_marker: str = ''
+    punished_file_count: int = 0

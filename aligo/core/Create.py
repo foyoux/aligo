@@ -21,7 +21,7 @@ from aligo.types.Enum import *
 class Create(BaseAligo):
     """创建文件: 1.创建文件 2.上传文件 3.下载文件"""
 
-    UPLOAD_CHUNK_SIZE: int = 10485760
+    _UPLOAD_CHUNK_SIZE: int = 10485760
 
     def create_file(self, body: CreateFileRequest) -> CreateFileResponse:
         """创建文件, 可用于上传文件"""
@@ -41,7 +41,7 @@ class Create(BaseAligo):
     def _get_part_info_list(file_size: int):
         """根据文件大小, 返回 part_info_list """
         # 以10MB为一块: 10485760
-        return [UploadPartInfo(part_number=i) for i in range(1, math.ceil(file_size / Create.UPLOAD_CHUNK_SIZE) + 1)]
+        return [UploadPartInfo(part_number=i) for i in range(1, math.ceil(file_size / Create._UPLOAD_CHUNK_SIZE) + 1)]
 
     def _pre_hash(self, file_path: str, file_size: int, name: str, parent_file_id='root', drive_id=None,
                   check_name_mode: CheckNameMode = 'auto_rename') -> CreateFileResponse:
@@ -84,7 +84,7 @@ class Create(BaseAligo):
 
         with open(file_path, 'rb') as f:
             while True:
-                segment = f.read(self.UPLOAD_CHUNK_SIZE)
+                segment = f.read(self._UPLOAD_CHUNK_SIZE)
                 if not segment:
                     break
                 content_hash.update(segment)
@@ -126,7 +126,7 @@ class Create(BaseAligo):
                 ss = requests.session()
                 # ss.mount('http://', HTTPAdapter(max_retries=5))
                 ss.mount('https://', HTTPAdapter(max_retries=5))
-                data = f.read(Create.UPLOAD_CHUNK_SIZE)
+                data = f.read(Create._UPLOAD_CHUNK_SIZE)
                 r = ss.put(data=data, url=part_info.part_info_list[i].upload_url)
                 if r.status_code == 403:
                     part_info = self.get_upload_url(GetUploadUrlRequest(
