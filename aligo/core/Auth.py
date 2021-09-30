@@ -214,6 +214,7 @@ class Auth:
         )
         data = response.json()['content']['data']
         self._show(data['codeContent'])
+        self.log.info('等待扫描二维码 ...')
         while True:
             response = self.session.post(
                 PASSPORT_HOST + NEWLOGIN_QRCODE_QUERY_DO,
@@ -221,7 +222,7 @@ class Auth:
             )
             login_data = response.json()['content']['data']
             qrCodeStatus = login_data['qrCodeStatus']
-            self.log.info('等待扫描二维码 ...')
+            # self.log.info('等待扫描二维码 ...')
             if qrCodeStatus == 'NEW':
                 # self.log.info('等待扫描二维码 ...')
                 pass
