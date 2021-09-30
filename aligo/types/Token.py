@@ -28,3 +28,4 @@ class Token(DataClass):
     is_first_login: bool = field(default=None, repr=False)
     need_rp_verify: bool = field(default=None, repr=False)
     device_id: str = field(default=None, repr=False)
+    domain_id: str = field(default=None, repr=False)
