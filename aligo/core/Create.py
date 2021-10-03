@@ -107,6 +107,9 @@ class Create(BaseAligo):
             proof_version='v1'
         )
         response = self._post(V2_FILE_CREATE_WITH_PROOF, body=body)
+        # AttributeError: 'Null' object has no attribute 'rapid_upload'
+        if response.status_code == 400:
+            response = self._post(V2_FILE_CREATE_WITH_PROOF, body=body)
         part_info = self._result(response, CreateFileResponse, 201)
         return part_info
 
