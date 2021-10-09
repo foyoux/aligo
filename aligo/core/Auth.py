@@ -279,7 +279,7 @@ class Auth:
             )
             if status_code == 401 or (
                     # aims search 手机端apis
-                    status_code == 400 and response.text == 'AccessToken is invalid. AccessTokenExpired'
+                    status_code == 400 and response.text.startswith('AccessToken is invalid')
             ):
                 self._refesh_token()
                 continue

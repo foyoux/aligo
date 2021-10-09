@@ -63,7 +63,7 @@ class Create(BaseAligo):
 
     def _get_proof_code(self, file_path: str, file_size: int) -> str:
         """计算proof_code"""
-        md5_int = int(hashlib.md5(self._token.access_token.encode()).hexdigest()[:16], 16)
+        md5_int = int(hashlib.md5(self._auth.token.access_token.encode()).hexdigest()[:16], 16)
         # file_size = os.path.getsize(file_path)
         offset = md5_int % file_size if file_size else 0
         if file_path.startswith('http'):
@@ -109,6 +109,7 @@ class Create(BaseAligo):
         response = self._post(V2_FILE_CREATE_WITH_PROOF, body=body)
         # AttributeError: 'Null' object has no attribute 'rapid_upload'
         if response.status_code == 400:
+            body.proof_code = self._get_proof_code(file_path, file_size)
             response = self._post(V2_FILE_CREATE_WITH_PROOF, body=body)
         part_info = self._result(response, CreateFileResponse, 201)
         return part_info
@@ -185,7 +186,7 @@ class Create(BaseAligo):
                                                parent_file_id=parent_file_id, drive_id=drive_id,
                                                check_name_mode=check_name_mode)
                 if part_info.rapid_upload:
-                    self._auth.log.warning(f'文件秒传成功 {file_path}')
+                    self._auth.log.info(f'文件秒传成功 {file_path}')
                     # return self.get_file(GetFileRequest(file_id=part_info.file_id))
                     return part_info
             # 开始上传
@@ -196,7 +197,7 @@ class Create(BaseAligo):
                                            parent_file_id=parent_file_id, drive_id=drive_id,
                                            check_name_mode=check_name_mode)
             if part_info.rapid_upload:
-                self._auth.log.warning(f'文件秒传成功 {file_path}')
+                self._auth.log.info(f'文件秒传成功 {file_path}')
                 # return self.get_file(GetFileRequest(file_id=part_info.file_id))
                 return part_info
             # 开始上传

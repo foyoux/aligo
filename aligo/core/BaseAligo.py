@@ -22,8 +22,10 @@ class BaseAligo:
 
     def __init__(self, auth: Optional[Auth] = None, use_aria2: bool = False):
         self._auth: Auth = auth or Auth()
+        # 因为 self._auth.session 没有被重新赋值, 所以可以这么用
         self._session: requests.Session = self._auth.session
-        self._token: Token = self._auth.token
+        # 在刷新 token 时, self._auth.token 被重新赋值, 而 self._token 却不会被更新
+        # self._token: Token = self._auth.token
         self._user: Optional[BaseUser] = None
         self._personal_info: Optional[GetPersonalInfoResponse] = None
         self._default_drive: Optional[BaseDrive] = None
@@ -49,27 +51,27 @@ class BaseAligo:
     @property
     def default_drive_id(self):
         """默认 drive_id"""
-        return self._token.default_drive_id
+        return self._auth.token.default_drive_id
 
     @property
     def default_sbox_drive_id(self):
         """默认保险箱 drive_id"""
-        return self._token.default_sbox_drive_id
+        return self._auth.token.default_sbox_drive_id
 
     @property
     def user_name(self):
         """用户名"""
-        return self._token.user_name
+        return self._auth.token.user_name
 
     @property
     def user_id(self):
         """用户 id"""
-        return self._token.user_id
+        return self._auth.token.user_id
 
     @property
     def nick_name(self):
         """昵称"""
-        return self._token.nick_name
+        return self._auth.token.nick_name
 
     def _result(self, response: requests.Response,
                 dcls: Generic[DataType],

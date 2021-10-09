@@ -17,6 +17,6 @@ class Drive(BaseAligo):
     def get_default_drive(self) -> BaseDrive:
         """..."""
         if self._default_drive is None:
-            response = self._post(V2_DRIVE_GET_DEFAULT_DRIVE, body=GetDefaultDriveRequest(self._token.user_id))
+            response = self._post(V2_DRIVE_GET_DEFAULT_DRIVE, body=GetDefaultDriveRequest(self._auth.token.user_id))
             self._default_drive = self._result(response, BaseDrive)
         return self._default_drive
