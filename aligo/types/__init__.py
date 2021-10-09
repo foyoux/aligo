@@ -13,6 +13,7 @@ from .ClientInfo import ClientInfo
 from .CroppingBoundary import CroppingBoundary
 from .CroppingSuggestionItem import CroppingSuggestionItem
 from .DataClass import DataClass
+from .FaceThumbnail import FaceThumbnail
 from .ImageMedia import ImageMedia
 from .ImageQuality import ImageQuality
 from .ImageTag import ImageTag
