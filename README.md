@@ -10,7 +10,11 @@ pip install aligo
 
 必要时可以加个 `--upgrade` 或 `-U` 参数
 
+<br />
 
+[Wiki 帮助文档](https://github.com/foyoux/aligo/wiki)
+
+<br />
 
 ## 快速入门
 
