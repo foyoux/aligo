@@ -66,4 +66,6 @@ user = ali.get_user()
 
 ## 欢迎进讨论群
 
-![aligo反馈交流群](images/wechat.png)
+<p align="center">
+  <img src="images/wechat.png" alt="aligo反馈交流群"/>
+</p>
