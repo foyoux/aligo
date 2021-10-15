@@ -2,7 +2,6 @@
 import os
 import re
 from typing import Iterator, List
-from urllib import parse
 
 import requests
 from tqdm import tqdm
@@ -43,7 +42,7 @@ class Download(BaseAligo):
         """删除Windows文件名中不允许的字符"""
         return re.sub(r'[\\/:*?"<>|]', '_', s)
 
-    def _core_download_file(self, file_path: str, url: str, has_refresh_url: bool = False) -> str:
+    def _core_download_file(self, file_path: str, url: str) -> str:
         """下载文件
 
         :param file_path: 下载到哪里, 比如: 123.jpg, ./123.jpg, D:\123.jpg
@@ -88,13 +87,7 @@ class Download(BaseAligo):
                 'Range': f'bytes={tmp_size}-'
             }, stream=True) as resp:
                 llen = int(resp.headers.get('content-length', 0))
-                if has_refresh_url:
-                    assert resp.headers.get('Accept-Ranges', None) == 'bytes', '请使用 download_url, 而不是 url'
-                elif resp.headers.get('Accept-Ranges', None) != 'bytes':  # 可能是 下载链接失效
-                    parse_qs = parse.parse_qs(url)
-                    url = self._core_get_download_url(
-                        GetDownloadUrlRequest(file_id=parse_qs['f'][0], drive_id=parse_qs['dr'][0])).url
-                    return self._core_download_file(file_path=file_path, url=url, has_refresh_url=True)
+                assert resp.headers.get('Accept-Ranges', None) == 'bytes', "下载链接无效"
                 progress_bar = tqdm(total=llen + tmp_size, unit='B', unit_scale=True, colour='#31a8ff')
                 progress_bar.update(tmp_size)
                 with open(tmp_file, 'ab') as f:
@@ -118,6 +111,10 @@ class Download(BaseAligo):
         rt = []
         for file in files:
             file_path = os.path.join(local_folder, file.name)
-            file_path = self._core_download_file(file_path, file.download_url)
+            try:
+                file_path = self._core_download_file(file_path, file.download_url)
+            except:
+                file = self._core_get_file(GetFileRequest(file_id=file.file_id, drive_id=file.drive_id))
+                file_path = self._core_download_file(file_path, file.download_url)
             rt.append(file_path)
         return rt
