@@ -32,5 +32,6 @@ from .VideoMedia import VideoMedia
 from .VideoMediaAudioStream import VideoMediaAudioStream
 from .VideoMediaVideoStream import VideoMediaVideoStream
 from .VideoPreview import VideoPreview
+from .VideoPreviewPlayInfo import VideoPreviewPlayInfo
 from .VideoPreviewSprite import VideoPreviewSprite
 from .VideoTranscodeTemplate import VideoTranscodeTemplate

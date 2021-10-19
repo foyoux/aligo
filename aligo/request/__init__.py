@@ -35,6 +35,7 @@ from .GetShareTokenRequest import GetShareTokenRequest
 from .GetStarredListRequest import GetStarredListRequest
 from .GetUploadUrlRequest import GetUploadUrlRequest
 from .GetVideoPlayInfoRequest import GetVideoPlayInfoRequest
+from .GetVideoPreviewPlayInfoRequest import GetVideoPreviewPlayInfoRequest
 from .MoveFileRequest import MoveFileRequest
 from .MoveFileToTrashRequest import MoveFileToTrashRequest
 from .RenameFileRequest import RenameFileRequest

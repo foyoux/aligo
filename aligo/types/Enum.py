@@ -66,3 +66,17 @@ GetShareLinkListOrderBy = Optional[
 GetStarredListFields = Optional[
     Literal['*', 'thumbnail']
 ]
+
+VideoTemplateID = Optional[
+    Literal[
+        '',
+        'FHD',  # 全高清
+        'HD',  # 高清
+        'SD',  # 标清
+        'LD',  # 普清
+    ]
+]
+
+GetVideoPreviewCategory = Optional[
+    Literal['live_transcoding']
+]

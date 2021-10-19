@@ -22,6 +22,7 @@ from .GetShareTokenResponse import GetShareTokenResponse
 from .GetStarredListResponse import GetStarredListResponse
 from .GetUploadUrlResponse import GetUploadUrlResponse
 from .GetVideoPlayInfoResponse import GetVideoPlayInfoResponse
+from .GetVideoPreviewPlayInfoResponse import GetVideoPreviewPlayInfoResponse
 from .ListResponse import ListResponse
 from .MoveFileResponse import MoveFileResponse
 from .MoveFileToTrashResponse import MoveFileToTrashResponse
