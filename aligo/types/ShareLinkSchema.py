@@ -54,3 +54,6 @@ class ShareLinkSchema(DataClass):
     share_url: str = field(default=None, repr=False)
     status: str = field(default=None, repr=False)
     first_file: ShareLinkBaseFile = field(default=None, repr=False)
+    is_subscribed: bool = field(default=False, repr=False)
+    num_of_subscribers: int = field(default=0, repr=False)
+    display_name: str = field(default=None)

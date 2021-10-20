@@ -22,7 +22,7 @@ class BaseFile(DataClass):
     content_type: str = field(default=None, repr=False)
     description: str = field(default=None, repr=False)
     content_hash: str = field(default=None, repr=False)
-    content_hash_name: str = field(default=None, repr=False)
+    content_hash_name: BaseFileContentHashName = field(default=None, repr=False)
     crc64_hash: str = field(default=None, repr=False)
     domain_id: str = field(default=None, repr=False)
     download_url: str = field(default=None, repr=False)

@@ -24,3 +24,5 @@ class BaseDrive(DataClass):
     encrypt_mode: str = field(default=None, repr=False)
     encrypt_data_access: bool = field(default=None, repr=False)
     permission: str = field(default=None, repr=False)
+    created_at: str = field(default=None, repr=False)
+    subdomain_id: str = field(default=None, repr=False)

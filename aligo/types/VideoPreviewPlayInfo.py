@@ -5,7 +5,7 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from aligo.types.Enum import VideoTemplateID
+from .Enum import VideoTemplateID
 from .DataClass import DataClass
 
 
