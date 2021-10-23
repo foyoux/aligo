@@ -242,7 +242,7 @@ class Auth:
             refresh_token = self.token.refresh_token
         self.log.info('刷新 token ...')
         response = self.session.post(
-            WEBSV_HOST + TOKEN_REFRESH,
+            API_HOST + TOKEN_REFRESH,
             json={'refresh_token': refresh_token}
         )
         if response.status_code == 200:
