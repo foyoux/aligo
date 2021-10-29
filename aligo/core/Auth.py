@@ -92,7 +92,7 @@ class Auth:
         # if level <= logging.DEBUG:
         #     fmt = '%(asctime)s.%(msecs)03d %(levelname)5s %(message)s :%(filename)s %(lineno)s'
         # else:
-        fmt = '%(asctime)s.%(msecs)03d %(levelname)5s %(message)s'
+        fmt = f'%(asctime)s.%(msecs)03d {name}.%(levelname)s %(message)s'
 
         coloredlogs.install(
             level=level,
