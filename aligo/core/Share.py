@@ -48,7 +48,7 @@ class Share(BaseAligo):
         :param body: GetShareLinkListRequest对象
         :return: ShareLinkSchema对象的迭代器
         """
-        yield from self._list_file(ADRIVE_V2_SHARE_LINK_LIST, body, GetShareLinkListResponse)
+        yield from self._list_file(ADRIVE_V3_SHARE_LINK_LIST, body, GetShareLinkListResponse)
 
     # 处理其他人的分享
     def _core_get_share_info(self, body: GetShareInfoRequest) -> GetShareInfoResponse:
@@ -65,7 +65,7 @@ class Share(BaseAligo):
 
     def _core_get_share_file_list(self, body: GetShareFileListRequest, x_share_token: str) -> Iterator[BaseShareFile]:
         """..."""
-        response = self._auth.post(V2_FILE_LIST, body=asdict(body), headers={'x-share-token': x_share_token})
+        response = self._auth.post(ADRIVE_V3_FILE_LIST, body=asdict(body), headers={'x-share-token': x_share_token})
         file_list = self._result(response, GetShareFileListResponse)
         if isinstance(file_list, Null):
             yield file_list

@@ -13,7 +13,7 @@ class File(BaseAligo):
 
     def _core_get_file_list(self, body: GetFileListRequest) -> Iterator[BaseFile]:
         """..."""
-        yield from self._list_file(V2_FILE_LIST, body, GetFileListResponse)
+        yield from self._list_file(ADRIVE_V3_FILE_LIST, body, GetFileListResponse)
 
     def _core_batch_get_files(self, body: BatchGetFileRequest) -> Iterator[BatchSubResponse]:
         """batch_get_files"""
