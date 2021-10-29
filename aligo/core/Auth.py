@@ -43,7 +43,7 @@ class Auth:
         self.log.warning(f'[url] {response.url}')
         self.log.warning(f'[headers] {r.headers}')
         self.log.warning(f'[request body] {r.body}')
-        self.log.warning(f'[response body] {response.text[:1024]}')
+        self.log.warning(f'[response body] {response.text[:100]}')
 
     def error_log_exit(self, response: requests.Response) -> NoReturn:
         """打印错误日志并退出"""
@@ -142,14 +142,15 @@ class Auth:
                 show = self._show_console
         self._show = show
 
+        if refresh_token:
+            self.log.debug('使用 refresh_token 方式登录')
+            self._refesh_token(refresh_token)
+            return
+
         if self._name.exists():
             self.log.info(f'加载配置文件 {self._name}')
             self.token = Token(**json.load(self._name.open()))
         else:
-            if refresh_token:
-                self.log.debug('使用 refresh_token 方式登录')
-                self._refesh_token(refresh_token)
-                return
             self.log.info('使用 扫描二维码 方式登录')
             self._login()
 

@@ -93,8 +93,9 @@ class BaseAligo:
                 return dcls(**json.loads(text))
             except TypeError:
                 self._auth.debug_log(response)
+                self._auth.log.error(dcls)
                 traceback.print_exc()
-        self._auth.log.warning(f'{response.status_code} {response.text}')
+        self._auth.log.warning(f'{response.status_code} {response.text[:100]}')
         return Null(response)
 
     def _list_file(self, PATH: str, body: DataClass, ResponseType: Callable) -> Iterator[DataType]:
