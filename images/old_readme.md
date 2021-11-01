@@ -92,7 +92,7 @@ ll = ali.get_file_list()
       drive_info = ali.get_personal_info()
       ```
 
-      ![image-20210731202528336](image-20210731202528336.png)
+      ![image-20210731202528336](http://110.42.175.98:5512/down/LKPvT9xK2lFx?fname=/aligo/image-20210731202528336.png)
 
 3. 功能太多, 就不一一列举, 大致如下
 
@@ -154,7 +154,7 @@ file = ali.get_file_by_path('aligo/All_Test', parent_file_id='root')
 assert file.file_id == all_folder
 ```
 
-![image-20210801220111374](image-20210801220111374.png)
+![image-20210801220111374](http://110.42.175.98:5512/down/LKPvT9xK2lFx?fname=/aligo/image-20210801220111374.png)
 
 - 阿里云盘和百度不同, 百度网盘使用的是 **路径** 方式定位文件, 而阿里云盘使用的是 **drive_id** / **share_id** + **file_id** 定位文件
 - 在 **aligo** 中, 所有默认 **drive_id** 都可省略, 所以一般只需提供 **file_id** 参数即可
@@ -250,7 +250,7 @@ starred_list = ali.ali.get_starred_list()
 
 ### 9. 秒传文件
 
-![image-20210809201550879](image-20210809201550879.png)
+![image-20210809201550879](http://110.42.175.98:5512/down/LKPvT9xK2lFx?fname=/aligo/image-20210809201550879.png)
 
 ```python
 # 具体参数看源码
@@ -262,19 +262,19 @@ ali.create_by_hash(...)
 
 ### 10. 下载文件(夹)
 
-![image-20210809194334643](image-20210809194334643.png)
+![image-20210809194334643](http://110.42.175.98:5512/down/LKPvT9xK2lFx?fname=/aligo/image-20210809194334643.png)
 
 ### 11. 上传文件(夹)
 
-![image-20210809194425009](image-20210809194425009.png)
+![image-20210809194425009](http://110.42.175.98:5512/down/LKPvT9xK2lFx?fname=/aligo/image-20210809194425009.png)
 
 ### 12. 分享文件, 可设置密码, 有效期
 
-![image-20210809194503800](image-20210809194503800.png)
+![image-20210809194503800](http://110.42.175.98:5512/down/LKPvT9xK2lFx?fname=/aligo/image-20210809194503800.png)
 
 ### 13. 自定义分享, 突破官方限制
 
-![image-20210809194553492](image-20210809194553492.png)
+![image-20210809194553492](http://110.42.175.98:5512/down/LKPvT9xK2lFx?fname=/aligo/image-20210809194553492.png)
 
 ```python
 # 这里以 share_folder_by_aligo 为例
@@ -285,7 +285,7 @@ x = ali.share_folder_by_aligo('<folder_id>')
 
 ### 14. 保存自定义分享
 
-![image-20210809194944720](image-20210809194944720.png)
+![image-20210809194944720](http://110.42.175.98:5512/down/LKPvT9xK2lFx?fname=/aligo/image-20210809194944720.png)
 
 ```python
 # ali.save_files_by_aligo(), 这个方法需要提供一个类似: aligo://... 的字符串数据 
@@ -293,7 +293,7 @@ x = ali.share_folder_by_aligo('<folder_id>')
 
 ### 15. 搜索文件
 
-![image-20210809195122391](image-20210809195122391.png)
+![image-20210809195122391](http://110.42.175.98:5512/down/LKPvT9xK2lFx?fname=/aligo/image-20210809195122391.png)
 
 ```python
 # ali.search_file()
@@ -302,17 +302,17 @@ x = ali.share_folder_by_aligo('<folder_id>')
 
 - 使用body参数
 
-  ![image-20210809195526616](image-20210809195526616.png)
+  ![image-20210809195526616](http://110.42.175.98:5512/down/LKPvT9xK2lFx?fname=/aligo/image-20210809195526616.png)
 
 ### 16. 搜索目标/标签
 
 这个功能用于搜索图片视频标签, 所谓标签就是阿里通过图像视频识别技术, 自动为其打上的标签, 比如 你能通过 **风景** 关键字, 搜索云盘中与风景相关的照片. 同时它可能也会包含搜索名字, 或近似含义的标签.
 
-![image-20210809195853232](image-20210809195853232.png)
+![image-20210809195853232](http://110.42.175.98:5512/down/LKPvT9xK2lFx?fname=/aligo/image-20210809195853232.png)
 
 示例:
 
-![image-20210809200947811](image-20210809200947811.png)
+![image-20210809200947811](http://110.42.175.98:5512/down/LKPvT9xK2lFx?fname=/aligo/image-20210809200947811.png)
 
 通过这张图, 使用 **create_by_hash** 方法, 就可以获得一张壁纸 ?? 图中所示文件
 
@@ -394,4 +394,4 @@ cali.delete_file('<file_id>')
 
    如果 **出现BUG** 或 **使用问题**, 或 **不合逻辑的设计**, 或者 **建议**, 请 [issue](https://github.com/foyoux/aligo/issues/new)
 
-![aligo反馈交流群](wechat.png)
+![aligo反馈交流群](http://110.42.175.98:5512/down/LKPvT9xK2lFx?fname=/aligo/wechat.png)
