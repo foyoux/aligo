@@ -3,21 +3,21 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass, is_dataclass
-from typing import get_type_hints, get_args, get_origin, TypeVar, Generic, Optional, List, Dict, Type, ClassVar
+from typing import get_type_hints, get_args, get_origin, TypeVar, Generic, Optional, List, Dict, Type
 
 import coloredlogs
 
 DataType = TypeVar('DataType')
 
-_HINTS: ClassVar = {}
-_LOGGER: ClassVar = logging.getLogger(__name__)
+_HINTS = {}
+_LOGGER = logging.getLogger(__name__)
 
 coloredlogs.install(
     level=logging.DEBUG,
     logger=_LOGGER,
     milliseconds=True,
     datefmt='%X',
-    fmt=f'issue.%(levelname)s %(message)s -> https://github.com/foyoux/aligo/issues/new'
+    fmt=f'MISSING_ATTRS.%(levelname)s %(message)s'
 )
 
 
@@ -42,7 +42,7 @@ class DataClass:
         params = {}
         for key, value in obj.items():
             if key not in hints:
-                _LOGGER.warning(f'{cls.__module__} missing {key}:[{type(value)}]{repr(value)[:100]}')
+                _LOGGER.warning(f'{cls.__module__}({key} : {type(value).__name__} = {repr(value)[:100]})')
             else:
                 params[key] = value
         return cls(**params)
