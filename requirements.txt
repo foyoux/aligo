@@ -1,8 +1,8 @@
-requests~=2.25.1
-qrcode~=6.1
-pyyaml~=5.4.1
-coloredlogs~=15.0
+requests
+qrcode
+pyyaml
+coloredlogs
 qrcode_terminal
 pytest
-tqdm~=4.60.0
-arrow~=1.1.0
+tqdm
+pillow

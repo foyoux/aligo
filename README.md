@@ -2,7 +2,7 @@
 
 [Wiki 帮助文档](https://github.com/foyoux/aligo/wiki)
 
-🚀🔥 玩转阿里云盘 👍👍
+🚀🔥 用Python连接阿里云盘 👍👍
 
 **aligo** 是一个操作阿里云盘的 **Python** 库
 
