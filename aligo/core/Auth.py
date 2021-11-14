@@ -4,6 +4,7 @@ import base64
 import json
 import logging
 import os
+import sys
 import tempfile
 import time
 from dataclasses import asdict
@@ -136,7 +137,10 @@ class Auth:
         if show is None:
             if os.name == 'nt':
                 self.log.debug('Windows 操作系统')
-                show = self._show_windows
+                show = self._show_qrcode_in_window
+            elif sys.platform.startswith('darwin'):
+                self.log.debug('MacOS 操作系统')
+                show = self._show_qrcode_in_window
             else:
                 self.log.debug('类 Unix 操作系统')
                 show = self._show_console
@@ -214,8 +218,11 @@ class Auth:
             PASSPORT_HOST + NEWLOGIN_QRCODE_GENERATE_DO
         )
         data = response.json()['content']['data']
-        self._show(data['codeContent'])
         self.log.info('等待扫描二维码 ...')
+        self.log.info('扫描成功后，请手动关闭图像窗口 ...')
+        png = self._show(data['codeContent'])
+        if png:
+            self.log.info(f'如果没有显示二维码，请直接访问二维码图片文件 {png}')
         while True:
             response = self.session.post(
                 PASSPORT_HOST + NEWLOGIN_QRCODE_QUERY_DO,
@@ -230,7 +237,7 @@ class Auth:
             elif qrCodeStatus == 'SCANED':
                 self.log.info('已扫描, 等待确认 ...')
             elif qrCodeStatus == 'CONFIRMED':
-                self.log.info(f'已确认 (你可以关闭二维码图像了.)')
+                self.log.info(f'已确认 (你可以关闭二维码图像了).')
                 return response
             else:
                 self.log.warning('未知错误: 可能二维码已经过期.')
@@ -303,22 +310,35 @@ class Auth:
                             headers=headers, files=files, verify=verify, body=body)
 
     @staticmethod
-    def _show_console(qr_link: str) -> NoReturn:
+    def _show_console(qr_link: str) -> str:
         """
         在控制台上显示二维码
         :param qr_link: 二维码链接
         :return: NoReturn
         """
+        qr_img = qrcode.make(qr_link)
+
+        # try open image
+        # 1.
+        qr_img.show()
+
+        # show qrcode on console
+        # 2.
         qrcode_terminal.draw(qr_link)
 
+        # save image to file
+        # 3.
+        png = tempfile.mktemp('.png')
+        qr_img.save(png)
+        return png
+
     @staticmethod
-    def _show_windows(qr_link: str) -> NoReturn:
+    def _show_qrcode_in_window(qr_link: str) -> NoReturn:
         """
         通过 *.png 的关联应用程序显示 qrcode
         :param qr_link: 二维码链接
         :return: NoReturn
         """
+        # show qrcode in windows & macos
         qr_img = qrcode.make(qr_link)
-        png = tempfile.mktemp('.png')
-        qr_img.save(png)
-        os.startfile(png)
+        qr_img.show()

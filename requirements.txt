@@ -1,8 +1,7 @@
 requests
-qrcode
+qrcode[pil]
 pyyaml
 coloredlogs
-qrcode_terminal
 pytest
 tqdm
-pillow
+qrcode_terminal
