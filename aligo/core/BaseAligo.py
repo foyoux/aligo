@@ -90,7 +90,7 @@ class BaseAligo:
             if not text.startswith('{'):
                 return dcls()
             try:
-                return DataClass.fill_attrs(dcls, json.loads(text))
+                return DataClass._fill_attrs(dcls, json.loads(text))
             except TypeError:
                 self._auth.debug_log(response)
                 self._auth.log.error(dcls)

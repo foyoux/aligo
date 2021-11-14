@@ -26,7 +26,7 @@ class DataClass:
     """..."""
 
     @staticmethod
-    def get_hints(cls: DataClass):
+    def _get_hints(cls: DataClass):
         """..."""
         hints = _HINTS.get(cls)
         if hints:
@@ -36,9 +36,9 @@ class DataClass:
         return hints
 
     @staticmethod
-    def fill_attrs(cls: DataType, obj: Dict) -> DataType:
+    def _fill_attrs(cls: DataType, obj: Dict) -> DataType:
         """..."""
-        hints = DataClass.get_hints(cls)
+        hints = DataClass._get_hints(cls)
         params = {}
         for key, value in obj.items():
             if key not in hints:
@@ -66,7 +66,7 @@ class DataClass:
 def _null_list(cls: Generic[DataType], may_null: Optional[List[DataType]]) -> List[DataType]:
     if may_null and len(may_null) != 0:
         if isinstance(may_null[0], dict):
-            return [DataClass.fill_attrs(cls, i) for i in may_null]
+            return [DataClass._fill_attrs(cls, i) for i in may_null]
         else:
             return may_null
     else:
@@ -77,5 +77,5 @@ def _null_dict(cls: Type[DataType], may_null: Optional[Dict]) -> DataType:
     if may_null is None:
         return None
     if isinstance(may_null, dict):
-        return DataClass.fill_attrs(cls, may_null)
+        return DataClass._fill_attrs(cls, may_null)
     return may_null
