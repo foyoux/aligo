@@ -222,7 +222,7 @@ class Auth:
         self.log.info('扫描成功后，请手动关闭图像窗口 ...')
         png = self._show(data['codeContent'])
         if png:
-            self.log.info(f'如果没有显示二维码，请直接访问二维码图片文件 {png}')
+            self.log.info(f'如果没有显示二维码，请直接访问二维码图片文件: {png}')
         while True:
             response = self.session.post(
                 PASSPORT_HOST + NEWLOGIN_QRCODE_QUERY_DO,
