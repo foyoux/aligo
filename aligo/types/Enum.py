@@ -32,7 +32,7 @@ BaseFileType = Optional[
 ]
 
 CheckNameMode = Optional[
-    Literal['auto_rename', 'refuse']
+    Literal['auto_rename', 'refuse', 'overwrite']
 ]
 
 BaseFileContentHashName = Optional[
