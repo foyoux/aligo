@@ -12,6 +12,7 @@ from .Recyclebin import Recyclebin
 from .Search import Search
 from .Share import Share
 from .Star import Star
+from .SyncFolder import SyncFolder
 from .Update import Update
 from .Video import Video
 
@@ -32,5 +33,6 @@ class Aligo(
     Star,
     Update,
     Other,
+    SyncFolder,
 ):
     """..."""

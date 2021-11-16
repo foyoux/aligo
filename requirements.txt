@@ -5,3 +5,4 @@ coloredlogs
 pytest
 tqdm
 qrcode_terminal
+arrow

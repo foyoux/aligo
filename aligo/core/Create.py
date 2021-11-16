@@ -25,7 +25,7 @@ class Create(BaseAligo):
 
     def create_file(self, body: CreateFileRequest) -> CreateFileResponse:
         """创建文件, 可用于上传文件"""
-        response = self._post(V2_FILE_CREATE, body=body)
+        response = self._post(ADRIVE_V2_FILE_CREATEWITHFOLDERS, body=body)
         return self._result(response, CreateFileResponse, status_code=201)
 
     def _core_create_folder(self, body: CreateFolderRequest) -> CreateFileResponse:
@@ -57,7 +57,7 @@ class Create(BaseAligo):
             size=file_size,
             pre_hash=pre_hash
         )
-        response = self._post(V2_FILE_CREATE, body=body)
+        response = self._post(ADRIVE_V2_FILE_CREATEWITHFOLDERS, body=body)
         part_info = self._result(response, CreateFileResponse, [201, 409])
         return part_info
 
@@ -106,11 +106,11 @@ class Create(BaseAligo):
             proof_code=proof_code,
             proof_version='v1'
         )
-        response = self._post(V2_FILE_CREATE_WITH_PROOF, body=body)
+        response = self._post(ADRIVE_V2_FILE_CREATEWITHFOLDERS, body=body)
         # AttributeError: 'Null' object has no attribute 'rapid_upload'
         if response.status_code == 400:
             body.proof_code = self._get_proof_code(file_path, file_size)
-            response = self._post(V2_FILE_CREATE_WITH_PROOF, body=body)
+            response = self._post(ADRIVE_V2_FILE_CREATEWITHFOLDERS, body=body)
         part_info = self._result(response, CreateFileResponse, 201)
         return part_info
 
@@ -236,7 +236,7 @@ class Create(BaseAligo):
             proof_code=proof_code,
             proof_version='v1'
         )
-        response = self._post(V2_FILE_CREATE_WITH_PROOF, body=body)
+        response = self._post(ADRIVE_V2_FILE_CREATEWITHFOLDERS, body=body)
         return self._result(response, CreateFileResponse, 201)
 
     # def batch_create_by_hash(self, ) -> List[BaseFile]:
