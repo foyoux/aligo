@@ -3,9 +3,10 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass, is_dataclass
-from typing import get_type_hints, get_args, get_origin, TypeVar, Generic, Optional, List, Dict, Type
+from typing import TypeVar, Generic, Optional, List, Dict, Type
 
 import coloredlogs
+from typing_extensions import get_type_hints, get_origin, get_args
 
 DataType = TypeVar('DataType')
 
@@ -26,7 +27,7 @@ class DataClass:
     """..."""
 
     @staticmethod
-    def _get_hints(cls: DataClass):
+    def _get_hints(cls: Type[DataClass]):
         """..."""
         hints = _HINTS.get(cls)
         if hints:
@@ -49,13 +50,15 @@ class DataClass:
 
     def __post_init__(self):
         """序列化属性"""
-        hints = get_type_hints(self)
+        hints = DataClass._get_hints(self.__class__)
         for k, v in hints.items():
+            # origin = getattr(v, '__origin__', None)
             origin = get_origin(v)
             if origin is None:
                 if is_dataclass(v):
                     setattr(self, k, _null_dict(v, getattr(self, k)))
                     continue
+            # for hint_type in getattr(v, '__args__', ()):
             for hint_type in get_args(v):
                 if is_dataclass(hint_type):
                     if origin is list:

@@ -1,5 +1,7 @@
 """一些枚举类型"""
-from typing import Optional, Literal
+from typing import Optional
+
+from typing_extensions import Literal
 
 MediaTranscodeStatus = Optional[
     Literal['running', 'finished', 'failed']

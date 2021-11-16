@@ -6,3 +6,4 @@ pytest
 tqdm
 qrcode_terminal
 arrow
+typing_extensions
