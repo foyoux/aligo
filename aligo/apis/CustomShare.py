@@ -29,7 +29,19 @@ class CustomShare(Core):
 
     @staticmethod
     def share_files_by_aligo(files: List[BaseFile]) -> str:
-        """..."""
+        """
+        自定义分享文件
+        :param files: [List[BaseFile]] 分享文件列表（BaseFile对象列表）
+        :return: [str] 分享信息
+
+        用法示例：
+        >>> from aligo import Aligo
+        >>> ali = Aligo()
+        >>> # 获取文件列表
+        >>> files = ali.get_file_list(parent_file_id='<file_id>')
+        >>> result = ali.share_files_by_aligo(files)
+        >>> print(result)
+        """
         result = CustomShare.__share_files_by_aligo(files)
         return CustomShare._ALIGO_SHARE_SCHEMA + base64.b64encode(json.dumps(result).encode()).decode()
 
@@ -49,7 +61,18 @@ class CustomShare(Core):
         return result
 
     def share_folder_by_aligo(self, parent_file_id: str, drive_id: str = None) -> str:
-        """..."""
+        """
+        自定义分享文件夹
+        :param parent_file_id: [str] 文件夹id
+        :param drive_id: Optional[str] 文件夹所在的网盘id
+        :return: [str] 分享信息
+
+        用法示例：
+        >>> from aligo import Aligo
+        >>> ali = Aligo()
+        >>> result = ali.share_folder_by_aligo('<file_id>')
+        >>> print(result)
+        """
         result = self.__share_folder_by_aligo(parent_file_id=parent_file_id, drive_id=drive_id)
         if parent_file_id != 'root':
             folder = self._core_get_file(GetFileRequest(file_id=parent_file_id))
@@ -95,9 +118,22 @@ class CustomShare(Core):
     def save_files_by_aligo(self, data: str, parent_file_id: str = 'root',
                             check_name_mode: CheckNameMode = 'auto_rename',
                             drive_id: str = None):
-        """..."""
+        """
+        保存自定义分享文件
+        :param data: [str] 分享信息
+        :param parent_file_id: Optional[str] 文件夹id
+        :param check_name_mode: [CheckNameMode] 文件重命名模式
+        :param drive_id: [str] 文件夹所在的网盘id
+        :return: [List] 保存结果
+
+        用法示例：
+        >>> from aligo import Aligo
+        >>> ali = Aligo()
+        >>> result = ali.save_files_by_aligo('<自定义分享信息>')
+        >>> print(result)
+        """
         if not data.startswith(self._ALIGO_SHARE_SCHEMA):
-            self._auth.log.warning(f'这不是合法 aligo 分享协议: {data}')
+            self._auth.log.warning(f'这不是合法 aligo 分享信息: {data}')
             return
 
         data = data[8:]
