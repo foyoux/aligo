@@ -52,13 +52,11 @@ class DataClass:
         """序列化属性"""
         hints = DataClass._get_hints(self.__class__)
         for k, v in hints.items():
-            # origin = getattr(v, '__origin__', None)
             origin = get_origin(v)
             if origin is None:
                 if is_dataclass(v):
                     setattr(self, k, _null_dict(v, getattr(self, k)))
                     continue
-            # for hint_type in getattr(v, '__args__', ()):
             for hint_type in get_args(v):
                 if is_dataclass(hint_type):
                     if origin is list:
