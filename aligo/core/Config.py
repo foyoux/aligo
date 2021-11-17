@@ -61,7 +61,7 @@ ADRIVE_V2_SHARE_LINK_GET_SHARE_BY_ANONYMOUS = '/adrive/v2/share_link/get_share_b
 V2_SHARE_LINK_GET_SHARE_TOKEN = '/v2/share_link/get_share_token'
 V2_FILE_GET_SHARE_LINK_DOWNLOAD_URL = '/v2/file/get_share_link_download_url'
 
-V2_BATCH = '/v2/batch'
+V3_BATCH = '/v3/batch'
 ADRIVE_V2_BATCH = '/adrive/v2/batch'
 
 V1_USERS_REWARDS = '/v1/users/rewards'
