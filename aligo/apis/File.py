@@ -13,7 +13,7 @@ class File(Core):
     """..."""
 
     def get_file(self,
-                 file_id: str,
+                 file_id: str = None,
                  drive_id: str = None,
                  body: GetFileRequest = None,
                  **kwargs) -> BaseFile:
