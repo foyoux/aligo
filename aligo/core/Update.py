@@ -13,7 +13,7 @@ class Update(BaseAligo):
 
     def update_file(self, body: UpdateFileRequest) -> BaseFile:
         """..."""
-        response = self._post(V2_FILE_UPDATE, body=body)
+        response = self._post(V3_FILE_UPDATE, body=body)
         return self._result(response, BaseFile)
 
     def _core_rename_file(self, body: RenameFileRequest) -> BaseFile:
