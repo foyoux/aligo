@@ -8,6 +8,8 @@
 ![python version](https://img.shields.io/pypi/pyversions/aligo)  [![Downloads](https://static.pepy.tech/personalized-badge/aligo?period=total&units=international_system&left_color=black&right_color=orange&left_text=Downloads)](https://pepy.tech/project/aligo)
 
 > 为了完善代码提示, 方便大家代码书写, **aligo** 引入了一些 **python 3.8** 的新特性, 所以要求 **python >= 3.8.***
+>
+> [2021年11月16日23时01分13秒] 已添加 python3.7 支持
 
 ```bash
 pip install aligo
