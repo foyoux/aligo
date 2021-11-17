@@ -1,4 +1,4 @@
-"""..."""
+"""Aligo class"""
 from .Audio import Audio
 from .Copy import Copy
 from .Create import Create
@@ -35,4 +35,4 @@ class Aligo(
     Other,
     SyncFolder,
 ):
-    """..."""
+    """阿里云盘"""
