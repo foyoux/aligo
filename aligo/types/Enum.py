@@ -1,77 +1,155 @@
-"""一些枚举类型"""
+"""字面量值"""
 from typing import Optional
 
 from typing_extensions import Literal
 
 MediaTranscodeStatus = Optional[
-    Literal['running', 'finished', 'failed']
+    # 媒体转码状态
+    Literal[
+        'running',  # 转码中
+        'finished',  # 转码完成
+        'failed',  # 转码失败
+    ]
 ]
 
 GetFileListOrderBy = Optional[
-    Literal['name', 'created_at', 'updated_at', 'size']
+    # 获取文件列表排序方式
+    Literal[
+        'name',  # 文件名
+        'created_at',  # 创建时间
+        'updated_at',  # 更新时间
+        'size',  # 文件大小
+    ]
 ]
 
 SearchFileOrderBy = Optional[
-    Literal['name', 'created_at', 'updated_at', 'size']
+    # 搜索文件排序方式
+    Literal[
+        'name',  # 文件名
+        'created_at',  # 创建时间
+        'updated_at',  # 更新时间
+        'size',  # 文件大小
+    ]
 ]
 
 GetFileListFields = Optional[
-    Literal['*', 'thumbnail']
+    # 获取文件列表字段
+    Literal[
+        '*',  # 全部字段
+        'thumbnail',  # 缩略图
+    ]
 ]
 
 GetFileFields = GetFileListFields
 
 BaseFileCategory = Optional[
-    Literal['others', 'doc', 'image', 'audio', 'video']
+    # 文件类型
+    Literal[
+        'others',  # 其他
+        'doc',  # 文档
+        'image',  # 图片
+        'audio',  # 音频
+        'video',  # 视频
+    ]
 ]
 
 OrderDirection = Optional[
-    Literal['ASC', 'DESC']
+    # 排序方向
+    Literal[
+        'ASC',  # 升序
+        'DESC',  # 降序
+    ]
 ]
 
 BaseFileType = Optional[
-    Literal['file', 'folder']
+    # 文件类型
+    Literal[
+        'file',  # 文件
+        'folder',  # 文件夹
+    ]
 ]
 
 CheckNameMode = Optional[
-    Literal['auto_rename', 'refuse', 'overwrite']
+    # 名称检查模式
+    Literal[
+        'auto_rename',  # 自动重命名
+        'refuse',  # 拒绝
+        'overwrite',  # 覆盖
+    ]
 ]
 
 BaseFileContentHashName = Optional[
-    Literal['sha1']
+    # 文件内容哈希名称
+    Literal[
+        'sha1'
+    ]
 ]
 
 BaseFileStatus = Optional[
-    Literal['uploading', 'available']
+    # 文件状态
+    Literal[
+        'uploading',  # 上传中
+        'available',  # 可用
+    ]
 ]
 
 GetRecycleBinListOrderBy = Optional[
-    Literal['name']
+    # 获取回收站文件列表排序方式
+    Literal[
+        'name',  # 文件名
+    ]
 ]
 
 SharePolicy = Optional[
-    Literal['url', 'msg']
+    # 分享策略
+    Literal[
+        'url',  # 分享链接
+        'msg',  # 分享消息
+    ]
 ]
 
 GetShareFileListOrderBy = Optional[
-    Literal['name', 'updated_at']
+    # 获取分享文件列表排序方式
+    Literal[
+        'name',  # 文件名
+        'updated_at',  # 更新时间
+    ]
 ]
 
 SearchCategory = Optional[
-    Literal['image', 'video', 'audio', 'app', 'doc', 'others']
+    # 搜索类型
+    Literal[
+        'image',  # 图片
+        'video',  # 视频
+        'audio',  # 音频
+        'app',  # 应用
+        'doc',  # 文档
+        'others',  # 其他
+    ]
 ]
 
 GetShareLinkListOrderBy = Optional[
-    Literal['share_name', 'created_at', 'description', 'updated_at']
+    # 获取分享链接列表排序方式
+    Literal[
+        'share_name',  # 分享名称
+        'created_at',  # 创建时间
+        'description',  # 描述
+        'updated_at',  # 更新时间
+    ]
 ]
 
 GetStarredListFields = Optional[
-    Literal['*', 'thumbnail']
+    # 获取收藏文件列表字段
+    Literal[
+        '*',  # 全部字段
+        'thumbnail',  # 缩略图
+    ]
 ]
 
 VideoTemplateID = Optional[
+    # 视频模板ID
     Literal[
-        '',
+        '',  # 默认模板
         'FHD',  # 全高清
         'HD',  # 高清
         'SD',  # 标清
@@ -80,5 +158,8 @@ VideoTemplateID = Optional[
 ]
 
 GetVideoPreviewCategory = Optional[
-    Literal['live_transcoding']
+    # 获取视频预览类型
+    Literal[
+        'live_transcoding',  # 在线直播转码（m3u8）
+    ]
 ]
