@@ -11,8 +11,8 @@ class Update(Core):
     """..."""
 
     def rename_file(self,
-                    name: str,
                     file_id: str,
+                    name: str,
                     check_name_mode: CheckNameMode = 'refuse',
                     drive_id: str = None) -> BaseFile:
         """重命名文件(夹)"""
