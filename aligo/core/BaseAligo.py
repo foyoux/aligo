@@ -21,6 +21,11 @@ class BaseAligo:
     """..."""
 
     def __init__(self, auth: Optional[Auth] = None, use_aria2: bool = False):
+        """
+        BaseAligo
+        :param auth: [Auth] 鉴权对象
+        :param use_aria2: [bool] 是否使用 aria2 下载
+        """
         self._auth: Auth = auth or Auth()
         # 因为 self._auth.session 没有被重新赋值, 所以可以这么用
         self._session: requests.Session = self._auth.session
@@ -95,11 +100,24 @@ class BaseAligo:
                 self._auth.debug_log(response)
                 self._auth.log.error(dcls)
                 traceback.print_exc()
-        self._auth.log.warning(f'{response.status_code} {response.text[:100]}')
+        self._auth.log.warning(f'{response.status_code} {response.text[:200]}')
         return Null(response)
 
     def _list_file(self, PATH: str, body: DataClass, ResponseType: Callable) -> Iterator[DataType]:
-        """枚举文件: 用于统一处理 1.文件列表 2.搜索文件列表 3.收藏列表 4.回收站列表"""
+        """
+        枚举文件: 用于统一处理 1.文件列表 2.搜索文件列表 3.收藏列表 4.回收站列表
+        :param PATH: [str] 批量处理的路径
+        :param body: [DataClass] 批量处理的参数
+        :param ResponseType: [Callable] 响应类型
+        :return: [Iterator[DataType]] 响应结果
+
+        如何判断请求失败与否（适用于所有使用此方法的上层方法）：
+        >>> from aligo import Aligo
+        >>> ali = Aligo()
+        >>> result = ali.get_file_list('<file_id>')
+        >>> if isinstance(result[-1], Null):
+        >>>     print('请求失败')
+        """
         response = self._post(PATH, body=body)
         file_list = self._result(response, ResponseType)
         if isinstance(file_list, Null):
@@ -117,7 +135,10 @@ class BaseAligo:
         return self._result(response, BaseFile)
 
     def get_personal_info(self) -> GetPersonalInfoResponse:
-        """..."""
+        """
+        获取个人信息
+        :return: [GetPersonalInfoResponse]
+        """
         response = self._post(V2_DATABOX_GET_PERSONAL_INFO)
         return self._result(response, GetPersonalInfoResponse)
 
@@ -131,9 +152,21 @@ class BaseAligo:
         return rt
 
     def batch_request(self, body: BatchRequest, body_type: DataType):
-        """..."""
+        """
+        批量请求：官方最大支持 100 个请求，所以这里按照 100 个一组进行分组，然后分别请求，使用时无需关注这个。
+        :param body:[BatchRequest] 批量请求的参数
+        :param body_type: [DataType] 批量请求的参数类型
+        :return: [Iterator[DataType]]
+
+        如何判断请求失败与否（适用于所有使用此方法的上层方法）：
+        >>> from aligo import Aligo
+        >>> ali = Aligo()
+        >>> result = ali.batch_get_files(['<file1_id>', '<file2_id>'])
+        >>> if isinstance(result[-1], Null):
+        >>>     print('请求失败')
+        """
         for request_list in self._list_split(body.requests, self._BATCH_COUNT):
-            response = self._post(V2_BATCH, body={
+            response = self._post(V3_BATCH, body={
                 "requests": [
                     {
                         "body": asdict(request.body),
