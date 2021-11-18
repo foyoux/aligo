@@ -44,7 +44,7 @@ class Auth:
         self.log.warning(f'[url] {response.url}')
         self.log.warning(f'[headers] {r.headers}')
         self.log.warning(f'[request body] {r.body}')
-        self.log.warning(f'[response body] {response.text[:100]}')
+        self.log.warning(f'[response body] {response.text[:200]}')
 
     def error_log_exit(self, response: requests.Response) -> NoReturn:
         """打印错误日志并退出"""
