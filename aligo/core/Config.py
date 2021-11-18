@@ -53,7 +53,6 @@ V2_DATABOX_GET_VIDEO_PLAY_INFO = '/v2/databox/get_video_play_info'
 V2_FILE_LIST_BY_CUSTOM_INDEX_KEY = '/v2/file/list_by_custom_index_key'
 
 V2_SHARE_LINK_UPDATE = '/v2/share_link/update'
-ADRIVE_V2_SHARE_LINK_LIST = '/adrive/v2/share_link/list'
 ADRIVE_V3_SHARE_LINK_LIST = '/adrive/v3/share_link/list'
 ADRIVE_V2_SHARE_LINK_CREATE = '/adrive/v2/share_link/create'
 ADRIVE_V2_SHARE_LINK_CANCEL = '/adrive/v2/share_link/cancel'
