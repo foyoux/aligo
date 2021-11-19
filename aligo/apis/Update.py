@@ -15,7 +15,20 @@ class Update(Core):
                     name: str,
                     check_name_mode: CheckNameMode = 'refuse',
                     drive_id: str = None) -> BaseFile:
-        """重命名文件(夹)"""
+        """
+        文件重命名
+        :param file_id: [必选] 文件id
+        :param name: [必选] 新的文件名
+        :param check_name_mode: [可选] 检查文件名模式
+        :param drive_id: [可选] 文件所在的网盘id
+        :return: [BaseFile] 文件信息
+
+        :Example:
+        >>> from aligo import Aligo
+        >>> ali = Aligo()
+        >>> new_file = ali.rename_file('<file_id>', 'new_name')
+        >>> print(new_file.name)
+        """
         body = RenameFileRequest(
             name=name,
             file_id=file_id,
@@ -30,14 +43,27 @@ class Update(Core):
             new_name_list: List[str],
             check_name_mode: CheckNameMode = 'refuse',
             drive_id: str = None) -> List[BaseFile]:
-        """..."""
+        """
+        批量重命名文件
+        :param file_id_list: [必选] 文件id列表
+        :param new_name_list: [必选] 新的文件名列表
+        :param check_name_mode: [可选] 检查文件名模式
+        :param drive_id: [可选] 文件所在的网盘id
+        :return: [List[BaseFile]] 文件信息列表
+
+        :Example:
+        >>> from aligo import Aligo
+        >>> ali = Aligo()
+        >>> new_file_list = ali.batch_rename_files(['<file_id_list>'], ['<new_name_list>'])
+        >>> print(new_file_list[0].name)
+        """
         if drive_id is None:
             drive_id = self.default_drive_id
 
         ids_len = len(file_id_list)
         if ids_len != len(new_name_list):
             self._auth.log.warning(f'长度不一致 file_id_list{ids_len}, new_name_list {len(new_name_list)}')
-            return
+            return []
 
         result = []
         for i in self.batch_request(BatchRequest(

@@ -107,6 +107,12 @@ class Download(BaseAligo):
         :param files: BaseFile 对象列表, 或者包含 name 和  download_url 属性的对象
         :param local_folder: 目标文件夹, 表示要下载到哪个文件夹
         :return: 返回下载完成后的本地文件路径列表
+
+        :Example:
+        >>> from aligo import Aligo
+        >>> ali = Aligo()
+        >>> file_path = ali.download_files([ali.get_file_by_path('xxx.mp3')])
+        >>> print(file_path)
         """
         rt = []
         for file in files:

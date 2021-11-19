@@ -15,7 +15,7 @@ class Move(BaseAligo):
         response = self._post(V2_FILE_MOVE, body=body)
         return self._result(response, MoveFileResponse)
 
-    def _core_batch_move_files(self, body: BatchMoveFilesRequest) -> Iterator[BatchSubResponse]:
+    def _core_batch_move_files(self, body: BatchMoveFilesRequest) -> Iterator[BatchSubResponse[MoveFileResponse]]:
         """..."""
         if body.drive_id is None:
             body.drive_id = self.default_drive_id

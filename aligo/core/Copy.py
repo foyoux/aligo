@@ -15,7 +15,7 @@ class Copy(BaseAligo):
         response = self._post(V2_FILE_COPY, body=body)
         return self._result(response, CopyFileResponse, [201, 202])
 
-    def _core_batch_copy_files(self, body: BatchCopyFilesRequest) -> Iterator[BatchSubResponse]:
+    def _core_batch_copy_files(self, body: BatchCopyFilesRequest) -> Iterator[BatchSubResponse[CopyFileResponse]]:
         """..."""
         if body.drive_id is None:
             body.drive_id = self.default_drive_id

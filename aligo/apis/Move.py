@@ -72,7 +72,7 @@ class Move(Core):
                          file_id_list: List[str],
                          to_parent_file_id: str = 'root',
                          drive_id: str = None,
-                         **kwargs) -> List[BatchSubResponse]:
+                         **kwargs) -> List[BatchSubResponse[MoveFileResponse]]:
         """
         批量移动文件
         :param file_id_list: [必选] 文件ID列表
@@ -86,11 +86,11 @@ class Move(Core):
         >>> ali = Aligo()
         >>> file_id_list = ['<file1_id>', '<file2_id>']
         >>> result = ali.batch_move_files(file_id_list=file_id_list)  # 默认移动到 根目录
-        >>> print(result)
+        >>> print(result[0].body.file_id)
         """
 
     @overload
-    def batch_move_files(self, body: BatchMoveFilesRequest) -> List[BatchSubResponse]:
+    def batch_move_files(self, body: BatchMoveFilesRequest) -> List[BatchSubResponse[MoveFileResponse]]:
         """
         批量移动文件
         :param body: [必选] 批量移动文件请求体
@@ -101,7 +101,7 @@ class Move(Core):
         >>> ali = Aligo()
         >>> body = BatchMoveFilesRequest(file_id_list=['<file1_id>', '<file2_id>'])  # 默认移动到 根目录
         >>> result = ali.batch_move_files(body=body)
-        >>> print(result)
+        >>> print(result[0].body.file_id)
         """
 
     def batch_move_files(self,
@@ -109,7 +109,7 @@ class Move(Core):
                          to_parent_file_id: str = 'root',
                          drive_id: str = None,
                          body: BatchMoveFilesRequest = None,
-                         **kwargs) -> List[BatchSubResponse]:
+                         **kwargs) -> List[BatchSubResponse[MoveFileResponse]]:
         """batch_move_files"""
         if body is None:
             body = BatchMoveFilesRequest(

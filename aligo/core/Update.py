@@ -12,7 +12,17 @@ class Update(BaseAligo):
     """..."""
 
     def update_file(self, body: UpdateFileRequest) -> BaseFile:
-        """..."""
+        """
+        Update file.
+        :param body: [UpdateFileRequest]
+        :return: [BaseFile]
+
+        :Example:
+        >>> from aligo import Aligo
+        >>> ali = Aligo()
+        >>> new_file = ali.update_file(UpdateFileRequest(file_id='file_id', name='new_name'))
+        >>> print(new_file.name)
+        """
         response = self._post(V3_FILE_UPDATE, body=body)
         return self._result(response, BaseFile)
 

@@ -13,14 +13,20 @@ class Client(BaseAligo):
 
     @overload
     def get_latest_win32_client(self) -> ClientInfo:
-        """..."""
+        """
+        获取最新win32客户端
+        :return: [ClientInfo]
+        """
 
     @overload
     def get_latest_win32_client(self) -> Null:
-        """..."""
+        """
+        获取最新win32客户端
+        :return: [Null]
+        """
 
     def get_latest_win32_client(self) -> Union[ClientInfo, Null]:
-        """获取最新win32客户端"""
+        """get_latest_win32_client"""
         response = self._auth.get(path='/manifest/dtron/aDrive/win32/ia32/latest.yml', host='https://im.dingtalk.com')
         if response.status_code == 200:
             return ClientInfo(**yaml.safe_load(response.text))

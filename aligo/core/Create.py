@@ -24,7 +24,17 @@ class Create(BaseAligo):
     _UPLOAD_CHUNK_SIZE: int = 10485760
 
     def create_file(self, body: CreateFileRequest) -> CreateFileResponse:
-        """创建文件, 可用于上传文件"""
+        """
+        创建文件, 可用于上传文件
+        :param body: [CreateFileRequest]
+        :return: [CreateFileResponse]
+
+        :Example:
+        >>> from aligo import Aligo
+        >>> ali = Aligo()
+        >>> result = ali.create_file(CreateFileRequest(name='test.txt', parent_file_id='root', type='file', size=1024))
+        >>> print(result.file_id)
+        """
         response = self._post(ADRIVE_V2_FILE_CREATEWITHFOLDERS, body=body)
         return self._result(response, CreateFileResponse, status_code=201)
 
@@ -33,7 +43,17 @@ class Create(BaseAligo):
         return self.create_file(CreateFileRequest(**asdict(body)))
 
     def complete_file(self, body: CompleteFileRequest) -> BaseFile:
-        """当文件上传完成时调用"""
+        """
+        完成文件上传 当文件上传完成时调用
+        :param body: [CompleteFileRequest]
+        :return: [BaseFile]
+
+        :Example:
+        >>> from aligo import Aligo
+        >>> ali = Aligo()
+        >>> result = ali.complete_file(CompleteFileRequest(file_id='file_id', part_info_list=[UploadPartInfo(part_number=1)]))
+        >>> print(result.file_id)
+        """
         response = self._post(V2_FILE_COMPLETE, body=body)
         return self._result(response, BaseFile)
 
@@ -115,7 +135,11 @@ class Create(BaseAligo):
         return part_info
 
     def get_upload_url(self, body: GetUploadUrlRequest) -> GetUploadUrlResponse:
-        """刷新上传链接"""
+        """
+        获取上传文件的url
+        :param body: [GetUploadUrlRequest]
+        :return: [GetUploadUrlResponse]
+        """
         response = self._post(V2_FILE_GET_UPLOAD_URL, body=body)
         return self._result(response, GetUploadUrlResponse)
 
@@ -164,7 +188,21 @@ class Create(BaseAligo):
             drive_id: str = None,
             check_name_mode: CheckNameMode = "auto_rename"
     ) -> Union[BaseFile, CreateFileResponse]:
-        """..."""
+        """
+        上传文件
+        :param file_path: [str] 文件路径
+        :param parent_file_id: [str] 父文件夹id
+        :param name: [str] 文件名
+        :param drive_id: [str] 父文件夹所在的网盘id
+        :param check_name_mode: [CheckNameMode] 文件名检查模式, 默认为auto_rename
+        :return: [Union[BaseFile, CreateFileResponse]]
+
+        :Example:
+        >>> from aligo import Aligo
+        >>> ali = Aligo()
+        >>> up_file = ali.upload_file('/Users/aligo/Desktop/test.txt', 'root')
+        >>> print(up_file)
+        """
         self._auth.log.info(f'开始上传文件 {file_path}')
         file_path = os.path.abspath(file_path)
         if name is None:
@@ -221,7 +259,17 @@ class Create(BaseAligo):
             check_name_mode: CheckNameMode = 'auto_rename',
             drive_id: str = None
     ) -> CreateFileResponse:
-        """..."""
+        """
+        文件秒传
+        :param name: [必填] 文件名
+        :param content_hash: [必填] 文件hash
+        :param size: [必填] 文件大小
+        :param url: [必填] 文件下载地址(支持断点续传)
+        :param parent_file_id: [选填] 父文件夹id
+        :param check_name_mode: [选填] 文件名检查模式, 默认为auto_rename
+        :param drive_id: [选填] 网盘id
+        :return: [CreateFileResponse]
+        """
         self._auth.log.info(f'开始秒传 {name} {content_hash} {size}')
         proof_code = self._get_proof_code(url, size)
         body = CreateFileRequest(
@@ -238,6 +286,3 @@ class Create(BaseAligo):
         )
         response = self._post(ADRIVE_V2_FILE_CREATEWITHFOLDERS, body=body)
         return self._result(response, CreateFileResponse, 201)
-
-    # def batch_create_by_hash(self, ) -> List[BaseFile]:
-    #     """无法实现"""

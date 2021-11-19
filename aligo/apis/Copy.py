@@ -74,7 +74,7 @@ class Copy(Core):
                          file_id_list: List[str],
                          to_parent_file_id: str = 'root',
                          drive_id: str = None,
-                         **kwargs) -> List[BatchSubResponse]:
+                         **kwargs) -> List[BatchSubResponse[CopyFileResponse]]:
         """
         复制文件（夹）
         :param file_id_list: [List[str]] 文件（夹）ID列表
@@ -87,11 +87,11 @@ class Copy(Core):
         >>> from aligo import Aligo
         >>> ali = Aligo()
         >>> result = ali.batch_copy_files(file_id_list=['<file1_id>', '<file2_id>'])
-        >>> print(result)
+        >>> print(result[0].body.file_id)
         """
 
     @overload
-    def batch_copy_files(self, body: BatchCopyFilesRequest) -> List[BatchSubResponse]:
+    def batch_copy_files(self, body: BatchCopyFilesRequest) -> List[BatchSubResponse[CopyFileResponse]]:
         """
         复制文件（夹）
         :param body: [BatchCopyFilesRequest]
@@ -101,7 +101,7 @@ class Copy(Core):
         >>> from aligo import Aligo, BatchCopyFilesRequest
         >>> ali = Aligo()
         >>> result = ali.batch_copy_files(body=BatchCopyFilesRequest(file_id_list=['<file1_id>', '<file2_id>']))
-        >>> print(result)
+        >>> print(result[0].body.file_id)
         """
 
     def batch_copy_files(self,
@@ -109,7 +109,7 @@ class Copy(Core):
                          to_parent_file_id: str = 'root',
                          drive_id: str = None,
                          body: BatchCopyFilesRequest = None,
-                         **kwargs) -> List[BatchSubResponse]:
+                         **kwargs) -> List[BatchSubResponse[CopyFileResponse]]:
         """batch_copy_files"""
         if body is None:
             body = BatchCopyFilesRequest(drive_id=drive_id,

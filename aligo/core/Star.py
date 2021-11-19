@@ -17,7 +17,7 @@ class Star(Update):
         """收藏(或取消) 文件"""
         return self.update_file(UpdateFileRequest(**asdict(body)))
 
-    def _core_batch_star_files(self, body: BatchStarFilesRequest) -> Iterator[BatchSubResponse]:
+    def _core_batch_star_files(self, body: BatchStarFilesRequest) -> Iterator[BatchSubResponse[BaseFile]]:
         """批量收藏文件"""
         if body.drive_id is None:
             body.drive_id = self.default_drive_id

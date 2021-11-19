@@ -430,7 +430,7 @@ class Share(Core):
         >>> share = ali.share_file(['<file_id>'])
         >>> share_token = ali.get_share_token(share.share_id)
         >>> batch_share_file_saveto_drive = ali.batch_share_file_saveto_drive(share.share_id, share.file_id_list, share_token.share_token)
-        >>> print(batch_share_file_saveto_drive)
+        >>> print(batch_share_file_saveto_drive[0].file_id)
         """
 
     @overload
@@ -448,7 +448,7 @@ class Share(Core):
         >>> share_token = ali.get_share_token(share.share_id)
         >>> body = BatchShareFileSaveToDriveRequest(share_id=share.share_id, file_id_list=share.file_id_list, share_token=share_token.share_token)
         >>> batch_share_file_saveto_drive = ali.batch_share_file_saveto_drive(body=body)
-        >>> print(batch_share_file_saveto_drive)
+        >>> print(batch_share_file_saveto_drive[0].file_id)
         """
 
     def batch_share_file_saveto_drive(

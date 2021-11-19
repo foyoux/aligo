@@ -151,7 +151,7 @@ class BaseAligo:
             rt.append(ll[i:i + n])
         return rt
 
-    def batch_request(self, body: BatchRequest, body_type: DataType):
+    def batch_request(self, body: BatchRequest, body_type: DataType) -> Iterator[BatchSubResponse[DataType]]:
         """
         批量请求：官方最大支持 100 个请求，所以这里按照 100 个一组进行分组，然后分别请求，使用时无需关注这个。
         :param body:[BatchRequest] 批量请求的参数
