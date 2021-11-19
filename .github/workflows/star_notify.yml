@@ -1,0 +1,21 @@
+name: Star Notify
+
+on:
+  watch:
+    types: [started]
+
+jobs:
+  Notify:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Python
+      uses: actions/setup-python@v2.3.0
+      with:
+        python-version: 3.9
+    - name: Install dependencies
+      run: |
+        wget https://raw.githubusercontent.com/foyoux/aligo/main/.github/workflows/star_notify.py
+        python -m pip install --upgrade pip
+        pip install yagmail[all]
+        python star_notify.py ${{secrets.SEND_EMAIL}} ${{secrets.SEND_EMAIL_TOKEN}}  ${{secrets.NOTIFY_EMAIL}}
+        
