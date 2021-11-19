@@ -7,3 +7,4 @@ tqdm
 qrcode_terminal
 arrow
 typing_extensions
+yagmail[all]
