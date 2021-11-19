@@ -14,3 +14,4 @@ class SystemTag(DataClass):
     parent_name: str = None
     selected: bool = None
     tag_level: int = None
+    centric_score: int = None
