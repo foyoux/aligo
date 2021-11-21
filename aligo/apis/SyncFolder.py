@@ -47,6 +47,11 @@ class SyncFolder(Core):
         :param file_filter: 文件过滤函数，参数函数名，返回值为True则过滤
         :param drive_id: 云端文件夹 drive_id
         :return:
+
+        :Example:
+        >>> from aligo import Aligo
+        >>> ali = Aligo()
+        >>> ali.sync_folder('<本地路径>', '<云端文件夹 file_id>')
         """
         if flag is None:
             self._auth.log.info('sync_folder: 双端同步')
