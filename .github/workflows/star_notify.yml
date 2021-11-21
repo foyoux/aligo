@@ -17,5 +17,5 @@ jobs:
     - name: Download Scripts & Send EMail
       run: |
         wget https://raw.githubusercontent.com/foyoux/aligo/main/.github/workflows/star_notify.py
-        python star_notify.py ${{secrets.SEND_EMAIL}} ${{secrets.SEND_EMAIL_TOKEN}} ${{secrets.NOTIFY_EMAIL}}
+        python star_notify.py ${{secrets.SEND_EMAIL}} ${{secrets.SEND_EMAIL_TOKEN}} ${{secrets.NOTIFY_EMAIL}} ${{github.event}}
         
