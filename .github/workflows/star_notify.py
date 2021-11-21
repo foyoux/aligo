@@ -14,14 +14,14 @@ if __name__ == '__main__':
             'Authorization': 'Bearer ' + sys.argv[1],
         }
     ).json()['data']
-    last = data['repository']['stargazers']['edges'][0]['node']
+    last_user = data['repository']['stargazers']['edges'][0]['node']
     yag = yagmail.SMTP(sys.argv[2], sys.argv[3], 'smtp.qq.com', 465)
     yag.send(sys.argv[4], 'aligo 项目新增 star', f"""
     <div>
         <h1>aligo 项目新增 star</h1>
         <h2>当前总 star {data['repository']['stargazerCount']}</h2>
-        <h3>最新 star 用户 {last['name']}</h3>
-        <h4>最新 star 用户 repo {last['url']}</h3>
-        <img src="{last['avatarUrl']}" />
+        <h3>最新 star 用户 {last_user['name']}</h3>
+        <h4>最新 star 用户 repo {last_user['url']}</h3>
+        <img src="{last_user['avatarUrl']}" />
     </div>
     """)
