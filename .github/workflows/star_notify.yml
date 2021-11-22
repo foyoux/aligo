@@ -1,23 +1,20 @@
 name: Star Notify
 on:
+  fork:
+    branches:
+      - main
   watch:
     types: [ started ]
 jobs:
   Notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Python
-        uses: actions/setup-python@v2.3.0
-        with:
-          python-version: 3.9
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install yagmail[all]
-          pip install requests
+          pip install yagmail[all] requests
       - name: Download Scripts
         run: |
-          wget https://raw.githubusercontent.com/foyoux/aligo/main/.github/workflows/star_notify.py
+          wget https://raw.githubusercontent.com/foyoux/aligo/main/.github/workflows/star_notify.py#${{github.job}}
       - name: Send EMail
         run: |
-          python star_notify.py ${{github.token}} ${{secrets.POST_EMAIL}} ${{secrets.POST_EAMIL_TOKEN}} ${{secrets.NOTIFY_EMAIL}}
+          python star_notify.py ${{secrets.POST_EMAIL}} ${{secrets.POST_EAMIL_TOKEN}} ${{secrets.NOTIFY_EMAIL}} ${{github.token}}
