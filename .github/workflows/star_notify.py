@@ -16,12 +16,11 @@ if __name__ == '__main__':
     ).json()['data']
     last_user = data['repository']['stargazers']['edges'][0]['node']
     yag = yagmail.SMTP(sys.argv[2], sys.argv[3], 'smtp.qq.com', 465)
-    yag.send(sys.argv[4], 'aligo 项目新增 star', f"""
-    <div>
-        <h1>aligo 项目新增 star</h1>
-        <h2>当前总 star {data['repository']['stargazerCount']}</h2>
-        <h3>最新 star 用户 {last_user['name']}</h3>
-        <h4>最新 star 用户 repo {last_user['url']}</h3>
-        <img src="{last_user['avatarUrl']}" />
-    </div>
+    yag.send(sys.argv[4], 'aligo started', f"""
+        <div style="text-align: center;">
+            <h1>💕 sum: {data['repository']['stargazerCount']}</h1>
+            <img src="{last_user['avatarUrl']}" alt="avatar" style="width:200px; border-radius: 100px">
+            <div style="margin: 10px; font-size: xx-large">{last_user['name']}</div>
+            <a href="{last_user['url']}" style="display: block; font-size: x-large">https://github.com/lemisky</a>
+        </div>
     """)
