@@ -1,6 +1,6 @@
 ---
-name: Bug report
-about: Create a report to help us improve
+name: 错误报告
+about: 创建报告以帮助改进 aligo
 title: ''
 labels: ''
 assignees: ''
