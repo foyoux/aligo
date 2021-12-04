@@ -58,6 +58,7 @@ class BaseFile(DataClass):
     creator_type: str = field(default=None, repr=False)
     creator_id: str = field(default=None, repr=False)
     creator_name: str = field(default=None, repr=False)
+    revision_id: str = field(default=None, repr=False)
 
     # def __post_init__(self):
     #     self.image_media_metadata = _null_dict(ImageMedia, self.image_media_metadata)

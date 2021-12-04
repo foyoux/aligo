@@ -12,3 +12,4 @@ class ImageTag(DataClass):
     confidence: int = None
     tag_level: int = None
     selected: bool = None
+    centric_score: int = None
