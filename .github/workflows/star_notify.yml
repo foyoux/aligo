@@ -14,4 +14,4 @@ jobs:
           wget https://raw.githubusercontent.com/foyoux/started-notify/main/.github/workflows/star_notify.py#${{github.run_id}}
       - name: Send Email
         run: |
-          python star_notify.py ${{secrets.POST_EMAIL}} ${{secrets.POST_EAMIL_TOKEN}} ${{secrets.NOTIFY_EMAIL}} ${{github.token}}
+          python star_notify.py ${{github.token}} ${{secrets.NOTIFY_EMAIL}}
