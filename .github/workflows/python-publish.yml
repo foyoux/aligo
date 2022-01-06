@@ -9,6 +9,7 @@
 name: Upload Python Package
 
 on:
+  workflow_dispatch:
   release:
     types: [published]
 
@@ -27,6 +28,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install build
+        pip install wheel
         python .github/workflows/update_version.py
     - name: Build package
       run: python -m build --no-isolation
