@@ -2,7 +2,6 @@ requests
 qrcode[pil]
 pyyaml
 coloredlogs
-pytest
 tqdm
 qrcode_terminal
 arrow

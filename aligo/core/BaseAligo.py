@@ -1,9 +1,11 @@
 """..."""
 import json
+import logging
 import subprocess
 import traceback
 from dataclasses import asdict
 from typing import Generic, List, Iterator, Dict, Callable
+from typing import NoReturn
 from typing import Union
 
 import requests
@@ -20,13 +22,21 @@ from aligo.types.Enum import *
 class BaseAligo:
     """..."""
 
-    def __init__(self, auth: Optional[Auth] = None, use_aria2: bool = False):
+    def __init__(
+            self,
+            name: str = 'aligo',
+            refresh_token: str = None,
+            show: Callable[[str], NoReturn] = None,
+            level: int = logging.DEBUG,
+            loglog: bool = False,
+            use_aria2: bool = False
+    ):
         """
         BaseAligo
         :param auth: [Auth] 鉴权对象
         :param use_aria2: [bool] 是否使用 aria2 下载
         """
-        self._auth: Auth = auth or Auth()
+        self._auth: Auth = Auth(name=name, refresh_token=refresh_token, show=show, level=level, loglog=loglog)  # type: ignore
         # 因为 self._auth.session 没有被重新赋值, 所以可以这么用
         self._session: requests.Session = self._auth.session
         # 在刷新 token 时, self._auth.token 被重新赋值, 而 self._token 却不会被更新

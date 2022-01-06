@@ -2,6 +2,8 @@
 
 [Wiki 帮助文档](https://github.com/foyoux/aligo/wiki)
 
+[examples](https://github.com/foyoux/aligo/tree/main/examples)
+
 🚀🔥 用Python连接阿里云盘 👍👍
 
 **aligo** 是一个操作阿里云盘的 **Python** 库
@@ -166,7 +168,7 @@ if __name__ == '__main__':
 
 ### 其他
 
-`sync_folder`: 文件夹同步
+- `sync_folder`: 文件夹同步
 
 
 
