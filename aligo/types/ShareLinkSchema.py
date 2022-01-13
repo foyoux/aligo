@@ -57,3 +57,7 @@ class ShareLinkSchema(DataClass):
     is_subscribed: bool = field(default=False, repr=False)
     num_of_subscribers: int = field(default=0, repr=False)
     display_name: str = field(default=None)
+    current_sync_status: int = field(default=None, repr=False)
+    next_sync_status: int = field(default=None, repr=False)
+    full_share_msg: str = field(default=None, repr=False)
+    ex_status: int = field(default=None, repr=False)

@@ -128,6 +128,7 @@ class Share(Core):
         >>> print(share_list)
         """
         body = GetShareLinkListRequest(
+            creator=self.user_id,
             limit=100,
             order_by=order_by,
             order_direction=order_direction,
