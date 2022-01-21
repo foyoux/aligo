@@ -34,7 +34,7 @@ if __name__ == '__main__':
         print(file.file_id, file.name, file.type)
 ```
 
-
+https://user-images.githubusercontent.com/35125624/150529002-c2f1b80b-fb11-4e0a-9fd7-6f57f678ccf5.mp4
 
 ## 基本功能
 
