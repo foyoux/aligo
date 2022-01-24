@@ -44,7 +44,7 @@ class SyncFolder(Core):
             True：以本地为主
             False：以云端为主
         :param follow_delete: 次端是否跟随主端删除
-        :param file_filter: 文件过滤函数，参数函数名，返回值为True则过滤
+        :param file_filter: 文件过滤函数，参数文件名，返回值为True则过滤，可用于实现 只同步 特定文件 或 排除某些文件
         :param drive_id: 云端文件夹 drive_id
         :return:
 
