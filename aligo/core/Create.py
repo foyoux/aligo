@@ -261,10 +261,10 @@ class Create(BaseAligo):
     ) -> CreateFileResponse:
         """
         文件秒传
-        :param name: [必填] 文件名
+        :param name: [必填] 文件名 随意
         :param content_hash: [必填] 文件hash
         :param size: [必填] 文件大小
-        :param url: [必填] 文件下载地址(支持断点续传)
+        :param url: [必填] 文件下载地址(支持断点续传) 或 本地路径
         :param parent_file_id: [选填] 父文件夹id
         :param check_name_mode: [选填] 文件名检查模式, 默认为auto_rename
         :param drive_id: [选填] 网盘id
