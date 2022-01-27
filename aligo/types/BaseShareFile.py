@@ -37,3 +37,7 @@ class BaseShareFile(DataClass):
     punish_flag: int = 0
     # 2021年08月31日17时56分14秒
     action_list: List[str] = field(default_factory=list, repr=False)
+    # 2022年01月27日11时17分54秒
+    drive_id: str = None
+    domain_id: str = None
+    revision_id: str = None
