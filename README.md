@@ -170,6 +170,10 @@ https://user-images.githubusercontent.com/35125624/150529002-c2f1b80b-fb11-4e0a-
 - `upload_folder`: 上传文件夹
 
 
+### 文件/目标 搜索
+- `search_file`: 搜索文件，可设置名字和类型
+- `search_aims`: 搜索目标，比如 图片 文件 的 标签
+
 
 ### 其他
 
