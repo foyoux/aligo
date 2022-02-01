@@ -292,7 +292,7 @@ class Auth:
                 self._refesh_token()
                 continue
 
-            if status_code == 429:
+            if status_code == 429 or status_code == 500:
                 self.log.warning('被限流了，休息一下 ...')
                 time.sleep(5)
                 continue
