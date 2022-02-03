@@ -82,6 +82,7 @@ class Download(BaseAligo):
             tmp_size = os.path.getsize(tmp_file)
 
         try:
+            progress_bar = None
             with requests.get(url, headers={
                 'referer': 'https://www.aliyundrive.com/',
                 'Range': f'bytes={tmp_size}-'
@@ -96,7 +97,8 @@ class Download(BaseAligo):
                         f.write(content)
             os.renames(tmp_file, file_path)
         finally:
-            progress_bar.close()
+            if progress_bar:
+                progress_bar.close()
 
         self._auth.log.info(f'文件下载完成 {file_path}')
         return file_path
