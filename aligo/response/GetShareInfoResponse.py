@@ -20,3 +20,4 @@ class GetShareInfoResponse(DataClass):
     updated_at: str = None
     vip: str = None
     display_name: str = field(default=None, repr=False)
+    is_following_creator: bool = False

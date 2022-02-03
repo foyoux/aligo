@@ -59,8 +59,6 @@ class BaseFile(DataClass):
     creator_id: str = field(default=None, repr=False)
     creator_name: str = field(default=None, repr=False)
     revision_id: str = field(default=None, repr=False)
-
-    # def __post_init__(self):
-    #     self.image_media_metadata = _null_dict(ImageMedia, self.image_media_metadata)
-    #     self.video_media_metadata = _null_dict(VideoMedia, self.video_media_metadata)
-    #     self.video_preview_metadata = _null_dict(VideoPreview, self.video_preview_metadata)
+    sync_flag: bool = field(default=None, repr=False)
+    sync_device_flag: bool = field(default=None, repr=False)
+    sync_meta: str = field(default=None, repr=False)

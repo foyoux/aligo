@@ -61,3 +61,5 @@ class ShareLinkSchema(DataClass):
     next_sync_status: int = field(default=None, repr=False)
     full_share_msg: str = field(default=None, repr=False)
     ex_status: int = field(default=None, repr=False)
+    popularity: int = None
+    popularity_str: str = None

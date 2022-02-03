@@ -47,7 +47,7 @@ def test_share():
         assert isinstance(i.created_at, str)
         assert isinstance(i.creator, str)
         assert isinstance(i.file_id_list, list)
-        assert isinstance(i.first_file, ShareLinkBaseFile)
+        # assert isinstance(i.first_file, ShareLinkBaseFile)
         # 4. 取消
         cancel_share = ali.batch_cancel_share(
             share_id_list=[i.share_id]

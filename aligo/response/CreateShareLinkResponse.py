@@ -51,3 +51,10 @@ class CreateShareLinkResponse(DataClass):
     share_url: str = None
     status: str = None
     updated_at: str = None
+    popularity: int = None
+    is_photo_collection: bool = False
+    sync_to_homepage: bool = False
+    full_share_msg: str = None
+    popularity_str: str = None
+    display_name: str = None
+    first_file: ShareLinkBaseFile = None
