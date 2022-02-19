@@ -7,7 +7,7 @@ from .Enum import *
 from .ImageMedia import ImageMedia
 from .VideoMedia import VideoMedia
 from .VideoPreview import VideoPreview
-from .ShareLinkBaseFile import FieldsInfo
+from .FieldsInfo import FieldsInfo
 
 
 @dataclass

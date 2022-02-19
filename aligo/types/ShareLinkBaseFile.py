@@ -2,13 +2,7 @@
 from dataclasses import dataclass, field
 
 from .BaseFile import BaseFile
-from .DataClass import DataClass
-
-
-@dataclass
-class FieldsInfo(DataClass):
-    """..."""
-    image_count: int = 0
+from .FieldsInfo import FieldsInfo
 
 
 @dataclass
