@@ -199,7 +199,7 @@ class Auth:
         )
 
         if response.status_code != 200:
-            self.log.error(f'登陆失败 ~')
+            self.log.error(f'登录失败 ~')
             self.error_log_exit(response)
 
         self.token = Token(**response.json())
@@ -257,7 +257,7 @@ class Auth:
             self.token = Token(**response.json())
             self._save()
         else:
-            self.log.error('刷新 token 失败 ~')
+            self.log.warning('刷新 token 失败 ~')
             self.debug_log(response)
             self._login()
 
