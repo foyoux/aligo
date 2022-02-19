@@ -54,8 +54,8 @@ class Download(BaseAligo):
         file_path = os.path.join(file_dir, file_name)
 
         # url 为空判断
-        if url == "" or url == None:
-            self._auth.log.error(f"文件 {file_path} 获取的url为空, 下载失败, 文件可能被屏蔽导致无法下载")
+        if not url:
+            self._auth.log.error(f'文件 {file_path} 下载失败: 获取的url为空, 文件可能被屏蔽导致无法下载')
             return file_path
 
         self._auth.log.info(f'开始下载文件 {file_path}')
