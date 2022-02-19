@@ -7,6 +7,7 @@ from .Enum import *
 from .ImageMedia import ImageMedia
 from .VideoMedia import VideoMedia
 from .VideoPreview import VideoPreview
+from .ShareLinkBaseFile import FieldsInfo
 
 
 @dataclass
@@ -62,3 +63,4 @@ class BaseFile(DataClass):
     sync_flag: bool = field(default=None, repr=False)
     sync_device_flag: bool = field(default=None, repr=False)
     sync_meta: str = field(default=None, repr=False)
+    ex_fields_info: FieldsInfo = field(default=None, repr=False)
