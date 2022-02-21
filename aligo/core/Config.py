@@ -17,7 +17,8 @@ V2_OAUTH_AUTHORIZE = '/v2/oauth/authorize'
 V2_OAUTH_TOKEN_LOGIN = '/v2/oauth/token_login'
 
 TOKEN_GET = '/token/get'
-TOKEN_REFRESH = '/token/refresh'
+TOKEN_REFRESH = '/token/refresh'  # TODO: 这个接口可能是旧的接口, 待删除
+V2_ACCOUNT_TOKEN = '/v2/account/token'
 
 V2_USER_GET = '/v2/user/get'
 
