@@ -17,6 +17,9 @@
 pip install --upgrade aligo
 ```
 
+<br>
+
+- 感谢 [Kimiato](https://github.com/Kimiato) 的贡献，解决了 **Referer 头验证** 的问题
 
 
 ## 快速入门
