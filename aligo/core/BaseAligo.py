@@ -26,7 +26,6 @@ class BaseAligo:
             self,
             name: str = 'aligo',
             refresh_token: str = None,
-            use_refresh_token: bool = False,
             show: Callable[[str], NoReturn] = None,
             level: int = logging.DEBUG,
             loglog: bool = False,
@@ -37,7 +36,7 @@ class BaseAligo:
         :param auth: [Auth] 鉴权对象
         :param use_aria2: [bool] 是否使用 aria2 下载
         """
-        self._auth: Auth = Auth(name=name, refresh_token=refresh_token, use_refresh_token=use_refresh_token, show=show, level=level, loglog=loglog)  # type: ignore
+        self._auth: Auth = Auth(name=name, refresh_token=refresh_token, show=show, level=level, loglog=loglog)  # type: ignore
         # 因为 self._auth.session 没有被重新赋值, 所以可以这么用
         self._session: requests.Session = self._auth.session
         # 在刷新 token 时, self._auth.token 被重新赋值, 而 self._token 却不会被更新

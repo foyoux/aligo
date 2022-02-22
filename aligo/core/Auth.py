@@ -10,7 +10,6 @@ import time
 from dataclasses import asdict
 from pathlib import Path
 from typing import Callable, overload, List, NoReturn, Dict
-from urllib import parse
 
 import coloredlogs
 import qrcode
@@ -56,7 +55,6 @@ class Auth:
             self,
             name: str = 'aligo',
             show: Callable[[str], NoReturn] = None,
-            use_refresh_token: bool = False,
             level=logging.DEBUG,
             loglog: bool = False
     ):
@@ -67,7 +65,6 @@ class Auth:
             self,
             name: str = 'aligo',
             refresh_token: str = None,
-            use_refresh_token: bool = False,
             level=logging.DEBUG,
             loglog: bool = False
     ):
@@ -76,7 +73,6 @@ class Auth:
     def __init__(
             self, name: str = 'aligo',
             refresh_token: str = None,
-            use_refresh_token: bool = False,
             show: Callable[[str], NoReturn] = None,
             level: int = logging.DEBUG,
             loglog: bool = False
@@ -85,7 +81,6 @@ class Auth:
 
         :param name: (可选, 默认: aligo) 配置文件名称, 便于使用不同配置文件进行身份验证
         :param refresh_token:
-        :param use_refresh_token: (可选, 默认: false) 是否使用二维码登录解析出来的 refresh_token 进行操作
         :param show: (可选) 显示二维码的函数
         :param level: (可选) 控制控制台输出
         :param loglog: (可选) 控制文件输出
@@ -162,12 +157,6 @@ class Auth:
             self.log.info('使用 扫描二维码 方式登录')
             self._login()
 
-        # 使用 refresh_token 的方式登录
-        if use_refresh_token:
-            self.log.debug('使用解析出来的 refresh_token 来操作')
-            self._refresh_token(self.token.refresh_token)
-            return
-
         #
         self.session.headers.update({
             'Authorization': f'Bearer {self.token.access_token}'
@@ -189,41 +178,10 @@ class Auth:
 
         bizExt = response.json()['content']['data']['bizExt']
         bizExt = base64.b64decode(bizExt).decode('gb18030')
-        accessToken = json.loads(bizExt)['pds_login_result']['accessToken']
 
         # 获取解析出来的 refreshToken, 使用这个token获取下载链接是直链, 不需要带 headers
         refresh_token = json.loads(bizExt)['pds_login_result']['refreshToken']
-
-        # 使用accessToken持久化身份认证
-        response = self.session.post(
-            AUTH_HOST + V2_OAUTH_TOKEN_LOGIN,
-            json={
-                'token': accessToken
-            }
-        )
-        goto = response.json()['goto']
-        code: str = parse.parse_qs(parse.urlparse(goto).query)['code'][0]  # type: ignore
-
-        response = self.session.post(
-            WEBSV_HOST + TOKEN_GET,
-            json={
-                'code': code
-            }
-        )
-
-        if response.status_code != 200:
-            self.log.error(f'登录失败 ~')
-            self.error_log_exit(response)
-
-        self.token = Token(**response.json())
-        self.token.refresh_token = refresh_token
-
-        self.log.info('登录成功 ~')
-        self.log.info(
-            f'username: {self.token.user_name} nickname: {self.token.nick_name} user_id: {self.token.user_id}')
-
-        # 保存
-        self._save()
+        self._refresh_token(refresh_token, True)
 
     def _login_by_qrcode(self) -> requests.Response:
         """二维码登录"""
@@ -257,7 +215,7 @@ class Auth:
                 self.error_log_exit(response)
             time.sleep(2)
 
-    def _refresh_token(self, refresh_token=None):
+    def _refresh_token(self, refresh_token=None, loop_call: bool = False):
         """刷新 token"""
         if refresh_token is None:
             refresh_token = self.token.refresh_token
@@ -272,7 +230,7 @@ class Auth:
         if response.status_code == 200:
             self.token = Token(**response.json())
             self._save()
-        else:
+        elif not loop_call:
             self.log.warning('刷新 token 失败 ~')
             self.debug_log(response)
             self._login()
