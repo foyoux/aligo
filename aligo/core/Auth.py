@@ -56,7 +56,8 @@ class Auth:
             name: str = 'aligo',
             show: Callable[[str], NoReturn] = None,
             level=logging.DEBUG,
-            loglog: bool = False
+            loglog: bool = False,
+            proxies: Dict = None
     ):
         """扫描二维码登录"""
 
@@ -66,7 +67,8 @@ class Auth:
             name: str = 'aligo',
             refresh_token: str = None,
             level=logging.DEBUG,
-            loglog: bool = False
+            loglog: bool = False,
+            proxies: Dict = None
     ):
         """refresh_token 登录"""
 
@@ -75,7 +77,8 @@ class Auth:
             refresh_token: str = None,
             show: Callable[[str], NoReturn] = None,
             level: int = logging.DEBUG,
-            loglog: bool = False
+            loglog: bool = False,
+            proxies: Dict = None
     ):
         """登录验证
 
@@ -84,6 +87,7 @@ class Auth:
         :param show: (可选) 显示二维码的函数
         :param level: (可选) 控制控制台输出
         :param loglog: (可选) 控制文件输出
+        :param proxies: (可选) 自定义代理 [proxies={"https":"localhost:10809"}],支持 http 和 socks5（具体参考requests库的用法）
         """
         self._name = _aligo.joinpath(f'{name}.json')
 
@@ -115,6 +119,8 @@ class Auth:
 
         #
         self.session = requests.session()
+        self.session.trust_env = False
+        self.session.proxies = proxies
         self.session.params.update(UNI_PARAMS)  # type:ignore
         self.session.headers.update(UNI_HEADERS)
 
