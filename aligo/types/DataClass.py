@@ -42,10 +42,11 @@ class DataClass:
         hints = DataClass._get_hints(cls)
         params = {}
         for key, value in obj.items():
-            if key not in hints:
-                _LOGGER.warning(f'{cls.__module__}({key} : {type(value).__name__} = {repr(value)[:100]})')
-            else:
+            if key in hints:
                 params[key] = value
+            else:
+                # _LOGGER.warning(f'{cls.__module__}({key} : {type(value).__name__} = {repr(value)[:100]})')
+                pass
         return cls(**params)
 
     def __post_init__(self):
