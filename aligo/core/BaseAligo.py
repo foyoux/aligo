@@ -28,7 +28,6 @@ class BaseAligo:
             refresh_token: str = None,
             show: Callable[[str], NoReturn] = None,
             level: int = logging.DEBUG,
-            loglog: bool = False,
             use_aria2: bool = False,
             proxies: Dict = None
     ):
@@ -38,7 +37,6 @@ class BaseAligo:
         :param refresh_token:
         :param show: (可选) 显示二维码的函数
         :param level: (可选) 控制控制台输出
-        :param loglog: (可选) 控制文件输出
         :param use_aria2: [bool] 是否使用 aria2 下载
         :param proxies: (可选) 自定义代理 [proxies={"https":"localhost:10809"}],支持 http 和 socks5（具体参考requests库的用法）
         """
@@ -47,7 +45,6 @@ class BaseAligo:
             refresh_token=refresh_token,
             show=show,
             level=level,
-            loglog=loglog,
             proxies=proxies
         )
         # 因为 self._auth.session 没有被重新赋值, 所以可以这么用
