@@ -229,11 +229,10 @@ class Auth:
         self.session.headers.update({
             'Authorization': f'Bearer {self.token.access_token}'
         })
-        # error_log_exit(response)
 
     def request(self, method: str, url: str,
                 params: Dict = None, headers: Dict = None, data=None,
-                files: object = None, verify: bool = None, body: Dict = None) -> requests.Response:
+                verify: bool = None, body: Dict = None) -> requests.Response:
         """统一请求方法"""
         # 删除值为None的键
         if body is not None:
@@ -244,8 +243,7 @@ class Auth:
 
         for i in range(3):
             response = self.session.request(method=method, url=url, params=params,
-                                            data=data, headers=headers, files=files,
-                                            verify=verify, json=body)
+                                            data=data, headers=headers, verify=verify, json=body)
             status_code = response.status_code
             self.log.info(
                 f'{response.request.method} {response.url} {status_code} {response.headers.get("Content-Length", 0)}'
@@ -277,7 +275,7 @@ class Auth:
              files=None, verify: bool = None, body: dict = None) -> requests.Response:
         """..."""
         return self.request(method='POST', url=host + path, params=params, data=data,
-                            headers=headers, files=files, verify=verify, body=body)
+                            headers=headers, verify=verify, body=body)
 
     @staticmethod
     def _show_console(qr_link: str) -> str:
