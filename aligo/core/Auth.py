@@ -20,15 +20,15 @@ from aligo.core.Config import *
 from aligo.types import *
 from aligo.types.Enum import *
 
-_aligo = Path.home().joinpath('.aligo')
-_aligo.mkdir(parents=True, exist_ok=True)
+aligo_config_folder = Path.home().joinpath('.aligo')
+aligo_config_folder.mkdir(parents=True, exist_ok=True)
 
 
 def get_configurations() -> List[str]:
     """获取配置文件列表"""
     list_: List[str] = []
     file_: os.DirEntry
-    for file_ in os.scandir(_aligo):
+    for file_ in os.scandir(aligo_config_folder):
         list_.append(os.path.splitext(file_.name)[0])
     return list_
 
@@ -89,7 +89,7 @@ class Auth:
         :param loglog: (可选) 控制文件输出
         :param proxies: (可选) 自定义代理 [proxies={"https":"localhost:10809"}],支持 http 和 socks5（具体参考requests库的用法）
         """
-        self._name = _aligo.joinpath(f'{name}.json')
+        self._name = aligo_config_folder.joinpath(f'{name}.json')
 
         self.log = logging.getLogger(f'{__name__}:{name}')
 
