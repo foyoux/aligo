@@ -1,10 +1,11 @@
 """Aligo class"""
+import json
 import logging
 from typing import Callable, Dict
 
 from typing_extensions import NoReturn
 
-from .Audio import Audio
+from .Audio import Audio, aligo_config_folder
 from .Copy import Copy
 from .Create import Create
 from .CustomShare import CustomShare
@@ -59,5 +60,25 @@ class Aligo(
         :param level: (可选) 控制控制台输出
         :param use_aria2: [bool] 是否使用 aria2 下载
         :param proxies: (可选) 自定义代理 [proxies={"https":"localhost:10809"}],支持 http 和 socks5（具体参考requests库的用法）
+
+        level, use_aria2, proxies 三个参数可以通过 配置文件 配置默认值，在 <用户家目录>/.aligo/config.json5 中
+        ```json5
+        {
+          "level": 10,
+          "use_aria2": false,
+          "proxies": {
+            "https": "http://localhost:10809",
+            // "https": "socks5://localhost:10808", # 不支持注释，写的时候删掉
+          }
+        }
+        ```
         """
+        config = aligo_config_folder / 'config.json5'
+        if config.exists():
+            config = json.loads(config.open().read())
+            if 'level' in config:
+                level = config.get('level')
+            use_aria2 = config.get('use_aria2')
+            proxies = config.get('proxies')
+
         super().__init__(name, refresh_token, show, level, use_aria2, proxies)
