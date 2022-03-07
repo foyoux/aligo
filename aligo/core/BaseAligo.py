@@ -54,10 +54,16 @@ class BaseAligo:
         self._user: Optional[BaseUser] = None
         self._personal_info: Optional[GetPersonalInfoResponse] = None
         self._default_drive: Optional[BaseDrive] = None
-        try:
-            subprocess.run(['aria2c', '-h'], capture_output=True)
-            self._has_aria2c = use_aria2
-        except FileNotFoundError:
+
+        if use_aria2:
+            try:
+                subprocess.run(['aria2c', '-h'], capture_output=True)
+                self._has_aria2c = True
+                self._auth.log.info('发现 aria2c, 将使用 aria2c 下载文件')
+            except FileNotFoundError:
+                self._auth.log.warning('未发现 aria2c')
+                self._has_aria2c = False
+        else:
             self._has_aria2c = False
 
     def _post(self, path: str, host: str = API_HOST, body: Union[DataType, Dict] = None) -> requests.Response:
