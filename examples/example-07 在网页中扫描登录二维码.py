@@ -34,21 +34,21 @@ class MyServer(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header("content-type", "image/png")
             self.end_headers()
-            self.wfile.write(qrData)  # type: ignore
+            self.wfile.write(self.server.qrData)  # type: ignore
         else:
             self.send_response(404)
 
 
 def show(qr_link: str):
     """..."""
-    global webServer, qrData
+    global webServer
     qr_img = qrcode.make(qr_link)
     qr_img.get_image()
     qr_img_path = tempfile.mktemp()
     qr_img.save(qr_img_path)
-    qrData = open(qr_img_path, 'rb').read()
-    os.remove(qr_img_path)
     webServer = HTTPServer((hostName, serverPort), MyServer)
+    webServer.qrData = open(qr_img_path, 'rb').read()
+    os.remove(qr_img_path)
     print(f'请使用浏览器访问 http://<YOUR_IP>:{serverPort} 扫描二维码')
     webServer.serve_forever()
 
@@ -57,7 +57,6 @@ if __name__ == "__main__":
     hostName = '0.0.0.0'
     serverPort = 8080
     webServer = None
-    qrData = None
 
     ali = Aligo(name='xxx', show=show)
     if webServer:
