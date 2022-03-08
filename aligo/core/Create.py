@@ -21,7 +21,7 @@ from aligo.types.Enum import *
 class Create(BaseAligo):
     """创建文件: 1.创建文件 2.上传文件 3.下载文件"""
 
-    _UPLOAD_CHUNK_SIZE: int = 10485760
+    _UPLOAD_CHUNK_SIZE: int = 10485760 * 20  # 10M * 20 支持最大 2 T
 
     def create_file(self, body: CreateFileRequest) -> CreateFileResponse:
         """
