@@ -71,7 +71,7 @@ class Aligo(
             关于防伪字符串: 为了方便大家使用, aligo 自带公开邮箱, 省去邮箱配置的麻烦.
                         所以收到登录邮件后, 一定要对比确认防伪字符串和你设置一致才可扫码登录, 否则将导致: 包括但不限于云盘文件泄露.
 
-        level, use_aria2, proxies 三个参数可以通过 配置文件 配置默认值，在 <用户家目录>/.aligo/config.json5 中
+        level, use_aria2, proxies, port, email 可以通过 配置文件 配置默认值，在 <用户家目录>/.aligo/config.json5 中
         ```json5
         {
           "level": 10,
