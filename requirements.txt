@@ -2,7 +2,7 @@ requests
 qrcode[pil]
 pyyaml
 coloredlogs
-tqdm
+tqdm>=4.50.0
 qrcode_terminal
 arrow
 typing_extensions
