@@ -29,7 +29,8 @@ class BaseAligo:
             show: Callable[[str], NoReturn] = None,
             level: int = logging.DEBUG,
             use_aria2: bool = False,
-            proxies: Dict = None
+            proxies: Dict = None,
+            port: int = None
     ):
         """
         BaseAligo
@@ -45,7 +46,8 @@ class BaseAligo:
             refresh_token=refresh_token,
             show=show,
             level=level,
-            proxies=proxies
+            proxies=proxies,
+            port=port
         )
         # 因为 self._auth.session 没有被重新赋值, 所以可以这么用
         self._session: requests.Session = self._auth.session
@@ -121,6 +123,7 @@ class BaseAligo:
             if not text.startswith('{'):
                 return dcls()
             try:
+                # noinspection PyProtectedMember
                 return DataClass._fill_attrs(dcls, json.loads(text))
             except TypeError:
                 self._auth.debug_log(response)

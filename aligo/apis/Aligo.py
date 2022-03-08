@@ -50,7 +50,8 @@ class Aligo(
             show: Callable[[str], NoReturn] = None,
             level: int = logging.DEBUG,
             use_aria2: bool = False,
-            proxies: Dict = None
+            proxies: Dict = None,
+            port: int = None
     ):
         """
         Aligo
@@ -69,16 +70,21 @@ class Aligo(
           "proxies": {
             "https": "http://localhost:10809",
             // "https": "socks5://localhost:10808", # 不支持注释，写的时候删掉
-          }
+          },
+          "port": 8080
         }
         ```
         """
         config = aligo_config_folder / 'config.json5'
         if config.exists():
             config = json.loads(config.open().read())
-            if 'level' in config:
+            if level == logging.DEBUG and 'level' in config:
                 level = config.get('level')
-            use_aria2 = config.get('use_aria2')
-            proxies = config.get('proxies')
+            if not use_aria2:
+                use_aria2 = config.get('use_aria2')
+            if proxies is None:
+                proxies = config.get('proxies')
+            if port is None:
+                port = config.get('port')
 
-        super().__init__(name, refresh_token, show, level, use_aria2, proxies)
+        super().__init__(name, refresh_token, show, level, use_aria2, proxies, port)

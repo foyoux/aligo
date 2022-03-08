@@ -8,6 +8,7 @@ import sys
 import tempfile
 import time
 from dataclasses import asdict
+from http.server import HTTPServer
 from pathlib import Path
 from typing import Callable, overload, List, NoReturn, Dict
 
@@ -19,6 +20,7 @@ import requests
 from aligo.core.Config import *
 from aligo.types import *
 from aligo.types.Enum import *
+from .LoginServer import LoginServer
 
 aligo_config_folder = Path.home().joinpath('.aligo')
 aligo_config_folder.mkdir(parents=True, exist_ok=True)
@@ -56,7 +58,8 @@ class Auth:
             name: str = 'aligo',
             show: Callable[[str], NoReturn] = None,
             level=logging.DEBUG,
-            proxies: Dict = None
+            proxies: Dict = None,
+            port: int = None
     ):
         """扫描二维码登录"""
 
@@ -66,7 +69,8 @@ class Auth:
             name: str = 'aligo',
             refresh_token: str = None,
             level=logging.DEBUG,
-            proxies: Dict = None
+            proxies: Dict = None,
+            port: int = None
     ):
         """refresh_token 登录"""
 
@@ -75,7 +79,8 @@ class Auth:
             refresh_token: str = None,
             show: Callable[[str], NoReturn] = None,
             level: int = logging.DEBUG,
-            proxies: Dict = None
+            proxies: Dict = None,
+            port: int = None
     ):
         """登录验证
 
@@ -86,7 +91,8 @@ class Auth:
         :param proxies: (可选) 自定义代理 [proxies={"https":"localhost:10809"}],支持 http 和 socks5（具体参考requests库的用法）
         """
         self._name = aligo_config_folder.joinpath(f'{name}.json')
-
+        self._port = port
+        self._webServer: HTTPServer = None  # type: ignore
         self.log = logging.getLogger(f'{__name__}:{name}')
 
         fmt = f'%(asctime)s.%(msecs)03d {name}.%(levelname)s %(message)s'
@@ -145,7 +151,7 @@ class Auth:
             self.log.info(f'加载配置文件 {self._name}')
             self.token = Token(**json.load(self._name.open()))
         else:
-            self.log.info('使用 扫描二维码 方式登录')
+            self.log.info('登录方式 扫描二维码')
             self._login()
 
         #
@@ -160,11 +166,11 @@ class Auth:
 
     def _login(self):
         """登录"""
-        self.log.info('开始登录 ...')
+        self.log.info('开始登录')
         response = self._login_by_qrcode()
 
         if response.status_code != 200:
-            self.log.error('登录失败 ~')
+            self.log.error('登录失败')
             self.error_log_exit(response)
 
         bizExt = response.json()['content']['data']['bizExt']
@@ -180,11 +186,20 @@ class Auth:
             PASSPORT_HOST + NEWLOGIN_QRCODE_GENERATE_DO
         )
         data = response.json()['content']['data']
-        self.log.info('等待扫描二维码 ...')
-        self.log.info('扫描成功后，请手动关闭图像窗口 ...')
-        png = self._show(data['codeContent'])
-        if png:
-            self.log.info(f'如果没有显示二维码，请直接访问二维码图片文件: {png}')
+
+        qr_link = data['codeContent']
+
+        # 开启服务
+        if self._port:
+            self.log.info(f'可访问 http://<YOUR_IP>:{self._port} 扫描二维码')
+            self._show_qrcode_in_web(qr_link)
+
+        self.log.info('等待扫描二维码')
+
+        qrcode_png = self._show(qr_link)
+        if qrcode_png:
+            self.log.info(f'二维码图片文件: {qrcode_png}')
+
         while True:
             response = self.session.post(
                 PASSPORT_HOST + NEWLOGIN_QRCODE_QUERY_DO,
@@ -192,17 +207,17 @@ class Auth:
             )
             login_data = response.json()['content']['data']
             qrCodeStatus = login_data['qrCodeStatus']
-            # self.log.info('等待扫描二维码 ...')
             if qrCodeStatus == 'NEW':
-                # self.log.info('等待扫描二维码 ...')
                 pass
             elif qrCodeStatus == 'SCANED':
-                self.log.info('已扫描, 等待确认 ...')
+                self.log.info('已扫描, 等待确认')
             elif qrCodeStatus == 'CONFIRMED':
-                self.log.info(f'已确认 (你可以关闭二维码图像了).')
+                self.log.info(f'已确认, 可关闭二维码窗口')
+                if self._port:
+                    self._webServer.server_close()
                 return response
             else:
-                self.log.warning('未知错误: 可能二维码已经过期.')
+                self.log.warning('未知错误: 可能二维码已经过期')
                 self.error_log_exit(response)
             time.sleep(2)
 
@@ -210,7 +225,7 @@ class Auth:
         """刷新 token"""
         if refresh_token is None:
             refresh_token = self.token.refresh_token
-        self.log.info('刷新 token ...')
+        self.log.info('refresh token')
         response = self.session.post(
             API_HOST + V2_ACCOUNT_TOKEN,
             json={
@@ -219,10 +234,11 @@ class Auth:
             }
         )
         if response.status_code == 200:
+            self.log.info('refresh token success')
             self.token = Token(**response.json())
             self._save()
         elif not loop_call:
-            self.log.warning('刷新 token 失败 ~')
+            self.log.warning('refresh token failed')
             self.debug_log(response)
             self._login()
 
@@ -241,6 +257,7 @@ class Auth:
         if data is not None and isinstance(data, dict):
             data = {k: v for k, v in data.items() if v is not None}
 
+        response = None
         for i in range(3):
             response = self.session.request(method=method, url=url, params=params,
                                             data=data, headers=headers, verify=verify, json=body)
@@ -256,13 +273,13 @@ class Auth:
                 continue
 
             if status_code == 429 or status_code == 500:
-                self.log.warning('被限流了，休息一下 ...')
+                self.log.warning('被限制了, 暂停 5 秒')
                 time.sleep(5)
                 continue
 
             return response
 
-        self.log.info(f'重试3次仍旧失败~')
+        self.log.info(f'重试 3 次仍旧失败~')
         self.error_log_exit(response)
 
     def get(self, path: str, host: str = API_HOST, params: dict = None, headers: dict = None,
@@ -272,7 +289,7 @@ class Auth:
                             headers=headers, verify=verify)
 
     def post(self, path: str, host: str = API_HOST, params: dict = None, headers: dict = None, data: dict = None,
-             files=None, verify: bool = None, body: dict = None) -> requests.Response:
+             verify: bool = None, body: dict = None) -> requests.Response:
         """..."""
         return self.request(method='POST', url=host + path, params=params, data=data,
                             headers=headers, verify=verify, body=body)
@@ -296,9 +313,9 @@ class Auth:
 
         # save image to file
         # 3.
-        png = tempfile.mktemp('.png')
-        qr_img.save(png)
-        return png
+        qrcode_png = tempfile.mktemp('.png')
+        qr_img.save(qrcode_png)
+        return qrcode_png
 
     @staticmethod
     def _show_qrcode_in_window(qr_link: str) -> NoReturn:
@@ -310,3 +327,14 @@ class Auth:
         # show qrcode in windows & macos
         qr_img = qrcode.make(qr_link)
         qr_img.show()
+
+    def _show_qrcode_in_web(self, qr_link: str) -> NoReturn:
+        """浏览器显示二维码"""
+        qr_img = qrcode.make(qr_link)
+        qr_img.get_image()
+        qr_img_path = tempfile.mktemp()
+        qr_img.save(qr_img_path)
+        self._webServer = HTTPServer(('0.0.0.0', self._port), LoginServer)
+        self._webServer.qrData = open(qr_img_path, 'rb').read()
+        os.remove(qr_img_path)
+        self._webServer.serve_forever()
