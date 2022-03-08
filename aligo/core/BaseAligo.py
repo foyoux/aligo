@@ -6,7 +6,7 @@ import traceback
 from dataclasses import asdict
 from typing import Generic, List, Iterator, Dict, Callable
 from typing import NoReturn
-from typing import Union
+from typing import Union, Tuple
 
 import requests
 
@@ -30,7 +30,8 @@ class BaseAligo:
             level: int = logging.DEBUG,
             use_aria2: bool = False,
             proxies: Dict = None,
-            port: int = None
+            port: int = None,
+            email: Tuple[str, str] = None,
     ):
         """
         BaseAligo
@@ -40,6 +41,10 @@ class BaseAligo:
         :param level: (可选) 控制控制台输出
         :param use_aria2: [bool] 是否使用 aria2 下载
         :param proxies: (可选) 自定义代理 [proxies={"https":"localhost:10809"}],支持 http 和 socks5（具体参考requests库的用法）
+        :param port: (可选) 开启 http server 端口，用于网页端扫码登录. 提供此值时，将不再弹出或打印二维码
+        :param email: (可选) 发送扫码登录邮件 ("接收邮件的邮箱地址", "防伪字符串"). 提供此值时，将不再弹出或打印二维码
+            关于防伪字符串: 为了方便大家使用, aligo 自带公开邮箱, 省去邮箱配置的麻烦.
+                        所以收到登录邮件后, 一定要对比确认防伪字符串和你设置一致才可扫码登录, 否则将导致: 包括但不限于云盘文件泄露.
         """
         self._auth: Auth = Auth(  # type: ignore
             name=name,
@@ -47,7 +52,8 @@ class BaseAligo:
             show=show,
             level=level,
             proxies=proxies,
-            port=port
+            port=port,
+            email=email,
         )
         # 因为 self._auth.session 没有被重新赋值, 所以可以这么用
         self._session: requests.Session = self._auth.session

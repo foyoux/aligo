@@ -10,12 +10,13 @@ import time
 from dataclasses import asdict
 from http.server import HTTPServer
 from pathlib import Path
-from typing import Callable, overload, List, NoReturn, Dict
+from typing import Callable, overload, List, NoReturn, Dict, Tuple
 
 import coloredlogs
 import qrcode
 import qrcode_terminal
 import requests
+import yagmail
 
 from aligo.core.Config import *
 from aligo.types import *
@@ -59,7 +60,8 @@ class Auth:
             show: Callable[[str], NoReturn] = None,
             level=logging.DEBUG,
             proxies: Dict = None,
-            port: int = None
+            port: int = None,
+            email: Tuple[str, str] = None,
     ):
         """扫描二维码登录"""
 
@@ -70,7 +72,8 @@ class Auth:
             refresh_token: str = None,
             level=logging.DEBUG,
             proxies: Dict = None,
-            port: int = None
+            port: int = None,
+            email: Tuple[str, str] = None,
     ):
         """refresh_token 登录"""
 
@@ -80,7 +83,8 @@ class Auth:
             show: Callable[[str], NoReturn] = None,
             level: int = logging.DEBUG,
             proxies: Dict = None,
-            port: int = None
+            port: int = None,
+            email: Tuple[str, str] = None,
     ):
         """登录验证
 
@@ -89,10 +93,16 @@ class Auth:
         :param show: (可选) 显示二维码的函数
         :param level: (可选) 控制控制台输出
         :param proxies: (可选) 自定义代理 [proxies={"https":"localhost:10809"}],支持 http 和 socks5（具体参考requests库的用法）
+        :param port: (可选) 开启 http server 端口，用于网页端扫码登录. 提供此值时，将不再弹出或打印二维码
+        :param email: (可选) 发送扫码登录邮件 ("接收邮件的邮箱地址", "防伪字符串"). 提供此值时，将不再弹出或打印二维码
+            关于防伪字符串: 为了方便大家使用, aligo 自带公开邮箱, 省去邮箱配置的麻烦.
+                        所以收到登录邮件后, 一定要对比确认防伪字符串和你设置一致才可扫码登录, 否则将导致: 包括但不限于云盘文件泄露.
         """
+        self._name_name = name
         self._name = aligo_config_folder.joinpath(f'{name}.json')
         self._port = port
         self._webServer: HTTPServer = None  # type: ignore
+        self._email = email
         self.log = logging.getLogger(f'{__name__}:{name}')
 
         fmt = f'%(asctime)s.%(msecs)03d {name}.%(levelname)s %(message)s'
@@ -190,9 +200,12 @@ class Auth:
         qr_link = data['codeContent']
 
         # 开启服务
-        if self._port:
-            self.log.info(f'请访问 http://<YOUR_IP>:{self._port} 扫描二维码')
-            _thread.start_new_thread(self._show_qrcode_in_web, (qr_link,))
+        if self._port or self._email:
+            if self._port:
+                self.log.info(f'请访问 http://<YOUR_IP>:{self._port} 扫描二维码')
+                _thread.start_new_thread(self._show_qrcode_in_web, (qr_link,))
+            if self._email:
+                self._send_email(qr_link)
         else:
             qrcode_png = self._show(qr_link)
             if qrcode_png:
@@ -345,3 +358,14 @@ class Auth:
             self._webServer.serve_forever()
         except:
             pass
+
+    def _send_email(self, qr_link: str) -> NoReturn:
+        """发送邮件"""
+        qr_img = qrcode.make(qr_link)
+        qr_img.get_image()
+        qr_img_path = tempfile.mktemp('.png')
+        qr_img.save(qr_img_path)
+        yag = yagmail.SMTP({'aligo_notify@163.com': 'aligo notify'}, 'IYMQTISDOZYUMUFX', 'smtp.163.com', 465)
+        yag.send(self._email[0], f'[阿里云盘/{self._name_name}] 扫码登录', self._email[1], attachments=[qr_img_path])
+        self.log.info(f'登录二维码已发送至 {self._email[0]}')
+        os.remove(qr_img_path)
