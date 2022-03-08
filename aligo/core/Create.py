@@ -20,8 +20,8 @@ from aligo.types.Enum import *
 
 class Create(BaseAligo):
     """创建文件: 1.创建文件 2.上传文件 3.下载文件"""
-
-    _UPLOAD_CHUNK_SIZE: int = 10485760 * 20  # 10M * 20 支持最大 2 T
+    # 控制内存消耗 100M 左右，但默认单文件上传只支持 1T，如需更大，手动 调节 Create._UPLOAD_CHUNK_SIZE 的值
+    _UPLOAD_CHUNK_SIZE: int = 10485760 * 10  # 10M * 10 支持最大 1 T
 
     def create_file(self, body: CreateFileRequest) -> CreateFileResponse:
         """

@@ -15,7 +15,7 @@ from aligo.types import *
 
 class Download(BaseAligo):
     """..."""
-    _DOWNLOAD_CHUNK_SIZE = 8388608
+    _DOWNLOAD_CHUNK_SIZE = 8388608 * 10  # 8M * 10
 
     def _core_get_download_url(self, body: GetDownloadUrlRequest) -> GetDownloadUrlResponse:
         """..."""
