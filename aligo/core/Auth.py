@@ -143,7 +143,7 @@ class Auth:
         self._show = show
 
         if refresh_token:
-            self.log.debug('使用 refresh_token 方式登录')
+            self.log.debug('登录方式 refresh_token')
             self._refresh_token(refresh_token)
             return
 
@@ -191,7 +191,7 @@ class Auth:
 
         # 开启服务
         if self._port:
-            self.log.info(f'可访问 http://<YOUR_IP>:{self._port} 扫描二维码')
+            self.log.info(f'请访问 http://<YOUR_IP>:{self._port} 扫描二维码')
             _thread.start_new_thread(self._show_qrcode_in_web, (qr_link,))
         else:
             qrcode_png = self._show(qr_link)
@@ -237,11 +237,11 @@ class Auth:
             }
         )
         if response.status_code == 200:
-            self.log.info('refresh token success')
+            self.log.info('刷新 token 成功')
             self.token = Token(**response.json())
             self._save()
         elif not loop_call:
-            self.log.warning('refresh token failed')
+            self.log.warning('刷新 token 失败')
             self.debug_log(response)
             self._login()
 
@@ -261,7 +261,7 @@ class Auth:
             data = {k: v for k, v in data.items() if v is not None}
 
         response = None
-        for i in range(3):
+        for i in range(1, 4):
             response = self.session.request(method=method, url=url, params=params,
                                             data=data, headers=headers, verify=verify, json=body)
             status_code = response.status_code
@@ -276,13 +276,13 @@ class Auth:
                 continue
 
             if status_code == 429 or status_code == 500:
-                self.log.warning('被限制了, 暂停 5 秒')
-                time.sleep(5)
+                self.log.warning(f'被限制了 暂停 {5 ** i} 秒')
+                time.sleep(5 ** i)
                 continue
 
             return response
 
-        self.log.info(f'重试 3 次仍旧失败~')
+        self.log.info(f'重试 3 次仍旧失败')
         self.error_log_exit(response)
 
     def get(self, path: str, host: str = API_HOST, params: dict = None, headers: dict = None,
