@@ -1,5 +1,6 @@
 """扫描二维码登录服务，供登录使用"""
 from http.server import BaseHTTPRequestHandler
+from typing import Any
 
 
 class LoginServer(BaseHTTPRequestHandler):
@@ -30,5 +31,11 @@ class LoginServer(BaseHTTPRequestHandler):
             self.end_headers()
             # noinspection PyUnresolvedReferences
             self.wfile.write(self.server.qrData)
+        elif self.path == '/close':
+            self.server.server_close()
         else:
             self.send_response(404)
+
+    def log_message(self, _format: str, *args: Any) -> None:
+        """..."""
+        return

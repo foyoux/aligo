@@ -1,5 +1,5 @@
 """认证模块"""
-
+import _thread
 import base64
 import json
 import logging
@@ -161,7 +161,7 @@ class Auth:
 
     def _save(self) -> NoReturn:
         """保存配置文件"""
-        self.log.info(f'保存配置文件: {self._name}')
+        self.log.info(f'保存配置文件 {self._name}')
         json.dump(asdict(self.token), self._name.open('w'))
 
     def _login(self):
@@ -192,13 +192,12 @@ class Auth:
         # 开启服务
         if self._port:
             self.log.info(f'可访问 http://<YOUR_IP>:{self._port} 扫描二维码')
-            self._show_qrcode_in_web(qr_link)
-
+            _thread.start_new_thread(self._show_qrcode_in_web, (qr_link,))
+        else:
+            qrcode_png = self._show(qr_link)
+            if qrcode_png:
+                self.log.info(f'二维码图片文件 {qrcode_png}')
         self.log.info('等待扫描二维码')
-
-        qrcode_png = self._show(qr_link)
-        if qrcode_png:
-            self.log.info(f'二维码图片文件: {qrcode_png}')
 
         while True:
             response = self.session.post(
@@ -210,14 +209,18 @@ class Auth:
             if qrCodeStatus == 'NEW':
                 pass
             elif qrCodeStatus == 'SCANED':
-                self.log.info('已扫描, 等待确认')
+                self.log.info('已扫描 等待确认')
             elif qrCodeStatus == 'CONFIRMED':
-                self.log.info(f'已确认, 可关闭二维码窗口')
+                self.log.info(f'已确认 可关闭二维码窗口')
                 if self._port:
-                    self._webServer.server_close()
+                    # noinspection PyBroadException
+                    try:
+                        requests.get(f'http://localhost:{self._port}/close')
+                    except:
+                        pass
                 return response
             else:
-                self.log.warning('未知错误: 可能二维码已经过期')
+                self.log.warning('未知错误 可能二维码已经过期')
                 self.error_log_exit(response)
             time.sleep(2)
 
@@ -337,4 +340,8 @@ class Auth:
         self._webServer = HTTPServer(('0.0.0.0', self._port), LoginServer)
         self._webServer.qrData = open(qr_img_path, 'rb').read()
         os.remove(qr_img_path)
-        self._webServer.serve_forever()
+        # noinspection PyBroadException
+        try:
+            self._webServer.serve_forever()
+        except:
+            pass
