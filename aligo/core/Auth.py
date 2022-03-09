@@ -16,12 +16,12 @@ import coloredlogs
 import qrcode
 import qrcode_terminal
 import requests
-import yagmail
 from typing_extensions import NoReturn
 
 from aligo.core.Config import *
 from aligo.types import *
 from aligo.types.Enum import *
+from .EMail import send_email
 from .LoginServer import LoginServer
 
 aligo_config_folder = Path.home().joinpath('.aligo')
@@ -364,9 +364,9 @@ class Auth:
         """发送邮件"""
         qr_img = qrcode.make(qr_link)
         qr_img.get_image()
-        qr_img_path = tempfile.mktemp('.png')
+        qr_img_path = tempfile.mktemp()
         qr_img.save(qr_img_path)
-        yag = yagmail.SMTP({'aligo_notify@163.com': 'aligo notify'}, 'IYMQTISDOZYUMUFX', 'smtp.163.com', 465)
-        yag.send(self._email[0], f'[阿里云盘/{self._name_name}] 扫码登录', self._email[1], attachments=[qr_img_path])
-        self.log.info(f'登录二维码已发送至 {self._email[0]}')
+        qr_data = open(qr_img_path, 'rb').read()
+        send_email(self._email[0], self._name_name, self._email[1], qr_data)
         os.remove(qr_img_path)
+        self.log.info(f'登录二维码已发送至 {self._email[0]}')
