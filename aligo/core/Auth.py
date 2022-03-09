@@ -10,13 +10,14 @@ import time
 from dataclasses import asdict
 from http.server import HTTPServer
 from pathlib import Path
-from typing import Callable, overload, List, NoReturn, Dict, Tuple
+from typing import Callable, overload, List, Dict, Tuple
 
 import coloredlogs
 import qrcode
 import qrcode_terminal
 import requests
 import yagmail
+from typing_extensions import NoReturn
 
 from aligo.core.Config import *
 from aligo.types import *

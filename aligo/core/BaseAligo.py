@@ -5,10 +5,10 @@ import subprocess
 import traceback
 from dataclasses import asdict
 from typing import Generic, List, Iterator, Dict, Callable
-from typing import NoReturn
 from typing import Union, Tuple
 
 import requests
+from typing_extensions import NoReturn
 
 from aligo.core import *
 from aligo.core.Config import *
