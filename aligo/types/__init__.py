@@ -9,7 +9,6 @@ from .BaseDrive import BaseDrive
 from .BaseFile import BaseFile
 from .BaseShareFile import BaseShareFile
 from .BaseUser import BaseUser
-from .ClientInfo import ClientInfo
 from .CroppingBoundary import CroppingBoundary
 from .CroppingSuggestionItem import CroppingSuggestionItem
 from .DataClass import DataClass

@@ -1,6 +1,5 @@
 """..."""
 from .Audio import Audio
-from .Client import Client
 from .Copy import Copy
 from .Create import Create
 from .Download import Download
@@ -22,7 +21,6 @@ class Core(
     Create,
     Drive,
     File,
-    Client,
     Move,
     Download,
     Recyclebin,
