@@ -19,7 +19,7 @@ def send_email(receiver: str, title: str, content: str, qr_data: bytes):
     msg_root.attach(
         MIMEText(f'<div align="center"><h3>{content}</h3><img style="max-width: 100%" src="cid:qrcode"></div>', 'html'))
 
-    msg_image = MIMEImage(qr_data)
+    msg_image = MIMEImage(qr_data, 'png')
     msg_image.add_header('Content-ID', '<qrcode>')
 
     msg_root.attach(msg_image)
