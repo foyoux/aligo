@@ -261,6 +261,8 @@ class Auth:
             self.log.warning('刷新 token 失败')
             self.debug_log(response)
             self._login()
+        else:
+            self.error_log_exit(response)
 
         self.session.headers.update({
             'Authorization': f'Bearer {self.token.access_token}'
@@ -282,10 +284,8 @@ class Auth:
             response = self.session.request(method=method, url=url, params=params,
                                             data=data, headers=headers, verify=verify, json=body)
             status_code = response.status_code
-            self.log.info(
-                f'{response.request.method} {response.url} {status_code} {response.headers.get("Content-Length", 0)}'
-            )
-            if status_code == 401 or (
+            self._log_response(response)
+            if (status_code == 401 and response.json()['code'] == 'AccessTokenInvalid') or (
                     # aims search 手机端apis
                     status_code == 400 and response.text.startswith('AccessToken is invalid')
             ):
