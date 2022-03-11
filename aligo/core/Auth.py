@@ -257,12 +257,15 @@ class Auth:
             self.log.info('刷新 token 成功')
             self.token = Token(**response.json())
             self._save()
-        elif not loop_call:
-            self.log.warning('刷新 token 失败')
-            self.debug_log(response)
-            self._login()
         else:
-            self.error_log_exit(response)
+            self.log.warning('刷新 token 失败')
+            if loop_call:
+                # 从 _login 调用，则不继续调用 _login，防止循环调用
+                # 走到这里 说明 登录失败，则 退出
+                self.error_log_exit(response)
+            else:
+                self.debug_log(response)
+                self._login()
 
         self.session.headers.update({
             'Authorization': f'Bearer {self.token.access_token}'
@@ -285,10 +288,8 @@ class Auth:
                                             data=data, headers=headers, verify=verify, json=body)
             status_code = response.status_code
             self._log_response(response)
-            if (status_code == 401 and response.json()['code'] == 'AccessTokenInvalid') or (
-                    # aims search 手机端apis
-                    status_code == 400 and response.text.startswith('AccessToken is invalid')
-            ):
+
+            if status_code == 401:
                 self._refresh_token()
                 continue
 
