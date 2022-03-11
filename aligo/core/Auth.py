@@ -196,6 +196,7 @@ class Auth:
         response = self.session.get(
             PASSPORT_HOST + NEWLOGIN_QRCODE_GENERATE_DO
         )
+        self._log_response(response)
         data = response.json()['content']['data']
 
         qr_link = data['codeContent']
@@ -218,6 +219,7 @@ class Auth:
                 PASSPORT_HOST + NEWLOGIN_QRCODE_QUERY_DO,
                 data=data
             )
+            self._log_response(response)
             login_data = response.json()['content']['data']
             qrCodeStatus = login_data['qrCodeStatus']
             if qrCodeStatus == 'NEW':
@@ -242,7 +244,7 @@ class Auth:
         """刷新 token"""
         if refresh_token is None:
             refresh_token = self.token.refresh_token
-        self.log.info('refresh token')
+        self.log.info('刷新 token')
         response = self.session.post(
             API_HOST + V2_ACCOUNT_TOKEN,
             json={
@@ -250,6 +252,7 @@ class Auth:
                 'grant_type': 'refresh_token'
             }
         )
+        self._log_response(response)
         if response.status_code == 200:
             self.log.info('刷新 token 成功')
             self.token = Token(**response.json())
@@ -370,3 +373,9 @@ class Auth:
         send_email(self._email[0], self._name_name, self._email[1], qr_data)
         os.remove(qr_img_path)
         self.log.info(f'登录二维码已发送至 {self._email[0]}')
+
+    def _log_response(self, response: requests.Response):
+        """打印响应日志"""
+        self.log.info(
+            f'{response.request.method} {response.url} {response.status_code} {response.headers.get("Content-Length", 0)}'
+        )
