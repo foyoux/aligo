@@ -148,14 +148,11 @@ class Create(BaseAligo):
         # llen = len(part_info.part_info_list)
         with open(file_path, 'rb') as f:
             progress_bar = tqdm(total=file_size, unit='B', unit_scale=True, colour='#21d789')
-            for i in range(len(part_info.part_info_list)):
-                # self._auth.log.info(f'分段上传第 [{i.part_number}/{llen}] 段数据 {file_path}')
-                # 不能使用 self._session.put
+            for i, e in enumerate(part_info.part_info_list):
                 ss = requests.session()
-                # ss.mount('http://', HTTPAdapter(max_retries=5))
                 ss.mount('https://', HTTPAdapter(max_retries=5))
                 data = f.read(Create._UPLOAD_CHUNK_SIZE)
-                r = ss.put(data=data, url=part_info.part_info_list[i].upload_url)
+                r = ss.put(data=data, url=e.upload_url)
                 if r.status_code == 403:
                     part_info = self.get_upload_url(GetUploadUrlRequest(
                         drive_id=part_info.drive_id,
@@ -163,9 +160,7 @@ class Create(BaseAligo):
                         upload_id=part_info.upload_id,
                         part_info_list=[UploadPartInfo(part_number=i.part_number) for i in part_info.part_info_list]
                     ))
-                    ss.put(data=data, url=part_info.part_info_list[i].upload_url)
-                # response = requests.put(data=f.read(Create.CHUNK_SIZE), url=i.upload_url)
-                # print(response)
+                    ss.put(data=data, url=e.upload_url)
                 progress_bar.update(len(data))
 
         progress_bar.close()
