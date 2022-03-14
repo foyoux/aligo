@@ -17,4 +17,4 @@ class BatchSubRequest(DataClass):
 
     def __post_init__(self):
         self.headers = {"Content-Type": "application/json"}
-        super(BatchSubRequest, self).__post_init__()
+        super().__post_init__()

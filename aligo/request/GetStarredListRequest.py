@@ -24,4 +24,4 @@ class GetStarredListRequest(DataClass):
     def __post_init__(self):
         self.custom_index_key: str = 'starred_yes'
         self.parent_file_id: str = 'root'
-        super(GetStarredListRequest, self).__post_init__()
+        super().__post_init__()

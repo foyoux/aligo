@@ -17,4 +17,4 @@ class StarredFileRequest(DataClass):
             self.custom_index_key = 'starred_yes'
         else:
             self.custom_index_key = ''
-        super(StarredFileRequest, self).__post_init__()
+        super().__post_init__()

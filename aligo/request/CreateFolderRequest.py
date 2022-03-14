@@ -17,4 +17,4 @@ class CreateFolderRequest(DataClass):
 
     def __post_init__(self):
         self.type: BaseFileType = 'folder'
-        super(CreateFolderRequest, self).__post_init__()
+        super().__post_init__()

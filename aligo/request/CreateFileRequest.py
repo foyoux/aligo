@@ -33,6 +33,6 @@ class CreateFileRequest(DataClass):
     proof_version: str = field(default=None, repr=False)
 
     def __post_init__(self):
-        super(CreateFileRequest, self).__post_init__()
+        super().__post_init__()
         if isinstance(self.size, str) and self.size.isalnum():
             self.size = int(self.size)
