@@ -62,7 +62,7 @@ class Download(Core):
             expire_sec=expire_sec
         )
         result = self._core_batch_download_url(body)
-        return [i for i in result]
+        return list(result)
 
     def download_folder(self, folder_file_id: str, local_folder: str = '.', drive_id: str = None) -> str:
         """

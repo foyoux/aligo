@@ -51,7 +51,7 @@ class Search(Core):
                 query += f' and category = "{category}"'
             body = SearchFileRequest(query=query, drive_id=drive_id, **kwargs)
         result = self._core_search_file(body)
-        return [i for i in result]
+        return list(result)
 
     @overload
     def search_aims(self, keyword: str, category: BaseFileCategory = 'image',
@@ -95,4 +95,4 @@ class Search(Core):
                 **kwargs
             )
         result = self._core_search_aims(body)
-        return [i for i in result]
+        return list(result)

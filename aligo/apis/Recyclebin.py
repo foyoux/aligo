@@ -41,7 +41,7 @@ class Recyclebin(Core):
         """
         body = BatchMoveToTrashRequest(drive_id=drive_id, file_id_list=file_id_list)
         result = self._core_batch_move_to_trash(body)
-        return [i for i in result]
+        return list(result)
 
     def restore_file(self, file_id: str, drive_id: str = None) -> RestoreFileResponse:
         """
@@ -74,7 +74,7 @@ class Recyclebin(Core):
         """
         body = BatchRestoreRequest(drive_id=drive_id, file_id_list=file_id_list)
         result = self._core_batch_restore_files(body)
-        return [i for i in result]
+        return list(result)
 
     @overload
     def get_recyclebin_list(self, **kwargs) -> List[BaseFile]:
@@ -110,4 +110,4 @@ class Recyclebin(Core):
         if body is None:
             body = GetRecycleBinListRequest(**kwargs)
         result = self._core_get_recyclebin_list(body)
-        return [i for i in result]
+        return list(result)

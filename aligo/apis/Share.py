@@ -108,7 +108,7 @@ class Share(Core):
         """
         body = BatchCancelShareRequest(share_id_list=share_id_list)
         result = self._core_batch_cancel_share(body)
-        return [i for i in result]
+        return list(result)
 
     def get_share_list(self,
                        order_by: GetShareLinkListOrderBy = 'created_at',
@@ -135,7 +135,7 @@ class Share(Core):
             include_canceled=include_canceled,
         )
         result = self._core_get_share_list(body)
-        return [i for i in result]
+        return list(result)
 
     # 处理其他人的分享
     def get_share_info(self, share_id: str) -> GetShareInfoResponse:
@@ -222,7 +222,7 @@ class Share(Core):
         if body is None:
             body = GetShareFileListRequest(share_id=share_id, **kwargs)
         result = self._core_get_share_file_list(body, share_token)
-        return [i for i in result]
+        return list(result)
 
     @overload
     def get_share_file(
@@ -472,4 +472,4 @@ class Share(Core):
                 **kwargs
             )
         result = self._core_batch_share_file_saveto_drive(body, share_token)
-        return [i for i in result]
+        return list(result)

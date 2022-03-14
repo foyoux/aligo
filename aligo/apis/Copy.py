@@ -117,4 +117,4 @@ class Copy(Core):
                                          to_parent_file_id=to_parent_file_id,
                                          **kwargs)
         result = self._core_batch_copy_files(body)
-        return [i for i in result]
+        return list(result)

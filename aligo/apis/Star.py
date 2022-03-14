@@ -58,7 +58,7 @@ class Star(Core):
             starred=starred,
         )
         result = self._core_batch_star_files(body)
-        return [i for i in result]
+        return list(result)
 
     def get_starred_list(self, body: GetStarredListRequest = None, **kwargs) -> List[BaseFile]:
         """
@@ -76,4 +76,4 @@ class Star(Core):
         if body is None:
             body = GetStarredListRequest(**kwargs)
         result = self._core_get_starred_list(body)
-        return [i for i in result]
+        return list(result)

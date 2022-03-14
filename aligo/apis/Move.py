@@ -119,4 +119,4 @@ class Move(Core):
                 **kwargs
             )
         result = self._core_batch_move_files(body)
-        return [i for i in result]
+        return list(result)

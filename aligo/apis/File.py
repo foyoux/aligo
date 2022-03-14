@@ -94,7 +94,7 @@ class File(Core):
         if body is None:
             body = GetFileListRequest(drive_id=drive_id, parent_file_id=parent_file_id, **kwargs)
         result = self._core_get_file_list(body)
-        return [i for i in result]
+        return list(result)
 
     def batch_get_files(self, file_id_list: List[str], drive_id: str = None) -> List[BatchSubResponse]:
         """
@@ -117,7 +117,7 @@ class File(Core):
         """
         body = BatchGetFileRequest(file_id_list=file_id_list, drive_id=drive_id)
         result = self._core_batch_get_files(body)
-        return [i for i in result]
+        return list(result)
 
     def get_folder_by_path(self, path: str = '/', parent_file_id: str = 'root',
                            check_name_mode: CheckNameMode = 'refuse', drive_id: str = None
