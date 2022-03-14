@@ -1,6 +1,6 @@
 """..."""
 from dataclasses import dataclass
-from typing import Dict
+from typing import Dict, Union
 
 from aligo.types import DataClass
 from aligo.types.DataClass import DataType
@@ -9,7 +9,7 @@ from aligo.types.DataClass import DataType
 @dataclass
 class BatchSubRequest(DataClass):
     """..."""
-    body: DataType
+    body: Union[DataType, Dict]
     id: str
     url: str
     headers: Dict = None

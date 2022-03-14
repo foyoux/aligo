@@ -3,7 +3,7 @@ import json
 import logging
 import subprocess
 import traceback
-from dataclasses import asdict
+from dataclasses import asdict, is_dataclass
 from typing import Generic, List, Iterator, Dict, Callable
 from typing import Union, Tuple
 
@@ -204,7 +204,7 @@ class BaseAligo:
             response = self._post(V3_BATCH, body={
                 "requests": [
                     {
-                        "body": asdict(request.body),
+                        "body": asdict(request.body) if is_dataclass(request.body) else request.body,
                         "headers": request.headers,
                         "id": request.id,
                         "method": request.method,
