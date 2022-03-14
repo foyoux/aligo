@@ -60,129 +60,38 @@ https://user-images.githubusercontent.com/35125624/150529002-c2f1b80b-fb11-4e0a-
 
 **重要说明**: 阿里云盘不同于其他网盘或系统，其定位文件不是基于文件名（路径），而是通过 `file_id`，这才是唯一定位文件的方式，**aligo** 中提供了简便函数 `get_file_by_path`，通过网盘路径获取文件对象，通过 其上的 `file_id` 属性即可获取所需文件标识。但不建议频繁使用此方法，因为内部是通过 `get_file_list` 遍历得到的。
 
-## API 概览
 
-> 详情请参考源码（在IDE中点进去）：源码中有详细的文档注释和用法示例
+## 网页扫码登录
 
+```python
 
+from aligo import Aligo
 
-### 文件（夹）相关
-
-- 创建文件夹：`create_folder`
-
-- 重命名文件（夹）
-
-  - `rename_file`: 重命名文件（夹）
-
-  - `batch_rename_files`: 批量重命名文件（夹）
-
-- 移动文件（夹）
-
-  - `move_file`: 移动文件（夹）
-
-  - `batch_move_files`: 批量移动文件（夹）
-
-- 复制文件（夹）
-
-  - `copy_file`: 复制文件（夹）
-
-  - `batch_copy_files`: 批量复制文件（夹）
-
-- 获取文件（夹）
-
-  - `get_file`: 获取文件（夹）
-  - `batch_get_files`: 批量获取文件（夹）
-  - `get_file_by_path`: 根据路径获取文件（夹）
-
-- 获取文件列表: `get_file_list`
-
-- 其他
-
-  - `get_path`: 获取文件（夹）路径信息
+# 提供 port 参数即可, 之后打开浏览器访问 http://<YOUR_IP>:<port>
+ali = Aligo(port=8080)
+```
 
 
+## 发送二维码到邮箱
 
-### 收藏相关
+```python
 
-- `starred_file`: 收藏和取消收藏 文件（夹）
-
-- `batch_star_files`: 批量收藏和取消收藏 文件（夹）
-
+from aligo import Aligo
 
 
-### 分享相关
+"""
+email: 发送扫码登录邮件 ("接收邮件的邮箱地址", "防伪字符串"). 提供此值时，将不再弹出或打印二维码
+        关于防伪字符串: 为了方便大家使用, aligo 自带公开邮箱, 省去邮箱配置的麻烦.
+        所以收到登录邮件后, 一定要对比确认防伪字符串和你设置一致才可扫码登录, 否则将导致: 包括但不限于云盘文件泄露.
+"""
 
-- `get_share_list`: 获取分享列表
-- 分享文件（夹）
-  - `share_file`: （批量）分享文件（夹）
-- 取消分享文件（夹）
-  - `cancel_share`: 取消分享
-  - `batch_cancel_share`: 批量取消分享
-- `update_share`: 更新分享
-- `get_share_info`: 获取分享信息
-- `get_share_token`: 获取分享 token
-- `get_share_file`: 获取分享文件（夹）
-- `get_share_file_list`: 获取分享文件列表
-- `share_file_saveto_drive`: 保存分享文件（夹）
-- `batch_share_file_saveto_drive`: 批量保存分享文件（夹）
-- `get_share_link_download_url`: 
+# 提供 email 参数即可
+ali = Aligo(email=('xxx@qq.com', '防伪字符串，可任意字符串'))
+```
 
+## 如何清空回收站？
 
-
-### 自定义分享
-
-- `share_files_by_aligo`: 批量分享文件
-- `share_folder_by_aligo`: 分享文件夹
-- `save_files_by_aligo`：保存自定义分享
-
-
-
-### 回收站相关
-
-- `get_recyclebin_list`: 获取回收站文件列表
-
-- 移动文件（夹）至回收站：*不提供彻底删除的接口，如需使用，请参考自定义功能*
-
-  - `move_file_to_trash`: 移动文件（夹）到回收站
-
-  - `batch_move_to_trash`: 批量移动文件（夹）到回收站
-
-- 从回收站恢复文件（夹）
-
-  - `restore_file`: 恢复回收站文件（夹）
-
-  - `batch_restore_files`: 批量恢复回收站文件（夹）
-
-
-
-### 下载相关
-
-- `download_file`: 下载文件
-- `download_files`: 批量下载文件
-- `download_folder`: 下载文件夹
-- 其他
-  - `get_download_url`: 获取文件下载地址（一般不直接使用）
-  - `batch_download_url`: 批量获取文件下载地址（一般不直接使用）
-
-
-
-### 上传相关
-
-- `upload_file`: 上传文件
-- `upload_files`: 批量上传文件
-- `upload_folder`: 上传文件夹
-
-
-### 文件/目标 搜索
-- `search_file`: 搜索文件，可设置名字和类型
-- `search_aims`: 搜索目标，比如 图片 文件 的 标签
-
-
-### 其他
-
-- `sync_folder`: 文件夹同步
-
-
+此功能太危险，**aligo** 未直接提供。不过 [这里](https://github.com/foyoux/aligo/wiki/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%9F%E8%83%BD---%E5%BD%BB%E5%BA%95%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6) 扩展了该功能，请小心使用！
 
 ## 欢迎加入讨论群 ❤️‍🔥
 
