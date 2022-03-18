@@ -283,7 +283,7 @@ class Auth:
             data = {k: v for k, v in data.items() if v is not None}
 
         response = None
-        for i in range(1, 4):
+        for i in range(1, 6):
             response = self.session.request(method=method, url=url, params=params,
                                             data=data, headers=headers, verify=verify, json=body)
             status_code = response.status_code
@@ -293,14 +293,15 @@ class Auth:
                 self._refresh_token()
                 continue
 
+            sleep_int = 5 ** (i % 4)
             if status_code == 429 or status_code == 500:
-                self.log.warning(f'被限制了 暂停 {5 ** i} 秒')
-                time.sleep(5 ** i)
+                self.log.warning(f'被限制了 暂停 {sleep_int} 秒')
+                time.sleep(sleep_int)
                 continue
 
             return response
 
-        self.log.info(f'重试 3 次仍旧失败')
+        self.log.info(f'重试 5 次仍旧失败')
         self.error_log_exit(response)
 
     def get(self, path: str, host: str = API_HOST, params: dict = None, headers: dict = None,
