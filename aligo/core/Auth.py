@@ -40,7 +40,7 @@ def get_configurations() -> List[str]:
 class Auth:
     """..."""
 
-    SLEEP_TIME_SEC = None
+    _SLEEP_TIME_SEC = None
 
     def debug_log(self, response: requests.Response) -> NoReturn:
         """打印错误日志, 便于分析调试"""
@@ -296,10 +296,10 @@ class Auth:
                 continue
 
             if status_code == 429 or status_code == 500:
-                if self.SLEEP_TIME_SEC is None:
+                if self._SLEEP_TIME_SEC is None:
                     sleep_int = 5 ** (i % 4)
                 else:
-                    sleep_int = self.SLEEP_TIME_SEC
+                    sleep_int = self._SLEEP_TIME_SEC
                 self.log.warning(f'被限制了 暂停 {sleep_int} 秒')
                 time.sleep(sleep_int)
                 continue
