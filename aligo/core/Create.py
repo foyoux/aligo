@@ -21,7 +21,8 @@ from aligo.types.Enum import *
 class Create(BaseAligo):
     """创建文件: 1.创建文件 2.上传文件 3.下载文件"""
     # 控制内存消耗 100M 左右，但默认单文件上传只支持 1T，如需更大，手动 调节 Create._UPLOAD_CHUNK_SIZE 的值
-    _UPLOAD_CHUNK_SIZE: int = 10485760 * 10  # 10M * 10 支持最大 1 T
+    _UPLOAD_CHUNK_SIZE: int = None
+    __UPLOAD_CHUNK_SIZE: int = 10485760  # 10 MB
 
     def create_file(self, body: CreateFileRequest) -> CreateFileResponse:
         """
@@ -61,7 +62,7 @@ class Create(BaseAligo):
     def _get_part_info_list(file_size: int):
         """根据文件大小, 返回 part_info_list """
         # 以10MB为一块: 10485760
-        return [UploadPartInfo(part_number=i) for i in range(1, math.ceil(file_size / Create._UPLOAD_CHUNK_SIZE) + 1)]
+        return [UploadPartInfo(part_number=i) for i in range(1, math.ceil(file_size / Create.__UPLOAD_CHUNK_SIZE) + 1)]
 
     def _pre_hash(self, file_path: str, file_size: int, name: str, parent_file_id='root', drive_id=None,
                   check_name_mode: CheckNameMode = 'auto_rename') -> CreateFileResponse:
@@ -104,7 +105,7 @@ class Create(BaseAligo):
 
         with open(file_path, 'rb') as f:
             while True:
-                segment = f.read(self._UPLOAD_CHUNK_SIZE)
+                segment = f.read(self.__UPLOAD_CHUNK_SIZE)
                 if not segment:
                     break
                 content_hash.update(segment)
@@ -151,7 +152,7 @@ class Create(BaseAligo):
             for i, e in enumerate(part_info.part_info_list):
                 ss = requests.session()
                 ss.mount('https://', HTTPAdapter(max_retries=5))
-                data = f.read(Create._UPLOAD_CHUNK_SIZE)
+                data = f.read(Create.__UPLOAD_CHUNK_SIZE)
                 r = ss.put(data=data, url=e.upload_url)
                 if r.status_code == 403:
                     part_info = self.get_upload_url(GetUploadUrlRequest(
@@ -207,6 +208,19 @@ class Create(BaseAligo):
             drive_id = self.default_drive_id
 
         file_size = os.path.getsize(file_path)
+
+        # 动态调整 _UPLOAD_CHUNK_SIZE
+        if Create._UPLOAD_CHUNK_SIZE is None:
+            if file_size < 104857600000:  # (1024 * 1024 * 10) * 10000
+                Create.__UPLOAD_CHUNK_SIZE = 10485760  # (1024 * 1024 * 10) => 10 MB
+            else:
+                Create.__UPLOAD_CHUNK_SIZE = 268435456  # 256 MB
+        else:
+            if file_size < Create._UPLOAD_CHUNK_SIZE * 10000:
+                Create.__UPLOAD_CHUNK_SIZE = Create._UPLOAD_CHUNK_SIZE
+            else:
+                Create.__UPLOAD_CHUNK_SIZE = 268435456  # 256 MB
+
         if file_size > 1024:  # 1kB
             # 1. pre_hash
             part_info = self._pre_hash(file_path=file_path, file_size=file_size, name=name,
