@@ -176,12 +176,14 @@ class Share(Core):
             self,
             share_id: str,
             share_token: str,
+            parent_file_id: str = 'root',
             **kwargs
     ) -> List[BaseShareFile]:
         """
         官方：获取分享文件列表
         :param share_id: [必选] 分享id
         :param share_token: [必选] 分享token
+        :param parent_file_id:
         :param kwargs: [可选] 其他参数
         :return: [List[BaseShareFile]]
 
@@ -215,12 +217,13 @@ class Share(Core):
             self,
             share_id: str = None,
             share_token: str = None,
+            parent_file_id: str = 'root',
             body: GetShareFileListRequest = None,
             **kwargs
     ) -> List[BaseShareFile]:
         """get_share_file_list"""
         if body is None:
-            body = GetShareFileListRequest(share_id=share_id, **kwargs)
+            body = GetShareFileListRequest(share_id=share_id, parent_file_id=parent_file_id, **kwargs)
         result = self._core_get_share_file_list(body, share_token)
         return list(result)
 
