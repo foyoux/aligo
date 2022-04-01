@@ -79,7 +79,7 @@ class SyncFolder(Core):
         local_files = {}
         for f in os.listdir(local_folder):
             local_file = os.path.join(local_folder, f)
-            if file_filter(f):
+            if os.path.isfile(local_file) and file_filter(f):
                 self._auth.log.debug(f'过滤本地文件 {local_file}')
                 continue
             local_files[f] = local_file
@@ -89,7 +89,7 @@ class SyncFolder(Core):
                 GetFileListRequest(remote_folder, drive_id=drive_id)
         ):
             remote_file = f.name
-            if file_filter(remote_file):
+            if f.type == 'file' and file_filter(remote_file):
                 self._auth.log.debug(f'过滤云端文件 {remote_file}')
                 continue
             remote_files[remote_file] = f
