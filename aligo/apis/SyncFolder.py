@@ -127,7 +127,8 @@ class SyncFolder(Core):
                         CreateFolderRequest(name=f, parent_file_id=remote_folder, drive_id=drive_id,
                                             check_name_mode='overwrite')
                     )
-                self.__sync_folder(local_file, remote_file.file_id, flag, follow_delete, file_filter, drive_id)
+                self.__sync_folder(local_file, remote_file.file_id, flag, follow_delete, file_filter, ignore_content,
+                                   drive_id)
                 continue
 
             # 如果本地文件存在，且在云端也存在，则依次比较 size，sha1，时间戳
@@ -215,7 +216,8 @@ class SyncFolder(Core):
                     local_file = os.path.join(local_folder, f)
                     self._auth.log.debug(f'云端是文件夹，本地没有，创建文件夹，并递归 {local_file}')
                     os.mkdir(local_file)
-                self.__sync_folder(local_file, remote_file.file_id, flag, follow_delete, file_filter, drive_id)
+                self.__sync_folder(local_file, remote_file.file_id, flag, follow_delete, file_filter, ignore_content,
+                                   drive_id)
                 continue
 
             # 如果云端文件存在，且在本地也存在，则依次比较 size，sha1，时间戳
@@ -316,7 +318,8 @@ class SyncFolder(Core):
                         CreateFolderRequest(name=f, parent_file_id=remote_folder, drive_id=drive_id,
                                             check_name_mode='overwrite')
                     )
-                self.__sync_folder(local_file, remote_file.file_id, flag, follow_delete, file_filter, drive_id)
+                self.__sync_folder(local_file, remote_file.file_id, flag, follow_delete, file_filter, ignore_content,
+                                   drive_id)
                 continue
 
             # 如果本地文件存在，且在云端也存在，则依次比较 size，sha1，时间戳
