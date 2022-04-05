@@ -41,6 +41,7 @@ class Auth:
     """..."""
 
     _SLEEP_TIME_SEC = None
+    _SHARE_PWD_DICT = {}
 
     def debug_log(self, response: requests.Response) -> NoReturn:
         """打印错误日志, 便于分析调试"""
@@ -292,7 +293,15 @@ class Auth:
             self._log_response(response)
 
             if status_code == 401:
-                self._refresh_token()
+                if 'ShareLinkToken' not in response.text:
+                    self._refresh_token()
+                else:
+                    # 刷新 share_token
+                    share_id = body['share_id']
+                    share_pwd = self._SHARE_PWD_DICT[share_id]
+                    r = self.session.post(V2_SHARE_LINK_GET_SHARE_TOKEN, json={share_id, share_pwd})
+                    share_token = r.json()['share_token']
+                    headers['x-share-token'] = share_token
                 continue
 
             if status_code == 429 or status_code == 500:

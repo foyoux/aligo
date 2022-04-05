@@ -59,6 +59,7 @@ class Share(BaseAligo):
 
     def _core_get_share_token(self, body: GetShareTokenRequest) -> GetShareTokenResponse:
         """..."""
+        Auth._SHARE_PWD_DICT[body.share_id] = body.share_pwd
         response = self._post(V2_SHARE_LINK_GET_SHARE_TOKEN, body=body)
         share_token = self._result(response, GetShareTokenResponse)
         return share_token
