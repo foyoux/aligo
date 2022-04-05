@@ -236,7 +236,7 @@ class SyncFolder(Core):
                 # 跳过对比文件内容
                 if ignore_content:
                     self._auth.log.warning(f'忽略文件内容: 不处理 {f}')
-                    remote_files.pop(f)
+                    local_files.pop(f)
                     continue
 
                 # 获取 f 文件大小
