@@ -12,7 +12,6 @@ import arrow
 from aligo.core import *
 from aligo.request import GetFileListRequest, MoveFileToTrashRequest, CreateFolderRequest, BatchMoveToTrashRequest
 from aligo.types import BaseFile
-from .Download import Download
 
 
 class SyncFolder(Core):
@@ -192,7 +191,7 @@ class SyncFolder(Core):
                 if remote_file.type == 'file':
                     self.download_files([remote_file], local_folder)
                 else:
-                    Download.download_folder(self, remote_file.file_id, local_folder)
+                    self.download_folder(remote_file.file_id, local_folder)  # type: ignore
 
     def __sync_remote(self, drive_id, follow_delete, local_files, remote_files,
                       local_folder, flag, file_filter, ignore_content):
