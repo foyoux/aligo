@@ -98,3 +98,10 @@ ali = Aligo(email=('xxx@qq.com', '防伪字符串，可任意字符串'))
 <p align="center">
   <img src="http://110.42.175.98:5512/down/LKPvT9xK2lFx?fname=/aligo/wechat.png" alt="aligo反馈交流群"/>
 </p>
+
+
+## 此项目接受捐赠 😘😘😍 - 谢谢🤝🤝
+<p align="center">
+  <img src="http://110.42.175.98:5512/down/icQW0zeXfOy5" alt="微信收款码"/>
+</p>
+
