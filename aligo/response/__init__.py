@@ -1,6 +1,8 @@
 """..."""
 
 from .AimSearchResponse import AimSearchResponse
+from .ArchiveStatusResponse import ArchiveStatusResponse
+from .ArchiveUncompressResponse import ArchiveUncompressResponse
 from .BatchDownloadUrlResponse import BatchDownloadUrlResponse
 from .BatchShareFileSaveToDriveResponse import BatchShareFileSaveToDriveResponse
 from .BatchSubResponse import BatchSubResponse
@@ -31,4 +33,5 @@ from .RewardSpaceResponse import RewardSpaceResponse
 from .SearchFileResponse import SearchFileResponse
 from .ShareFileSaveToDriveResponse import ShareFileSaveToDriveResponse
 from .ShareItemInfo import ShareItemInfo
+from .TemplateResponse import TemplateResponse
 from .UpdateShareLinkResponse import UpdateShareLinkResponse

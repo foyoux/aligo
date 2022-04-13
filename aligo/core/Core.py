@@ -1,5 +1,6 @@
 """..."""
 from .Audio import Audio
+from .Compress import Compress
 from .Copy import Copy
 from .Create import Create
 from .Download import Download
@@ -30,5 +31,6 @@ class Core(
     Video,
     Star,
     Other,
+    Compress,
 ):
     """..."""

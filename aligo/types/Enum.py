@@ -157,6 +157,11 @@ VideoTemplateID = Optional[
     ]
 ]
 
+
+ArchiveType = Literal[
+    "zip", "rar", "rar5", "rar4"
+]
+
 GetVideoPreviewCategory = Optional[
     # 获取视频预览类型
     Literal[

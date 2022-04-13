@@ -1,6 +1,7 @@
 """..."""
 
 from .AimSearchRequest import AimSearchRequest
+from .ArchiveUncompressRequest import ArchiveUncompressRequest
 from .BatchCancelShareRequest import BatchCancelShareRequest
 from .BatchCopyFilesRequest import BatchCopyFilesRequest
 from .BatchDownloadUrlRequest import BatchDownloadUrlRequest
@@ -43,5 +44,7 @@ from .RestoreFileRequest import RestoreFileRequest
 from .SearchFileRequest import SearchFileRequest
 from .ShareFileSaveToDriveRequest import ShareFileSaveToDriveRequest
 from .StarredFileRequest import StarredFileRequest
+from .TemplateRequest import TemplateRequest
 from .UpdateFileRequest import UpdateFileRequest
 from .UpdateShareLinkRequest import UpdateShareLinkRequest
+from .ArchiveStatusRequest import ArchiveStatusRequest
