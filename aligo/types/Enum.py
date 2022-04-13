@@ -163,3 +163,8 @@ GetVideoPreviewCategory = Optional[
         'live_transcoding',  # 在线直播转码（m3u8）
     ]
 ]
+
+# 模板
+TemplateType = Literal[
+    1, 2, 3
+]

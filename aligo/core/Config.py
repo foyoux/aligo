@@ -71,6 +71,9 @@ ADRIVE_V1_FILE_GET_PATH = '/adrive/v1/file/get_path'
 # m3u8
 V2_FILE_GET_VIDEO_PREVIEW_PLAY_INFO = '/v2/file/get_video_preview_play_info'
 
+# 模板
+V2_TEMPLATE_TEST = '/v2/template/test'
+
 # 参数
 CLIENT_ID = '25dzX3vbYqktVxyX'
 UNI_PARAMS = {'appName': 'aliyun_drive'}
