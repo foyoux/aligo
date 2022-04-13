@@ -6,6 +6,7 @@ from typing import Callable, Dict, Tuple
 from typing_extensions import NoReturn
 
 from .Audio import Audio, aligo_config_folder
+from .Compress import Compress
 from .Copy import Copy
 from .Create import Create
 from .CustomShare import CustomShare
@@ -40,6 +41,7 @@ class Aligo(
     Update,
     Other,
     SyncFolder,
+    Compress,
 ):
     """阿里云盘"""
 

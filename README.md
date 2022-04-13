@@ -45,6 +45,7 @@ https://user-images.githubusercontent.com/35125624/150529002-c2f1b80b-fb11-4e0a-
 
 - [x] 福利码兑换
 - [x] 文件夹同步
+- [x] 在线解压缩
 - [x] 支持功能扩展
 - [x] 搜索文件/标签
 - [x] 文件（夹）重命名
