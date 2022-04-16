@@ -476,3 +476,20 @@ class Share(Core):
             )
         result = self._core_batch_share_file_saveto_drive(body, share_token)
         return list(result)
+
+    def share_file_save_all_to_drive(
+            self, share_id: str, share_token: str, to_parent_file_id: str = 'root',
+            overwrite: bool = False, auto_rename: bool = True, to_drive_id: str = None,
+    ) -> List[BatchShareFileSaveToDriveResponse]:
+        """保存所有分享文件到云盘"""
+        file_list = self.get_share_file_list(share_id, share_token)
+        result = self.batch_share_file_saveto_drive(
+            share_id,
+            [file.file_id for file in file_list],
+            share_token,
+            to_parent_file_id=to_parent_file_id,
+            to_drive_id=to_drive_id,
+            overwrite=overwrite,
+            auto_rename=auto_rename
+        )
+        return result
