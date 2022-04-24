@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import logging
+import os
 from dataclasses import dataclass, is_dataclass
 from typing import TypeVar, Generic, Optional, List, Dict, Type
 
@@ -12,6 +13,7 @@ DataType = TypeVar('DataType')
 
 _HINTS = {}
 _LOGGER = logging.getLogger(__name__)
+_ALIGO_DEBUG = os.getenv('ALIGO_DEBUG')
 
 coloredlogs.install(
     level=logging.DEBUG,
@@ -45,8 +47,8 @@ class DataClass:
             if key in hints:
                 params[key] = value
             else:
-                # _LOGGER.warning(f'{cls.__module__}({key} : {type(value).__name__} = {repr(value)[:100]})')
-                pass
+                if _ALIGO_DEBUG:
+                    _LOGGER.warning(f'{cls.__module__}({key} : {type(value).__name__} = {repr(value)[:100]})')
         return cls(**params)
 
     def __post_init__(self):
