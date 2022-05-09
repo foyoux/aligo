@@ -12,12 +12,37 @@ class Share(Core):
     """..."""
 
     def share_file(self,
-                   file_id_list: List[str],
+                   file_id: str,
                    share_name: str = None,
                    share_pwd: str = None,
                    expiration: str = None,
                    drive_id: str = None,
                    description: str = None) -> CreateShareLinkResponse:
+        """
+        官方：分享文件
+        :param file_id: [必选] 文件id
+        :param share_name: [可选] 分享名称
+        :param share_pwd: [可选] 分享密码，默认：None，表示无密码
+        :param expiration: [可选] 有效期，utc时间字符串：YYYY-MM-DDTHH:mm:ss.SSSZ
+        :param drive_id: [可选] 所属网盘id
+        :param description: [可选] 描述
+        :return: [CreateShareLinkResponse]
+
+        用法示例：
+        >>> from aligo import Aligo
+        >>> ali = Aligo()
+        >>> share = ali.share_file('<file1_id>', share_name='share_name', share_pwd='2020', expiration='2021-12-01T00:00:00.000Z', description='description')
+        >>> print(share)
+        """
+        return self.share_files([file_id], share_name, share_pwd, expiration, drive_id, description)
+
+    def share_files(self,
+                    file_id_list: List[str],
+                    share_name: str = None,
+                    share_pwd: str = None,
+                    expiration: str = None,
+                    drive_id: str = None,
+                    description: str = None) -> CreateShareLinkResponse:
         """
         官方：分享文件
         :param file_id_list: [必选] 文件id列表
