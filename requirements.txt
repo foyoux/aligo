@@ -3,5 +3,4 @@ qrcode[pil]
 coloredlogs
 tqdm>=4.50.0
 qrcode_terminal
-arrow
 typing_extensions

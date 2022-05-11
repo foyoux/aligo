@@ -2,16 +2,20 @@
 import hashlib
 import os
 import shutil
+from datetime import datetime
 from pathlib import Path
 from typing import Callable
 from typing import Dict
 from typing import Optional
 
-import arrow
-
 from aligo.core import *
 from aligo.request import GetFileListRequest, MoveFileToTrashRequest, CreateFolderRequest, BatchMoveToTrashRequest
 from aligo.types import BaseFile
+
+
+def utc_str_to_timestamp(utc: str) -> int:
+    """'2022-04-16T11:07:03.276Z' -> timestamp"""
+    return int(datetime.fromisoformat(utc[:-1]).timestamp()) + 28800
 
 
 class SyncFolder(Core):
@@ -164,8 +168,7 @@ class SyncFolder(Core):
                 # 获取云端文件的最后修改时间
                 remote_time = remote_file.updated_at
                 # 将UTC时间字符串转换为时间戳
-                remote_time = arrow.get(remote_time).timestamp()
-                remote_time = int(remote_time)
+                remote_time = utc_str_to_timestamp(remote_time)
                 # 比较时间戳，删除较旧文件，同步最新文件
                 if local_time > remote_time:
                     # 覆盖方式上传文件
@@ -254,8 +257,7 @@ class SyncFolder(Core):
                 # 获取 f 文件的最后修改时间
                 remote_time = remote_file.updated_at
                 # 将UTC时间字符串转换为时间戳
-                remote_time = arrow.get(remote_time).timestamp()
-                remote_time = int(remote_time)
+                remote_time = utc_str_to_timestamp(remote_time)
                 # 获取本地文件的最后修改时间
                 local_time = os.path.getmtime(local_file)
                 local_time = int(local_time)
@@ -361,8 +363,7 @@ class SyncFolder(Core):
                 # 获取云端文件的最后修改时间
                 remote_time = remote_file.updated_at
                 # 将UTC时间字符串转换为时间戳
-                remote_time = arrow.get(remote_time).timestamp()
-                remote_time = int(remote_time)
+                remote_time = utc_str_to_timestamp(remote_time)
                 # 比较时间戳，删除较旧文件，同步最新文件
                 if local_time > remote_time:
                     # 覆盖方式上传文件
