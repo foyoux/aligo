@@ -1,6 +1,6 @@
 """文件相关"""
 import os
-from typing import List, Union, overload
+from typing import List, overload, Union
 
 from aligo.core import *
 from aligo.request import *
@@ -119,16 +119,18 @@ class File(Core):
         result = self._core_batch_get_files(body)
         return list(result)
 
-    def get_folder_by_path(self, path: str = '/', parent_file_id: str = 'root',
-                           check_name_mode: CheckNameMode = 'refuse', drive_id: str = None
-                           ) -> Union[BaseFile, CreateFileResponse]:
+    def get_folder_by_path(
+            self, path: str = '/', parent_file_id: str = 'root', create_folder: bool = True,
+            check_name_mode: CheckNameMode = 'refuse', drive_id: str = None
+    ) -> Union[BaseFile, CreateFileResponse, None]:
         """
-        根据路径获取（无则创建）文件夹对象
-        :param path: [str] 路径，无需以'/'开头
+        根据文件路径，获取网盘文件对象
+        :param path: [str] 完整路径，无需以 '/' 开始或结束
         :param parent_file_id: Optional[str] 父文件夹ID，默认为根目录，意思是基于根目录查找
-        :param check_name_mode: Optional[CheckNameMode] 检查名称模式，默认为refuse
-        :param drive_id: Optional[str] 存储桶ID
-        :return: [BaseFile] 文件对象
+        :param create_folder:  Optional[bool] 不存在是否创建，默认：True. 此行为效率最高
+        :param check_name_mode: Optional[CheckNameMode] 检查名称模式，默认为 'refuse'
+        :param drive_id: Optional[str] 存储桶ID，一般情况下，drive_id 参数都无需提供
+        :return: 文件对象，或创建文件夹返回的对象，或 None
 
         用法示例:
         >>> from aligo import Aligo
@@ -138,26 +140,41 @@ class File(Core):
         >>> print(folder)
         """
         path = path.strip('/')
-        if path == '':
+        if not path:
             return self.get_file(file_id=parent_file_id, drive_id=drive_id)
         folder = None
-        for name in path.split('/'):
-            folder = self._core_create_folder(CreateFolderRequest(
-                name=name, parent_file_id=parent_file_id, check_name_mode=check_name_mode, drive_id=drive_id
-            ))
-            parent_file_id = folder.file_id
-        return folder
+        if create_folder:
+            for folder_name in path.split('/'):
+                folder = self._core_create_folder(
+                    CreateFolderRequest(
+                        name=folder_name, parent_file_id=parent_file_id,
+                        check_name_mode=check_name_mode, drive_id=drive_id
+                    )
+                )
+                parent_file_id = folder.file_id
+            return folder
+        else:
+            for folder_name in path.split('/'):
+                folders = self.get_file_list(parent_file_id=parent_file_id, drive_id=drive_id, type='folder')
+                # 获取目标 folder
+                for folder in folders:
+                    if folder.name == folder_name:
+                        parent_file_id = folder.file_id
+                        break
+                else:
+                    return None
+            return folder
 
     def get_file_by_path(self, path: str = '/', parent_file_id: str = 'root',
                          check_name_mode: CheckNameMode = 'refuse',
-                         drive_id: str = None) -> Union[BaseFile, CreateFileResponse]:
+                         drive_id: str = None) -> Optional[BaseFile]:
         """
-        根据路径获取文件或文件夹, 先找到啥就返回啥，不存在就创建文件夹并返回
+        根据路径获取云盘文件对象, 先找到啥就返回啥（早期可能存在同名文件（夹）），否则返回None
         :param path: [str] 路径，无需以'/'开头
         :param parent_file_id: Optional[str] 父文件夹ID，默认为根目录，意思是基于根目录查找
-        :param check_name_mode: Optional[CheckNameMode] 检查名称模式，默认为refuse
+        :param check_name_mode: Optional[CheckNameMode] 检查名称模式，默认为 'refuse'
         :param drive_id: Optional[str] 存储桶ID
-        :return: [BaseFile] 文件对象
+        :return: [BaseFile] 文件对象，或 None
 
         用法示例:
         >>> from aligo import Aligo
@@ -168,20 +185,23 @@ class File(Core):
         """
         path = path.strip('/')
         folder_path, file_name = os.path.split(path)
+        folder = None
         if folder_path != '':
-            parent_file_id = self.get_folder_by_path(folder_path, parent_file_id=parent_file_id,
-                                                     check_name_mode=check_name_mode, drive_id=drive_id).file_id
-        if file_name == '':
-            return self.get_file(file_id=parent_file_id, drive_id=drive_id)
+            folder = self.get_folder_by_path(
+                folder_path, parent_file_id=parent_file_id, create_folder=False,
+                check_name_mode=check_name_mode, drive_id=drive_id
+            )
+            if folder is None:
+                return None
+            parent_file_id = folder.file_id
 
-        file_list = self._core_get_file_list(
-            GetFileListRequest(parent_file_id=parent_file_id, drive_id=drive_id)
-        )
+        if file_name == '':
+            return folder
+
+        file_list = self.get_file_list(parent_file_id=parent_file_id, drive_id=drive_id, type='file')
 
         for file in file_list:
             if file_name == file.name:
                 return file
 
-        return self._core_create_folder(CreateFolderRequest(
-            name=file_name, parent_file_id=parent_file_id, check_name_mode=check_name_mode, drive_id=drive_id
-        ))
+        return None
