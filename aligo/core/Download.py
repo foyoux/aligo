@@ -88,10 +88,11 @@ class Download(BaseAligo):
 
         try:
             progress_bar = None
+            # noinspection PyProtectedMember
             with requests.get(url, headers={
-                'referer': 'https://www.aliyundrive.com/',
+                'Referer': 'https://www.aliyundrive.com/',
                 'Range': f'bytes={tmp_size}-'
-            }, stream=True) as resp:
+            }, stream=True, proxies=self._auth._proxies) as resp:
                 llen = int(resp.headers.get('content-length', 0))
                 if resp.headers.get('Accept-Ranges', None) != 'bytes':
                     raise f'此链接不支持断点续传 {resp.url}'

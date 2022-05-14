@@ -107,6 +107,7 @@ class Auth:
         self._port = port
         self._webServer: HTTPServer = None  # type: ignore
         self._email = email
+        self._proxies = proxies
         self.log = logging.getLogger(f'{__name__}:{name}')
 
         fmt = f'%(asctime)s.%(msecs)03d {name}.%(levelname)s %(message)s'

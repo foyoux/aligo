@@ -7,7 +7,6 @@ from dataclasses import asdict
 from typing import Union
 
 import requests
-from requests.adapters import HTTPAdapter
 from tqdm import tqdm
 
 from aligo.core import *
@@ -88,10 +87,11 @@ class Create(BaseAligo):
         # file_size = os.path.getsize(file_path)
         offset = md5_int % file_size if file_size else 0
         if file_path.startswith('http'):
+            # noinspection PyProtectedMember
             bys = requests.get(file_path, headers={
                 'referer': 'https://www.aliyundrive.com/',
                 'Range': f'bytes={offset}-{min(8 + offset, file_size) - 1}'
-            }).content
+            }, proxies=self._auth._proxies).content
         else:
             with open(file_path, 'rb') as file:
                 file.seek(offset)
@@ -150,10 +150,8 @@ class Create(BaseAligo):
         with open(file_path, 'rb') as f:
             progress_bar = tqdm(total=file_size, unit='B', unit_scale=True, colour='#21d789')
             for i, e in enumerate(part_info.part_info_list):
-                ss = requests.session()
-                ss.mount('https://', HTTPAdapter(max_retries=5))
                 data = f.read(Create.__UPLOAD_CHUNK_SIZE)
-                r = ss.put(data=data, url=e.upload_url)
+                r = self._session.put(data=data, url=e.upload_url)
                 if r.status_code == 403:
                     part_info = self.get_upload_url(GetUploadUrlRequest(
                         drive_id=part_info.drive_id,
@@ -161,7 +159,7 @@ class Create(BaseAligo):
                         upload_id=part_info.upload_id,
                         part_info_list=[UploadPartInfo(part_number=i.part_number) for i in part_info.part_info_list]
                     ))
-                    ss.put(data=data, url=e.upload_url)
+                    self._session.put(data=data, url=e.upload_url)
                 progress_bar.update(len(data))
 
         progress_bar.close()
