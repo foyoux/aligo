@@ -299,9 +299,15 @@ class Auth:
                     # 刷新 share_token
                     share_id = body['share_id']
                     share_pwd = self._SHARE_PWD_DICT[share_id]
-                    r = self.session.post(V2_SHARE_LINK_GET_SHARE_TOKEN, json={share_id, share_pwd})
+                    r = self.post(
+                        V2_SHARE_LINK_GET_SHARE_TOKEN,
+                        body={
+                            'share_id': share_id,
+                            'share_pwd': share_pwd
+                        }
+                    )
                     share_token = r.json()['share_token']
-                    headers['x-share-token'] = share_token
+                    headers['x-share-token'].share_token = share_token
                 continue
 
             if status_code == 429 or status_code == 500:

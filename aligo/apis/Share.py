@@ -56,7 +56,7 @@ class Share(Core):
         用法示例：
         >>> from aligo import Aligo
         >>> ali = Aligo()
-        >>> share = ali.share_file(['<file1_id>','<file2_id>'], share_name='share_name', share_pwd='2020', expiration='2021-12-01T00:00:00.000Z', description='description')
+        >>> share = ali.share_files(['<file1_id>','<file2_id>'], share_name='share_name', share_pwd='2020', expiration='2021-12-01T00:00:00.000Z', description='description')
         >>> print(share)
         """
         body = CreateShareLinkRequest(
@@ -87,7 +87,7 @@ class Share(Core):
         用法示例：
         >>> from aligo import Aligo
         >>> ali = Aligo()
-        >>> old_share = ali.share_file(['<file_id>'], share_name='old share')
+        >>> old_share = ali.share_file('<file_id>', share_name='old share')
         >>> new_share = ali.update_share(old_share.share_id, share_name='new share')
         >>> print(new_share)
         """
@@ -109,7 +109,7 @@ class Share(Core):
         用法示例：
         >>> from aligo import Aligo
         >>> ali = Aligo()
-        >>> share = ali.share_file(['<file_id>'])
+        >>> share = ali.share_file('<file_id>')
         >>> cancel_share = ali.cancel_share(share.share_id)
         >>> print(cancel_share)
         """
@@ -125,8 +125,9 @@ class Share(Core):
         用法示例：
         >>> from aligo import Aligo
         >>> ali = Aligo()
-        >>> share1 = ali.share_file(['<file1_id>'])
-        >>> share2 = ali.share_file(['<file2_id>'])
+        >>> share1 = ali.share_file('<file1_id>')
+        >>> share2 = ali.share_file('<file2_id>')
+        >>> # noinspection PyShadowingNames
         >>> share_id_list = [share1.share_id, share2.share_id]
         >>> cancel_share = ali.batch_cancel_share(share_id_list)
         >>> print(cancel_share)
@@ -172,7 +173,7 @@ class Share(Core):
         用法示例：
         >>> from aligo import Aligo
         >>> ali = Aligo()
-        >>> share = ali.share_file(['<file_id>'])
+        >>> share = ali.share_file('<file_id>')
         >>> share_info = ali.get_share_info(share.share_id)
         >>> print(share_info)
         """
@@ -189,9 +190,9 @@ class Share(Core):
         用法示例：
         >>> from aligo import Aligo
         >>> ali = Aligo()
-        >>> share = ali.share_file(['<file_id>'])
+        >>> share = ali.share_file('<file_id>')
         >>> share_token = ali.get_share_token(share.share_id)
-        >>> print(share_token.share_token)
+        >>> print(share_token)
         """
         body = GetShareTokenRequest(share_id=share_id, share_pwd=share_pwd)
         return self._core_get_share_token(body)
@@ -200,7 +201,7 @@ class Share(Core):
     def get_share_file_list(
             self,
             share_id: str,
-            share_token: str,
+            share_token: GetShareTokenResponse,
             parent_file_id: str = 'root',
             **kwargs
     ) -> List[BaseShareFile]:
@@ -215,24 +216,32 @@ class Share(Core):
         用法示例：
         >>> from aligo import Aligo
         >>> ali = Aligo()
-        >>> share = ali.share_file(['<file_id>'])
+        >>> share = ali.share_file('<file_id>')
+        >>> # noinspection PyShadowingNames
         >>> share_token = ali.get_share_token(share.share_id)
-        >>> share_file_list = ali.get_share_file_list(share.share_id, share_token.share_token)
+        >>> share_file_list = ali.get_share_file_list(share.share_id, share_token)
         >>> print(share_file_list)
         """
 
     @overload
-    def get_share_file_list(self, body: GetShareFileListRequest) -> List[BaseShareFile]:
+    def get_share_file_list(
+            self,
+            body: GetShareFileListRequest,
+            share_token: GetShareTokenResponse
+    ) -> List[BaseShareFile]:
         """
-       官方：获取分享文件列表
+        官方：获取分享文件列表
         :param body: [必选] 请求体
+        :param share_token: [必选] 分享token
         :return: [List[BaseShareFile]]
 
         用法示例：
         >>> from aligo import Aligo, GetShareFileListRequest
         >>> ali = Aligo()
-        >>> share = ali.share_file(['<file_id>'])
+        >>> share = ali.share_file('<file_id>')
+        >>> # noinspection PyShadowingNames
         >>> share_token = ali.get_share_token(share.share_id)
+        >>> # noinspection PyShadowingNames
         >>> body = GetShareFileListRequest(share_id=share.share_id, share_token=share_token.share_token)
         >>> share_file_list = ali.get_share_file_list(body=body)
         >>> print(share_file_list)
@@ -241,7 +250,7 @@ class Share(Core):
     def get_share_file_list(
             self,
             share_id: str = None,
-            share_token: str = None,
+            share_token: GetShareTokenResponse = None,
             parent_file_id: str = 'root',
             body: GetShareFileListRequest = None,
             **kwargs
@@ -257,7 +266,7 @@ class Share(Core):
             self,
             share_id: str,
             file_id: str,
-            share_token: str,
+            share_token: GetShareTokenResponse,
             **kwargs
     ) -> BaseShareFile:
         """
@@ -271,24 +280,28 @@ class Share(Core):
         用法示例：
         >>> from aligo import Aligo
         >>> ali = Aligo()
-        >>> share = ali.share_file(['<file_id>'])
+        >>> share = ali.share_file('<file_id>')
+        >>> # noinspection PyShadowingNames
         >>> share_token = ali.get_share_token(share.share_id)
-        >>> share_file = ali.get_share_file(share.share_id, share.file_id, share_token.share_token)
+        >>> share_file = ali.get_share_file(share.share_id, share.file_id, share_token)
         >>> print(share_file)
         """
 
     @overload
-    def get_share_file(self, body: GetShareFileRequest) -> BaseShareFile:
+    def get_share_file(self, body: GetShareFileRequest, share_token: GetShareTokenResponse) -> BaseShareFile:
         """
         官方：获取分享文件
         :param body: [必选] 请求体
+        :param share_token: [必选] 分享token
         :return: [BaseShareFile]
 
         用法示例：
         >>> from aligo import Aligo, GetShareFileRequest
         >>> ali = Aligo()
-        >>> share = ali.share_file(['<file_id>'])
+        >>> share = ali.share_file('<file_id>')
+        >>> # noinspection PyShadowingNames
         >>> share_token = ali.get_share_token(share.share_id)
+        >>> # noinspection PyShadowingNames
         >>> body = GetShareFileRequest(share_id=share.share_id, file_id=share.file_id, share_token=share_token.share_token)
         >>> share_file = ali.get_share_file(body=body)
         >>> print(share_file)
@@ -298,7 +311,7 @@ class Share(Core):
             self,
             share_id: str = None,
             file_id: str = None,
-            share_token: str = None,
+            share_token: GetShareTokenResponse = None,
             body: GetShareFileRequest = None,
             **kwargs
     ) -> BaseShareFile:
@@ -312,7 +325,7 @@ class Share(Core):
             self,
             share_id: str,
             file_id: str,
-            share_token: str,
+            share_token: GetShareTokenResponse,
             **kwargs
     ) -> GetShareLinkDownloadUrlResponse:
         """
@@ -326,24 +339,32 @@ class Share(Core):
         用法示例：
         >>> from aligo import Aligo
         >>> ali = Aligo()
-        >>> share = ali.share_file(['<file_id>'])
+        >>> share = ali.share_file('<file_id>')
+        >>> # noinspection PyShadowingNames
         >>> share_token = ali.get_share_token(share.share_id)
-        >>> share_link_download_url = ali.get_share_link_download_url(share.share_id, share.file_id, share_token.share_token)
+        >>> share_link_download_url = ali.get_share_link_download_url(share.share_id, share.file_id, share_token)
         >>> print(share_link_download_url)
         """
 
     @overload
-    def get_share_link_download_url(self, body: GetShareLinkDownloadUrlRequest) -> GetShareLinkDownloadUrlResponse:
+    def get_share_link_download_url(
+            self,
+            body: GetShareLinkDownloadUrlRequest,
+            share_token: GetShareTokenResponse
+    ) -> GetShareLinkDownloadUrlResponse:
         """
         官方：获取分享文件下载链接
         :param body: [必选] 请求体
+        :param share_token: [必选] 分享token
         :return: [GetShareLinkDownloadUrlResponse]
 
         用法示例：
         >>> from aligo import Aligo, GetShareLinkDownloadUrlRequest
         >>> ali = Aligo()
-        >>> share = ali.share_file(['<file_id>'])
+        >>> share = ali.share_file('<file_id>')
+        >>> # noinspection PyShadowingNames
         >>> share_token = ali.get_share_token(share.share_id)
+        >>> # noinspection PyShadowingNames
         >>> body = GetShareLinkDownloadUrlRequest(share_id=share.share_id, file_id=share.file_id, share_token=share_token.share_token)
         >>> share_link_download_url = ali.get_share_link_download_url(body=body)
         >>> print(share_link_download_url)
@@ -353,7 +374,7 @@ class Share(Core):
             self,
             share_id: str = None,
             file_id: str = None,
-            share_token: str = None,
+            share_token: GetShareTokenResponse = None,
             body: GetShareLinkDownloadUrlRequest = None,
             **kwargs
     ) -> GetShareLinkDownloadUrlResponse:
@@ -367,7 +388,7 @@ class Share(Core):
             self,
             share_id: str,
             file_id: str,
-            share_token: str,
+            share_token: GetShareTokenResponse,
             to_parent_file_id: str = 'root',
             to_drive_id: str = None,
             new_name: str = None,
@@ -387,24 +408,32 @@ class Share(Core):
         用法示例：
         >>> from aligo import Aligo
         >>> ali = Aligo()
-        >>> share = ali.share_file(['<file_id>'])
+        >>> share = ali.share_file('<file_id>')
+        >>> # noinspection PyShadowingNames
         >>> share_token = ali.get_share_token(share.share_id)
-        >>> share_file_saveto_drive = ali.share_file_saveto_drive(share.share_id, share.file_id, share_token.share_token)
+        >>> share_file_saveto_drive = ali.share_file_saveto_drive(share.share_id, share.file_id, share_token)
         >>> print(share_file_saveto_drive)
         """
 
     @overload
-    def share_file_saveto_drive(self, body: ShareFileSaveToDriveRequest = None) -> ShareFileSaveToDriveResponse:
+    def share_file_saveto_drive(
+            self,
+            body: ShareFileSaveToDriveRequest,
+            share_token: GetShareTokenResponse
+    ) -> ShareFileSaveToDriveResponse:
         """
         官方：保存分享文件到指定的网盘
         :param body: [必选] 请求体
+        :param share_token: [必选] 分享token
         :return: [ShareFileSaveToDriveResponse]
 
         用法示例：
         >>> from aligo import Aligo, ShareFileSaveToDriveRequest
         >>> ali = Aligo()
-        >>> share = ali.share_file(['<file_id>'])
+        >>> share = ali.share_file('<file_id>')
+        >>> # noinspection PyShadowingNames
         >>> share_token = ali.get_share_token(share.share_id)
+        >>> # noinspection PyShadowingNames
         >>> body = ShareFileSaveToDriveRequest(share_id=share.share_id, file_id=share.file_id, share_token=share_token.share_token)
         >>> share_file_saveto_drive = ali.share_file_saveto_drive(body=body)
         >>> print(share_file_saveto_drive)
@@ -414,7 +443,7 @@ class Share(Core):
             self,
             share_id: str = None,
             file_id: str = None,
-            share_token: str = None,
+            share_token: GetShareTokenResponse = None,
             to_parent_file_id: str = 'root',
             to_drive_id: str = None,
             new_name: str = None,
@@ -438,7 +467,7 @@ class Share(Core):
             self,
             share_id: str,
             file_id_list: List[str],
-            share_token: str,
+            share_token: GetShareTokenResponse,
             to_parent_file_id: str = 'root',
             to_drive_id: str = None,
             **kwargs
@@ -456,25 +485,31 @@ class Share(Core):
         用法示例：
         >>> from aligo import Aligo
         >>> ali = Aligo()
-        >>> share = ali.share_file(['<file_id>'])
+        >>> share = ali.share_file('<file_id>')
+        >>> # noinspection PyShadowingNames
         >>> share_token = ali.get_share_token(share.share_id)
-        >>> batch_share_file_saveto_drive = ali.batch_share_file_saveto_drive(share.share_id, share.file_id_list, share_token.share_token)
+        >>> batch_share_file_saveto_drive = ali.batch_share_file_saveto_drive(share.share_id, share.file_id_list, share_token)
         >>> print(batch_share_file_saveto_drive[0].file_id)
         """
 
     @overload
-    def batch_share_file_saveto_drive(self, body: BatchShareFileSaveToDriveRequest) -> List[
-        BatchShareFileSaveToDriveResponse]:
+    def batch_share_file_saveto_drive(
+            self, body: BatchShareFileSaveToDriveRequest,
+            share_token: GetShareTokenResponse
+    ) -> List[BatchShareFileSaveToDriveResponse]:
         """
         官方：批量保存分享文件到指定的网盘
         :param body: [必选] 请求体
+        :param share_token: [必选] 分享token
         :return: [List[BatchShareFileSaveToDriveResponse]]
 
         用法示例：
         >>> from aligo import Aligo, BatchShareFileSaveToDriveRequest
         >>> ali = Aligo()
-        >>> share = ali.share_file(['<file_id>'])
+        >>> share = ali.share_file('<file_id>')
+        >>> # noinspection PyShadowingNames
         >>> share_token = ali.get_share_token(share.share_id)
+        >>> # noinspection PyShadowingNames
         >>> body = BatchShareFileSaveToDriveRequest(share_id=share.share_id, file_id_list=share.file_id_list, share_token=share_token.share_token)
         >>> batch_share_file_saveto_drive = ali.batch_share_file_saveto_drive(body=body)
         >>> print(batch_share_file_saveto_drive[0].file_id)
@@ -484,7 +519,7 @@ class Share(Core):
             self,
             share_id: str = None,
             file_id_list: List[str] = None,
-            share_token: str = None,
+            share_token: GetShareTokenResponse = None,
             to_parent_file_id: str = 'root',
             to_drive_id: str = None,
             body: BatchShareFileSaveToDriveRequest = None,
@@ -503,8 +538,13 @@ class Share(Core):
         return list(result)
 
     def share_file_save_all_to_drive(
-            self, share_id: str, share_token: str, to_parent_file_id: str = 'root',
-            overwrite: bool = False, auto_rename: bool = True, to_drive_id: str = None,
+            self,
+            share_id: str,
+            share_token: GetShareTokenResponse,
+            to_parent_file_id: str = 'root',
+            overwrite: bool = False,
+            auto_rename: bool = True,
+            to_drive_id: str = None,
     ) -> List[BatchShareFileSaveToDriveResponse]:
         """保存所有分享文件到云盘"""
         file_list = self.get_share_file_list(share_id, share_token)

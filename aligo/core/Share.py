@@ -59,12 +59,17 @@ class Share(BaseAligo):
 
     def _core_get_share_token(self, body: GetShareTokenRequest) -> GetShareTokenResponse:
         """..."""
+        # noinspection PyProtectedMember
         Auth._SHARE_PWD_DICT[body.share_id] = body.share_pwd
         response = self._post(V2_SHARE_LINK_GET_SHARE_TOKEN, body=body)
         share_token = self._result(response, GetShareTokenResponse)
         return share_token
 
-    def _core_get_share_file_list(self, body: GetShareFileListRequest, x_share_token: str) -> Iterator[BaseShareFile]:
+    def _core_get_share_file_list(
+            self,
+            body: GetShareFileListRequest,
+            x_share_token: GetShareTokenResponse
+    ) -> Iterator[BaseShareFile]:
         """..."""
         response = self._auth.post(ADRIVE_V3_FILE_LIST, body=asdict(body), headers={'x-share-token': x_share_token})
         file_list = self._result(response, GetShareFileListResponse)
@@ -76,30 +81,44 @@ class Share(BaseAligo):
             body.marker = file_list.next_marker
             yield from self._core_get_share_file_list(body=body, x_share_token=x_share_token)
 
-    def _core_get_share_file(self, body: GetShareFileRequest, x_share_token: str) -> BaseShareFile:
+    def _core_get_share_file(
+            self,
+            body: GetShareFileRequest,
+            x_share_token: GetShareTokenResponse
+    ) -> BaseShareFile:
         """..."""
         response = self._auth.post(V2_FILE_GET, body=asdict(body), headers={'x-share-token': x_share_token})
         share_file = self._result(response, BaseShareFile)
         return share_file
 
-    def _core_get_share_link_download_url(self, body: GetShareLinkDownloadUrlRequest,
-                                          x_share_token: str) -> GetShareLinkDownloadUrlResponse:
+    def _core_get_share_link_download_url(
+            self,
+            body: GetShareLinkDownloadUrlRequest,
+            x_share_token: GetShareTokenResponse
+    ) -> GetShareLinkDownloadUrlResponse:
         """..."""
-        response = self._auth.post(V2_FILE_GET_SHARE_LINK_DOWNLOAD_URL, body=asdict(body),
-                                   headers={'x-share-token': x_share_token})
+        response = self._auth.post(
+            V2_FILE_GET_SHARE_LINK_DOWNLOAD_URL,
+            body=asdict(body),
+            headers={'x-share-token': x_share_token}
+        )
         download_url = self._result(response, GetShareLinkDownloadUrlResponse)
         return download_url
 
-    def _core_share_file_saveto_drive(self, body: ShareFileSaveToDriveRequest,
-                                      x_share_token: str) -> ShareFileSaveToDriveResponse:
+    def _core_share_file_saveto_drive(
+            self, body: ShareFileSaveToDriveRequest,
+            x_share_token: GetShareTokenResponse
+    ) -> ShareFileSaveToDriveResponse:
         """..."""
         if body.to_drive_id is None:
             body.to_drive_id = self.default_drive_id
         response = self._auth.post(V2_FILE_COPY, body=asdict(body), headers={'x-share-token': x_share_token})
         return self._result(response, ShareFileSaveToDriveResponse, [201, 202])
 
-    def _core_batch_share_file_saveto_drive(self, body: BatchShareFileSaveToDriveRequest,
-                                            x_share_token: str) -> Iterator[BatchShareFileSaveToDriveResponse]:
+    def _core_batch_share_file_saveto_drive(
+            self, body: BatchShareFileSaveToDriveRequest,
+            x_share_token: GetShareTokenResponse
+    ) -> Iterator[BatchShareFileSaveToDriveResponse]:
         """..."""
         if body.to_drive_id is None:
             body.to_drive_id = self.default_drive_id
@@ -134,5 +153,6 @@ class Share(BaseAligo):
             for batch in response.json()['responses']:
                 i = BatchSubResponse(**batch)
                 if i.body:
+                    # noinspection PyArgumentList
                     i.body = BatchShareFileSaveToDriveResponse(**i.body)
                 yield i

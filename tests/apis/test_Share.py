@@ -15,7 +15,7 @@ ali = Aligo()
 
 
 def test_share():
-    share_request = ali.share_file(
+    share_request = ali.share_files(
         file_id_list=[test_share_file, test_share_file2],
         share_pwd='2021',
         description='aligo share test'
@@ -68,21 +68,21 @@ def test_other_share():
     share_token = ali.get_share_token(share_id=share_id2, share_pwd=share_pwd2)
     assert isinstance(share_token, GetShareTokenResponse)
 
-    share_list = ali.get_share_file_list(share_id=share_id2, share_token=share_token.share_token)
+    share_list = ali.get_share_file_list(share_id=share_id2, share_token=share_token)
     file_list = []
     for i in share_list:
         file_list.append(i.file_id)
         assert isinstance(i, BaseShareFile)
-        share_file = ali.get_share_file(share_token=share_token.share_token,
+        share_file = ali.get_share_file(share_token=share_token,
                                         share_id=share_id2, file_id=i.file_id)
         assert isinstance(share_file, BaseShareFile)
         url = ali.get_share_link_download_url(
             share_id=share_id2, file_id=i.file_id,
-            share_token=share_token.share_token
+            share_token=share_token
         )
         assert isinstance(url, GetShareLinkDownloadUrlResponse)
         x = ali.share_file_saveto_drive(share_id=share_id2, file_id=i.file_id, to_parent_file_id=share_folder,
-                                        share_token=share_token.share_token)
+                                        share_token=share_token)
         assert isinstance(x, ShareFileSaveToDriveResponse)
         assert isinstance(x.file_id, str)
         assert len(x.file_id) > 10
@@ -90,7 +90,7 @@ def test_other_share():
         assert isinstance(y, MoveFileToTrashResponse)
 
     x = ali.batch_share_file_saveto_drive(share_id=share_id2, file_id_list=file_list,
-                                          share_token=share_token.share_token)
+                                          share_token=share_token)
     for i in x:
         assert isinstance(i, BatchSubResponse)
         assert isinstance(i.body, BatchShareFileSaveToDriveResponse)
