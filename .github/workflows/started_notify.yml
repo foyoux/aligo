@@ -6,9 +6,6 @@ jobs:
   Notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Install Dependencies
-        run: |
-          pip install yagmail[all] requests
       - name: Download Scripts
         run: |
           wget https://raw.githubusercontent.com/foyoux/started-notify/main/.github/workflows/started_notify.py#${{github.run_id}}
