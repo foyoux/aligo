@@ -70,6 +70,7 @@ class DataClass:
 def _null_list(cls: Generic[DataType], may_null: Optional[List[DataType]]) -> List[DataType]:
     if may_null and len(may_null) != 0:
         if isinstance(may_null[0], dict):
+            # noinspection PyProtectedMember
             return [DataClass._fill_attrs(cls, i) for i in may_null]
         else:
             return may_null
@@ -81,5 +82,6 @@ def _null_dict(cls: Type[DataType], may_null: Optional[Dict]) -> DataType:
     if may_null is None:
         return None
     if isinstance(may_null, dict):
+        # noinspection PyProtectedMember
         return DataClass._fill_attrs(cls, may_null)
     return may_null
