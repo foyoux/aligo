@@ -25,11 +25,12 @@ from aligo import Aligo
 
 if __name__ == '__main__':
     ali = Aligo()  # 第一次使用，会弹出二维码，供扫描登录
+    
     user = ali.get_user()  # 获取用户信息
     print(user.user_name, user.nick_name, user.phone)  # 打印用户信息
+    
     ll = ali.get_file_list()  # 获取网盘根目录文件列表
-    # 遍历文件列表
-    for file in ll:
+    for file in ll:  # 遍历文件列表
         print(file.file_id, file.name, file.type)  # 打印文件信息
 ```
 
@@ -51,7 +52,7 @@ https://user-images.githubusercontent.com/35125624/150529002-c2f1b80b-fb11-4e0a-
 - [x] 持久化登录、多帐户登录
 - [x] 文件（夹）自定义分享（无限制）
 - [x] 获取帐户、云盘（容量）等基本信息
-- [x] ★★★ 欢迎大家发起 [新功能请求](https://github.com/foyoux/aligo/issues/new?assignees=&labels=&template=feature_request.md&title=)
+- [x] ⭐⭐⭐ 欢迎大家发起 [新功能请求](https://github.com/foyoux/aligo/issues/new?assignees=&labels=&template=feature_request.md&title=)
 
 > **温馨提示：**
 >   1. 由于秒传链接的失效，自定分享信息的有效期只有4个小时。
@@ -93,6 +94,22 @@ ali = Aligo(email=('xxx@qq.com', '防伪字符串，可任意字符串'))
 > 无需先移动文件到回收站
 
 此功能太危险，**aligo** 未直接提供。不过 [这里](https://github.com/foyoux/aligo/wiki/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%9F%E8%83%BD---%E5%BD%BB%E5%BA%95%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6) 扩展了该功能，请小心使用！
+
+
+## 关于扩展功能
+这个功能讲得很少，因为觉得没什么好讲的，参考 **彻底删除文件** 章节应该一下子就可以看懂。
+
+一直也没有人反馈或者咨询这个功能，觉得用的人大概很少，所以稍微说下。
+
+一般步骤：
+
+    1. 使用浏览器或其他抓包工具，观察通信过程；
+    2. 获取 url/path + 请求体；
+    3. 继承 `Aligo`, 使用现有的方法 `self._post` 等，进行发送请求；
+    
+会自动维护 **token**, 你只需关注如何发送请求即可。
+
+[扩展功能举栗🌰](https://github.com/foyoux/aligo/issues/24)
 
 ---
 
