@@ -274,9 +274,10 @@ class Auth:
             'Authorization': f'Bearer {self.token.access_token}'
         })
 
-    def request(self, method: str, url: str,
-                params: Dict = None, headers: Dict = None, data=None,
-                verify: bool = None, body: Dict = None) -> requests.Response:
+    _VERIFY_SSL = True
+
+    def request(self, method: str, url: str, params: Dict = None,
+                headers: Dict = None, data=None, body: Dict = None) -> requests.Response:
         """统一请求方法"""
         # 删除值为None的键
         if body is not None:
@@ -287,8 +288,10 @@ class Auth:
 
         response = None
         for i in range(1, 6):
-            response = self.session.request(method=method, url=url, params=params,
-                                            data=data, headers=headers, verify=verify, json=body)
+            response = self.session.request(
+                method=method, url=url, params=params, data=data,
+                headers=headers, verify=self._VERIFY_SSL, json=body
+            )
             status_code = response.status_code
             self._log_response(response)
 
@@ -324,17 +327,15 @@ class Auth:
         self.log.info(f'重试 5 次仍旧失败')
         self.error_log_exit(response)
 
-    def get(self, path: str, host: str = API_HOST, params: dict = None, headers: dict = None,
-            verify: bool = None) -> requests.Response:
+    def get(self, path: str, host: str = API_HOST, params: dict = None, headers: dict = None) -> requests.Response:
         """..."""
-        return self.request(method='GET', url=host + path, params=params,
-                            headers=headers, verify=verify)
+        return self.request(method='GET', url=host + path, params=params, headers=headers)
 
-    def post(self, path: str, host: str = API_HOST, params: dict = None, headers: dict = None, data: dict = None,
-             verify: bool = None, body: dict = None) -> requests.Response:
+    def post(self, path: str, host: str = API_HOST, params: dict = None, headers: dict = None,
+             data: dict = None, body: dict = None) -> requests.Response:
         """..."""
-        return self.request(method='POST', url=host + path, params=params, data=data,
-                            headers=headers, verify=verify, body=body)
+        return self.request(method='POST', url=host + path, params=params,
+                            data=data, headers=headers, body=body)
 
     @staticmethod
     def _show_console(qr_link: str) -> str:
@@ -399,5 +400,5 @@ class Auth:
     def _log_response(self, response: requests.Response):
         """打印响应日志"""
         self.log.info(
-            f'{response.request.method} {response.url} {response.status_code} {response.headers.get("Content-Length", 0)}'
+            f'{response.request.method} {response.url} {response.status_code} {len(response.content)}'
         )
