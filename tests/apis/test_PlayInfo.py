@@ -14,6 +14,6 @@ def test_play_info():
     assert isinstance(audio_info, GetAudioPlayInfoResponse)
     assert audio_info.template_list.__len__() > 0
 
-    video_info = ali.get_video_play_info(file_id=video_file_id)
-    assert isinstance(video_info, GetVideoPlayInfoResponse)
-    assert video_info.template_list.__len__() > 0
+    video_info = ali.get_video_preview_play_info(file_id=video_file_id)
+    assert isinstance(video_info, GetVideoPreviewPlayInfoResponse)
+    assert video_info.video_preview_play_info.live_transcoding_task_list.__len__() > 0
