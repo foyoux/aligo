@@ -17,3 +17,5 @@ class UploadPartInfo(DataClass):
     upload_url: str = None
     internal_upload_url: str = None
     content_type: str = None
+    upload_form_info: str = None
+    internal_upload_form_info: str = None
