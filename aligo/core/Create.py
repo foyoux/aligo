@@ -90,10 +90,9 @@ class Create(BaseAligo):
         offset = md5_int % file_size if file_size else 0
         if file_path.startswith('http'):
             # noinspection PyProtectedMember
-            bys = self._session.get(file_path, headers={
-                'Referer': 'https://www.aliyundrive.com/',
+            bys = Create.session.get(file_path, headers={
                 'Range': f'bytes={offset}-{min(8 + offset, file_size) - 1}'
-            }).content
+            }, proxies=self._auth._proxies).content
         else:
             with open(file_path, 'rb') as file:
                 file.seek(offset)
@@ -146,6 +145,9 @@ class Create(BaseAligo):
         response = self._post(V2_FILE_GET_UPLOAD_URL, body=body)
         return self._result(response, GetUploadUrlResponse)
 
+    session = requests.session()
+    session.mount('https://', HTTPAdapter(max_retries=3))
+
     def _put_data(self, file_path: str, part_info: CreateFileResponse, file_size: int) -> Union[BaseFile, Null]:
         """上传数据"""
         with open(file_path, 'rb') as f:
@@ -153,7 +155,8 @@ class Create(BaseAligo):
             for i in range(len(part_info.part_info_list)):
                 part_info_item = part_info.part_info_list[i]
                 data = f.read(Create.__UPLOAD_CHUNK_SIZE)
-                resp = self._session.put(data=data, url=part_info_item.upload_url)
+                # noinspection PyProtectedMember
+                resp = Create.session.put(data=data, url=part_info_item.upload_url, proxies=self._auth._proxies)
                 if resp.status_code == 403:
                     part_info = self.get_upload_url(GetUploadUrlRequest(
                         drive_id=part_info.drive_id,
@@ -162,7 +165,8 @@ class Create(BaseAligo):
                         part_info_list=[UploadPartInfo(part_number=i.part_number) for i in part_info.part_info_list]
                     ))
                     part_info_item = part_info.part_info_list[i]
-                    resp = self._session.put(data=data, url=part_info_item.upload_url)
+                    # noinspection PyProtectedMember
+                    resp = Create.session.put(data=data, url=part_info_item.upload_url, proxies=self._auth._proxies)
                     if resp.status_code == 403:
                         raise '这里不对劲，请反馈：https://github.com/foyoux/aligo/issues/new'
                 progress_bar.update(len(data))
