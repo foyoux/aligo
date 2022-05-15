@@ -6,8 +6,6 @@ import os
 from dataclasses import asdict
 from typing import Union, List
 
-import requests
-from requests.adapters import HTTPAdapter
 from tqdm import tqdm
 
 from aligo.core import *
@@ -67,8 +65,8 @@ class Create(BaseAligo):
     def _pre_hash(self, file_path: str, file_size: int, name: str, parent_file_id='root', drive_id=None,
                   check_name_mode: CheckNameMode = 'auto_rename') -> CreateFileResponse:
         with open(file_path, 'rb') as f:
-            # 一次读取 10MB 计算 SHA1
-            pre_hash = hashlib.sha1(f.read(10485760)).hexdigest()
+            # prehash 必须是前 1024 个字节的 SHA1
+            pre_hash = hashlib.sha1(f.read(1024)).hexdigest()
         body = CreateFileRequest(
             drive_id=drive_id,
             part_info_list=self._get_part_info_list(file_size),
@@ -90,9 +88,9 @@ class Create(BaseAligo):
         offset = md5_int % file_size if file_size else 0
         if file_path.startswith('http'):
             # noinspection PyProtectedMember
-            bys = Create.session.get(file_path, headers={
+            bys = self._session.get(file_path, headers={
                 'Range': f'bytes={offset}-{min(8 + offset, file_size) - 1}'
-            }, proxies=self._auth._proxies).content
+            }).content
         else:
             with open(file_path, 'rb') as file:
                 file.seek(offset)
@@ -145,9 +143,6 @@ class Create(BaseAligo):
         response = self._post(V2_FILE_GET_UPLOAD_URL, body=body)
         return self._result(response, GetUploadUrlResponse)
 
-    session = requests.session()
-    session.mount('https://', HTTPAdapter(max_retries=3))
-
     def _put_data(self, file_path: str, part_info: CreateFileResponse, file_size: int) -> Union[BaseFile, Null]:
         """上传数据"""
         with open(file_path, 'rb') as f:
@@ -155,8 +150,7 @@ class Create(BaseAligo):
             for i in range(len(part_info.part_info_list)):
                 part_info_item = part_info.part_info_list[i]
                 data = f.read(Create.__UPLOAD_CHUNK_SIZE)
-                # noinspection PyProtectedMember
-                resp = Create.session.put(data=data, url=part_info_item.upload_url, proxies=self._auth._proxies)
+                resp = self._session.put(data=data, url=part_info_item.upload_url)
                 if resp.status_code == 403:
                     part_info = self.get_upload_url(GetUploadUrlRequest(
                         drive_id=part_info.drive_id,
@@ -165,8 +159,7 @@ class Create(BaseAligo):
                         part_info_list=[UploadPartInfo(part_number=i.part_number) for i in part_info.part_info_list]
                     ))
                     part_info_item = part_info.part_info_list[i]
-                    # noinspection PyProtectedMember
-                    resp = Create.session.put(data=data, url=part_info_item.upload_url, proxies=self._auth._proxies)
+                    resp = self._session.put(data=data, url=part_info_item.upload_url)
                     if resp.status_code == 403:
                         raise '这里不对劲，请反馈：https://github.com/foyoux/aligo/issues/new'
                 progress_bar.update(len(data))
@@ -180,7 +173,10 @@ class Create(BaseAligo):
             upload_id=part_info.upload_id,
             part_info_list=part_info.part_info_list
         ))
-        self._auth.log.info(f'文件上传完成 {file_path}')
+        if isinstance(complete, BaseFile):
+            self._auth.log.info(f'文件上传完成 {file_path}')
+        else:
+            self._auth.log.info(f'文件上传失败 {file_path}')
         return complete
 
     def upload_file(

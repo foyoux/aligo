@@ -28,7 +28,7 @@ class Create(Core):
         用法示例:
         >>> from aligo import Aligo
         >>> ali = Aligo()
-        >>> result = ali.create_folder(name='test', parent_file_id='root')
+        >>> result = ali.create_folder(name='test')
         >>> print(result)
         """
         body = CreateFolderRequest(
@@ -77,7 +77,8 @@ class Create(Core):
         用法示例:
         >>> from aligo import Aligo
         >>> ali = Aligo()
-        >>> result = ali.upload_folder('/Users/aligo/Desktop/test')
+        >>> # noinspection PyShadowingNames
+        >>> resut = ali.upload_folder('/Users/aligo/Desktop/test')
         >>> print(result)
         """
         result = []

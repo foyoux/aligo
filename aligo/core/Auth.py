@@ -107,7 +107,6 @@ class Auth:
         self._port = port
         self._webServer: HTTPServer = None  # type: ignore
         self._email = email
-        self._proxies = proxies
         self.log = logging.getLogger(f'{__name__}:{name}')
 
         fmt = f'%(asctime)s.%(msecs)03d {name}.%(levelname)s %(message)s'
@@ -127,7 +126,6 @@ class Auth:
         self.session = requests.session()
         self.session.trust_env = False
         self.session.proxies = proxies
-        self.session.params.update(UNI_PARAMS)  # type:ignore
         self.session.headers.update(UNI_HEADERS)
 
         self.session.get(AUTH_HOST + V2_OAUTH_AUTHORIZE, params={

@@ -3,8 +3,6 @@ import os
 import re
 from typing import Iterator, List
 
-import requests
-from requests.adapters import HTTPAdapter
 from tqdm import tqdm
 
 from aligo.core import *
@@ -42,9 +40,6 @@ class Download(BaseAligo):
     def _del_special_symbol(s: str) -> str:
         """删除Windows文件名中不允许的字符"""
         return re.sub(r'[\\/:*?"<>|]', '_', s)
-
-    session = requests.session()
-    session.mount('https://', HTTPAdapter(max_retries=3))
 
     def _core_download_file(self, file_path: str, url: str) -> str:
         """下载文件
@@ -93,10 +88,9 @@ class Download(BaseAligo):
         try:
             progress_bar = None
             # noinspection PyProtectedMember
-            with Download.session.get(url, headers={
-                'Referer': 'https://www.aliyundrive.com/',
+            with self._session.get(url, headers={
                 'Range': f'bytes={tmp_size}-'
-            }, stream=True, proxies=self._auth._proxies) as resp:
+            }, stream=True) as resp:
                 llen = int(resp.headers.get('content-length', 0))
                 if resp.headers.get('Accept-Ranges', None) != 'bytes':
                     raise f'此链接不支持断点续传 {resp.url}'
