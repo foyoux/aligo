@@ -4,7 +4,7 @@ import hashlib
 import math
 import os
 from dataclasses import asdict
-from typing import Union
+from typing import Union, List
 
 import requests
 from tqdm import tqdm
@@ -58,7 +58,7 @@ class Create(BaseAligo):
         return self._result(response, BaseFile)
 
     @staticmethod
-    def _get_part_info_list(file_size: int):
+    def _get_part_info_list(file_size: int) -> List[UploadPartInfo]:
         """根据文件大小, 返回 part_info_list """
         # 以10MB为一块: 10485760
         return [UploadPartInfo(part_number=i) for i in range(1, math.ceil(file_size / Create.__UPLOAD_CHUNK_SIZE) + 1)]
@@ -66,7 +66,8 @@ class Create(BaseAligo):
     def _pre_hash(self, file_path: str, file_size: int, name: str, parent_file_id='root', drive_id=None,
                   check_name_mode: CheckNameMode = 'auto_rename') -> CreateFileResponse:
         with open(file_path, 'rb') as f:
-            pre_hash = hashlib.sha1(f.read(1024)).hexdigest()
+            # 一次读取 10MB 计算 SHA1
+            pre_hash = hashlib.sha1(f.read(10485760)).hexdigest()
         body = CreateFileRequest(
             drive_id=drive_id,
             part_info_list=self._get_part_info_list(file_size),
@@ -194,7 +195,7 @@ class Create(BaseAligo):
         :Example:
         >>> from aligo import Aligo
         >>> ali = Aligo()
-        >>> up_file = ali.upload_file('/Users/aligo/Desktop/test.txt', 'root')
+        >>> up_file = ali.upload_file('/Users/aligo/Desktop/test.txt')
         >>> print(up_file)
         """
         self._auth.log.info(f'开始上传文件 {file_path}')
