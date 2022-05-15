@@ -4,6 +4,7 @@ import re
 from typing import Iterator, List
 
 import requests
+from requests.adapters import HTTPAdapter
 from tqdm import tqdm
 
 from aligo.core import *
@@ -41,6 +42,9 @@ class Download(BaseAligo):
     def _del_special_symbol(s: str) -> str:
         """删除Windows文件名中不允许的字符"""
         return re.sub(r'[\\/:*?"<>|]', '_', s)
+
+    session = requests.session()
+    session.mount('https://', HTTPAdapter(max_retries=3))
 
     def _core_download_file(self, file_path: str, url: str) -> str:
         """下载文件
@@ -89,7 +93,7 @@ class Download(BaseAligo):
         try:
             progress_bar = None
             # noinspection PyProtectedMember
-            with requests.get(url, headers={
+            with Download.session.get(url, headers={
                 'Referer': 'https://www.aliyundrive.com/',
                 'Range': f'bytes={tmp_size}-'
             }, stream=True, proxies=self._auth._proxies) as resp:
@@ -120,12 +124,14 @@ class Download(BaseAligo):
         :Example:
         >>> from aligo import Aligo
         >>> ali = Aligo()
+        >>> # noinspection PyShadowingNames
         >>> file_path = ali.download_files([ali.get_file_by_path('xxx.mp3')])
         >>> print(file_path)
         """
         rt = []
         for file in files:
             file_path = os.path.join(local_folder, file.name)
+            # noinspection PyBroadException
             try:
                 file_path = self._core_download_file(file_path, file.download_url)
             except:
