@@ -83,6 +83,11 @@ class Create(Core):
         """
         result = []
         folder_path = os.path.abspath(folder_path)
+
+        # 0. 判断是否为文件夹
+        if not os.path.isdir(folder_path):
+            raise NotADirectoryError('不是文件夹')
+
         # 1. 获取文件夹名
         # 防止文件夹末尾存在分隔符时, 返回为空 "" 的情况
         folder_name = os.path.basename(folder_path)
