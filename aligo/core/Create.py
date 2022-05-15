@@ -7,6 +7,7 @@ from dataclasses import asdict
 from typing import Union, List
 
 import requests
+from requests.adapters import HTTPAdapter
 from tqdm import tqdm
 
 from aligo.core import *
@@ -89,10 +90,10 @@ class Create(BaseAligo):
         offset = md5_int % file_size if file_size else 0
         if file_path.startswith('http'):
             # noinspection PyProtectedMember
-            bys = requests.get(file_path, headers={
-                'referer': 'https://www.aliyundrive.com/',
+            bys = self._session.get(file_path, headers={
+                'Referer': 'https://www.aliyundrive.com/',
                 'Range': f'bytes={offset}-{min(8 + offset, file_size) - 1}'
-            }, proxies=self._auth._proxies).content
+            }).content
         else:
             with open(file_path, 'rb') as file:
                 file.seek(offset)
@@ -147,20 +148,23 @@ class Create(BaseAligo):
 
     def _put_data(self, file_path: str, part_info: CreateFileResponse, file_size: int) -> Union[BaseFile, Null]:
         """上传数据"""
-        # llen = len(part_info.part_info_list)
         with open(file_path, 'rb') as f:
             progress_bar = tqdm(total=file_size, unit='B', unit_scale=True, colour='#21d789')
-            for i, e in enumerate(part_info.part_info_list):
+            for i in range(len(part_info.part_info_list)):
+                part_info_item = part_info.part_info_list[i]
                 data = f.read(Create.__UPLOAD_CHUNK_SIZE)
-                r = self._session.put(data=data, url=e.upload_url)
-                if r.status_code == 403:
+                resp = self._session.put(data=data, url=part_info_item.upload_url)
+                if resp.status_code == 403:
                     part_info = self.get_upload_url(GetUploadUrlRequest(
                         drive_id=part_info.drive_id,
                         file_id=part_info.file_id,
                         upload_id=part_info.upload_id,
                         part_info_list=[UploadPartInfo(part_number=i.part_number) for i in part_info.part_info_list]
                     ))
-                    self._session.put(data=data, url=e.upload_url)
+                    part_info_item = part_info.part_info_list[i]
+                    resp = self._session.put(data=data, url=part_info_item.upload_url)
+                    if resp.status_code == 403:
+                        raise '这里不对劲，请反馈：https://github.com/foyoux/aligo/issues/new'
                 progress_bar.update(len(data))
 
         progress_bar.close()
