@@ -84,7 +84,6 @@ V2_TEMPLATE_TEST = '/v2/template/test'
 CLIENT_ID = '25dzX3vbYqktVxyX'
 UNI_PARAMS = {'appName': 'aliyun_drive'}
 UNI_HEADERS = {
+    'Referer': 'https://aliyundrive.com',
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36',
-    # 'User-Agent': 'AliApp(yunpan/2.3.0) com.alicloud.databox/15287370 Channel/263200@rimet_android_2.3.0 language/zh-CN /Android Mobile/OnePlus GM1900',
-    # 'Referer': 'https://aliyundrive.com'
 }
