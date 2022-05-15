@@ -28,6 +28,26 @@ class CustomShare(Core):
         return result
 
     @staticmethod
+    def share_file_by_aligo(file: BaseFile) -> str:
+        """
+        自定义分享文件
+        :param file: [BaseFile] 分享文件（BaseFile对象）
+        :return: [str] 分享信息
+
+        用法示例：
+        >>> from aligo import Aligo
+        >>> ali = Aligo()
+        >>> # 获取文件列表
+        >>> # noinspection PyShadowingNames
+        >>> file = ali.get_file('<file_id>')
+        >>> # noinspection PyShadowingNames
+        >>> result = ali.share_file_by_aligo(file)
+        >>> print(result)
+        """
+        result = CustomShare.__share_files_by_aligo([file])
+        return CustomShare._ALIGO_SHARE_SCHEMA + base64.b64encode(json.dumps(result).encode()).decode()
+
+    @staticmethod
     def share_files_by_aligo(files: List[BaseFile]) -> str:
         """
         自定义分享文件
@@ -38,7 +58,9 @@ class CustomShare(Core):
         >>> from aligo import Aligo
         >>> ali = Aligo()
         >>> # 获取文件列表
+        >>> # noinspection PyShadowingNames
         >>> files = ali.get_file_list(parent_file_id='<file_id>')
+        >>> # noinspection PyShadowingNames
         >>> result = ali.share_files_by_aligo(files)
         >>> print(result)
         """
@@ -70,6 +92,7 @@ class CustomShare(Core):
         用法示例：
         >>> from aligo import Aligo
         >>> ali = Aligo()
+        >>> # noinspection PyShadowingNames
         >>> result = ali.share_folder_by_aligo('<file_id>')
         >>> print(result)
         """
@@ -129,6 +152,7 @@ class CustomShare(Core):
         用法示例：
         >>> from aligo import Aligo
         >>> ali = Aligo()
+        >>> # noinspection PyShadowingNames
         >>> result = ali.save_files_by_aligo('<自定义分享信息>')
         >>> print(result)
         """
