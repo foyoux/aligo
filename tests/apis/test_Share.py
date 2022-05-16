@@ -25,7 +25,7 @@ def test_share():
     assert isinstance(share_request.created_at, str)
     assert isinstance(share_request.creator, str)
     assert isinstance(share_request.file_id_list, list)
-    assert share_request.file_id_list.__len__() == 2
+    assert len(share_request.file_id_list) == 2
     assert share_request.share_pwd == '2021'
     assert share_request.description == 'aligo share test'
 
