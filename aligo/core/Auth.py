@@ -196,7 +196,7 @@ class Auth:
     def _login_by_qrcode(self) -> requests.Response:
         """二维码登录"""
         response = self.session.get(
-            PASSPORT_HOST + NEWLOGIN_QRCODE_GENERATE_DO
+            PASSPORT_HOST + NEWLOGIN_QRCODE_GENERATE_DO, params=UNI_PARAMS
         )
         self._log_response(response)
         data = response.json()['content']['data']
@@ -219,7 +219,7 @@ class Auth:
         while True:
             response = self.session.post(
                 PASSPORT_HOST + NEWLOGIN_QRCODE_QUERY_DO,
-                data=data
+                data=data, params=UNI_PARAMS
             )
             self._log_response(response)
             login_data = response.json()['content']['data']
