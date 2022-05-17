@@ -8,3 +8,4 @@ from .DataClass import DataClass
 class FieldsInfo(DataClass):
     """..."""
     image_count: int = 0
+    video_meta_processed: str = None
