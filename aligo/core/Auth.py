@@ -206,6 +206,7 @@ class Auth:
         # 开启服务
         if self._port or self._email:
             if self._port:
+                # noinspection HttpUrlsUsage
                 self.log.info(f'请访问 http://<YOUR_IP>:{self._port} 扫描二维码')
                 _thread.start_new_thread(self._show_qrcode_in_web, (qr_link,))
             if self._email:
@@ -231,10 +232,9 @@ class Auth:
             elif qrCodeStatus == 'CONFIRMED':
                 self.log.info(f'已确认 可关闭二维码窗口')
                 if self._port:
-                    # noinspection PyBroadException
                     try:
-                        requests.get(f'http://localhost:{self._port}/close')
-                    except:
+                        self.session.get(f'http://localhost:{self._port}/close')
+                    except requests.exceptions.ConnectionError:
                         pass
                 return response
             else:
@@ -379,10 +379,9 @@ class Auth:
         self._webServer = HTTPServer(('0.0.0.0', self._port), LoginServer)
         self._webServer.qrData = open(qr_img_path, 'rb').read()
         os.remove(qr_img_path)
-        # noinspection PyBroadException
         try:
             self._webServer.serve_forever()
-        except:
+        except OSError:
             pass
 
     def _send_email(self, qr_link: str) -> NoReturn:
