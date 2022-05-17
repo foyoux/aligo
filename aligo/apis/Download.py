@@ -144,8 +144,11 @@ class Download(Core):
         >>> print(result)
         """
 
-    def download_file(self, file_path: str = None, url: str = None,
-                      local_folder: str = '.', file_id: str = None, file: BaseFile = None, drive_id=None) -> str:
+    def download_file(
+            self, file_path: str = None, url: str = None,
+            local_folder: str = '.', file_id: str = None,
+            file: BaseFile = None, drive_id=None
+    ) -> str:
         """download_file"""
         if file_id:
             file = self._core_get_file(GetFileRequest(file_id=file_id, drive_id=drive_id))
