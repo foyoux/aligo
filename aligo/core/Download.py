@@ -93,7 +93,7 @@ class Download(BaseAligo):
             }, stream=True) as resp:
                 llen = int(resp.headers.get('content-length', 0))
                 if resp.headers.get('Accept-Ranges', None) != 'bytes':
-                    raise f'此链接不支持断点续传 {resp.url}'
+                    raise ValueError(f'无效下载链接或链接已过期 {resp.url}')
                 progress_bar = tqdm(total=llen + tmp_size, unit='B', unit_scale=True, colour='#31a8ff')
                 progress_bar.update(tmp_size)
                 with open(tmp_file, 'ab') as f:
@@ -125,10 +125,9 @@ class Download(BaseAligo):
         rt = []
         for file in files:
             file_path = os.path.join(local_folder, file.name)
-            # noinspection PyBroadException
             try:
                 file_path = self._core_download_file(file_path, file.download_url)
-            except:
+            except ValueError:
                 file = self._core_get_file(GetFileRequest(file_id=file.file_id, drive_id=file.drive_id))
                 file_path = self._core_download_file(file_path, file.download_url)
             rt.append(file_path)
