@@ -240,7 +240,7 @@ class Auth:
             else:
                 self.log.warning('未知错误 可能二维码已经过期')
                 self.error_log_exit(response)
-            time.sleep(2)
+            time.sleep(3)
 
     def _refresh_token(self, refresh_token=None, loop_call: bool = False):
         """刷新 token"""
