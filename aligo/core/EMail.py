@@ -34,6 +34,6 @@ def send_email(receiver: str, title: str, content: str, qr_data: bytes):
                 msg_root.as_bytes()
             )
             return result
-        except smtplib.SMTPServerDisconnected as e:
+        except smtplib.SMTPServerDisconnected:
             time.sleep(i * 3)
     raise f'邮件发送失败 {receiver}'
