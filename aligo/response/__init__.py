@@ -10,6 +10,7 @@ from .CancelShareLinkResponse import CancelShareLinkResponse
 from .CopyFileResponse import CopyFileResponse
 from .CreateFileResponse import CreateFileResponse
 from .CreateShareLinkResponse import CreateShareLinkResponse
+from .DuplicateListResponse import DuplicateListResponse, DuplicateItem, DuplicateFileInfo
 from .GetAudioPlayInfoResponse import GetAudioPlayInfoResponse
 from .GetDownloadUrlResponse import GetDownloadUrlResponse
 from .GetFileListResponse import GetFileListResponse

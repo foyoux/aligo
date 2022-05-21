@@ -5,6 +5,7 @@ from .Copy import Copy
 from .Create import Create
 from .Download import Download
 from .Drive import Drive
+from .Duplicate import Duplicate
 from .File import File
 from .Move import Move
 from .Other import Other
@@ -18,19 +19,20 @@ from .Video import Video
 
 class Core(
     Audio,
+    Compress,
     Copy,
     Create,
+    Download,
     Drive,
+    Duplicate,
     File,
     Move,
-    Download,
+    Other,
     Recyclebin,
     Search,
     Share,
+    Star,
     User,
     Video,
-    Star,
-    Other,
-    Compress,
 ):
     """..."""

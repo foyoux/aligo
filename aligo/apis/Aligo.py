@@ -5,13 +5,15 @@ from typing import Callable, Dict, Tuple
 
 from typing_extensions import NoReturn
 
-from .Audio import Audio, aligo_config_folder
+from .Audio import Audio
 from .Compress import Compress
 from .Copy import Copy
+from .Copy import aligo_config_folder
 from .Create import Create
 from .CustomShare import CustomShare
 from .Download import Download
 from .Drive import Drive
+from .Duplicate import Duplicate
 from .File import File
 from .Move import Move
 from .Other import Other
@@ -26,22 +28,23 @@ from .Video import Video
 
 class Aligo(
     Audio,
-    Video,
+    Compress,
     Copy,
     Create,
+    CustomShare,
+    Download,
     Drive,
+    Duplicate,
     File,
     Move,
-    Download,
+    Other,
     Recyclebin,
     Search,
     Share,
-    CustomShare,
     Star,
-    Update,
-    Other,
     SyncFolder,
-    Compress,
+    Update,
+    Video,
 ):
     """阿里云盘"""
 
