@@ -52,6 +52,7 @@ https://user-images.githubusercontent.com/35125624/150529002-c2f1b80b-fb11-4e0a-
 - [x] 持久化登录、多帐户登录
 - [x] 文件（夹）自定义分享（无限制）
 - [x] 获取帐户、云盘（容量）等基本信息
+- [x] 。。。。。。
 - [x] ⭐⭐⭐ 欢迎大家发起 [新功能请求](https://github.com/foyoux/aligo/issues/new?assignees=&labels=&template=feature_request.md&title=)
 
 > **温馨提示：**

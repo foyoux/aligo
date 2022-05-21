@@ -25,6 +25,7 @@ from .GetStarredListResponse import GetStarredListResponse
 from .GetUploadUrlResponse import GetUploadUrlResponse
 from .GetVideoPlayInfoResponse import GetVideoPlayInfoResponse
 from .GetVideoPreviewPlayInfoResponse import GetVideoPreviewPlayInfoResponse
+from .ListMyDrivesResponse import ListMyDrivesResponse
 from .ListResponse import ListResponse
 from .MoveFileResponse import MoveFileResponse
 from .MoveFileToTrashResponse import MoveFileToTrashResponse
