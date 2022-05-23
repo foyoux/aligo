@@ -109,9 +109,18 @@ ali = Aligo(email=('xxx@qq.com', '防伪字符串，可任意字符串'))
     2. 获取 url/path + 请求体；
     3. 继承 `Aligo`, 使用现有的方法 `self._post` 等，进行发送请求；
     
-会自动维护 **token**, 你只需关注如何发送请求即可。
+会自动维护 **token**, 你只需关注如何发送请求即可
 
 [扩展功能举栗🌰 - 配有视频和代码](https://github.com/foyoux/aligo/issues/24)
+
+
+## 声明
+
+此项目仅供学习交流，若有不妥之处，侵联必删。
+
+此项目仅供学习交流，若有不妥之处，侵联必删。
+
+此项目仅供学习交流，若有不妥之处，侵联必删。
 
 ---
 
@@ -119,19 +128,16 @@ ali = Aligo(email=('xxx@qq.com', '防伪字符串，可任意字符串'))
     <thead align="center">
     <tr>
         <td><h2>❤️‍🔥欢迎加入🤝🏼</h2></td>
-        <td><h2>🍗接受捐赠😘</h2></td>
     </tr>
     </thead>
     <tbody align="center">
     <tr>
         <td><img src="http://110.42.175.98:5512/down/LKPvT9xK2lFx?fname=/aligo/wechat.jpg" alt="aligo反馈交流群"/></td>
-        <td><img src="http://110.42.175.98:5512/down/xBc0ShSS4ecK" alt="赞赏码"/></td>
     </tr>
     </tbody>
     <tfoot align="center">
     <tr>
         <td>😃 二维码会保持更新 😜</td>
-        <td>☕😁 谢谢老板 🎉🎉🌹🌹</td>
     </tr>
     </tfoot>
 </table>
