@@ -74,7 +74,13 @@ class BaseAligo:
         else:
             self._has_aria2c = False
 
-    def _post(self, path: str, host: str = API_HOST, body: Union[DataType, Dict] = None) -> requests.Response:
+    def _post(
+            self,
+            path: str,
+            host: str = API_HOST,
+            body: Union[DataType, Dict] = None,
+            ignore_auth: bool = False
+    ) -> requests.Response:
         """统一处理数据类型和 drive_id"""
         if body is None:
             body = {}
@@ -85,7 +91,7 @@ class BaseAligo:
             # 如果存在 attr drive_id 并且它是 None，并将 default_drive_id 设置为它
             body['drive_id'] = self.default_drive_id
 
-        return self._auth.post(path=path, host=host, body=body)
+        return self._auth.post(path=path, host=host, body=body, ignore_auth=ignore_auth)
 
     @property
     def default_drive_id(self):

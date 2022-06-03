@@ -53,7 +53,7 @@ class Share(BaseAligo):
     # 处理其他人的分享
     def _core_get_share_info(self, body: GetShareInfoRequest) -> GetShareInfoResponse:
         """..."""
-        response = self._post(ADRIVE_V2_SHARE_LINK_GET_SHARE_BY_ANONYMOUS, body=body)
+        response = self._post(ADRIVE_V2_SHARE_LINK_GET_SHARE_BY_ANONYMOUS, body=body, ignore_auth=True)
         share_info = self._result(response, GetShareInfoResponse)
         return share_info
 
@@ -61,7 +61,7 @@ class Share(BaseAligo):
         """..."""
         # noinspection PyProtectedMember
         Auth._SHARE_PWD_DICT[body.share_id] = body.share_pwd
-        response = self._post(V2_SHARE_LINK_GET_SHARE_TOKEN, body=body)
+        response = self._post(V2_SHARE_LINK_GET_SHARE_TOKEN, body=body, ignore_auth=True)
         share_token = self._result(response, GetShareTokenResponse)
         return share_token
 
@@ -71,7 +71,8 @@ class Share(BaseAligo):
             x_share_token: GetShareTokenResponse
     ) -> Iterator[BaseShareFile]:
         """..."""
-        response = self._auth.post(ADRIVE_V3_FILE_LIST, body=asdict(body), headers={'x-share-token': x_share_token})
+        response = self._auth.post(ADRIVE_V3_FILE_LIST, body=asdict(body), headers={'x-share-token': x_share_token},
+                                   ignore_auth=True)
         file_list = self._result(response, GetShareFileListResponse)
         if isinstance(file_list, Null):
             yield file_list
@@ -87,7 +88,8 @@ class Share(BaseAligo):
             x_share_token: GetShareTokenResponse
     ) -> BaseShareFile:
         """..."""
-        response = self._auth.post(V2_FILE_GET, body=asdict(body), headers={'x-share-token': x_share_token})
+        response = self._auth.post(V2_FILE_GET, body=asdict(body), headers={'x-share-token': x_share_token},
+                                   ignore_auth=True)
         share_file = self._result(response, BaseShareFile)
         return share_file
 
@@ -100,8 +102,7 @@ class Share(BaseAligo):
         response = self._auth.post(
             V2_FILE_GET_SHARE_LINK_DOWNLOAD_URL,
             body=asdict(body),
-            headers={'x-share-token': x_share_token}
-        )
+            headers={'x-share-token': x_share_token})
         download_url = self._result(response, GetShareLinkDownloadUrlResponse)
         return download_url
 

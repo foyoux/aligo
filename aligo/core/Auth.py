@@ -331,8 +331,12 @@ class Auth:
         return self.request(method='GET', url=host + path, params=params, headers=headers)
 
     def post(self, path: str, host: str = API_HOST, params: dict = None, headers: dict = None,
-             data: dict = None, body: dict = None) -> requests.Response:
+             data: dict = None, body: dict = None, ignore_auth: bool = False) -> requests.Response:
         """..."""
+        if ignore_auth:
+            if headers is None:
+                headers = {}
+            headers['Authorization'] = None
         return self.request(method='POST', url=host + path, params=params,
                             data=data, headers=headers, body=body)
 
