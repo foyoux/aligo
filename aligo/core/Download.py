@@ -89,7 +89,8 @@ class Download(BaseAligo):
             progress_bar = None
             # noinspection PyProtectedMember
             with self._session.get(url, headers={
-                'Range': f'bytes={tmp_size}-'
+                'Range': f'bytes={tmp_size}-',
+                'Referer': 'https://www.aliyundrive.com/',
             }, stream=True) as resp:
                 llen = int(resp.headers.get('content-length', 0))
                 if resp.headers.get('Accept-Ranges', None) != 'bytes':
