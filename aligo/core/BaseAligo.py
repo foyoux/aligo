@@ -8,7 +8,6 @@ from typing import Generic, List, Iterator, Dict, Callable
 from typing import Union, Tuple
 
 import requests
-from typing_extensions import NoReturn
 
 from aligo.core import *
 from aligo.core.Config import *
@@ -26,7 +25,7 @@ class BaseAligo:
             self,
             name: str = 'aligo',
             refresh_token: str = None,
-            show: Callable[[str], NoReturn] = None,
+            show: Callable[[str], None] = None,
             level: int = logging.DEBUG,
             use_aria2: bool = False,
             proxies: Dict = None,

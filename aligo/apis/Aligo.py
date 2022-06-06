@@ -3,8 +3,6 @@ import json
 import logging
 from typing import Callable, Dict, Tuple
 
-from typing_extensions import NoReturn
-
 from .Audio import Audio
 from .Compress import Compress
 from .Copy import Copy
@@ -52,7 +50,7 @@ class Aligo(
             self,
             name: str = 'aligo',
             refresh_token: str = None,
-            show: Callable[[str], NoReturn] = None,
+            show: Callable[[str], None] = None,
             level: int = logging.DEBUG,
             use_aria2: bool = False,
             proxies: Dict = None,

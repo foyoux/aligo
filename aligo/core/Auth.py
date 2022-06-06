@@ -16,7 +16,6 @@ import coloredlogs
 import qrcode
 import qrcode_terminal
 import requests
-from typing_extensions import NoReturn
 
 from aligo.core.Config import *
 from aligo.types import *
@@ -43,7 +42,7 @@ class Auth:
     _SLEEP_TIME_SEC = None
     _SHARE_PWD_DICT = {}
 
-    def debug_log(self, response: requests.Response) -> NoReturn:
+    def debug_log(self, response: requests.Response):
         """打印错误日志, 便于分析调试"""
         r = response.request
         self.log.warning(f'[method status_code] {r.method} {response.status_code}')
@@ -52,7 +51,7 @@ class Auth:
         self.log.warning(f'[request body] {r.body}')
         self.log.warning(f'[response body] {response.text[:200]}')
 
-    def error_log_exit(self, response: requests.Response) -> NoReturn:
+    def error_log_exit(self, response: requests.Response):
         """打印错误日志并退出"""
         self.debug_log(response)
         exit(-1)
@@ -61,7 +60,7 @@ class Auth:
     def __init__(
             self,
             name: str = 'aligo',
-            show: Callable[[str], NoReturn] = None,
+            show: Callable[[str], None] = None,
             level=logging.DEBUG,
             proxies: Dict = None,
             port: int = None,
@@ -84,7 +83,7 @@ class Auth:
     def __init__(
             self, name: str = 'aligo',
             refresh_token: str = None,
-            show: Callable[[str], NoReturn] = None,
+            show: Callable[[str], None] = None,
             level: int = logging.DEBUG,
             proxies: Dict = None,
             port: int = None,
@@ -172,7 +171,7 @@ class Auth:
             'Authorization': f'Bearer {self.token.access_token}'
         })
 
-    def _save(self) -> NoReturn:
+    def _save(self):
         """保存配置文件"""
         self.log.info(f'保存配置文件 {self._name}')
         json.dump(asdict(self.token), self._name.open('w'))
@@ -364,7 +363,7 @@ class Auth:
         return qrcode_png
 
     @staticmethod
-    def _show_qrcode_in_window(qr_link: str) -> NoReturn:
+    def _show_qrcode_in_window(qr_link: str):
         """
         通过 *.png 的关联应用程序显示 qrcode
         :param qr_link: 二维码链接
@@ -374,7 +373,7 @@ class Auth:
         qr_img = qrcode.make(qr_link)
         qr_img.show()
 
-    def _show_qrcode_in_web(self, qr_link: str) -> NoReturn:
+    def _show_qrcode_in_web(self, qr_link: str):
         """浏览器显示二维码"""
         qr_img = qrcode.make(qr_link)
         qr_img.get_image()
@@ -388,7 +387,7 @@ class Auth:
         except OSError:
             pass
 
-    def _send_email(self, qr_link: str) -> NoReturn:
+    def _send_email(self, qr_link: str):
         """发送邮件"""
         qr_img = qrcode.make(qr_link)
         qr_img.get_image()
