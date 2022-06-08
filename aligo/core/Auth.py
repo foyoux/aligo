@@ -188,7 +188,7 @@ class Auth:
         bizExt = response.json()['content']['data']['bizExt']
         bizExt = base64.b64decode(bizExt).decode('gb18030')
 
-        # 获取解析出来的 refreshToken, 使用这个token获取下载链接是直链, 不需要带 headers
+        # 获取解析出来的 refreshToken, 使用这个token获取下载链接是直链, 不需要带 referer header
         refresh_token = json.loads(bizExt)['pds_login_result']['refreshToken']
         self._refresh_token(refresh_token, True)
 
