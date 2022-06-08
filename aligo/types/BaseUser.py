@@ -31,3 +31,5 @@ class BaseUser(DataClass):
     need_change_password_next_login: bool = field(default=False, repr=False)
     permission: str = field(default=None, repr=False)
     creator: str = None
+    expired_at: int = 0
+    default_location: str = ''
