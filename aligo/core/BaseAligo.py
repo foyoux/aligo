@@ -238,3 +238,7 @@ class BaseAligo:
                         # self._auth.log.warning(i)
                         pass
                 yield i
+
+    def logout(self):
+        """退出登录"""
+        self._auth.logout()
