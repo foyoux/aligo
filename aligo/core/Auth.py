@@ -168,7 +168,7 @@ class Auth:
 
         #
         self.session.headers.update({
-            'Authorization': f'Bearer {self.token.access_token}'
+            'Authorization': self.token.access_token
         })
 
     def _save(self):
@@ -269,7 +269,7 @@ class Auth:
                 self._login()
 
         self.session.headers.update({
-            'Authorization': f'Bearer {self.token.access_token}'
+            'Authorization': self.token.access_token
         })
 
     _VERIFY_SSL = True
