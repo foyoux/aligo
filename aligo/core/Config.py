@@ -20,6 +20,7 @@ TOKEN_GET = '/token/get'
 
 # 基本信息
 V2_USER_GET = '/v2/user/get'
+ADRIVE_V1_USER_CONFIG_GET = '/adrive/v1/user_config/get'
 V2_DRIVE_GET = '/v2/drive/get'
 V2_DRIVE_GET_DEFAULT_DRIVE = '/v2/drive/get_default_drive'
 V2_DRIVE_LIST_MY_DRIVES = '/v2/drive/list_my_drives'

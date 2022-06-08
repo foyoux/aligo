@@ -27,6 +27,7 @@ from .ShareLinkSchema import ShareLinkSchema
 from .SystemTag import SystemTag
 from .Token import Token
 from .UploadPartInfo import UploadPartInfo
+from .UserConfig import UserConfig
 from .VideoMedia import VideoMedia
 from .VideoMediaAudioStream import VideoMediaAudioStream
 from .VideoMediaVideoStream import VideoMediaVideoStream

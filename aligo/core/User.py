@@ -37,3 +37,8 @@ class User(BaseAligo):
             'code': code
         })
         return self._result(response, RewardSpaceResponse)
+
+    def get_user_config(self) -> UserConfig:
+        """获取用户配置信息"""
+        response = self._post(ADRIVE_V1_USER_CONFIG_GET, body={})
+        return self._result(response, UserConfig)
