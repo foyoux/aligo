@@ -403,3 +403,7 @@ class Auth:
         self.log.info(
             f'{response.request.method} {response.url} {response.status_code} {len(response.content)}'
         )
+
+    def logout(self):
+        """退出"""
+        self._name.unlink()
