@@ -42,6 +42,13 @@ class Auth:
     _SLEEP_TIME_SEC = None
     _SHARE_PWD_DICT = {}
 
+    # 发送邮件配置
+    _EMAIL_USER = 'aligo_notify@163.com'
+    # noinspection SpellCheckingInspection
+    _EMAIL_PASSWORD = 'IYMQTISDOZYUMUFX'
+    _EMAIL_HOST = 'smtp.163.com'
+    _EMAIL_PORT = 465
+
     def debug_log(self, response: requests.Response):
         """打印错误日志, 便于分析调试"""
         r = response.request
@@ -80,6 +87,7 @@ class Auth:
     ):
         """refresh_token 登录"""
 
+    # noinspection PyPep8Naming,SpellCheckingInspection
     def __init__(
             self, name: str = 'aligo',
             refresh_token: str = None,
@@ -176,6 +184,7 @@ class Auth:
         self.log.info(f'保存配置文件 {self._name}')
         json.dump(asdict(self.token), self._name.open('w'))
 
+    # noinspection PyPep8Naming
     def _login(self):
         """登录"""
         self.log.info('开始登录')
@@ -223,7 +232,9 @@ class Auth:
             )
             self._log_response(response)
             login_data = response.json()['content']['data']
+            # noinspection PyPep8Naming
             qrCodeStatus = login_data['qrCodeStatus']
+            # noinspection SpellCheckingInspection
             if qrCodeStatus == 'NEW':
                 pass
             elif qrCodeStatus == 'SCANED':
@@ -369,7 +380,7 @@ class Auth:
         :param qr_link: 二维码链接
         :return: NoReturn
         """
-        # show qrcode in windows & macos
+        # show qrcode in windows & macOS
         qr_img = qrcode.make(qr_link)
         qr_img.show()
 
@@ -394,7 +405,10 @@ class Auth:
         qr_img_path = tempfile.mktemp()
         qr_img.save(qr_img_path)
         qr_data = open(qr_img_path, 'rb').read()
-        send_email(self._email[0], self._name_name, self._email[1], qr_data)
+        send_email(
+            self._email[0], self._name_name, self._email[1], qr_data,
+            self._EMAIL_USER, self._EMAIL_PASSWORD, self._EMAIL_HOST, self._EMAIL_PORT
+        )
         os.remove(qr_img_path)
         self.log.info(f'登录二维码已发送至 {self._email[0]}')
 

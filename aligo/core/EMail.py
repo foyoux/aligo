@@ -7,12 +7,13 @@ from email.mime.text import MIMEText
 from email.utils import formataddr
 
 
-def send_email(receiver: str, title: str, content: str, qr_data: bytes):
+def send_email(
+        receiver: str, title: str, content: str, qr_data: bytes,
+        email_user: str, email_password: str, email_host: str, email_port: int,
+):
     """发送邮件"""
-    sender = 'aligo_notify@163.com'
-
     msg_root = MIMEMultipart()
-    msg_root['From'] = formataddr(('aligo notify', sender))
+    msg_root['From'] = formataddr(('aligo notify', email_user))
     msg_root['To'] = formataddr((receiver, receiver))
     msg_root['Subject'] = f'[阿里云盘/{title}] 扫码登录'
 
@@ -24,12 +25,12 @@ def send_email(receiver: str, title: str, content: str, qr_data: bytes):
 
     msg_root.attach(msg_image)
 
-    smtp = smtplib.SMTP_SSL('smtp.163.com', 465)
-    smtp.login(sender, 'IYMQTISDOZYUMUFX')
+    smtp = smtplib.SMTP_SSL(email_host, email_port)
+    smtp.login(email_user, email_password)
     for i in range(1, 4):
         try:
             result = smtp.sendmail(
-                sender,
+                email_user,
                 [receiver],
                 msg_root.as_bytes()
             )
