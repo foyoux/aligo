@@ -393,7 +393,7 @@ class SyncFolder(Core):
     @staticmethod
     def _core_sha1(param):
         """计算文件sha1"""
-        sha1 = hashlib.sha1(usedforsecurity=False)
+        sha1 = hashlib.sha1()
         with open(param, 'rb') as f:
             while True:
                 data = f.read(8192)

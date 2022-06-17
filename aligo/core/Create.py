@@ -66,7 +66,7 @@ class Create(BaseAligo):
                   check_name_mode: CheckNameMode = 'auto_rename') -> CreateFileResponse:
         with open(file_path, 'rb') as f:
             # prehash 必须是前 1024 个字节的 SHA1
-            pre_hash = hashlib.sha1(f.read(1024), usedforsecurity=False).hexdigest()
+            pre_hash = hashlib.sha1(f.read(1024)).hexdigest()
         body = CreateFileRequest(
             drive_id=drive_id,
             part_info_list=self._get_part_info_list(file_size),
@@ -83,7 +83,7 @@ class Create(BaseAligo):
 
     def _get_proof_code(self, file_path: str, file_size: int) -> str:
         """计算proof_code"""
-        md5_int = int(hashlib.md5(self._auth.token.access_token.encode(), usedforsecurity=False).hexdigest()[:16], 16)
+        md5_int = int(hashlib.md5(self._auth.token.access_token.encode()).hexdigest()[:16], 16)
         # file_size = os.path.getsize(file_path)
         offset = md5_int % file_size if file_size else 0
         if file_path.startswith('http'):
@@ -100,7 +100,7 @@ class Create(BaseAligo):
     def _content_hash(self, file_path: str, file_size: int, name: str, parent_file_id='root', drive_id=None,
                       check_name_mode: CheckNameMode = 'auto_rename') -> CreateFileResponse:
 
-        content_hash = hashlib.sha1(usedforsecurity=False)
+        content_hash = hashlib.sha1()
 
         with open(file_path, 'rb') as f:
             while True:
