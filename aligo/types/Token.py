@@ -11,6 +11,7 @@ class Token(DataClass):
     nick_name: str = None
     user_id: str = None
     default_drive_id: str = None
+    # noinspection SpellCheckingInspection
     default_sbox_drive_id: str = None
     role: str = field(default=None, repr=False)
     status: str = field(default=None, repr=False)
@@ -29,3 +30,5 @@ class Token(DataClass):
     need_rp_verify: bool = field(default=None, repr=False)
     device_id: str = field(default=None, repr=False)
     domain_id: str = field(default=None, repr=False)
+    # noinspection SpellCheckingInspection
+    hlogin_url: str = field(default=None, repr=False)

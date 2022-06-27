@@ -169,7 +169,8 @@ class Auth:
 
         if self._name.exists():
             self.log.info(f'加载配置文件 {self._name}')
-            self.token = Token(**json.load(self._name.open()))
+            # noinspection PyProtectedMember
+            self.token = DataClass._fill_attrs(Token, json.load(self._name.open()))
         else:
             self.log.info('登录方式 扫描二维码')
             self._login()
@@ -267,7 +268,8 @@ class Auth:
         self._log_response(response)
         if response.status_code == 200:
             self.log.info('刷新 token 成功')
-            self.token = Token(**response.json())
+            # noinspection PyProtectedMember
+            self.token = DataClass._fill_attrs(Token, response.json())
             self._save()
         else:
             self.log.warning('刷新 token 失败')
