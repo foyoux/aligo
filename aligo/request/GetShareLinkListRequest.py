@@ -20,7 +20,7 @@ class GetShareLinkListRequest(DataClass):
     """
     creator: str = None
     limit: int = 100
-    marker: int = ''
+    marker: str = ''
     order_by: GetShareLinkListOrderBy = 'created_at'
     order_direction: OrderDirection = 'DESC'
     include_canceled: bool = False
