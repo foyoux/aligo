@@ -54,8 +54,6 @@ class Auth:
         r = response.request
         self.log.warning(f'[method status_code] {r.method} {response.status_code}')
         self.log.warning(f'[url] {response.url}')
-        self.log.warning(f'[headers] {r.headers}')
-        self.log.warning(f'[request body] {r.body}')
         self.log.warning(f'[response body] {response.text[:200]}')
 
     def error_log_exit(self, response: requests.Response):
