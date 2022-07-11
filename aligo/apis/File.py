@@ -120,7 +120,7 @@ class File(Core):
         return list(result)
 
     def get_folder_by_path(
-            self, path: str = '/', parent_file_id: str = 'root', create_folder: bool = True,
+            self, path: str = '/', parent_file_id: str = 'root', create_folder: bool = False,
             check_name_mode: CheckNameMode = 'refuse', drive_id: str = None
     ) -> Union[BaseFile, CreateFileResponse, None]:
         """
