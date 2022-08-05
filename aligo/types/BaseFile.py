@@ -13,10 +13,10 @@ from .FieldsInfo import FieldsInfo
 @dataclass
 class BaseFile(DataClass):
     """..."""
-    name: str = None
     type: BaseFileType = None
     file_id: str = None
-    parent_file_id: str = None
+    name: str = None
+    parent_file_id: str = field(default=None, repr=False)
     category: BaseFileCategory = field(default=None, repr=False)
     size: int = field(default=None, repr=False)
     created_at: str = field(default=None, repr=False)

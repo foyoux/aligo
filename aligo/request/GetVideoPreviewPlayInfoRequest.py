@@ -11,4 +11,4 @@ class GetVideoPreviewPlayInfoRequest(DataClass):
     file_id: str = None
     drive_id: str = None
     category: GetVideoPreviewCategory = 'live_transcoding'
-    template_id: VideoTemplateID = ''
+    template_id: VideoTemplateID = None
