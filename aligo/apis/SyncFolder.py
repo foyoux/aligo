@@ -51,7 +51,7 @@ class SyncFolder(Core):
             None：双端同步
             True：以本地为主
             False：以云端为主
-        :param file_filter: 文件过滤函数，参数为 文件绝对路径，返回值为 `True` 则过滤，可用于实现 只同步 特定文件 或 排除某些文件
+        :param file_filter: 文件过滤函数，参数为 本地文件绝对路径 / 云端文件 BaseFile，返回值为 `True` 则过滤，可用于实现 只同步 特定文件 或 排除某些文件
         :param ignore_content: 是否忽略文件内容，默认：False
         :param follow_delete: 是否跟随删除，默认：False
         :param drive_id: 云端文件夹 drive_id
@@ -89,7 +89,7 @@ class SyncFolder(Core):
         for f in os.listdir(local_folder):
             local_file = os.path.join(local_folder, f)
             # 过滤文件只处理文件，跳过 文件夹
-            if os.path.isfile(local_file) and file_filter(f):
+            if os.path.isfile(local_file) and file_filter(local_file):
                 self._auth.log.debug(f'过滤本地文件 {local_file}')
                 continue
             local_files[f] = local_file
@@ -99,7 +99,7 @@ class SyncFolder(Core):
                 GetFileListRequest(remote_folder, drive_id=drive_id)
         ):
             remote_file = f.name
-            if f.type == 'file' and file_filter(remote_file):
+            if f.type == 'file' and file_filter(f):
                 self._auth.log.debug(f'过滤云端文件 {remote_file}')
                 continue
             remote_files[remote_file] = f
