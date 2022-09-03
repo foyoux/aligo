@@ -4,7 +4,7 @@ import hashlib
 import math
 import os
 from dataclasses import asdict
-from typing import Union, List
+from typing import Union, List, Callable
 
 from tqdm import tqdm
 

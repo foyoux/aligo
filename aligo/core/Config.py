@@ -44,6 +44,9 @@ ADRIVE_V2_FILE_CREATEWITHFOLDERS = '/adrive/v2/file/createWithFolders'
 V2_FILE_GET_UPLOAD_URL = '/v2/file/get_upload_url'
 ADRIVE_V1_FILE_DUPLICATE_LIST = '/adrive/v1/file/duplicateList'
 
+# 相册
+ADRIVE_V1_USER_ALBUMS_INFO = '/adrive/v1/user/albums_info'
+
 V2_AIMS_SEARCH = '/v2/aims/search'
 
 V2_FILE_GET_DOWNLOAD_URL = '/v2/file/get_download_url'
