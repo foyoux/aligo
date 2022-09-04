@@ -43,6 +43,7 @@ V2_FILE_CREATE_WITH_PROOF = '/v2/file/create_with_proof'
 ADRIVE_V2_FILE_CREATEWITHFOLDERS = '/adrive/v2/file/createWithFolders'
 V2_FILE_GET_UPLOAD_URL = '/v2/file/get_upload_url'
 ADRIVE_V1_FILE_DUPLICATE_LIST = '/adrive/v1/file/duplicateList'
+ADRIVE_V1_FILE_LISTTOCLEAN = '/adrive/v1/file/listToClean'
 
 # 相册
 ADRIVE_V1_USER_ALBUMS_INFO = '/adrive/v1/user/albums_info'
