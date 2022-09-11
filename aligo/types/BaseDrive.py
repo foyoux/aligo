@@ -26,3 +26,4 @@ class BaseDrive(DataClass):
     permission: str = field(default=None, repr=False)
     created_at: str = field(default=None, repr=False)
     subdomain_id: str = field(default=None, repr=False)
+    category: str = field(default=None, repr=False)
