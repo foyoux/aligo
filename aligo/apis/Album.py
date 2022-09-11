@@ -12,11 +12,12 @@ class Album(Core):
     """..."""
 
     def list_albums(
-            self, album_drive_id: str,
+            self, album_drive_id: str = None,
             order_by: GetShareLinkListOrderBy = 'created_at',
             order_direction: OrderDirection = 'DESC', drive_id=None
     ) -> List[ListAlbumItem]:
         """获取相册列表"""
+        album_drive_id = album_drive_id or self.album_info.driveId
         drive_id = drive_id or self.default_drive_id
         body = AlbumListRequest(
             album_drive_id=album_drive_id, drive_id=drive_id,
@@ -48,3 +49,6 @@ class Album(Core):
             'drive_file_list': [{'drive_id': f.drive_id, 'file_id': f.file_id} for f in files]
         })
         return response.json()['file_list']
+
+    def add_file_to_album(self, album_id: str, file: BaseFile) -> BaseFile:
+        return self.add_files_to_album(album_id, [file])[0]

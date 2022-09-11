@@ -9,8 +9,8 @@ from aligo.types import DataClass, ListAlbumItem
 
 class Album(BaseAligo):
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self._album_info = None
 
     @property
