@@ -12,6 +12,13 @@ from aligo.types import *
 class Share(BaseAligo):
     """分享相关"""
 
+    def share_link_extract_code(self, content: str):
+        response = self._post(ADRIVE_V2_SHARE_LINK_EXTRACT_CODE, body={
+            'content': content
+        })
+        data = response.json()['data']
+        return DataClass.fill_attrs(ShareLinkExtractCodeResponse, data)
+
     def _core_share_file(self, body: CreateShareLinkRequest) -> CreateShareLinkResponse:
         """分享文件, 支持批量分享
 
