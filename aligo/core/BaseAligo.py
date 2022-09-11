@@ -143,7 +143,7 @@ class BaseAligo:
         self._auth.log.warning(f'{response.status_code} {response.text[:200]}')
         return Null(response)
 
-    def _list_file(self, path: str, body: Union[DataClass, Dict], resp_type: Callable) -> Iterator[DataType]:
+    def _list_file(self, path: str, body: Union[DataClass, Dict], resp_type: Generic[DataType]) -> Iterator[DataType]:
         """
         枚举文件: 用于统一处理 1.文件列表 2.搜索文件列表 3.收藏列表 4.回收站列表
         :param path: [str] 批量处理的路径
@@ -163,8 +163,7 @@ class BaseAligo:
         if isinstance(file_list, Null):
             yield file_list
             return
-        for item in file_list.items:
-            yield item
+        yield from file_list.items
         if file_list.next_marker != '':
             if isinstance(body, dict):
                 body['marker'] = file_list.next_marker

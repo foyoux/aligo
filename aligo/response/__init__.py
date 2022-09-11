@@ -1,6 +1,8 @@
 """..."""
 
 from .AimSearchResponse import AimSearchResponse
+from .AlbumInfoResponse import AlbumInfoResponse
+from .AlbumListResponse import AlbumListResponse
 from .ArchiveStatusResponse import ArchiveStatusResponse
 from .ArchiveUncompressResponse import ArchiveUncompressResponse
 from .BatchDownloadUrlResponse import BatchDownloadUrlResponse

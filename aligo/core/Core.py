@@ -1,4 +1,5 @@
 """..."""
+from .Album import Album
 from .Audio import Audio
 from .Compress import Compress
 from .Copy import Copy
@@ -18,6 +19,7 @@ from .Video import Video
 
 
 class Core(
+    Album,
     Audio,
     Compress,
     Copy,

@@ -5,6 +5,7 @@
 from .AudioMeta import AudioMeta
 from .AudioMusicMeta import AudioMusicMeta
 from .AudioTranscodeTemplate import AudioTranscodeTemplate
+from .BaseAlbum import BaseAlbum
 from .BaseDrive import BaseDrive
 from .BaseFile import BaseFile
 from .BaseShareFile import BaseShareFile

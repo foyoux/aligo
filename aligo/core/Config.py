@@ -47,6 +47,7 @@ ADRIVE_V1_FILE_LISTTOCLEAN = '/adrive/v1/file/listToClean'
 
 # 相册
 ADRIVE_V1_USER_ALBUMS_INFO = '/adrive/v1/user/albums_info'
+ADRIVE_V1_ALBUMHOME_ALBUMLIST = '/adrive/v1/albumHome/albumList'
 
 V2_AIMS_SEARCH = '/v2/aims/search'
 
@@ -66,6 +67,7 @@ ADRIVE_V2_SHARE_LINK_CANCEL = '/adrive/v2/share_link/cancel'
 ADRIVE_V2_SHARE_LINK_GET_SHARE_BY_ANONYMOUS = '/adrive/v2/share_link/get_share_by_anonymous'
 V2_SHARE_LINK_GET_SHARE_TOKEN = '/v2/share_link/get_share_token'
 V2_FILE_GET_SHARE_LINK_DOWNLOAD_URL = '/v2/file/get_share_link_download_url'
+ADRIVE_V2_SHARE_LINK_EXTRACT_CODE = '/adrive/v2/share_link/extract_code'
 
 # 批量操作
 V3_BATCH = '/v3/batch'

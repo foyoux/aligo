@@ -27,8 +27,3 @@ class Other(Core):
         """
         body = GetFilePathRequest(file_id=file_id, drive_id=drive_id)
         return self._core_get_path(body)
-
-    def get_albums_info(self):
-        response = self._post(ADRIVE_V1_USER_ALBUMS_INFO)
-        data = response.json()['data']
-        return BaseDrive(drive_id=data.get('driveId'), drive_name=data.get('driveName'))
