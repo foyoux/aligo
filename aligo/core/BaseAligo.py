@@ -118,12 +118,12 @@ class BaseAligo:
         return self._auth.token.nick_name
 
     def _result(self, response: requests.Response,
-                dcls: Generic[DataType],
+                cls: Generic[DataType],
                 status_code: Union[List, int] = 200) -> Union[Null, DataType]:
         """统一处理响应
 
         :param response:
-        :param dcls:
+        :param cls:
         :param status_code:
         :return:
         """
@@ -132,23 +132,23 @@ class BaseAligo:
         if response.status_code in status_code:
             text = response.text
             if not text.startswith('{'):
-                return dcls()
+                return cls()
             try:
                 # noinspection PyProtectedMember
-                return DataClass._fill_attrs(dcls, json.loads(text))
+                return DataClass._fill_attrs(cls, json.loads(text))
             except TypeError:
                 self._auth.debug_log(response)
-                self._auth.log.error(dcls)
+                self._auth.log.error(cls)
                 traceback.print_exc()
         self._auth.log.warning(f'{response.status_code} {response.text[:200]}')
         return Null(response)
 
-    def _list_file(self, PATH: str, body: Union[DataClass, Dict], ResponseType: Callable) -> Iterator[DataType]:
+    def _list_file(self, path: str, body: Union[DataClass, Dict], resp_type: Callable) -> Iterator[DataType]:
         """
         枚举文件: 用于统一处理 1.文件列表 2.搜索文件列表 3.收藏列表 4.回收站列表
-        :param PATH: [str] 批量处理的路径
+        :param path: [str] 批量处理的路径
         :param body: [DataClass] 批量处理的参数
-        :param ResponseType: [Callable] 响应类型
+        :param resp_type: [Callable] 响应类型
         :return: [Iterator[DataType]] 响应结果
 
         如何判断请求失败与否（适用于所有使用此方法的上层方法）：
@@ -158,8 +158,8 @@ class BaseAligo:
         >>> if isinstance(result[-1], Null):
         >>>     print('请求失败')
         """
-        response = self._post(PATH, body=body)
-        file_list = self._result(response, ResponseType)
+        response = self._post(path, body=body)
+        file_list = self._result(response, resp_type)
         if isinstance(file_list, Null):
             yield file_list
             return
@@ -170,7 +170,7 @@ class BaseAligo:
                 body['marker'] = file_list.next_marker
             else:
                 body.marker = file_list.next_marker
-            yield from self._list_file(PATH=PATH, body=body, ResponseType=ResponseType)
+            yield from self._list_file(path=path, body=body, resp_type=resp_type)
 
     def _core_get_file(self, body: GetFileRequest) -> BaseFile:
         """获取文件信息, 其他类中可能会用到, 所以放到基类中"""
