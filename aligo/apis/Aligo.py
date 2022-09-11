@@ -4,6 +4,7 @@ import logging
 from typing import Callable, Dict, Tuple
 
 from .Audio import Audio
+from .Album import Album
 from .Compress import Compress
 from .Copy import Copy
 from .Copy import aligo_config_folder
@@ -26,6 +27,7 @@ from .Video import Video
 
 class Aligo(
     Audio,
+    Album,
     Compress,
     Copy,
     Create,

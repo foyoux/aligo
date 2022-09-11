@@ -144,19 +144,19 @@ class Auth:
 
         #
         SESSIONID = self.session.cookies.get('SESSIONID')
-        self.log.debug(f'SESSIONID {SESSIONID}')
+        # self.log.debug(f'SESSIONID {SESSIONID}')
 
         #
         self.token: Optional[Token] = None
         if show is None:
             if os.name == 'nt':
-                self.log.debug('Windows 操作系统')
+                self.log.info('Windows 操作系统')
                 show = self._show_qrcode_in_window
             elif sys.platform.startswith('darwin'):
-                self.log.debug('MacOS 操作系统')
+                self.log.info('MacOS 操作系统')
                 show = self._show_qrcode_in_window
             else:
-                self.log.debug('类 Unix 操作系统')
+                self.log.info('类 Unix 操作系统')
                 show = self._show_console
         self._show = show
 

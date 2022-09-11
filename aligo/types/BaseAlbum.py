@@ -1,16 +1,18 @@
 """..."""
-from dataclasses import dataclass, field
-from typing import List
+from dataclasses import dataclass
 
-from .BaseFile import BaseFile
 from .DataClass import DataClass
 
 
 @dataclass
 class BaseAlbum(DataClass):
     """..."""
+    owner: str = None
     name: str = None
-    type: str = None
-    album_id: int = None
-    total_count: int = None
-    file_list: List[BaseFile] = field(default_factory=list)
+    description: str = None
+    album_id: str = None
+    file_count: int = None
+    image_count: int = None
+    video_count: int = None
+    created_at: int = None
+    updated_at: int = None

@@ -48,6 +48,9 @@ ADRIVE_V1_FILE_LISTTOCLEAN = '/adrive/v1/file/listToClean'
 # 相册
 ADRIVE_V1_USER_ALBUMS_INFO = '/adrive/v1/user/albums_info'
 ADRIVE_V1_ALBUMHOME_ALBUMLIST = '/adrive/v1/albumHome/albumList'
+ADRIVE_V1_ALBUM_DELETE = '/adrive/v1/album/delete'
+ADRIVE_V1_ALBUM_GET = '/adrive/v1/album/get'
+ADRIVE_V1_ALBUM_CREATE = '/adrive/v1/album/create'
 
 V2_AIMS_SEARCH = '/v2/aims/search'
 
