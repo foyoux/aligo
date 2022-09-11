@@ -39,7 +39,7 @@ class DataClass:
         return hints
 
     @staticmethod
-    def _fill_attrs(cls: DataType, obj: Dict) -> DataType:
+    def fill_attrs(cls: Type[DataType], obj: Dict) -> DataType:
         """..."""
         hints = DataClass._get_hints(cls)
         params = {}
@@ -71,7 +71,7 @@ def _null_list(cls: Generic[DataType], may_null: Optional[List[DataType]]) -> Li
     if may_null and len(may_null) != 0:
         if isinstance(may_null[0], dict):
             # noinspection PyProtectedMember
-            return [DataClass._fill_attrs(cls, i) for i in may_null]
+            return [DataClass.fill_attrs(cls, i) for i in may_null]
         else:
             return may_null
     else:
@@ -83,5 +83,5 @@ def _null_dict(cls: Type[DataType], may_null: Optional[Dict]) -> DataType:
         return None
     if isinstance(may_null, dict):
         # noinspection PyProtectedMember
-        return DataClass._fill_attrs(cls, may_null)
+        return DataClass.fill_attrs(cls, may_null)
     return may_null

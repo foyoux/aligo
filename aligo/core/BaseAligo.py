@@ -135,7 +135,7 @@ class BaseAligo:
                 return cls()
             try:
                 # noinspection PyProtectedMember
-                return DataClass._fill_attrs(cls, json.loads(text))
+                return DataClass.fill_attrs(cls, json.loads(text))
             except TypeError:
                 self._auth.debug_log(response)
                 self._auth.log.error(cls)
