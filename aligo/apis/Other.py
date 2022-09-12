@@ -1,10 +1,9 @@
 """Other"""
 
 from aligo.core import *
-from aligo.core.Config import ADRIVE_V1_USER_ALBUMS_INFO
+from aligo.core.Config import *
 from aligo.request import *
 from aligo.response import *
-from aligo.types import BaseDrive
 
 
 class Other(Core):
@@ -27,3 +26,10 @@ class Other(Core):
         """
         body = GetFilePathRequest(file_id=file_id, drive_id=drive_id)
         return self._core_get_path(body)
+
+    def get_office_preview_url(self, file_id: str, drive_id: str = None):
+        response = self._post(V2_FILE_GET_OFFICE_PREVIEW_URL, body={
+            'file_id': file_id,
+            'drive_id': drive_id
+        })
+        return self._result(response, GetOfficePreviewUrlResponse)
