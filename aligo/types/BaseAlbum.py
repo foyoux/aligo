@@ -1,7 +1,15 @@
 """..."""
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import List
 
+from .BaseFile import BaseFile
 from .DataClass import DataClass
+
+
+@dataclass
+class _BaseAlbumList(DataClass):
+    """..."""
+    list: List[BaseFile] = field(default_factory=list)
 
 
 @dataclass
@@ -16,3 +24,4 @@ class BaseAlbum(DataClass):
     video_count: int = None
     created_at: int = None
     updated_at: int = None
+    cover: _BaseAlbumList = None

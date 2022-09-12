@@ -58,3 +58,10 @@ class Album(Core):
         body = AlbumListFilesRequest(album_id=album_id, order_direction=order_direction)
         result = self._core_list_album_files(body)
         return list(result)
+
+    def rename_album(self, album_id: str, name: str):
+        response = self._post(ADRIVE_V1_ALBUM_UPDATE, body={
+            'album_id': album_id,
+            'name': name
+        })
+        return self._result(response, BaseAlbum)
