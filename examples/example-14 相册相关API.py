@@ -41,5 +41,9 @@ if __name__ == '__main__':
     for i in ll:
         print(i)
 
+    # 重命名相册
+    r = ali.rename_album(album.album_id, '相册新名字')
+    print(r)
+
     # 删除相册
     # ali.delete_album(album.album_id)
