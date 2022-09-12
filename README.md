@@ -37,6 +37,7 @@ https://user-images.githubusercontent.com/35125624/150529002-c2f1b80b-fb11-4e0a-
 ## 基本功能
 
 - [x] 完全的代码提示
+- [x] 持久化登录、多帐户登录
 - [x] 福利码兑换
 - [x] 文件夹同步
 - [x] 在线解压缩
@@ -47,10 +48,11 @@ https://user-images.githubusercontent.com/35125624/150529002-c2f1b80b-fb11-4e0a-
 - [x] 文件（夹）上传下载
 - [x] 文件（夹）移动复制
 - [x] 文件（夹）删除恢复
+- [x] 获取文档在线预览接口
 - [x] 文件（夹）分享 保存 收藏
-- [x] 持久化登录、多帐户登录
 - [x] 文件（夹）自定义分享（无限制）
 - [x] 获取帐户、云盘（容量）等基本信息
+- [x] 相册 创建 删除 修改 添加文件 获取文件
 - [x] 。。。。。。
 - [x] ⭐⭐⭐ 欢迎大家发起 [新功能请求](https://github.com/foyoux/aligo/issues/new?assignees=&labels=&template=feature_request.md&title=)
 
