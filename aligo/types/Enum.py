@@ -157,7 +157,6 @@ VideoTemplateID = Optional[
     ]
 ]
 
-
 ArchiveType = Literal[
     "zip", "rar", "rar5", "rar4"
 ]
@@ -167,6 +166,11 @@ GetVideoPreviewCategory = Optional[
     Literal[
         'live_transcoding',  # 在线直播转码（m3u8）
     ]
+]
+
+# 相册文件排序方式
+AlbumFileListType = Literal[
+    "joined_at"
 ]
 
 # 模板

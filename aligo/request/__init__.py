@@ -1,6 +1,7 @@
 """..."""
 
 from .AimSearchRequest import AimSearchRequest
+from .AlbumListFilesRequest import AlbumListFilesRequest
 from .AlbumListRequest import AlbumListRequest
 from .ArchiveStatusRequest import ArchiveStatusRequest
 from .ArchiveUncompressRequest import ArchiveUncompressRequest

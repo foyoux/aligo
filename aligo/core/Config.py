@@ -51,6 +51,7 @@ ADRIVE_V1_ALBUMHOME_ALBUMLIST = '/adrive/v1/albumHome/albumList'
 ADRIVE_V1_ALBUM_DELETE = '/adrive/v1/album/delete'
 ADRIVE_V1_ALBUM_GET = '/adrive/v1/album/get'
 ADRIVE_V1_ALBUM_CREATE = '/adrive/v1/album/create'
+ADRIVE_V1_ALBUM_LIST_FILES = '/adrive/v1/album/list_files'
 
 V2_AIMS_SEARCH = '/v2/aims/search'
 

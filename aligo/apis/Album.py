@@ -3,7 +3,7 @@ from typing import List
 
 from aligo.core import *
 from aligo.core.Config import *
-from aligo.request import AlbumListRequest
+from aligo.request import AlbumListRequest, AlbumListFilesRequest
 from aligo.types import ListAlbumItem, BaseAlbum, BaseFile
 from aligo.types.Enum import *
 
@@ -52,3 +52,9 @@ class Album(Core):
 
     def add_file_to_album(self, album_id: str, file: BaseFile) -> BaseFile:
         return self.add_files_to_album(album_id, [file])[0]
+
+    def list_album_files(self, album_id: str, order_direction: OrderDirection = 'DESC') -> List[BaseFile]:
+        """获取指定相册文件"""
+        body = AlbumListFilesRequest(album_id=album_id, order_direction=order_direction)
+        result = self._core_list_album_files(body)
+        return list(result)
