@@ -39,7 +39,7 @@ class SyncFolder(Core):
             remote_folder: str,
             flag: Optional[bool] = None,
             file_filter: Callable[[str], bool] = lambda x: False,
-            ignore_content: bool = False,
+            ignore_content: Optional[bool] = False,
             follow_delete: bool = False,
             drive_id: str = None
     ):
@@ -52,7 +52,10 @@ class SyncFolder(Core):
             True：以本地为主
             False：以云端为主
         :param file_filter: 文件过滤函数，参数为 本地文件绝对路径 / 云端文件 BaseFile，返回值为 `True` 则过滤，可用于实现 只同步 特定文件 或 排除某些文件
-        :param ignore_content: 是否忽略文件内容，默认：False
+        :param ignore_content: 文件内容比较，默认：False,另外可选：None,True
+            None：只比较文件大小
+            True：不比较
+            False：依次比较 size，sha1，时间戳
         :param follow_delete: 是否跟随删除，默认：False
         :param drive_id: 云端文件夹 drive_id
         :return:
@@ -164,6 +167,10 @@ class SyncFolder(Core):
                 local_size = os.path.getsize(local_file)
                 # 比较大小
                 if local_size == remote_file.size:
+                    # 只比较文件大小，相同则跳过
+                    if ignore_content is None:
+                        self._auth.log.debug(f'文件 {f} 已存在，且大小相同，跳过')
+                        continue
                     # 计算 f 文件 sha1
                     local_sha1 = self._core_sha1(local_file).lower()
                     # 如果sha1值相同，则跳过
@@ -250,6 +257,10 @@ class SyncFolder(Core):
                 remote_size = remote_file.size
                 # 比较大小
                 if remote_size == os.path.getsize(local_file):
+                    # 只比较文件大小，相同则跳过
+                    if ignore_content is None:
+                        self._auth.log.debug(f'文件 {f} 已存在，且大小相同，跳过')
+                        continue
                     # 计算 f 文件 sha1
                     local_sha1 = self._core_sha1(local_file).lower()
                     # 如果sha1值相同，则跳过
@@ -323,6 +334,10 @@ class SyncFolder(Core):
                 local_size = os.path.getsize(local_file)
                 # 比较大小
                 if local_size == remote_file.size:
+                    # 只比较文件大小，相同则跳过
+                    if ignore_content is None:
+                        self._auth.log.debug(f'文件 {f} 已存在，且大小相同，跳过')
+                        continue
                     # 计算 f 文件 sha1
                     local_sha1 = self._core_sha1(local_file).lower()
                     # 如果sha1值相同，则跳过
