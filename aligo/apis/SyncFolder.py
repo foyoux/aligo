@@ -39,7 +39,7 @@ class SyncFolder(Core):
             remote_folder: str,
             flag: Optional[bool] = None,
             file_filter: Callable[[str], bool] = lambda x: False,
-            ignore_content: bool = False,
+            compare_flag: bool = False,
             follow_delete: bool = False,
             drive_id: str = None
     ):
@@ -52,7 +52,7 @@ class SyncFolder(Core):
             True：以本地为主
             False：以云端为主
         :param file_filter: 文件过滤函数，参数为 本地文件绝对路径 / 云端文件 BaseFile，返回值为 `True` 则过滤，可用于实现 只同步 特定文件 或 排除某些文件
-        :param ignore_content: 是否忽略文件内容，默认：False
+        :param compare_flag: 文件比较模式，默认：False 依次比较 size，sha1，时间戳。 可选：True，只比较size
         :param follow_delete: 是否跟随删除，默认：False
         :param drive_id: 云端文件夹 drive_id
         :return:
@@ -72,7 +72,7 @@ class SyncFolder(Core):
         if not os.path.exists(local_folder):
             self._auth.log.warning('本地文件夹不存在: %s', local_folder)
             return
-        self.__sync_folder(local_folder, remote_folder, flag, file_filter, ignore_content, follow_delete, drive_id)
+        self.__sync_folder(local_folder, remote_folder, flag, file_filter, compare_flag, follow_delete, drive_id)
 
     def __sync_folder(
             self,
@@ -80,7 +80,7 @@ class SyncFolder(Core):
             remote_folder: str,
             flag: Optional[bool],
             file_filter: Callable[[str], bool],
-            ignore_content: bool,
+            compare_flag: bool,
             follow_delete: bool,
             drive_id: str):
         """..."""
@@ -106,18 +106,18 @@ class SyncFolder(Core):
 
         if flag is None:
             self.__sync_all(
-                drive_id, file_filter, flag, local_files, local_folder, remote_files, remote_folder, ignore_content,
+                drive_id, file_filter, flag, local_files, local_folder, remote_files, remote_folder, compare_flag,
                 follow_delete)
         elif flag:
             self.__sync_local(
-                drive_id, local_files, remote_files, remote_folder, flag, file_filter, local_folder, ignore_content,
+                drive_id, local_files, remote_files, remote_folder, flag, file_filter, local_folder, compare_flag,
                 follow_delete)
         else:
-            self.__sync_remote(drive_id, local_files, remote_files, local_folder, flag, file_filter, ignore_content,
+            self.__sync_remote(drive_id, local_files, remote_files, local_folder, flag, file_filter, compare_flag,
                                follow_delete)
 
     def __sync_all(
-            self, drive_id, file_filter, flag, local_files, local_folder, remote_files, remote_folder, ignore_content,
+            self, drive_id, file_filter, flag, local_files, local_folder, remote_files, remote_folder, compare_flag,
             follow_delete
     ):
         # 双端同步
@@ -141,7 +141,7 @@ class SyncFolder(Core):
                         CreateFolderRequest(name=f, parent_file_id=remote_folder, drive_id=drive_id,
                                             check_name_mode='overwrite')
                     )
-                self.__sync_folder(local_file, remote_file.file_id, flag, file_filter, ignore_content, follow_delete,
+                self.__sync_folder(local_file, remote_file.file_id, flag, file_filter, compare_flag, follow_delete,
                                    drive_id)
                 continue
 
@@ -155,15 +155,14 @@ class SyncFolder(Core):
                     self._auth.log.warning(f'冲突：本地为文件，云端为文件夹，不处理 {f}')
                     continue
 
-                # 跳过对比文件内容
-                if ignore_content:
-                    self._auth.log.warning(f'忽略文件内容: 不处理 {f}')
-                    continue
-
                 # 获取 f 文件大小
                 local_size = os.path.getsize(local_file)
                 # 比较大小
                 if local_size == remote_file.size:
+                    # 只比较文件大小
+                    if compare_flag:
+                        self._auth.log.debug(f'文件 {f} 已存在，且大小相同，跳过')
+                        continue
                     # 计算 f 文件 sha1
                     local_sha1 = self._core_sha1(local_file).lower()
                     # 如果sha1值相同，则跳过
@@ -206,7 +205,7 @@ class SyncFolder(Core):
                     self.download_folder(remote_file.file_id, local_folder)  # type: ignore
 
     def __sync_remote(self, drive_id, local_files, remote_files,
-                      local_folder, flag, file_filter, ignore_content, follow_delete):
+                      local_folder, flag, file_filter, compare_flag, follow_delete):
         # 以云端为主
         for f in list(remote_files):
             remote_file = remote_files.pop(f)
@@ -224,7 +223,7 @@ class SyncFolder(Core):
                     local_file = os.path.join(local_folder, f)
                     self._auth.log.debug(f'云端是文件夹，本地没有，创建文件夹，并递归 {local_file}')
                     os.mkdir(local_file)
-                self.__sync_folder(local_file, remote_file.file_id, flag, file_filter, ignore_content, follow_delete,
+                self.__sync_folder(local_file, remote_file.file_id, flag, file_filter, compare_flag, follow_delete,
                                    drive_id)
                 continue
 
@@ -241,15 +240,14 @@ class SyncFolder(Core):
                     self.download_files([remote_file], local_folder)
                     continue
 
-                # 跳过对比文件内容
-                if ignore_content:
-                    self._auth.log.warning(f'忽略文件内容: 不处理 {f}')
-                    continue
-
                 # 获取 f 文件大小
                 remote_size = remote_file.size
                 # 比较大小
                 if remote_size == os.path.getsize(local_file):
+                    # 只比较文件大小
+                    if compare_flag:
+                        self._auth.log.debug(f'文件 {f} 已存在，且大小相同，跳过')
+                        continue
                     # 计算 f 文件 sha1
                     local_sha1 = self._core_sha1(local_file).lower()
                     # 如果sha1值相同，则跳过
@@ -274,7 +272,7 @@ class SyncFolder(Core):
                     shutil.rmtree(local_file)
 
     def __sync_local(self, drive_id, local_files, remote_files,
-                     remote_folder, flag, file_filter, local_folder, ignore_content, follow_delete):
+                     remote_folder, flag, file_filter, local_folder, compare_flag, follow_delete):
         # 以本地为主
         for f in list(local_files):
             local_file = local_files.pop(f)
@@ -294,7 +292,7 @@ class SyncFolder(Core):
                         CreateFolderRequest(name=f, parent_file_id=remote_folder, drive_id=drive_id,
                                             check_name_mode='overwrite')
                     )
-                self.__sync_folder(local_file, remote_file.file_id, flag, file_filter, ignore_content, follow_delete,
+                self.__sync_folder(local_file, remote_file.file_id, flag, file_filter, compare_flag, follow_delete,
                                    drive_id)
                 continue
 
@@ -314,15 +312,15 @@ class SyncFolder(Core):
                                      drive_id=drive_id, check_name_mode='overwrite')
                     continue
 
-                # 跳过对比文件内容
-                if ignore_content:
-                    self._auth.log.warning(f'忽略文件内容: 不处理 {f}')
-                    continue
-
                 # 获取 f 文件大小
                 local_size = os.path.getsize(local_file)
                 # 比较大小
                 if local_size == remote_file.size:
+                    # 只比较文件大小
+                    if compare_flag:
+                        self._auth.log.debug(f'文件 {f} 已存在，且大小相同，跳过')
+                        continue
+
                     # 计算 f 文件 sha1
                     local_sha1 = self._core_sha1(local_file).lower()
                     # 如果sha1值相同，则跳过
