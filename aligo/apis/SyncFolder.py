@@ -4,7 +4,7 @@ import os
 import shutil
 from datetime import datetime
 from typing import Callable
-from typing import Dict
+from typing import Dict, Union
 from typing import Optional
 
 from aligo.core import *
@@ -38,7 +38,7 @@ class SyncFolder(Core):
             local_folder: str,
             remote_folder: str,
             flag: Optional[bool] = None,
-            file_filter: Callable[[str], bool] = lambda x: False,
+            file_filter: Callable[[Union[str, BaseFile]], bool] = lambda x: False,
             ignore_content: bool = False,
             follow_delete: bool = False,
             drive_id: str = None
@@ -79,7 +79,7 @@ class SyncFolder(Core):
             local_folder: str,
             remote_folder: str,
             flag: Optional[bool],
-            file_filter: Callable[[str], bool],
+            file_filter: Callable[[Union[str, BaseFile]], bool],
             ignore_content: bool,
             follow_delete: bool,
             drive_id: str):
