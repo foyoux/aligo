@@ -1,6 +1,6 @@
 """文件相关"""
 import os
-from typing import List, overload, Union
+from typing import List, overload, Union, Callable
 
 from aligo.core import *
 from aligo.request import *
@@ -205,3 +205,19 @@ class File(Core):
                 return file
 
         return None
+
+    def walk_files(self, callback: Callable[[str, BaseFile], None], parent_file_id: str = 'root', drive_id: str = None,
+                   _path: str = ''):
+        """遍历指定文件夹下所有文件
+
+        :param drive_id:
+        :param parent_file_id: 文件夹 id，默认 root
+        :param callback: 回调函数
+        :param _path: 当前文件基于指定文件夹的路径
+        :return:
+        """
+        for f in self._core_get_file_list(GetFileListRequest(parent_file_id=parent_file_id, drive_id=drive_id)):
+            if f.type == 'file':
+                callback(_path, f)
+                continue
+            self.walk_files(callback, parent_file_id=f.file_id, drive_id=drive_id, _path=os.path.join(_path, f.name))
