@@ -155,15 +155,15 @@ class SyncFolder(Core):
                     self._auth.log.warning(f'冲突：本地为文件，云端为文件夹，不处理 {f}')
                     continue
 
-                # 跳过对比文件内容
-                if ignore_content:
-                    self._auth.log.warning(f'忽略文件内容: 不处理 {f}')
-                    continue
-
                 # 获取 f 文件大小
                 local_size = os.path.getsize(local_file)
                 # 比较大小
                 if local_size == remote_file.size:
+                    # 跳过对比文件内容
+                    if ignore_content:
+                        self._auth.log.warning(f'忽略文件内容: 不处理 {f}')
+                        continue
+
                     # 计算 f 文件 sha1
                     local_sha1 = self._core_sha1(local_file).lower()
                     # 如果sha1值相同，则跳过
@@ -241,15 +241,15 @@ class SyncFolder(Core):
                     self.download_files([remote_file], local_folder)
                     continue
 
-                # 跳过对比文件内容
-                if ignore_content:
-                    self._auth.log.warning(f'忽略文件内容: 不处理 {f}')
-                    continue
-
                 # 获取 f 文件大小
                 remote_size = remote_file.size
                 # 比较大小
                 if remote_size == os.path.getsize(local_file):
+                    # 跳过对比文件内容
+                    if ignore_content:
+                        self._auth.log.warning(f'忽略文件内容: 不处理 {f}')
+                        continue
+
                     # 计算 f 文件 sha1
                     local_sha1 = self._core_sha1(local_file).lower()
                     # 如果sha1值相同，则跳过
@@ -314,15 +314,15 @@ class SyncFolder(Core):
                                      drive_id=drive_id, check_name_mode='overwrite')
                     continue
 
-                # 跳过对比文件内容
-                if ignore_content:
-                    self._auth.log.warning(f'忽略文件内容: 不处理 {f}')
-                    continue
-
                 # 获取 f 文件大小
                 local_size = os.path.getsize(local_file)
                 # 比较大小
                 if local_size == remote_file.size:
+                    # 跳过对比文件内容
+                    if ignore_content:
+                        self._auth.log.warning(f'忽略文件内容: 不处理 {f}')
+                        continue
+
                     # 计算 f 文件 sha1
                     local_sha1 = self._core_sha1(local_file).lower()
                     # 如果sha1值相同，则跳过
