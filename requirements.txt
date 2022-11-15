@@ -1,4 +1,4 @@
-requests
+requests<=2.27.1
 qrcode[pil]
 coloredlogs
 tqdm>=4.50.0
