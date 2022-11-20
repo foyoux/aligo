@@ -31,6 +31,8 @@ class BaseAligo:
             proxies: Dict = None,
             port: int = None,
             email: Tuple[str, str] = None,
+            request_failed_delay: float = 3,
+            requests_timeout: float = None,
     ):
         """
         BaseAligo
@@ -53,6 +55,8 @@ class BaseAligo:
             proxies=proxies,
             port=port,
             email=email,
+            request_failed_delay=request_failed_delay,
+            requests_timeout=requests_timeout,
         )
         # 因为 self._auth.session 没有被重新赋值, 所以可以这么用
         self._session: requests.Session = self._auth.session

@@ -70,6 +70,8 @@ class Auth:
             proxies: Dict = None,
             port: int = None,
             email: Tuple[str, str] = None,
+            request_failed_delay: float = 3,
+            requests_timeout: float = None,
     ):
         """扫描二维码登录"""
 
@@ -82,6 +84,8 @@ class Auth:
             proxies: Dict = None,
             port: int = None,
             email: Tuple[str, str] = None,
+            request_failed_delay: float = 3,
+            requests_timeout: float = None,
     ):
         """refresh_token 登录"""
 
@@ -94,6 +98,8 @@ class Auth:
             proxies: Dict = None,
             port: int = None,
             email: Tuple[str, str] = None,
+            request_failed_delay: float = 3,
+            requests_timeout: float = None,
     ):
         """登录验证
 
@@ -113,6 +119,8 @@ class Auth:
         self._webServer: HTTPServer = None  # type: ignore
         self._email = email
         self.log = logging.getLogger(f'{__name__}:{name}')
+        self._request_failed_delay = request_failed_delay
+        self._requests_timeout = requests_timeout
 
         fmt = f'%(asctime)s.%(msecs)03d {name}.%(levelname)s %(message)s'
 
@@ -296,10 +304,16 @@ class Auth:
 
         response = None
         for i in range(1, 6):
-            response = self.session.request(
-                method=method, url=url, params=params, data=data,
-                headers=headers, verify=self._VERIFY_SSL, json=body
-            )
+            try:
+                response = self.session.request(
+                    method=method, url=url, params=params, data=data,
+                    headers=headers, verify=self._VERIFY_SSL, json=body, timeout=self._requests_timeout
+                )
+            except requests.exceptions.ConnectionError as e:
+                self.log.warning(e)
+                time.sleep(self._request_failed_delay)
+                continue
+
             status_code = response.status_code
             self._log_response(response)
 
