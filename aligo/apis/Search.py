@@ -60,7 +60,7 @@ class Search(Core):
                     query += ' and '
                 query += f'category = "{category}"'
             body = SearchFileRequest(query=query, drive_id=drive_id, **kwargs)
-        result = self._core_search_file(body)
+        result = self._core_search_files(body)
         return list(result)
 
     @overload

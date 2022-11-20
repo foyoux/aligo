@@ -11,7 +11,7 @@ from aligo.types import *
 class Search(BaseAligo):
     """..."""
 
-    def _core_search_file(self, body: SearchFileRequest) -> Iterator[BaseFile]:
+    def _core_search_files(self, body: SearchFileRequest) -> Iterator[BaseFile]:
         """
         关于 query 的语法, 参考下段代码
         {
