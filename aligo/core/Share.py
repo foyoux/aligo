@@ -164,3 +164,19 @@ class Share(BaseAligo):
                     # noinspection PyArgumentList
                     i.body = BatchShareFileSaveToDriveResponse(**i.body)
                 yield i
+
+    def _core_search_share_files(self, body: SearchShareFileRequest, share_token) -> Iterator[BaseShareFile]:
+        """
+        关于 query 的语法, 参考下段代码
+        {
+            key: "getPDSSearchQuery", value: function () {
+                var n = ['name match "'.concat(this.queryToSearch, '"')];
+                return this.filter && ("folder" === this.filter ? n.push('type = "'.concat(this.filter, '"')) : n.push('category = "'.concat(this.filter, '"'))), n.join(" and ")
+            }
+        }
+        eg: 'name match "epub"'
+        eg: 'name match "epub" and category = "image"'
+        category : BaseFileCategory
+        """
+        yield from self._list_file(
+            RECOMMEND_V1_SHARELINK_SEARCH, body, SearchShareFileResponse, headers={'x-share-token': share_token})

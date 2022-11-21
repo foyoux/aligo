@@ -50,7 +50,7 @@ class Search(Core):
 
     def search_files(self, name: str = None, category: SearchCategory = None, drive_id: str = None,
                      body: SearchFileRequest = None, **kwargs) -> List[BaseFile]:
-        """search_file"""
+        """search files"""
         if body is None:
             query = None
             if name:

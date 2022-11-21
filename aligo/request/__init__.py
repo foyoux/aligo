@@ -46,6 +46,7 @@ from .MoveFileToTrashRequest import MoveFileToTrashRequest
 from .RenameFileRequest import RenameFileRequest
 from .RestoreFileRequest import RestoreFileRequest
 from .SearchFileRequest import SearchFileRequest
+from .SearchShareFileRequest import SearchShareFileRequest
 from .ShareFileSaveToDriveRequest import ShareFileSaveToDriveRequest
 from .StarredFileRequest import StarredFileRequest
 from .TemplateRequest import TemplateRequest

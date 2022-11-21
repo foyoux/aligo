@@ -41,3 +41,7 @@ class BaseShareFile(DataClass):
     drive_id: str = None
     domain_id: str = None
     revision_id: str = None
+    # 2022年11月21日13时25分58秒
+    starred: bool = False
+    content_hash: str = None
+    trashed_at: str = None

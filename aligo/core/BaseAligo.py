@@ -82,6 +82,7 @@ class BaseAligo:
             path: str,
             host: str = API_HOST,
             body: Union[DataType, Dict] = None,
+            headers: dict = None,
             ignore_auth: bool = False
     ) -> requests.Response:
         """统一处理数据类型和 drive_id"""
@@ -94,7 +95,7 @@ class BaseAligo:
             # 如果存在 attr drive_id 并且它是 None，并将 default_drive_id 设置为它
             body['drive_id'] = self.default_drive_id
 
-        return self._auth.post(path=path, host=host, body=body, ignore_auth=ignore_auth)
+        return self._auth.post(path=path, host=host, body=body, headers=headers, ignore_auth=ignore_auth)
 
     @property
     def default_drive_id(self):
@@ -147,7 +148,9 @@ class BaseAligo:
         self._auth.log.warning(f'{response.status_code} {response.text[:200]}')
         return Null(response)
 
-    def _list_file(self, path: str, body: Union[DataClass, Dict], resp_type: Generic[DataType]) -> Iterator[DataType]:
+    def _list_file(
+            self, path: str, body: Union[DataClass, Dict],
+            resp_type: Generic[DataType], headers: dict = None) -> Iterator[DataType]:
         """
         枚举文件: 用于统一处理 1.文件列表 2.搜索文件列表 3.收藏列表 4.回收站列表
         :param path: [str] 批量处理的路径
@@ -162,7 +165,7 @@ class BaseAligo:
         >>> if isinstance(result[-1], Null):
         >>>     print('请求失败')
         """
-        response = self._post(path, body=body)
+        response = self._post(path, body=body, headers=headers)
         file_list = self._result(response, resp_type)
         if isinstance(file_list, Null):
             yield file_list
@@ -173,7 +176,7 @@ class BaseAligo:
                 body['marker'] = file_list.next_marker
             else:
                 body.marker = file_list.next_marker
-            yield from self._list_file(path=path, body=body, resp_type=resp_type)
+            yield from self._list_file(path=path, body=body, resp_type=resp_type, headers=headers)
 
     def _core_get_file(self, body: GetFileRequest) -> BaseFile:
         """获取文件信息, 其他类中可能会用到, 所以放到基类中"""

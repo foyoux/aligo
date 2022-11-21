@@ -74,6 +74,7 @@ ADRIVE_V2_SHARE_LINK_GET_SHARE_BY_ANONYMOUS = '/adrive/v2/share_link/get_share_b
 V2_SHARE_LINK_GET_SHARE_TOKEN = '/v2/share_link/get_share_token'
 V2_FILE_GET_SHARE_LINK_DOWNLOAD_URL = '/v2/file/get_share_link_download_url'
 ADRIVE_V2_SHARE_LINK_EXTRACT_CODE = '/adrive/v2/share_link/extract_code'
+RECOMMEND_V1_SHARELINK_SEARCH = '/recommend/v1/shareLink/search'
 
 # 批量操作
 V3_BATCH = '/v3/batch'

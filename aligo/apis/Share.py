@@ -558,3 +558,13 @@ class Share(Core):
             auto_rename=auto_rename
         )
         return result
+
+    def search_share_files(self, share_id: str, keyword: str, share_token: GetShareTokenResponse,
+                           order_by: SearchFileOrderBy = 'name', order_direction: OrderDirection = 'DESC',
+                           body: SearchShareFileRequest = None, **kwargs) -> List[BaseShareFile]:
+        """search share files"""
+        if body is None:
+            body = SearchShareFileRequest(share_id=share_id, keyword=keyword,
+                                          order_by=f'{order_by} {order_direction}', **kwargs)
+        result = self._core_search_share_files(body, share_token)
+        return list(result)
