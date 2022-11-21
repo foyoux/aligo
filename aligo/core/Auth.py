@@ -175,7 +175,7 @@ class Auth:
 
         if self._name.exists():
             self.log.info(f'加载配置文件 {self._name}')
-            self.token = DataClass.fill_attrs(Token, json.load(self._name.open()))
+            self.token = DataClass.fill_attrs(Token, json.load(self._name.open(encoding='utf8')))
         else:
             self.log.info('登录方式 扫描二维码')
             self._login()
@@ -188,7 +188,7 @@ class Auth:
     def _save(self):
         """保存配置文件"""
         self.log.info(f'保存配置文件 {self._name}')
-        json.dump(asdict(self.token), self._name.open('w'))
+        json.dump(asdict(self.token), self._name.open('w', encoding='utf8'))
 
     # noinspection PyPep8Naming
     def _login(self):
