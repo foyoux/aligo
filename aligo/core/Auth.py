@@ -340,7 +340,7 @@ class Auth:
                     sleep_int = 5 ** (i % 4)
                 else:
                     sleep_int = self._SLEEP_TIME_SEC
-                self.log.warning(f'被限制了 暂停 {sleep_int} 秒')
+                self.log.warning(f'请求太频繁，暂停 {sleep_int} 秒钟')
                 time.sleep(sleep_int)
                 continue
 
