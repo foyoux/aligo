@@ -140,7 +140,6 @@ class Share(BaseAligo):
                             share_id=body.share_id,
                             to_parent_file_id=body.to_parent_file_id,
                             to_drive_id=body.to_drive_id,
-                            overwrite=body.overwrite,
                             auto_rename=body.auto_rename,
                         )),
                         "headers": {
@@ -171,7 +170,8 @@ class Share(BaseAligo):
         {
             key: "getPDSSearchQuery", value: function () {
                 var n = ['name match "'.concat(this.queryToSearch, '"')];
-                return this.filter && ("folder" === this.filter ? n.push('type = "'.concat(this.filter, '"')) : n.push('category = "'.concat(this.filter, '"'))), n.join(" and ")
+                return this.filter && ("folder" === this.filter ? n.push('type = "'.concat(this.filter, '"'))
+                : n.push('category = "'.concat(this.filter, '"'))), n.join(" and ")
             }
         }
         eg: 'name match "epub"'

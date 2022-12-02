@@ -1,4 +1,5 @@
 """分享相关"""
+import warnings
 from typing import List, overload
 
 from aligo.core import *
@@ -6,6 +7,13 @@ from aligo.request import *
 from aligo.response import *
 from aligo.types import *
 from aligo.types.Enum import *
+
+
+def _deprecation_warning(kwargs):
+    if 'share_id' in kwargs:
+        kwargs.pop('share_id')
+        warnings.warn('share 相关方法已删除 `share_id` 参数，因为 share_token 已包含了 share_id 信息',
+                      DeprecationWarning, stacklevel=3)
 
 
 class Share(Core):
@@ -253,6 +261,7 @@ class Share(Core):
             **kwargs
     ) -> List[BaseShareFile]:
         """get_share_file_list"""
+        _deprecation_warning(kwargs)
         if body is None:
             body = GetShareFileListRequest(share_id=share_token.share_id, parent_file_id=parent_file_id, **kwargs)
         result = self._core_get_share_file_list(body, share_token)
@@ -310,6 +319,7 @@ class Share(Core):
             **kwargs
     ) -> BaseShareFile:
         """get_share_file"""
+        _deprecation_warning(kwargs)
         if body is None:
             body = GetShareFileRequest(share_id=share_token.share_id, file_id=file_id, **kwargs)
         return self._core_get_share_file(body, share_token)
@@ -370,6 +380,7 @@ class Share(Core):
             **kwargs
     ) -> GetShareLinkDownloadUrlResponse:
         """get_share_link_download_url"""
+        _deprecation_warning(kwargs)
         if body is None:
             body = GetShareLinkDownloadUrlRequest(share_id=share_token.share_id, file_id=file_id, **kwargs)
         return self._core_get_share_link_download_url(body, share_token)
@@ -439,6 +450,7 @@ class Share(Core):
             **kwargs
     ) -> ShareFileSaveToDriveResponse:
         """share_file_saveto_drive"""
+        _deprecation_warning(kwargs)
         if body is None:
             body = ShareFileSaveToDriveRequest(
                 share_id=share_token.share_id,
@@ -509,8 +521,10 @@ class Share(Core):
             auto_rename: bool = True,
             to_drive_id: str = None,
             body: BatchShareFileSaveToDriveRequest = None,
+            **kwargs,
     ) -> List[BatchShareFileSaveToDriveResponse]:
         """batch_share_file_saveto_drive"""
+        _deprecation_warning(kwargs)
         if body is None:
             body = BatchShareFileSaveToDriveRequest(
                 share_id=share_token.share_id,
@@ -528,8 +542,10 @@ class Share(Core):
             to_parent_file_id: str = 'root',
             auto_rename: bool = True,
             to_drive_id: str = None,
+            **kwargs,
     ) -> List[BatchShareFileSaveToDriveResponse]:
         """保存所有分享文件到云盘"""
+        _deprecation_warning(kwargs)
         file_list = self.get_share_file_list(share_token)
         result = self.batch_share_file_saveto_drive(
             [file.file_id for file in file_list],
@@ -544,6 +560,7 @@ class Share(Core):
                            order_by: SearchFileOrderBy = 'name', order_direction: OrderDirection = 'DESC',
                            body: SearchShareFileRequest = None, **kwargs) -> List[BaseShareFile]:
         """在分享中搜索文件"""
+        _deprecation_warning(kwargs)
         if body is None:
             body = SearchShareFileRequest(share_id=share_token.share_id, keyword=keyword,
                                           order_by=f'{order_by} {order_direction}', **kwargs)
