@@ -2,7 +2,7 @@
 
 from aligo.core import *
 from aligo.core.Config import *
-from aligo.response import RewardSpaceResponse
+from aligo.response import RewardSpaceResponse, UsersVipInfoResponse
 from aligo.types import *
 
 
@@ -42,3 +42,8 @@ class User(BaseAligo):
         """获取用户配置信息"""
         response = self._post(ADRIVE_V1_USER_CONFIG_GET, body={})
         return self._result(response, UserConfig)
+
+    def get_vip_info(self) -> UsersVipInfoResponse:
+        """获取用户vip信息"""
+        response = self._post(BUSINESS_V1_USERS_VIP_INFO, body={})
+        return self._result(response, UsersVipInfoResponse)

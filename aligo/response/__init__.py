@@ -43,3 +43,4 @@ from .ShareItemInfo import ShareItemInfo
 from .ShareLinkExtractCodeResponse import ShareLinkExtractCodeResponse
 from .TemplateResponse import TemplateResponse
 from .UpdateShareLinkResponse import UpdateShareLinkResponse
+from .UsersVipInfoResponse import UsersVipInfoResponse
