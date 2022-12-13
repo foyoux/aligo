@@ -112,6 +112,11 @@ ali = Aligo(email=('xxx@qq.com', '防伪字符串，可任意字符串'))
 [扩展功能举栗🌰 - 配有视频和代码](https://github.com/foyoux/aligo/issues/24)
 
 
+## 不慎泄露 refresh_token ?
+
+必须马上修改密码！必须马上修改密码！必须马上修改密码！
+
+
 ## 声明
 
 此项目仅供学习交流，若有不妥之处，侵联必删。
