@@ -98,7 +98,7 @@ class Download(Core):
         return os.path.abspath(local_folder)
 
     @overload
-    def download_file(self, file_path: str, url: str) -> str:
+    def download_file(self, *, file_path: str, url: str) -> str:
         """
         根据下载地址下载文件
         :param file_path: [str] 文件路径
@@ -113,7 +113,7 @@ class Download(Core):
         """
 
     @overload
-    def download_file(self, file_id: str, local_folder: str = '.') -> str:
+    def download_file(self, *, file_id: str, local_folder: str = '.') -> str:
         """
         根据 file_id 下载文件
         :param file_id: [str] 文件 id
@@ -128,7 +128,7 @@ class Download(Core):
         """
 
     @overload
-    def download_file(self, file: BaseFile, local_folder: str = '.') -> str:
+    def download_file(self, *, file: BaseFile, local_folder: str = '.') -> str:
         """
         根据 BaseFile 对象下载文件
         :param file: [BaseFile] 文件对象
@@ -145,7 +145,7 @@ class Download(Core):
         """
 
     def download_file(
-            self, file_path: str = None, url: str = None,
+            self, *, file_path: str = None, url: str = None,
             local_folder: str = '.', file_id: str = None,
             file: BaseFile = None, drive_id=None
     ) -> str:

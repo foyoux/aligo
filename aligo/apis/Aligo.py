@@ -50,7 +50,7 @@ class Aligo(
 
     def __init__(
             self,
-            name: str = 'aligo',
+            name: str = 'aligo', *,
             refresh_token: str = None,
             show: Callable[[str], None] = None,
             level: int = logging.DEBUG,
