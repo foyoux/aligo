@@ -36,6 +36,11 @@ def get_configurations() -> List[str]:
     return list_
 
 
+def logout(name):
+    """退出登录"""
+    (aligo_config_folder / f'{name}.json').unlink()
+
+
 class Auth:
     """..."""
 

@@ -4,6 +4,7 @@ from .request import *
 from .response import *
 from .core import *
 from .apis import *
+from .core.Auth import logout
 
 __title__ = 'aligo'
 __description__ = 'apis lib for aliyundrive.'
