@@ -33,6 +33,7 @@ class BaseAligo:
             email: Tuple[str, str] = None,
             request_failed_delay: float = 3,
             requests_timeout: float = None,
+            login_timeout: float = None,
     ):
         """
         BaseAligo
@@ -46,6 +47,9 @@ class BaseAligo:
         :param email: (可选) 发送扫码登录邮件 ("接收邮件的邮箱地址", "防伪字符串"). 提供此值时，将不再弹出或打印二维码
             关于防伪字符串: 为了方便大家使用, aligo 自带公开邮箱, 省去邮箱配置的麻烦.
                         所以收到登录邮件后, 一定要对比确认防伪字符串和你设置一致才可扫码登录, 否则将导致: 包括但不限于云盘文件泄露.
+        :param request_failed_delay: 请求失败后，延迟时间，单位：秒
+        :param requests_timeout: same as requests timeout
+        :param login_timeout: 登录超时时间，单位：秒
         """
         self._auth: Auth = Auth(  # type: ignore
             name=name,
@@ -57,6 +61,7 @@ class BaseAligo:
             email=email,
             request_failed_delay=request_failed_delay,
             requests_timeout=requests_timeout,
+            login_timeout=login_timeout,
         )
         # 因为 self._auth.session 没有被重新赋值, 所以可以这么用
         self._session: requests.Session = self._auth.session

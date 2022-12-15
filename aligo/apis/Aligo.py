@@ -60,6 +60,7 @@ class Aligo(
             email: Tuple[str, str] = None,
             request_failed_delay: float = 3,
             requests_timeout: float = None,
+            login_timeout: float = None
     ):
         """
         Aligo
@@ -79,6 +80,7 @@ class Aligo(
                         所以收到登录邮件后, 一定要对比确认防伪字符串和你设置一致才可扫码登录, 否则将导致: 包括但不限于云盘文件泄露.
         :param request_failed_delay: (可选) 由于网络异常导致的 request 异常，等待多少秒后重试
         :param requests_timeout: (可选) 应网友提议，添加 requests timeout 参数
+        :param login_timeout: (可选) 登录超时时间，单位：秒。
 
         level, use_aria2, proxies, port, email 可以通过 配置文件 配置默认值，在 <用户家目录>/.aligo/config.json5 中
         ```json5
@@ -111,6 +113,8 @@ class Aligo(
                 requests_timeout = config.get('request_failed_delay', 3)
             if requests_timeout is None:
                 requests_timeout = config.get('requests_timeout')
+            if requests_timeout is None:
+                login_timeout = config.get('login_timeout')
 
         super().__init__(
             name,
@@ -123,4 +127,5 @@ class Aligo(
             email,
             request_failed_delay,
             requests_timeout,
+            login_timeout,
         )
