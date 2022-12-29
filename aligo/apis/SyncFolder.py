@@ -189,8 +189,6 @@ class SyncFolder(Core):
                     self._auth.log.debug(f'云端较新，删除本地，下载云端文件 {f}')
                     os.remove(local_file)
                     self.download_files([remote_file], local_folder)
-                # 在字典中删除remote_file
-                remote_files.pop(f)
             else:
                 # 不存在则直接上传
                 self._auth.log.debug(f'云端不存在，上传本地文件 {f}')
