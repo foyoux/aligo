@@ -334,7 +334,7 @@ class Auth:
                 else:
                     # 刷新 share_token
                     share_id = body['share_id']
-                    share_pwd = self._SHARE_PWD_DICT[share_id]
+                    share_pwd = self._SHARE_PWD_DICT[share_id] or ''
                     r = self.post(
                         V2_SHARE_LINK_GET_SHARE_TOKEN,
                         body={
