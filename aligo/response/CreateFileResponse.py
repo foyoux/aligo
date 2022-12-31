@@ -29,3 +29,4 @@ class CreateFileResponse(DataClass):
     # 与批量操作中的错误不同, 此处code为是否命中秒传的结果
     code: str = field(default=None, repr=False)
     message: str = field(default=None, repr=False)
+    revision_id: str = field(default=None, repr=False)
