@@ -23,7 +23,3 @@ class RewardSpaceResponse(DataClass):
     maxResults: Dict = None
     result: Result = None
     arguments: str = None
-
-    def __post_init__(self):
-        if self.result:
-            self.result = Result(**self.result)

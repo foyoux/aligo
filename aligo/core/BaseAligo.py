@@ -4,8 +4,7 @@ import logging
 import subprocess
 import traceback
 from dataclasses import asdict, is_dataclass
-from typing import Generic, List, Iterator, Dict, Callable
-from typing import Union, Tuple
+from typing import Generic, List, Iterator, Dict, Callable, Union, Tuple, Type
 
 import requests
 
@@ -205,7 +204,7 @@ class BaseAligo:
             rt.append(ll[i:i + n])
         return rt
 
-    def batch_request(self, body: BatchRequest, body_type: DataType) -> Iterator[BatchSubResponse[DataType]]:
+    def batch_request(self, body: BatchRequest, body_type: Type[DataType]) -> Iterator[BatchSubResponse[DataType]]:
         """
         批量请求：官方最大支持 100 个请求，所以这里按照 100 个一组进行分组，然后分别请求，使用时无需关注这个。
         :param body:[BatchRequest] 批量请求的参数
@@ -238,7 +237,7 @@ class BaseAligo:
                 return
 
             for batch in response.json()['responses']:
-                i = BatchSubResponse(**batch)
+                i = DataClass.fill_attrs(BatchSubResponse, batch)
                 if i.body:
                     try:
                         # 不是都会成功
@@ -248,7 +247,7 @@ class BaseAligo:
                         #                   can't update, file_id 609887cca951bf4feca54c6ebd0a91a03b826949"
                         # }
                         # status 409
-                        i.body = body_type(**i.body)
+                        i.body = DataClass.fill_attrs(body_type, i.body)
                     except TypeError:
                         # self._auth.log.warning(i)
                         pass

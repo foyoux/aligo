@@ -158,10 +158,10 @@ class Share(BaseAligo):
                 return
 
             for batch in response.json()['responses']:
-                i = BatchSubResponse(**batch)
+                i = DataClass.fill_attrs(BatchSubResponse, batch)
                 if i.body:
                     # noinspection PyArgumentList
-                    i.body = BatchShareFileSaveToDriveResponse(**i.body)
+                    i.body = DataClass.fill_attrs(BatchShareFileSaveToDriveResponse, i.body)
                 yield i
 
     def _core_search_share_files(self, body: SearchShareFileRequest, share_token) -> Iterator[BaseShareFile]:
