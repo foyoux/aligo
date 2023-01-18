@@ -67,9 +67,10 @@ class Share(BaseAligo):
     def _core_get_share_token(self, body: GetShareTokenRequest) -> GetShareTokenResponse:
         """..."""
         # noinspection PyProtectedMember
-        Auth._SHARE_PWD_DICT[body.share_id] = body.share_pwd
         response = self._post(V2_SHARE_LINK_GET_SHARE_TOKEN, body=body, ignore_auth=True)
-        share_token = self._result(response, GetShareTokenResponse)
+        share_token: GetShareTokenResponse = self._result(response, GetShareTokenResponse)
+        share_token.share_id = body.share_id
+        share_token.share_pwd = body.share_pwd
         return share_token
 
     def _core_get_share_file_list(

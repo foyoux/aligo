@@ -46,7 +46,6 @@ class Auth:
     """..."""
 
     _SLEEP_TIME_SEC = None
-    _SHARE_PWD_DICT = {}
 
     # 发送邮件配置
     _EMAIL_USER = 'aligo_notify@163.com'
@@ -335,7 +334,7 @@ class Auth:
                 else:
                     # 刷新 share_token
                     share_id = body['share_id']
-                    share_pwd = self._SHARE_PWD_DICT[share_id] or ''
+                    share_pwd = body['share_pwd']
                     r = self.post(
                         V2_SHARE_LINK_GET_SHARE_TOKEN,
                         body={
