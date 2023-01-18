@@ -18,6 +18,7 @@ import qrcode_terminal
 import requests
 
 from aligo.core.Config import *
+from aligo.error import AligoStatus500
 from aligo.types import *
 from aligo.types.Enum import *
 from .EMail import send_email
@@ -346,7 +347,7 @@ class Auth:
                     headers['x-share-token'].share_token = share_token
                 continue
 
-            if status_code == 429 or status_code == 500:
+            if status_code == 429:
                 if self._SLEEP_TIME_SEC is None:
                     sleep_int = 5 ** (i % 4)
                 else:
@@ -354,6 +355,9 @@ class Auth:
                 self.log.warning(f'请求太频繁，暂停 {sleep_int} 秒钟')
                 time.sleep(sleep_int)
                 continue
+
+            if status_code == 500:
+                raise AligoStatus500(response.content)
 
             return response
 
