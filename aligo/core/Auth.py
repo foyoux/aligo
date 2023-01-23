@@ -64,7 +64,7 @@ class Auth:
     def error_log_exit(self, response: requests.Response):
         """打印错误日志并退出"""
         self.debug_log(response)
-        exit(-1)
+        #exit(-1)
 
     @overload
     def __init__(
@@ -199,6 +199,9 @@ class Auth:
         """保存配置文件"""
         self.log.info(f'保存配置文件 {self._name}')
         json.dump(asdict(self.token), self._name.open('w', encoding='utf8'))
+    
+    def reLogin(self):
+        self._login()
 
     # noinspection PyPep8Naming
     def _login(self):
@@ -207,6 +210,7 @@ class Auth:
         response = self._login_by_qrcode()
 
         if response.status_code != 200:
+            self._show('QR_GET_ERROR')
             self.log.error('登录失败')
             self.error_log_exit(response)
 
@@ -236,7 +240,7 @@ class Auth:
             if self._email:
                 self._send_email(qr_link)
         else:
-            qrcode_png = self._show(qr_link)
+            qrcode_png = self._show(self._name_name,'NEW',qr_link)
             if qrcode_png:
                 self.log.info(f'二维码图片文件 {qrcode_png}')
         self.log.info('等待扫描二维码')
@@ -250,6 +254,10 @@ class Auth:
             login_data = response.json()['content']['data']
             # noinspection PyPep8Naming
             qrCodeStatus = login_data['qrCodeStatus']
+            #just first times can call show method
+            if qrCodeStatus != 'NEW':
+                self._show(self._name_name,qrCodeStatus)
+                
             # noinspection SpellCheckingInspection
             if qrCodeStatus == 'NEW':
                 pass
@@ -266,6 +274,7 @@ class Auth:
             else:
                 self.log.warning('未知错误 可能二维码已经过期')
                 self.error_log_exit(response)
+                break
             time.sleep(3)
             self._login_timeout.check_timeout()
 
