@@ -18,7 +18,7 @@ import qrcode_terminal
 import requests
 
 from aligo.core.Config import *
-from aligo.error import AligoStatus500, AligoRefreshFailed
+from aligo.error import AligoStatus500, AligoRefreshFailed, AligoFatalError
 from aligo.types import *
 from aligo.types.Enum import *
 from .EMail import send_email
@@ -64,7 +64,8 @@ class Auth:
     def error_log_exit(self, response: requests.Response):
         """打印错误日志并退出"""
         self.debug_log(response)
-        exit(-1)
+        # exit(-1)
+        raise AligoFatalError(response.text)
 
     @overload
     def __init__(
