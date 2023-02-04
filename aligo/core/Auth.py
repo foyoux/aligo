@@ -352,6 +352,9 @@ class Auth:
                     headers['x-share-token'].share_token = share_token
                 continue
 
+            if status_code == 504:
+                continue
+
             if status_code == 429:
                 if self._SLEEP_TIME_SEC is None:
                     sleep_int = 5 ** (i % 4)
