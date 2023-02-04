@@ -352,15 +352,19 @@ class Auth:
                     headers['x-share-token'].share_token = share_token
                 continue
 
-            if status_code == 504:
-                continue
-
-            if status_code == 429:
+            if status_code in [429, 502, 504]:
                 if self._SLEEP_TIME_SEC is None:
                     sleep_int = 5 ** (i % 4)
                 else:
                     sleep_int = self._SLEEP_TIME_SEC
-                self.log.warning(f'请求太频繁，暂停 {sleep_int} 秒钟')
+                err_msg = None
+                if status_code == 429:
+                    err_msg = '请求太频繁'
+                elif status_code == 502:
+                    err_msg = '内部网关错误'
+                elif status_code == 504:
+                    err_msg = '内部网关超时'
+                self.log.warning(f'{err_msg}，暂停 {sleep_int} 秒钟')
                 time.sleep(sleep_int)
                 continue
 
