@@ -1,6 +1,7 @@
 """drive"""
 
 from aligo.core import *
+from aligo.core.Config import *
 from aligo.request import *
 from aligo.types import *
 
@@ -22,3 +23,8 @@ class Drive(Core):
         """
         body = GetDriveRequest(drive_id=drive_id)
         return self._core_get_drive(body)
+
+    def drive_capacity_details(self) -> DriveCapacityDetail:
+        """获取网盘容量详细信息"""
+        response = self._post(ADRIVE_V1_USER_DRIVECAPACITY_DETAILS)
+        return self._result(response, DriveCapacityDetail)

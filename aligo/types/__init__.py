@@ -13,6 +13,7 @@ from .BaseUser import BaseUser
 from .CroppingBoundary import CroppingBoundary
 from .CroppingSuggestionItem import CroppingSuggestionItem
 from .DataClass import DataClass
+from .DriveCapacityDetail import DriveCapacityDetail
 from .FaceThumbnail import FaceThumbnail
 from .ImageMedia import ImageMedia
 from .ImageQuality import ImageQuality
