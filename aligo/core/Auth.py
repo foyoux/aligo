@@ -18,7 +18,7 @@ import qrcode_terminal
 import requests
 
 from aligo.core.Config import *
-from aligo.error import AligoStatus500
+from aligo.error import AligoStatus500, AligoRefreshFailed
 from aligo.types import *
 from aligo.types.Enum import *
 from .EMail import send_email
@@ -106,6 +106,7 @@ class Auth:
             request_failed_delay: float = 3,
             requests_timeout: float = None,
             login_timeout: float = None,
+            re_login: bool = True,
     ):
         """登录验证
 
@@ -121,6 +122,7 @@ class Auth:
         :param request_failed_delay: 请求失败后，延迟时间，单位：秒
         :param requests_timeout: same as requests timeout
         :param login_timeout: 登录超时时间，单位：秒
+        :param re_login: refresh_token 失效后是否继续登录（弹出二维码或邮件，需等待） fix #73
         """
         self._name_name = name
         self._name = aligo_config_folder.joinpath(f'{name}.json')
@@ -131,6 +133,7 @@ class Auth:
         self._request_failed_delay = request_failed_delay
         self._requests_timeout = requests_timeout
         self._login_timeout = LoginTimeout(login_timeout)
+        self._re_login = re_login
 
         fmt = f'%(asctime)s.%(msecs)03d {name}.%(levelname)s %(message)s'
 
@@ -295,8 +298,10 @@ class Auth:
                 self.error_log_exit(response)
             else:
                 self.debug_log(response)
-                self._login()
-
+                if self._re_login:
+                    self._login()
+                else:
+                    raise AligoRefreshFailed('使用 refresh_token 刷新 token 失败，re_login=False，不继续（等待）登录')
         self.session.headers.update({
             'Authorization': self.token.access_token
         })

@@ -60,7 +60,8 @@ class Aligo(
             email: Tuple[str, str] = None,
             request_failed_delay: float = 3,
             requests_timeout: float = None,
-            login_timeout: float = None
+            login_timeout: float = None,
+            re_login: bool = True
     ):
         """
         Aligo
@@ -81,6 +82,7 @@ class Aligo(
         :param request_failed_delay: (可选) 由于网络异常导致的 request 异常，等待多少秒后重试
         :param requests_timeout: (可选) 应网友提议，添加 requests timeout 参数
         :param login_timeout: (可选) 登录超时时间，单位：秒。
+        :param re_login: refresh_token 失效后是否继续登录（弹出二维码或邮件，需等待） fix #73
 
         level, use_aria2, proxies, port, email 可以通过 配置文件 配置默认值，在 <用户家目录>/.aligo/config.json5 中
         ```json5
@@ -115,6 +117,8 @@ class Aligo(
                 requests_timeout = config.get('requests_timeout')
             if requests_timeout is None:
                 login_timeout = config.get('login_timeout')
+            if re_login is True:
+                re_login = config.get('re_login')
 
         super().__init__(
             name,
@@ -128,4 +132,5 @@ class Aligo(
             request_failed_delay,
             requests_timeout,
             login_timeout,
+            re_login,
         )
