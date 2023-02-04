@@ -48,7 +48,8 @@ class DataClass:
                 params[key] = value
             else:
                 if _ALIGO_DEBUG:
-                    _LOGGER.warning(f'{cls.__module__}({key} : {type(value).__name__} = {repr(value)[:100]})')
+                    _LOGGER.warning(
+                        f'{cls.__module__}.{cls.__name__}({key} : {type(value).__name__} = {repr(value)[:100]})')
         return cls(**params)
 
     def __post_init__(self):

@@ -17,6 +17,7 @@ V2_OAUTH_AUTHORIZE = '/v2/oauth/authorize'
 V2_ACCOUNT_TOKEN = '/v2/account/token'
 TOKEN_REFRESH = '/token/refresh'
 TOKEN_GET = '/token/get'
+USERS_V1_USERS_DEVICE_RENEW_SESSION = '/users/v1/users/device/renew_session'
 
 # 基本信息
 V2_USER_GET = '/v2/user/get'
