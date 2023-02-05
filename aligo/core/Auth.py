@@ -155,20 +155,6 @@ class Auth:
         self.session.proxies = proxies
         self.session.headers.update(UNI_HEADERS)
 
-        self.session.get(AUTH_HOST + V2_OAUTH_AUTHORIZE, params={
-            'login_type': 'custom',
-            'response_type': 'code',
-            'redirect_uri': 'https://www.aliyundrive.com/sign/callback',
-            'client_id': CLIENT_ID,
-            'state': r'{"origin":"file://"}',
-            # 'state': '{"origin":"https://www.aliyundrive.com"}',
-        }, stream=True).close()
-
-        #
-        SESSIONID = self.session.cookies.get('SESSIONID')
-        # self.log.debug(f'SESSIONID {SESSIONID}')
-
-        #
         self.token: Optional[Token] = None
         if show is None:
             if os.name == 'nt':
@@ -223,6 +209,19 @@ class Auth:
 
     def _login_by_qrcode(self) -> requests.Response:
         """二维码登录"""
+        self.session.get(AUTH_HOST + V2_OAUTH_AUTHORIZE, params={
+            'login_type': 'custom',
+            'response_type': 'code',
+            'redirect_uri': 'https://www.aliyundrive.com/sign/callback',
+            'client_id': CLIENT_ID,
+            'state': r'{"origin":"file://"}',
+            # 'state': '{"origin":"https://www.aliyundrive.com"}',
+        }, stream=True).close()
+
+        #
+        session_id = self.session.cookies.get('SESSIONID')
+        self.log.debug(f'SESSIONID {session_id}')
+
         response = self.session.get(
             PASSPORT_HOST + NEWLOGIN_QRCODE_GENERATE_DO, params=UNI_PARAMS
         )
