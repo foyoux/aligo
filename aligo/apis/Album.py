@@ -48,10 +48,7 @@ class Album(Core):
             'album_id': album_id,
             'drive_file_list': [{'drive_id': f.drive_id, 'file_id': f.file_id} for f in files]
         })
-        return response.json()['file_list']
-
-    def add_file_to_album(self, album_id: str, file: BaseFile) -> BaseFile:
-        return self.add_files_to_album(album_id, [file])[0]
+        return self._result(response, BaseFile, field='file_list')
 
     def list_album_files(self, album_id: str, order_direction: OrderDirection = 'DESC') -> List[BaseFile]:
         """获取指定相册文件"""
