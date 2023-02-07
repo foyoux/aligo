@@ -1,3 +1,5 @@
+import json
+
 from aligo import Aligo
 
 
@@ -16,4 +18,14 @@ class CAligo(Aligo):
 if __name__ == '__main__':
     ali = CAligo()
     r = ali.sign_in_list()
-    print(r.status_code)
+    result = json.loads(r.text)['result']
+    signInCount = result['signInCount']
+    signInLog = ""
+    for i in result['signInLogs']:
+        if i['day'] == signInCount:
+            signInLog = i
+            break
+    if not signInLog == "":
+        print("今日签到奖励:" + signInLog['reward']['name'] + signInLog['reward']['description'] + "本月签到次数:" + str(signInCount))
+    else:
+        print("签到失败")
