@@ -26,6 +26,9 @@ if __name__ == '__main__':
             signInLog = i
             break
     if not signInLog == "":
-        print("今日签到奖励:" + signInLog['reward']['name'] + signInLog['reward']['description'] + "本月签到次数:" + str(signInCount))
+        if signInLog['reward'] is None:
+            print("本月签到次数:" + str(signInCount) + ",今日签到无奖励")
+        else:
+            print("本月签到次数:" + str(signInCount) + ",今日签到奖励:" + signInLog['reward']['name'] + signInLog['reward']['description'])
     else:
         print("签到失败")
