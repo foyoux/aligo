@@ -12,7 +12,9 @@
 [![python version](https://img.shields.io/pypi/pyversions/aligo)](https://pypi.org/project/aligo/)  [![Downloads](https://static.pepy.tech/personalized-badge/aligo?period=total&units=international_system&left_color=black&right_color=orange&left_text=Downloads)](https://pepy.tech/project/aligo)
 
 ```bash
-pip install --upgrade aligo
+pip install -U aligo
+
+pip install git+https://github.com/foyoux/aligo.git
 ```
 
 ## 快速入门
@@ -118,10 +120,6 @@ ali = Aligo(email=('xxx@qq.com', '防伪字符串，可任意字符串'))
 
 
 ## 声明
-
-此项目仅供学习交流，若有不妥之处，侵联必删。
-
-此项目仅供学习交流，若有不妥之处，侵联必删。
 
 此项目仅供学习交流，若有不妥之处，侵联必删。
 
