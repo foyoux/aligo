@@ -1,35 +1,46 @@
 # This workflow will upload a Python Package using Twine when a release is created
-# For more information see: https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions#publishing-to-package-registries
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#publishing-to-package-registries
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: upload python package
+name: Upload Python Package & Release
 
 on:
-  workflow_dispatch:
-  release:
-    types: [ published ]
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
 
 jobs:
   deploy:
+
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
-      - name: set up python
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.8'
-      - name: install depends
+          python-version: '3.10'
+          cache: 'pip'
+      - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install build wheel
-          python .github/workflows/update_version.py
-      - name: build package
-        run: python -m build --no-isolation
-      - name: publish package
+          python -m pip install -U pip
+          pip install -U build setuptools wheel
+      - name: Build package
+        run: |
+          python .github/workflows/update-version.py
+          python -m build -n
+      - name: Release assets
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/*
+      - name: pypi-publish
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__

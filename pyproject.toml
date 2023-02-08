@@ -1,7 +1,39 @@
 [build-system]
-requires = [
-    "setuptools>=42",
-    "wheel"
-]
+requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
+
+[project]
+name = "aligo"
+authors = [
+    { name = "foyoux" },
+]
+description = "aliyun drive sdk"
+keywords = ["aligo"]
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dynamic = ["version", "dependencies"]
+
+
+[project.urls]
+"Source" = "https://github.com/foyoux/aligo"
+"Homepage" = "https://github.com/foyoux/aligo"
+"Bug Tracker" = "https://github.com/foyoux/aligo/issues"
+
+
+[tool.setuptools.dynamic]
+version = { attr = "aligo.__version__" }
+dependencies = { file = "requirements.txt" }
+
+
+[tool.setuptools.packages.find]
+where = ["src"]
