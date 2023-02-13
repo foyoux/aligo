@@ -249,7 +249,6 @@ class Auth:
                 PASSPORT_HOST + NEWLOGIN_QRCODE_QUERY_DO,
                 data=data, params=UNI_PARAMS
             )
-            self._log_response(response)
             login_data = response.json()['content']['data']
             # noinspection PyPep8Naming
             qrCodeStatus = login_data['qrCodeStatus']
