@@ -540,13 +540,14 @@ class Share(Core):
             self,
             share_token: GetShareTokenResponse,
             to_parent_file_id: str = 'root',
+            parent_file_id: str = 'root',
             auto_rename: bool = True,
             to_drive_id: str = None,
             **kwargs,
     ) -> List[BatchShareFileSaveToDriveResponse]:
         """保存所有分享文件到云盘"""
         _deprecation_warning(kwargs)
-        file_list = self.get_share_file_list(share_token)
+        file_list = self.get_share_file_list(share_token, parent_file_id=parent_file_id)
         result = self.batch_share_file_saveto_drive(
             [file.file_id for file in file_list],
             share_token,
