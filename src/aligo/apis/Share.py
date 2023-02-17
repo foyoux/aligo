@@ -338,6 +338,19 @@ class Share(Core):
             body = GetShareFileRequest(share_id=share_token.share_id, file_id=file_id, **kwargs)
         return self._core_get_share_file(body, share_token)
 
+    def get_by_file(
+            self,
+            file_id: str = None,
+            share_token: GetShareTokenResponse = None,
+            body: GetShareFileRequest = None,
+            **kwargs
+    ) -> BaseShareFile:
+        """get_share_file"""
+        _deprecation_warning(kwargs)
+        if body is None:
+            body = GetShareFileRequest(share_id=share_token.share_id, file_id=file_id, **kwargs)
+        return self._core_get_by_share(body, share_token)
+
     @overload
     def get_share_link_download_url(
             self,

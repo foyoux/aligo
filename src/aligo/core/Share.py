@@ -117,6 +117,18 @@ class Share(BaseAligo):
         share_file = self._result(response, BaseShareFile)
         return share_file
 
+    def _core_get_by_share(
+            self,
+            body: GetShareFileRequest,
+            x_share_token: GetShareTokenResponse
+    ) -> BaseShareFile:
+        """..."""
+        response = self._auth.post(ADRIVE_V2_FILE_GET_BY_SHARE, body=asdict(body),
+                                   headers={'x-share-token': x_share_token},
+                                   ignore_auth=True)
+        share_file = self._result(response, BaseShareFile)
+        return share_file
+
     def _core_get_share_link_download_url(
             self,
             body: GetShareLinkDownloadUrlRequest,
