@@ -7,6 +7,7 @@ import os
 import sys
 import tempfile
 import time
+import uuid
 from dataclasses import asdict
 from http.server import HTTPServer
 from pathlib import Path
@@ -53,6 +54,10 @@ class Auth:
     _EMAIL_PASSWORD = 'IYMQTISDOZYUMUFX'
     _EMAIL_HOST = 'smtp.163.com'
     _EMAIL_PORT = 465
+
+    # x-headers
+    _X_PUBLIC_KEY = '04d9d2319e0480c840efeeb75751b86d0db0c5b9e72c6260a1d846958adceaf9dee789cab7472741d23aafc1a9c591f72e7ee77578656e6c8588098dea1488ac2a'
+    _X_SIGNATURE = 'f4b7bed5d8524a04051bd2da876dd79afe922b8205226d65855d02b267422adb1e0d8a816b021eaf5c36d101892180f79df655c5712b348c2a540ca136e6b22001'
 
     def debug_log(self, response: requests.Response):
         """打印错误日志, 便于分析调试"""
@@ -156,17 +161,19 @@ class Auth:
         self.session.headers.update(UNI_HEADERS)
 
         self.token: Optional[Token] = None
-        if show is None:
-            if os.name == 'nt':
-                self.log.info('Windows 操作系统')
-                show = self._show_qrcode_in_window
-            elif sys.platform.startswith('darwin'):
-                self.log.info('MacOS 操作系统')
-                show = self._show_qrcode_in_window
-            else:
-                self.log.info('类 Unix 操作系统')
-                show = self._show_console
+        if os.name == 'nt':
+            self._os_name = 'Windows 操作系统'
+            show = show or self._show_qrcode_in_window
+        elif sys.platform.startswith('darwin'):
+            self._os_name = 'MacOS 操作系统'
+            show = show or self._show_qrcode_in_window
+        else:
+            self._os_name = '类 Unix 操作系统'
+            show = show or self._show_console
+        self.log.info(self._os_name)
         self._show = show
+
+        self._x_device_id = None
 
         if refresh_token:
             self.log.debug('登录方式 refresh_token')
@@ -176,14 +183,39 @@ class Auth:
         if self._name.exists():
             self.log.info(f'加载配置文件 {self._name}')
             self.token = DataClass.fill_attrs(Token, json.load(self._name.open(encoding='utf8')))
+            self.session.headers.update({
+                'Authorization': self.token.access_token,
+            })
+            self._init_x_headers()
         else:
             self.log.info('登录方式 扫描二维码')
             self._login()
 
-        #
-        self.session.headers.update({
-            'Authorization': self.token.access_token
+    def _create_session(self):
+        self.post(USERS_V1_USERS_DEVICE_CREATE_SESSION, body={
+            'deviceName': f'aligo - {self._name_name}',
+            'modelName': self._os_name,
+            'pubKey': self._X_PUBLIC_KEY,
         })
+
+    def _renew_session(self):
+        self.post(USERS_V1_USERS_DEVICE_CREATE_SESSION, body={})
+
+    def _init_x_headers(self):
+        if self._x_device_id is None:
+            # 如果 self._x_device_id 为 None，尝试从 token 中获取（来自文件）
+            self._x_device_id = self.token.x_device_id
+        if self._x_device_id is None:
+            # 如果文件中未存储，则说明还没有，则生成
+            self._x_device_id = uuid.uuid4().hex
+        # 设置 x-headers
+        self.session.headers.update({
+            'x-device-id': self._x_device_id,
+            'x-signature': self._X_SIGNATURE
+        })
+        # 将 x-headers 放到 token 对象中，用以保存
+        self.token.x_device_id = self._x_device_id
+        self._save()
 
     def _save(self):
         """保存配置文件"""
@@ -288,7 +320,6 @@ class Auth:
             self.log.info('刷新 token 成功')
             # noinspection PyProtectedMember
             self.token = DataClass.fill_attrs(Token, response.json())
-            self._save()
         else:
             self.log.warning('刷新 token 失败')
             if loop_call:
@@ -300,10 +331,11 @@ class Auth:
                 if self._re_login:
                     self._login()
                 else:
-                    raise AligoRefreshFailed('使用 refresh_token 刷新 token 失败，re_login=False，不继续（等待）登录')
+                    raise AligoRefreshFailed('使用 refresh_token 刷新 token 失败，re_login=False，不继续登录')
         self.session.headers.update({
-            'Authorization': self.token.access_token
+            'Authorization': self.token.access_token,
         })
+        self._init_x_headers()
 
     _VERIFY_SSL = True
 
@@ -333,9 +365,7 @@ class Auth:
             self._log_response(response)
 
             if status_code == 401:
-                if 'ShareLinkToken' not in response.text:
-                    self._refresh_token()
-                else:
+                if b'"ShareLinkTokenInvalid"' in response.content:
                     # 刷新 share_token
                     share_id = body['share_id']
                     share_pwd = body['share_pwd']
@@ -348,6 +378,10 @@ class Auth:
                     )
                     share_token = r.json()['share_token']
                     headers['x-share-token'].share_token = share_token
+                elif b'"UserDeviceOffline"' in response.content:
+                    self._create_session()
+                else:
+                    self._refresh_token()
                 continue
 
             if status_code in [429, 502, 504]:
@@ -369,6 +403,17 @@ class Auth:
             if status_code == 500:
                 raise AligoStatus500(response.content)
 
+            if status_code == 400:
+                if b'"DeviceSessionSignatureInvalid"' in response.content:
+                    # 此处逻辑有待观察
+                    if i == 1:
+                        self._renew_session()
+                        continue
+                    elif i == 2:
+                        self._create_session()
+                        continue
+                elif b'"InvalidResource.FileTypeFolder"' in response.content:
+                    self.log.warning('文件夹没有下载地址，请不要对文件夹进行此操作')
             return response
 
         self.log.info(f'重试 5 次仍旧失败')
@@ -456,6 +501,5 @@ class Auth:
             f'{response.request.method} {response.url} {response.status_code} {len(response.content)}'
         )
 
-    def logout(self):
-        """退出"""
-        self._name.unlink()
+    def device_logout(self):
+        return self.post(USERS_V1_USERS_DEVICE_LOGOUT)

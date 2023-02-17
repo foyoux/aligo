@@ -18,6 +18,8 @@ V2_ACCOUNT_TOKEN = '/v2/account/token'
 TOKEN_REFRESH = '/token/refresh'
 TOKEN_GET = '/token/get'
 USERS_V1_USERS_DEVICE_RENEW_SESSION = '/users/v1/users/device/renew_session'
+USERS_V1_USERS_DEVICE_LOGOUT = '/users/v1/users/device_logout'
+USERS_V1_USERS_DEVICE_CREATE_SESSION = '/users/v1/users/device/create_session'
 
 # 基本信息
 V2_USER_GET = '/v2/user/get'
