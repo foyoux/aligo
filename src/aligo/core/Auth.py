@@ -19,7 +19,7 @@ import qrcode_terminal
 import requests
 
 from aligo.core.Config import *
-from aligo.error import AligoStatus500, AligoRefreshFailed, AligoFatalError
+from aligo.error import AligoStatus500, AligoRefreshFailed, AligoFatalError, AligoException
 from aligo.types import *
 from aligo.types.Enum import *
 from .EMail import send_email
@@ -412,8 +412,11 @@ class Auth:
                     elif i == 2:
                         self._create_session()
                         continue
+                    else:
+                        raise AligoException('renew_session & create_session 都没有成功，我也不知道该怎么办')
                 elif b'"InvalidResource.FileTypeFolder"' in response.content:
-                    self.log.warning('文件夹没有下载地址，请不要对文件夹进行此操作')
+                    self.log.warning(
+                        '请区分 文件 和 文件夹，有些操作是它们独有的，比如获取下载链接，很显然 文件夹 是没有的！')
             return response
 
         self.log.info(f'重试 5 次仍旧失败')
