@@ -89,6 +89,23 @@ class Share(BaseAligo):
             body.marker = file_list.next_marker
             yield from self._core_get_share_file_list(body=body, x_share_token=x_share_token)
 
+    def _core_list_by_share(
+            self,
+            body: GetShareFileListRequest,
+            x_share_token: GetShareTokenResponse
+    ) -> Iterator[BaseShareFile]:
+        """..."""
+        response = self._auth.post(ADRIVE_V2_FILE_LIST_BY_SHARE, body=asdict(body),
+                                   headers={'x-share-token': x_share_token}, ignore_auth=True)
+        file_list = self._result(response, GetShareFileListResponse)
+        if isinstance(file_list, Null):
+            yield file_list
+            return
+        yield from file_list.items
+        if file_list.next_marker != '':
+            body.marker = file_list.next_marker
+            yield from self._core_get_share_file_list(body=body, x_share_token=x_share_token)
+
     def _core_get_share_file(
             self,
             body: GetShareFileRequest,

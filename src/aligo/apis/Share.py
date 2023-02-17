@@ -267,6 +267,20 @@ class Share(Core):
         result = self._core_get_share_file_list(body, share_token)
         return list(result)
 
+    def list_by_share(
+            self,
+            share_token: GetShareTokenResponse = None,
+            parent_file_id: str = 'root',
+            body: GetShareFileListRequest = None,
+            **kwargs
+    ) -> List[BaseShareFile]:
+        """get_share_file_list"""
+        _deprecation_warning(kwargs)
+        if body is None:
+            body = GetShareFileListRequest(share_id=share_token.share_id, parent_file_id=parent_file_id, **kwargs)
+        result = self._core_list_by_share(body, share_token)
+        return list(result)
+
     @overload
     def get_share_file(
             self,
