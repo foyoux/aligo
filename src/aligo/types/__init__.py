@@ -15,6 +15,7 @@ from .CroppingSuggestionItem import CroppingSuggestionItem
 from .DataClass import DataClass
 from .DriveCapacityDetail import DriveCapacityDetail
 from .FaceThumbnail import FaceThumbnail
+from .FolderSizeInfo import FolderSizeInfo
 from .ImageMedia import ImageMedia
 from .ImageQuality import ImageQuality
 from .ImageTag import ImageTag

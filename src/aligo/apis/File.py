@@ -3,6 +3,7 @@ import os
 from typing import List, overload, Union, Callable
 
 from aligo.core import *
+from aligo.core.Config import *
 from aligo.request import *
 from aligo.response import *
 from aligo.types import *
@@ -221,3 +222,8 @@ class File(Core):
                 callback(_path, f)
                 continue
             self.walk_files(callback, parent_file_id=f.file_id, drive_id=drive_id, _path=os.path.join(_path, f.name))
+
+    def get_folder_size_info(self, file_id: str, drive_id: str = None) -> FolderSizeInfo:
+        """获取文件夹信息，文件夹个数，以及文件个数及其大小，不递归"""
+        response = self._post(ADRIVE_V1_FILE_GET_FOLDER_SIZE_INFO, body={'file_id': file_id, 'drive_id': drive_id})
+        return self._result(response, FolderSizeInfo)

@@ -50,6 +50,7 @@ V2_FILE_GET_UPLOAD_URL = '/v2/file/get_upload_url'
 ADRIVE_V1_FILE_DUPLICATE_LIST = '/adrive/v1/file/duplicateList'
 ADRIVE_V1_FILE_LISTTOCLEAN = '/adrive/v1/file/listToClean'
 V2_FILE_GET_OFFICE_PREVIEW_URL = '/v2/file/get_office_preview_url'
+ADRIVE_V1_FILE_GET_FOLDER_SIZE_INFO = '/adrive/v1/file/get_folder_size_info'
 
 # 相册
 ADRIVE_V1_USER_ALBUMS_INFO = '/adrive/v1/user/albums_info'
