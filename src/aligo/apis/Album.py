@@ -1,5 +1,5 @@
 """..."""
-from typing import List
+from typing import List, Union
 
 from aligo.core import *
 from aligo.core.Config import *
@@ -43,8 +43,8 @@ class Album(Core):
         response = self._post(ADRIVE_V1_ALBUM_GET, body={'album_id': album_id})
         return self._result(response, BaseAlbum)
 
-    def add_files_to_album(self, album_id: str, files: List[BaseFile]) -> List[BaseFile]:
-        response = self._post('/adrive/v1/album/add_files', body={
+    def add_files_to_album(self, album_id: str, files: List[Union[BaseFile, str]]) -> List[BaseFile]:
+        response = self._post(ADRIVE_V1_ALBUM_ADD_FILES, body={
             'album_id': album_id,
             'drive_file_list': [{'drive_id': f.drive_id, 'file_id': f.file_id} for f in files]
         })
