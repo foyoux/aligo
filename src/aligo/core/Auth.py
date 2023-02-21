@@ -19,7 +19,7 @@ import qrcode_terminal
 import requests
 
 from aligo.core.Config import *
-from aligo.error import AligoStatus500, AligoRefreshFailed, AligoFatalError, AligoException
+from aligo.error import AligoStatus500, AligoRefreshFailed, AligoFatalError
 from aligo.types import *
 from aligo.types.Enum import *
 from .EMail import send_email
@@ -199,7 +199,7 @@ class Auth:
         })
 
     def _renew_session(self):
-        self.post(USERS_V1_USERS_DEVICE_CREATE_SESSION, body={})
+        self.post(USERS_V1_USERS_DEVICE_RENEW_SESSION, body={})
 
     def _init_x_headers(self):
         if self._x_device_id is None:
@@ -405,21 +405,13 @@ class Auth:
 
             if status_code == 400:
                 if b'"DeviceSessionSignatureInvalid"' in response.content:
-                    # 此处逻辑有待观察
-                    if i == 1:
-                        self._renew_session()
-                        continue
-                    elif i == 2:
-                        self._create_session()
-                        continue
-                    else:
-                        raise AligoException('renew_session & create_session 都没有成功，我也不知道该怎么办')
+                    self._renew_session()
                 elif b'"InvalidResource.FileTypeFolder"' in response.content:
                     self.log.warning(
                         '请区分 文件 和 文件夹，有些操作是它们独有的，比如获取下载链接，很显然 文件夹 是没有的！')
             return response
 
-        self.log.info(f'重试 5 次仍旧失败')
+        self.log.info(f'重试 5 次仍失败，抛出异常')
         self.error_log_exit(response)
 
     def get(self, path: str, host: str = API_HOST, params: dict = None, headers: dict = None) -> requests.Response:
