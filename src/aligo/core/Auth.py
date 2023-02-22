@@ -405,7 +405,8 @@ class Auth:
 
             if status_code == 400:
                 if b'"DeviceSessionSignatureInvalid"' in response.content:
-                    self._renew_session()
+                    self._create_session()
+                    continue
                 elif b'"InvalidResource.FileTypeFolder"' in response.content:
                     self.log.warning(
                         '请区分 文件 和 文件夹，有些操作是它们独有的，比如获取下载链接，很显然 文件夹 是没有的！')
