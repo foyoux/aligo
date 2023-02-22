@@ -7,7 +7,11 @@ from dataclasses import dataclass, is_dataclass
 from typing import TypeVar, Generic, Optional, List, Dict, Type
 
 import coloredlogs
-from typing_extensions import get_type_hints, get_origin, get_args
+
+try:
+    from typing import get_type_hints, get_origin, get_args
+except ImportError:
+    from typing_extensions import get_type_hints, get_origin, get_args
 
 DataType = TypeVar('DataType')
 

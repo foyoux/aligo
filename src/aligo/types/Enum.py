@@ -1,7 +1,10 @@
 """字面量值"""
 from typing import Optional
 
-from typing_extensions import Literal
+try:
+    from typing import Literal
+except ImportError:
+    from typing_extensions import Literal
 
 MediaTranscodeStatus = Optional[
     # 媒体转码状态
