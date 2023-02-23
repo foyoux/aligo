@@ -175,21 +175,21 @@ class Auth:
 
         self._x_device_id = None
 
-        if refresh_token:
-            self.log.debug('登录方式 refresh_token')
-            self._refresh_token(refresh_token)
-            return
-
         if self._name.exists():
             self.log.info(f'加载配置文件 {self._name}')
             self.token = DataClass.fill_attrs(Token, json.load(self._name.open(encoding='utf8')))
             self.session.headers.update({
                 'Authorization': self.token.access_token,
             })
-            self._init_x_headers()
-        else:
+        elif refresh_token is None:
             self.log.info('登录方式 扫描二维码')
             self._login()
+
+        if refresh_token:
+            self.log.debug('登录方式 refresh_token')
+            self._refresh_token(refresh_token)
+
+        self._init_x_headers()
 
     def _create_session(self):
         self.post(USERS_V1_USERS_DEVICE_CREATE_SESSION, body={
@@ -335,7 +335,6 @@ class Auth:
         self.session.headers.update({
             'Authorization': self.token.access_token,
         })
-        self._init_x_headers()
 
     _VERIFY_SSL = True
 
