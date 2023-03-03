@@ -1,6 +1,6 @@
 """Create class"""
 import os
-from typing import List
+from typing import List, Callable
 
 from aligo.core import *
 from aligo.request import *
@@ -63,8 +63,8 @@ class Create(Core):
         return file_list
 
     def upload_folder(self, folder_path: str, parent_file_id: str = 'root', drive_id: str = None,
-                      check_name_mode: CheckNameMode = "auto_rename",
-                      folder_check_name_mode: CheckNameMode = 'refuse') -> List:
+                      check_name_mode: CheckNameMode = "auto_rename", folder_check_name_mode: CheckNameMode = 'refuse',
+                      file_filter: Callable[[os.DirEntry], bool] = lambda x: False) -> List:
         """
         上传文件夹
         :param folder_path: [str] 文件夹路径
@@ -72,13 +72,14 @@ class Create(Core):
         :param drive_id: [str] 指定网盘id, 默认为 None, 如果为 None, 则使用默认网盘
         :param check_name_mode: [CheckNameMode] 检查文件名模式, 默认为 'auto_rename'
         :param folder_check_name_mode: [CheckNameMode] 检查文件夹名模式, 默认为 'refuse'
+        :param file_filter: 文件过滤函数
         :return: [List]
 
         用法示例:
         >>> from aligo import Aligo
         >>> ali = Aligo()
         >>> # noinspection PyShadowingNames
-        >>> resut = ali.upload_folder('/Users/aligo/Desktop/test')
+        >>> result = ali.upload_folder('/Users/aligo/Desktop/test')
         >>> print(result)
         """
         result = []
@@ -97,6 +98,8 @@ class Create(Core):
         # 3. 开始扫描目标文件夹
         file: os.DirEntry
         for file in os.scandir(folder_path):
+            if file_filter(file):
+                continue
             if file.is_file():
                 # 4. 如果是文件, 就上传, 并继续
                 x = self.upload_file(file.path, parent_file_id=folder.file_id, name=file.name, drive_id=drive_id,
