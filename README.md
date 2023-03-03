@@ -97,7 +97,7 @@ ali = Aligo(email=('xxx@qq.com', '防伪字符串，可任意字符串'))
 
 ### 自配邮箱
 
-自带邮箱系统被封 #90
+自带邮箱系统被封 https://github.com/foyoux/aligo/issues/90
 
 ```py
 from aligo import Auth
