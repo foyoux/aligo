@@ -127,9 +127,9 @@ class Download(BaseAligo):
         for file in files:
             file_path = os.path.join(local_folder, file.name)
             try:
-                file_path = self._core_download_file(file_path, file.download_url)
+                file_path = self._core_download_file(file_path, file.download_url or file.url)
             except ValueError:
                 file = self._core_get_file(GetFileRequest(file_id=file.file_id, drive_id=file.drive_id))
-                file_path = self._core_download_file(file_path, file.download_url)
+                file_path = self._core_download_file(file_path, file.download_url or file.url)
             rt.append(file_path)
         return rt

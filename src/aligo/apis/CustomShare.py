@@ -23,7 +23,7 @@ class CustomShare(Core):
                 'name': file.name,
                 'content_hash': file.content_hash,
                 'size': file.size,
-                'url': file.download_url
+                'url': file.download_url or file.url
             })
         return result
 

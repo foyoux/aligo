@@ -70,8 +70,8 @@ class SyncFolder(Core):
             self._auth.log.info('sync_folder: 云端为主')
 
         if not os.path.exists(local_folder):
-            self._auth.log.warning('本地文件夹不存在: %s', local_folder)
-            return
+            self._auth.log.warning('本地文件夹不存在，创建: %s', local_folder)
+            os.makedirs(local_folder)
         self.__sync_folder(local_folder, remote_folder, flag, file_filter, ignore_content, follow_delete, drive_id)
 
     def __sync_folder(

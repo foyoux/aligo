@@ -3,6 +3,7 @@ import os
 from typing import List, overload, Callable
 
 from aligo.core import *
+from aligo.error import AligoException
 from aligo.request import *
 from aligo.response import *
 from aligo.types import *
@@ -159,7 +160,9 @@ class Download(Core):
             file = self._core_get_file(GetFileRequest(file_id=file_id, drive_id=drive_id))
 
         if file:
+            if file.type == 'folder':
+                raise AligoException('文件类型不对：期待文件，得到的是文件夹')
             file_path = os.path.join(local_folder, file.name)
-            url = file.download_url
+            url = file.download_url or file.url
 
         return self._core_download_file(file_path, url)

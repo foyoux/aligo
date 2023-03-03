@@ -8,4 +8,4 @@ if __name__ == '__main__':
     share_token = ali.get_share_token('<share_id>')
     file_list = ali.get_share_file_list(share_token)
     tmp = ali.get_share_link_download_url('<分享中某个文件的 file_id>', share_token)
-    ali.download_file(file_path='xxx', url=tmp.download_url)
+    ali.download_file(file_path='xxx', url=tmp.download_url or file.url)
