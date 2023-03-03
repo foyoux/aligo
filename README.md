@@ -95,6 +95,19 @@ email: 发送扫码登录邮件 ("接收邮件的邮箱地址", "防伪字符串
 ali = Aligo(email=('xxx@qq.com', '防伪字符串，可任意字符串'))
 ```
 
+### 自配邮箱
+
+自带邮箱系统被封 #90
+
+```py
+from aligo import Auth
+
+Auth._EMAIL_HOST = ''
+Auth._EMAIL_PORT = ''
+Auth._EMAIL_USER = ''
+Auth._EMAIL_PASSWORD = ''
+```
+
 ## 如何彻底删除文件？
 > 无需先移动文件到回收站
 
