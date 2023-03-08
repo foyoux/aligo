@@ -1,5 +1,6 @@
 """发送邮件模块"""
 import smtplib
+import ssl
 import time
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
@@ -25,7 +26,10 @@ def send_email(
 
     msg_root.attach(msg_image)
 
-    smtp = smtplib.SMTP_SSL(email_host, email_port)
+    try:
+        smtp = smtplib.SMTP_SSL(email_host, email_port)
+    except ssl.SSLError:
+        smtp = smtplib.SMTP(email_host, email_port)
     smtp.login(email_user, email_password)
     for i in range(1, 4):
         try:
