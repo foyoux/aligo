@@ -92,10 +92,10 @@ class Download(BaseAligo):
                 'Range': f'bytes={tmp_size}-',
                 'Referer': 'https://www.aliyundrive.com/',
             }, stream=True) as resp:
-                llen = int(resp.headers.get('content-length', 0))
+                total_size = int(resp.headers.get('content-length', 0))
                 if resp.headers.get('Accept-Ranges', None) != 'bytes':
                     raise ValueError(f'无效下载链接或链接已过期 {resp.url}')
-                progress_bar = tqdm(total=llen + tmp_size, unit='B', unit_scale=True, colour='#31a8ff')
+                progress_bar = tqdm(total=total_size + tmp_size, unit='B', unit_scale=True, colour='#31a8ff')
                 progress_bar.update(tmp_size)
                 with open(tmp_file, 'ab') as f:
                     for content in resp.iter_content(chunk_size=Download._DOWNLOAD_CHUNK_SIZE):
