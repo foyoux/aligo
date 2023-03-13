@@ -46,6 +46,7 @@ def logout(name):
 class Auth:
     """..."""
 
+    _VERIFY_SSL = True
     _SLEEP_TIME_SEC = None
 
     # 发送邮件配置
@@ -56,8 +57,10 @@ class Auth:
     _EMAIL_PORT = 465
 
     # x-headers
-    _X_PUBLIC_KEY = '04d9d2319e0480c840efeeb75751b86d0db0c5b9e72c6260a1d846958adceaf9dee789cab7472741d23aafc1a9c591f72e7ee77578656e6c8588098dea1488ac2a'
-    _X_SIGNATURE = 'f4b7bed5d8524a04051bd2da876dd79afe922b8205226d65855d02b267422adb1e0d8a816b021eaf5c36d101892180f79df655c5712b348c2a540ca136e6b22001'
+    _X_PUBLIC_KEY = ('04d9d2319e0480c840efeeb75751b86d0db0c5b9e72c6260a1d846958adceaf9d'
+                     'ee789cab7472741d23aafc1a9c591f72e7ee77578656e6c8588098dea1488ac2a')
+    _X_SIGNATURE = ('f4b7bed5d8524a04051bd2da876dd79afe922b8205226d65855d02b267422adb1'
+                    'e0d8a816b021eaf5c36d101892180f79df655c5712b348c2a540ca136e6b22001')
 
     def debug_log(self, response: requests.Response):
         """打印错误日志, 便于分析调试"""
@@ -181,6 +184,7 @@ class Auth:
             self.session.headers.update({
                 'Authorization': self.token.access_token,
             })
+            self._init_x_headers()
         elif refresh_token is None:
             self.log.info('登录方式 扫描二维码')
             self._login()
@@ -188,8 +192,6 @@ class Auth:
         if refresh_token:
             self.log.debug('登录方式 refresh_token')
             self._refresh_token(refresh_token)
-
-        self._init_x_headers()
 
     def _create_session(self):
         self.post(USERS_V1_USERS_DEVICE_CREATE_SESSION, body={
@@ -214,8 +216,10 @@ class Auth:
             'x-signature': self._X_SIGNATURE
         })
         # 将 x-headers 放到 token 对象中，用以保存
-        self.token.x_device_id = self._x_device_id
-        self._save()
+        if not self.token.x_device_id:
+            self.log.info('初始化 x_device_id')
+            self.token.x_device_id = self._x_device_id
+            self._save()
 
     def _save(self):
         """保存配置文件"""
@@ -318,8 +322,15 @@ class Auth:
         self._log_response(response)
         if response.status_code == 200:
             self.log.info('刷新 token 成功')
-            # noinspection PyProtectedMember
             self.token = DataClass.fill_attrs(Token, response.json())
+            self.session.headers.update({
+                'Authorization': self.token.access_token,
+            })
+            if not self._x_device_id:
+                self._init_x_headers()
+            else:
+                self.token.x_device_id = self._x_device_id
+                self._save()
         else:
             self.log.warning('刷新 token 失败')
             if loop_call:
@@ -332,11 +343,6 @@ class Auth:
                     self._login()
                 else:
                     raise AligoRefreshFailed('使用 refresh_token 刷新 token 失败，re_login=False，不继续登录')
-        self.session.headers.update({
-            'Authorization': self.token.access_token,
-        })
-
-    _VERIFY_SSL = True
 
     def request(self, method: str, url: str, params: Dict = None,
                 headers: Dict = None, data=None, body: Dict = None) -> requests.Response:
