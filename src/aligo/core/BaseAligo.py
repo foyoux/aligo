@@ -132,7 +132,7 @@ class BaseAligo:
 
     def _result(self, response: requests.Response,
                 cls: Generic[DataType],
-                status_code: Union[List, int] = 200, field=None) -> Union[Null, DataType]:
+                status_code: Union[List, int] = 200, field: str = None) -> Union[Null, DataType]:
         """统一处理响应
 
         :param response:
@@ -149,7 +149,9 @@ class BaseAligo:
             try:
                 # noinspection PyProtectedMember
                 d = json.loads(text)
-                d = d[field] if field else d
+                if field:
+                    for i in field.split('.'):
+                        d = d[i]
                 if isinstance(d, list):
                     return [DataClass.fill_attrs(cls, i) for i in d]
                 return DataClass.fill_attrs(cls, d)

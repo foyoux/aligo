@@ -20,6 +20,7 @@ from .ImageMedia import ImageMedia
 from .ImageQuality import ImageQuality
 from .ImageTag import ImageTag
 from .ListAlbumItem import ListAlbumItem
+from .LoginDevice import LoginDevice
 from .LoginTimout import LoginTimeout
 from .MediaTransCodeTemplate import MediaTransCodeTemplate
 from .Null import Null

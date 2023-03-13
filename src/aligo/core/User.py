@@ -1,5 +1,7 @@
 """..."""
 
+from typing import List
+
 from aligo.core import *
 from aligo.core.Config import *
 from aligo.response import RewardSpaceResponse, UsersVipInfoResponse
@@ -47,3 +49,7 @@ class User(BaseAligo):
         """获取用户vip信息"""
         response = self._post(BUSINESS_V1_USERS_VIP_INFO, body={})
         return self._result(response, UsersVipInfoResponse)
+
+    def list_login_device(self) -> List[LoginDevice]:
+        response = self._post(USERS_V2_USERS_DEVICE_LIST)
+        return self._result(response, LoginDevice, field='result.devices')

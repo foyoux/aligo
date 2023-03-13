@@ -20,6 +20,7 @@ TOKEN_GET = '/token/get'
 USERS_V1_USERS_DEVICE_RENEW_SESSION = '/users/v1/users/device/renew_session'
 USERS_V1_USERS_DEVICE_LOGOUT = '/users/v1/users/device_logout'
 USERS_V1_USERS_DEVICE_CREATE_SESSION = '/users/v1/users/device/create_session'
+USERS_V2_USERS_DEVICE_LIST = '/users/v2/users/device_list'
 
 # 基本信息
 V2_USER_GET = '/v2/user/get'
