@@ -11,9 +11,8 @@
 
 [![python version](https://img.shields.io/pypi/pyversions/aligo)](https://pypi.org/project/aligo/)  [![Downloads](https://static.pepy.tech/personalized-badge/aligo?period=total&units=international_system&left_color=black&right_color=orange&left_text=Downloads)](https://pepy.tech/project/aligo)
 
-```bash
+```sh
 pip install -U aligo
-
 pip install git+https://github.com/foyoux/aligo.git
 ```
 
@@ -55,8 +54,10 @@ https://user-images.githubusercontent.com/35125624/150529002-c2f1b80b-fb11-4e0a-
 - [x] 文件（夹）自定义分享（无限制）
 - [x] 获取帐户、云盘（容量）等基本信息
 - [x] 相册 创建 删除 修改 添加文件 获取文件
-- [x] 。。。。。。
-- [x] ⭐⭐⭐ 欢迎大家发起 [新功能请求](https://github.com/foyoux/aligo/issues/new?assignees=&labels=&template=feature_request.md&title=)
+
+更多接口功能，请安装最新版尝试
+
+欢迎大家发起 [新功能请求](https://github.com/foyoux/aligo/issues/new?assignees=&labels=&template=feature_request.md&title=)
 
 > **温馨提示：**
 >   1. 由于秒传链接的失效，自定分享信息的有效期只有4个小时。
@@ -67,7 +68,6 @@ https://user-images.githubusercontent.com/35125624/150529002-c2f1b80b-fb11-4e0a-
 ## 网页扫码登录
 
 ```python
-
 from aligo import Aligo
 
 # 提供 port 参数即可, 之后打开浏览器访问 http://<YOUR_IP>:<port>
@@ -76,12 +76,12 @@ ali = Aligo(port=8080)
 
 
 ## 发送登录二维码到邮箱（推荐）
+
 **最佳实践**：建议将邮箱绑定到微信，这样能实时收到提醒，登录过期后也可以第一时间收到登录请求。
 
 **安全性问题**：虽然自带公开邮箱（任何人都可以通过此邮箱向你发邮件），但是他人并不能通过这个获取任何人发送的邮件，所以 防伪字符串 策略是安全的。
 
 ```python
-
 from aligo import Aligo
 
 
@@ -129,7 +129,13 @@ Auth._EMAIL_PASSWORD = ''
 
 ## 不慎泄露 refresh_token ?
 
-必须马上修改密码！必须马上修改密码！必须马上修改密码！
+虽然官方提供下线功能，但还是要 马上修改密码
+
+今天无意中发现，之前使用 aligo 登录的会在登录设备列表中，但今天发现再使用 aligo 登录，已经不会出现在登录设备列表中，我也不知道为什么
+
+今天把除我手机之外的所有设备下线后，包括 Chrome 和 aligo 登录的，但并没有失效，所有的 token 和 refresh_token 还是可以使用
+
+所以还是得 -> 必须马上修改密码！必须马上修改密码！必须马上修改密码！
 
 
 ## 声明
