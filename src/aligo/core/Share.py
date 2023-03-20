@@ -104,7 +104,7 @@ class Share(BaseAligo):
         yield from file_list.items
         if file_list.next_marker != '':
             body.marker = file_list.next_marker
-            yield from self._core_get_share_file_list(body=body, x_share_token=x_share_token)
+            yield from self._core_list_by_share(body=body, x_share_token=x_share_token)
 
     def _core_get_share_file(
             self,
