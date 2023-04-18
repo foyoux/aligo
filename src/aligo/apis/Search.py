@@ -48,13 +48,17 @@ class Search(Core):
         >>> print(files)
         """
 
-    def search_files(self, name: str = None, category: SearchCategory = None, drive_id: str = None,
-                     body: SearchFileRequest = None, **kwargs) -> List[BaseFile]:
+    def search_files(self, name: str = None, category: SearchCategory = None, parent_file_id: str = 'root',
+                     drive_id: str = None, body: SearchFileRequest = None, **kwargs) -> List[BaseFile]:
         """search files"""
         if body is None:
             query = None
+            if parent_file_id != 'root':
+                query = f'parent_file_id = "{parent_file_id}"'
             if name:
-                query = f'name match "{name}"'
+                if query:
+                    query += ' and '
+                query += f'name match "{name}"'
             if category is not None:
                 if query:
                     query += ' and '
