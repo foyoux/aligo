@@ -331,6 +331,13 @@ class Auth:
             else:
                 self.token.x_device_id = self._x_device_id
                 self._save()
+        elif response.status_code == 502:
+            if loop_call:
+                self.log.warning('刷新 token 失败')
+                self.error_log_exit(response)
+            self.log.warning('刷新 token 时出现 502 网关错误，暂停10秒后重试')
+            time.sleep(10)
+            return self._refresh_token(refresh_token=refresh_token, loop_call=True)
         else:
             self.log.warning('刷新 token 失败')
             if loop_call:
