@@ -383,10 +383,7 @@ class Auth:
                     share_pwd = body['share_pwd']
                     r = self.post(
                         V2_SHARE_LINK_GET_SHARE_TOKEN,
-                        body={
-                            'share_id': share_id,
-                            'share_pwd': share_pwd
-                        }
+                        body={'share_id': share_id, 'share_pwd': share_pwd}
                     )
                     share_token = r.json()['share_token']
                     headers['x-share-token'].share_token = share_token
