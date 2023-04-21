@@ -9,7 +9,7 @@ from .core.Auth import logout
 __title__ = 'aligo'
 __description__ = 'apis lib for aliyundrive.'
 __url__ = 'https://github.com/foyoux/aligo'
-__version__ = '2.0.0'
+__version__ = '0.0.1'
 __author__ = 'foyou'
 __author_email__ = 'yimi.0822@qq.com'
 __license__ = 'Apache 2.0'

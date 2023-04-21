@@ -18,6 +18,7 @@ import qrcode
 import qrcode_terminal
 import requests
 
+import aligo
 from aligo.core.Config import *
 from aligo.error import AligoStatus500, AligoRefreshFailed, AligoFatalError
 from aligo.types import *
@@ -156,6 +157,7 @@ class Auth:
 
         self.log.info(f'Config {self._name}')
         self.log.info(f'日志等级 {logging.getLevelName(level)}')
+        self.log.info(f'aligo 版本 {aligo.__version__}')
 
         #
         self.session = requests.session()
