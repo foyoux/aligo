@@ -10,7 +10,12 @@ from aligo import Aligo
 # 方法2
 class CAligo(Aligo):
     def sign_in_list(self):
-        return self._post('/v1/activity/sign_in_list', host='https://member.aliyundrive.com', body={})
+        return self._post(
+            '/v1/activity/sign_in_list',
+            host='https://member.aliyundrive.com',
+            body={},
+            params={'_rx-s': 'mobile'}
+        )
 
 
 if __name__ == '__main__':
