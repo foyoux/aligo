@@ -1,15 +1,24 @@
 from aligo import Aligo
 
 
-# 方法1
-# if __name__ == '__main__':
-#     ali = Aligo()
-#     r = ali._post('/v1/activity/sign_in_list', host='https://member.aliyundrive.com', body={})
-#     print(r.status_code)
-
-# 方法2
 class CAligo(Aligo):
     def sign_in_list(self):
+        return self._post(
+            '/v1/activity/sign_in_list',
+            host='https://member.aliyundrive.com',
+            body={'isReward': False},
+            params={'_rx-s': 'mobile'}
+        )
+
+    def sign_in_reward(self):
+        return self._post(
+            '/v1/activity/sign_in_reward',
+            host='https://member.aliyundrive.com',
+            body={'signInDay': 1},
+            params={'_rx-s': 'mobile'}
+        )
+
+    def sign_in_festival(self):
         return self._post(
             '/v1/activity/sign_in_list',
             host='https://member.aliyundrive.com',
@@ -20,15 +29,15 @@ class CAligo(Aligo):
 
 if __name__ == '__main__':
     ali = CAligo()
-    r = ali.sign_in_list()
-    result = r.json()['result']
+    # noinspection PyProtectedMember
+    log = ali._auth.log
+
+    # 签到
+    resp = ali.sign_in_reward()
+    log.info(resp.json()['result']['notice'])
+
+    # 获取签到列表
+    resp = ali.sign_in_list()
+    result = resp.json()['result']
     signInCount = result['signInCount']
-    signInLog = next(filter(lambda i: i['day'] == signInCount, result['signInLogs']), None)
-    if signInLog:
-        if signInLog['reward'] is None:
-            print("本月签到次数:" + str(signInCount) + ",今日签到无奖励")
-        else:
-            print("本月签到次数:" + str(signInCount) + ",今日签到奖励:" + signInLog['reward']['name'] +
-                  signInLog['reward']['description'])
-    else:
-        print("签到失败")
+    log.info("本月签到次数: %d", signInCount)
