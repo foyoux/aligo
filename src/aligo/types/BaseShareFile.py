@@ -45,3 +45,4 @@ class BaseShareFile(DataClass):
     starred: bool = False
     content_hash: str = None
     trashed_at: str = None
+    from_share_id : str = None
