@@ -139,7 +139,7 @@ class Auth:
         self._port = port
         self._webServer: HTTPServer = None  # type: ignore
         self._email = email
-        self.log = logging.getLogger(f'{__name__}:{name}')
+        self.log = logging.getLogger('aligo')
         self._request_failed_delay = request_failed_delay
         self._requests_timeout = requests_timeout
         self._login_timeout = LoginTimeout(login_timeout)
