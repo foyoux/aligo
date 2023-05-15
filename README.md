@@ -80,24 +80,18 @@ ali = Aligo(port=8080)
 **最佳实践**：建议将邮箱绑定到微信，这样能实时收到提醒，登录过期后也可以第一时间收到登录请求。
 
 ```python
-from aligo import Aligo
-from aligo import Auth
+from aligo import Aligo, EMailConfig
 
-# 设置发送登陆二维码邮箱
-Auth._EMAIL_HOST = ''
-Auth._EMAIL_PORT = ''
-Auth._EMAIL_USER = ''
-Auth._EMAIL_PASSWORD = ''
-
-
-"""
-email: 发送扫码登录邮件 ("接收邮件的邮箱地址", "防伪字符串"). 提供此值时，将不再弹出或打印二维码
-        关于防伪字符串: 为了方便大家使用, aligo 自带公开邮箱, 省去邮箱配置的麻烦.
-        所以收到登录邮件后, 一定要对比确认防伪字符串和你设置一致才可扫码登录, 否则将导致: 包括但不限于云盘文件泄露.
-"""
-
-# 提供 email 参数即可
-ali = Aligo(email=('xxx@qq.com', '防伪字符串，可任意字符串'))
+if __name__ == '__main__':
+    email_config = EMailConfig(
+        email='<接收登录邮件的邮箱地址>',
+        # 自配邮箱
+        user='',
+        password='',
+        host='',
+        port=0,
+    )
+    ali = Aligo(email=email_config)
 ```
 
 ## 文件夹同步

@@ -1,9 +1,12 @@
-from aligo import Aligo, Auth
+from aligo import Aligo, EMailConfig
 
 if __name__ == '__main__':
-    # 自己修改
-    Auth._EMAIL_USER = 'xxxx@163.com'
-    Auth._EMAIL_PASSWORD = '<授权码>'
-    Auth._EMAIL_HOST = 'smtp.163.com'
-    Auth._EMAIL_PORT = 465
-    ali = Aligo()
+    email_config = EMailConfig(
+        email='<接收登录邮件的邮箱地址>',
+        # 自配邮箱
+        user='',
+        password='',
+        host='',
+        port=0,
+    )
+    ali = Aligo(email=email_config)
