@@ -64,8 +64,8 @@ https://user-images.githubusercontent.com/35125624/150529002-c2f1b80b-fb11-4e0a-
 >   2. 阿里云盘不同于其他网盘或系统，其定位文件不是基于文件名（路径），而是通过 `file_id`，这才是唯一定位文件的方式，**aligo** 中提供了简便函数 `get_file_by_path`/`get_folder_by_path`，通过网盘路径获取文件对象，通过 其上的 `file_id` 属性即可获取所需文件标识。但不建议频繁使用此方法，因为内部是通过 `get_file_list` 遍历得到的。
 >   3. 在保存超大分享时（分享中的文件特别多），执行保存全部的方法 - `share_file_save_all_to_drive`，它会立刻执行完毕，但是文件不会立刻被保存到网盘中，阿里云盘服务器会帮你在后台陆续将所有文件存到你的网盘中；所有当你使用 `share_file_save_all_to_drive` 保存超大分享时，却只看到一部分文件时，不用疑惑，这是正常情况。
 
-
-## 网页扫码登录
+## 登陆
+### 网页扫码登录
 
 ```python
 from aligo import Aligo
@@ -75,14 +75,19 @@ ali = Aligo(port=8080)
 ```
 
 
-## 发送登录二维码到邮箱（推荐）
+### 发送登录二维码到邮箱（推荐）
 
 **最佳实践**：建议将邮箱绑定到微信，这样能实时收到提醒，登录过期后也可以第一时间收到登录请求。
 
-**安全性问题**：虽然自带公开邮箱（任何人都可以通过此邮箱向你发邮件），但是他人并不能通过这个获取任何人发送的邮件，所以 防伪字符串 策略是安全的。
-
 ```python
 from aligo import Aligo
+from aligo import Auth
+
+# 设置发送登陆二维码邮箱
+Auth._EMAIL_HOST = ''
+Auth._EMAIL_PORT = ''
+Auth._EMAIL_USER = ''
+Auth._EMAIL_PASSWORD = ''
 
 
 """
@@ -95,18 +100,33 @@ email: 发送扫码登录邮件 ("接收邮件的邮箱地址", "防伪字符串
 ali = Aligo(email=('xxx@qq.com', '防伪字符串，可任意字符串'))
 ```
 
-### 自配邮箱
+## 文件夹同步
+文件夹同步有三种不同的方法，但都可以通过flag参数设置，注意区分。
+```python
+from aligo import Aligo
 
-自带邮箱系统被封 https://github.com/foyoux/aligo/issues/90
+"""
+flag: 同步标志（类型），默认：None, 另外可选：True, False
+        None：双端同步
+        True：以本地为主
+        False：以云端为主
+"""
 
-```py
-from aligo import Auth
-
-Auth._EMAIL_HOST = ''
-Auth._EMAIL_PORT = ''
-Auth._EMAIL_USER = ''
-Auth._EMAIL_PASSWORD = ''
+ali = Aligo()
+local_folder = 'Path of local'
+remote_id = 'remote id'
+ali.sync_folder(local_folder=local_folder, remote_folder=remote_id,flag=True) 
 ```
+
+## 文件上传/下载
+文件的上传与下载有多种不同的实现方法，具体使用请阅读源代码。
+```python
+from aligo import Aligo
+ali = Aligo()
+ali.upload_files(file_paths='file_names' , parent_file_id='reading_id')
+ali.download_file(file_id='<file_id>')
+```
+
 
 ## 如何彻底删除文件？
 > 无需先移动文件到回收站
