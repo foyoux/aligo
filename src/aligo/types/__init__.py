@@ -14,6 +14,7 @@ from .CroppingBoundary import CroppingBoundary
 from .CroppingSuggestionItem import CroppingSuggestionItem
 from .DataClass import DataClass
 from .DriveCapacityDetail import DriveCapacityDetail
+from .EMailConfig import EMailConfig
 from .FaceThumbnail import FaceThumbnail
 from .FolderSizeInfo import FolderSizeInfo
 from .ImageMedia import ImageMedia

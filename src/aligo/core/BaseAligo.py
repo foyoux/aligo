@@ -4,7 +4,7 @@ import logging
 import subprocess
 import traceback
 from dataclasses import asdict, is_dataclass
-from typing import Generic, List, Iterator, Dict, Callable, Union, Tuple, Type
+from typing import Generic, List, Iterator, Dict, Callable, Union, Type
 
 import requests
 
@@ -29,7 +29,7 @@ class BaseAligo:
             use_aria2: bool = False,
             proxies: Dict = None,
             port: int = None,
-            email: Tuple[str, str] = None,
+            email: EMailConfig = None,
             request_failed_delay: float = 3,
             requests_timeout: float = None,
             login_timeout: float = None,
@@ -44,9 +44,7 @@ class BaseAligo:
         :param use_aria2: [bool] 是否使用 aria2 下载
         :param proxies: (可选) 自定义代理 [proxies={"https":"localhost:10809"}],支持 http 和 socks5（具体参考requests库的用法）
         :param port: (可选) 开启 http server 端口，用于网页端扫码登录. 提供此值时，将不再弹出或打印二维码
-        :param email: (可选) 发送扫码登录邮件 ("接收邮件的邮箱地址", "防伪字符串"). 提供此值时，将不再弹出或打印二维码
-            关于防伪字符串: 为了方便大家使用, aligo 自带公开邮箱, 省去邮箱配置的麻烦.
-                        所以收到登录邮件后, 一定要对比确认防伪字符串和你设置一致才可扫码登录, 否则将导致: 包括但不限于云盘文件泄露.
+        :param email: (可选) 邮箱配置，参考 EMailConfig
         :param request_failed_delay: 请求失败后，延迟时间，单位：秒
         :param requests_timeout: same as requests timeout
         :param login_timeout: 登录超时时间，单位：秒
@@ -262,7 +260,3 @@ class BaseAligo:
                         # self._auth.log.warning(i)
                         pass
                 yield i
-
-    def logout(self):
-        """退出登录"""
-        self._auth.logout()
