@@ -66,3 +66,6 @@ class BaseFile(DataClass):
     ex_fields_info: FieldsInfo = field(default=None, repr=False)
     from_share_id: str = None
     revision_version: int = None
+    channel: str = None
+    meta_name_punish_flag: int = None
+    meta_name_investigation_status: int = None

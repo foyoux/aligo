@@ -52,7 +52,7 @@ class Search(Core):
                      drive_id: str = None, body: SearchFileRequest = None, **kwargs) -> List[BaseFile]:
         """search files"""
         if body is None:
-            query = None
+            query = ''
             if parent_file_id != 'root':
                 query = f'parent_file_id = "{parent_file_id}"'
             if name:
