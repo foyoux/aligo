@@ -6,8 +6,6 @@ import os
 from dataclasses import dataclass, is_dataclass
 from typing import TypeVar, Generic, Optional, List, Dict, Type
 
-import coloredlogs
-
 try:
     from typing import get_type_hints, get_origin, get_args
 except ImportError:
@@ -16,16 +14,8 @@ except ImportError:
 DataType = TypeVar('DataType')
 
 _HINTS = {}
-_LOGGER = logging.getLogger(__name__)
+_LOGGER = logging.getLogger('aligo')
 _ALIGO_DEBUG = os.getenv('ALIGO_DEBUG')
-
-coloredlogs.install(
-    level=logging.DEBUG,
-    logger=_LOGGER,
-    milliseconds=True,
-    datefmt='%X',
-    fmt=f'MISSING_ATTRS.%(levelname)s %(message)s'
-)
 
 
 @dataclass
@@ -53,7 +43,7 @@ class DataClass:
             else:
                 if _ALIGO_DEBUG:
                     _LOGGER.warning(
-                        f'{cls.__module__}.{cls.__name__}({key} : {type(value).__name__} = {repr(value)[:100]})')
+                        f'MISSING_ATTRS {cls.__module__}.{cls.__name__}({key} : {type(value).__name__} = {repr(value)[:100]})')
         return cls(**params)
 
     def __post_init__(self):
