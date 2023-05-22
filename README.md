@@ -94,34 +94,6 @@ if __name__ == '__main__':
     ali = Aligo(email=email_config)
 ```
 
-## 文件夹同步
-文件夹同步有三种不同的方法，但都可以通过flag参数设置，注意区分。
-```python
-from aligo import Aligo
-
-"""
-flag: 同步标志（类型），默认：None, 另外可选：True, False
-        None：双端同步
-        True：以本地为主
-        False：以云端为主
-"""
-
-ali = Aligo()
-local_folder = 'Path of local'
-remote_id = 'remote id'
-ali.sync_folder(local_folder=local_folder, remote_folder=remote_id,flag=True) 
-```
-
-## 文件上传/下载
-文件的上传与下载有多种不同的实现方法，具体使用请阅读源代码。
-```python
-from aligo import Aligo
-ali = Aligo()
-ali.upload_files(file_paths='file_names' , parent_file_id='reading_id')
-ali.download_file(file_id='<file_id>')
-```
-
-
 ## 如何彻底删除文件？
 > 无需先移动文件到回收站
 
