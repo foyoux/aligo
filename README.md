@@ -138,7 +138,7 @@ if __name__ == '__main__':
     </thead>
     <tbody align="center">
     <tr>
-        <td><img src="http://110.42.175.98:5512/down/LKPvT9xK2lFx?fname=/aligo/wechat.jpg" alt="aligo反馈交流群"/></td>
+        <td><img src="http://110.42.175.98/github/aligo/wechat.jpg" alt="aligo反馈交流群"/></td>
     </tr>
     </tbody>
     <tfoot align="center">
