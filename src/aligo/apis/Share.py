@@ -21,7 +21,6 @@ class Share(Core):
 
     def share_file(self,
                    file_id: str,
-                   share_name: str = None,
                    share_pwd: str = None,
                    expiration: str = None,
                    drive_id: str = None,
@@ -29,7 +28,6 @@ class Share(Core):
         """
         官方：分享文件
         :param file_id: [必选] 文件id
-        :param share_name: [可选] 分享名称
         :param share_pwd: [可选] 分享密码，默认：None，表示无密码
         :param expiration: [可选] 有效期，utc时间字符串：YYYY-MM-DDTHH:mm:ss.SSSZ
         :param drive_id: [可选] 所属网盘id
@@ -39,14 +37,13 @@ class Share(Core):
         用法示例：
         >>> from aligo import Aligo
         >>> ali = Aligo()
-        >>> share = ali.share_file('<file1_id>', share_name='share_name', share_pwd='2020', expiration='2021-12-01T00:00:00.000Z', description='description')
+        >>> share = ali.share_file('<file1_id>', share_pwd='2020', expiration='2021-12-01T00:00:00.000Z', description='description')
         >>> print(share)
         """
-        return self.share_files([file_id], share_name, share_pwd, expiration, drive_id, description)
+        return self.share_files([file_id], share_pwd, expiration, drive_id, description)
 
     def share_files(self,
                     file_id_list: List[str],
-                    share_name: str = None,
                     share_pwd: str = None,
                     expiration: str = None,
                     drive_id: str = None,
@@ -54,7 +51,6 @@ class Share(Core):
         """
         官方：分享文件
         :param file_id_list: [必选] 文件id列表
-        :param share_name: [可选] 分享名称
         :param share_pwd: [可选] 分享密码，默认：None，表示无密码
         :param expiration: [可选] 有效期，utc时间字符串：YYYY-MM-DDTHH:mm:ss.SSSZ
         :param drive_id: [可选] 所属网盘id
@@ -64,12 +60,11 @@ class Share(Core):
         用法示例：
         >>> from aligo import Aligo
         >>> ali = Aligo()
-        >>> share = ali.share_files(['<file1_id>','<file2_id>'], share_name='share_name', share_pwd='2020', expiration='2021-12-01T00:00:00.000Z', description='description')
+        >>> share = ali.share_files(['<file1_id>','<file2_id>'], share_pwd='2020', expiration='2021-12-01T00:00:00.000Z', description='description')
         >>> print(share)
         """
         body = CreateShareLinkRequest(
             file_id_list=file_id_list,
-            share_name=share_name,
             share_pwd=share_pwd,
             expiration=expiration,
             drive_id=drive_id,
@@ -77,26 +72,26 @@ class Share(Core):
         )
         return self._core_share_file(body)
 
-    def update_share(self,
-                     share_id: str,
-                     share_pwd: str = None,
-                     expiration: str = None,
-                     description: str = None,
-                     share_name: str = None) -> UpdateShareLinkResponse:
+    def update_share(
+            self,
+            share_id: str,
+            share_pwd: str = None,
+            expiration: str = None,
+            description: str = None,
+    ) -> UpdateShareLinkResponse:
         """
         官方：更新分享
         :param share_id: [必选] 分享id
         :param share_pwd: [可选] 分享密码，默认：None，表示无密码
         :param expiration: [可选] 有效期，utc时间字符串：YYYY-MM-DDTHH:mm:ss.SSSZ
         :param description: [可选] 描述
-        :param share_name: [可选] 分享名称
         :return: [UpdateShareLinkResponse]
 
         用法示例：
         >>> from aligo import Aligo
         >>> ali = Aligo()
-        >>> old_share = ali.share_file('<file_id>', share_name='old share')
-        >>> new_share = ali.update_share(old_share.share_id, share_name='new share')
+        >>> old_share = ali.share_file('<file_id>')
+        >>> new_share = ali.update_share(old_share.share_id)
         >>> print(new_share)
         """
         body = UpdateShareLinkRequest(
@@ -104,7 +99,6 @@ class Share(Core):
             share_pwd=share_pwd,
             expiration=expiration,
             description=description,
-            share_name=share_name,
         )
         return self._core_update_share(body)
 
