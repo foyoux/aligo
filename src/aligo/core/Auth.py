@@ -26,8 +26,16 @@ from aligo.types.Enum import *
 from .EMail import send_email
 from .LoginServer import LoginServer
 
+# 默认配置目录
 aligo_config_folder = Path.home().joinpath('.aligo')
 aligo_config_folder.mkdir(parents=True, exist_ok=True)
+
+
+def set_config_folder(path: str):
+    # fix https://github.com/foyoux/aligo/issues/114
+    global aligo_config_folder
+    aligo_config_folder = Path(path)
+    aligo_config_folder.mkdir(parents=True, exist_ok=True)
 
 
 def get_configurations() -> List[str]:
