@@ -85,6 +85,7 @@ ADRIVE_V2_SHARE_LINK_EXTRACT_CODE = '/adrive/v2/share_link/extract_code'
 RECOMMEND_V1_SHARELINK_SEARCH = '/recommend/v1/shareLink/search'
 ADRIVE_V2_FILE_LIST_BY_SHARE = '/adrive/v2/file/list_by_share'
 ADRIVE_V2_FILE_GET_BY_SHARE = '/adrive/v2/file/get_by_share'
+ADRIVE_V1_SHARE_CREATE = '/adrive/v1/share/create'
 
 # 批量操作
 V3_BATCH = '/v3/batch'

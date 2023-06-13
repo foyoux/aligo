@@ -43,6 +43,7 @@ from .GetVideoPreviewPlayInfoRequest import GetVideoPreviewPlayInfoRequest
 from .ListToCleanRequest import ListToCleanRequest
 from .MoveFileRequest import MoveFileRequest
 from .MoveFileToTrashRequest import MoveFileToTrashRequest
+from .PrivateShareRequest import PrivateShareRequest
 from .RenameFileRequest import RenameFileRequest
 from .RestoreFileRequest import RestoreFileRequest
 from .SearchFileRequest import SearchFileRequest

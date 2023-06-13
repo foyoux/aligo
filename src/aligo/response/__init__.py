@@ -34,6 +34,7 @@ from .ListResponse import ListResponse
 from .ListToCleanResponse import ListToCleanResponse
 from .MoveFileResponse import MoveFileResponse
 from .MoveFileToTrashResponse import MoveFileToTrashResponse
+from .PrivateShareResponse import PrivateShareResponse
 from .RestoreFileResponse import RestoreFileResponse
 from .RewardSpaceResponse import RewardSpaceResponse
 from .SearchFileResponse import SearchFileResponse

@@ -588,3 +588,18 @@ class Share(Core):
                                           order_by=f'{order_by} {order_direction}', **kwargs)
         result = self._core_search_share_files(body, share_token)
         return list(result)
+
+    def private_share_file(self, file_id: str, drive_id: str = None):
+        """APP 中的快传，有效期 24 小时，只能一个人保存"""
+        return self.private_share_files([file_id], drive_id)
+
+    def private_share_files(self, file_id_list: List[str], drive_id: str = None):
+        """APP 中的快传，有效期 24 小时，只能一个人保存"""
+        if drive_id is None:
+            drive_id = self.default_drive_id
+        return self._core_private_share_files(PrivateShareRequest(
+            drive_file_list=[
+                DriveFile(file_id=file_id, drive_id=drive_id)
+                for file_id in file_id_list
+            ]
+        ))

@@ -209,3 +209,7 @@ class Share(BaseAligo):
         """
         yield from self._list_file(
             RECOMMEND_V1_SHARELINK_SEARCH, body, SearchShareFileResponse, headers={'x-share-token': share_token})
+
+    def _core_private_share_files(self, body: PrivateShareRequest) -> PrivateShareResponse:
+        response = self._post(ADRIVE_V1_SHARE_CREATE, body=body)
+        return self._result(response, PrivateShareResponse)
