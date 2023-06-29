@@ -145,7 +145,7 @@ class Download(Core):
         >>> from aligo import Aligo
         >>> ali = Aligo()
         >>> # ll = ali.get_file_list()
-        >>> # result = ali.download_file(ll[-1])
+        >>> # result = ali.download_file(file=ll[-1])
         >>> result = ali.download_file(file=BaseFile(file_id='<file_id>'))
         >>> print(result)
         """
