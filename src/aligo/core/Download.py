@@ -67,11 +67,10 @@ class Download(BaseAligo):
             cmd = ' '.join([
                 f'aria2c "{url}"',
                 f'--referer=https://www.aliyundrive.com/',
-                f'--console-log-level=warn',
-                f'--download-result=hide',
-                f'--auto-file-renaming=false',
                 f'-d "{file_dir}"',
-                f'-o "{file_name}"',
+                f'-o "{file_name}"'
+                f'-x 16',
+                f'-s 8',
             ])
             # print(cmd)
             os.system(cmd)
