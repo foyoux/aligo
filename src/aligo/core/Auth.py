@@ -414,7 +414,8 @@ class Auth:
                 raise AligoStatus500(response.content)
 
             if status_code == 400:
-                if b'"DeviceSessionSignatureInvalid"' in response.content:
+                if b'"DeviceSessionSignatureInvalid"' in response.content \
+                        or b'"not found device info"' in response.content:
                     self._create_session()
                     continue
                 elif b'"InvalidResource.FileTypeFolder"' in response.content:
