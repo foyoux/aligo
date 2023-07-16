@@ -20,7 +20,7 @@ import requests
 
 import aligo
 from aligo.core.Config import *
-from aligo.error import AligoStatus500, AligoRefreshFailed, AligoFatalError
+from aligo.error import AligoStatus500, AligoRefreshFailed, AligoFatalError, AligoShareLinkCreateExceedDailyLimit
 from aligo.types import *
 from aligo.types.Enum import *
 from .EMail import send_email
@@ -421,6 +421,11 @@ class Auth:
                 elif b'"InvalidResource.FileTypeFolder"' in response.content:
                     self.log.warning(
                         '请区分 文件 和 文件夹，有些操作是它们独有的，比如获取下载链接，很显然 文件夹 是没有的！')
+
+            if status_code == 403:
+                if b'"SharelinkCreateExceedDailyLimit"' in response.content:
+                    raise AligoShareLinkCreateExceedDailyLimit(response.content)
+
             return response
 
         self.log.info(f'重试 5 次仍失败，抛出异常')

@@ -12,3 +12,7 @@ class AligoStatus500(AligoException):
 
 class AligoRefreshFailed(AligoException):
     pass
+
+
+class AligoShareLinkCreateExceedDailyLimit(AligoException):
+    pass
