@@ -99,6 +99,21 @@ if __name__ == '__main__':
 
 此功能太危险，**aligo** 未直接提供。不过 [这里](https://github.com/foyoux/aligo/wiki/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%9F%E8%83%BD---%E5%BD%BB%E5%BA%95%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6) 扩展了该功能，请小心使用！
 
+## 如何操作资源盘
+
+```python
+from aligo import Aligo
+
+if __name__ == '__main__':
+    ali = Aligo()
+    drives = ali.list_my_drives()
+    resource_drive_id = [drive.drive_id for drive in drives if drive.drive_name == 'resource'][0]
+    ll = ali.get_file_list(drive_id=resource_drive_id)
+    for i in ll:
+        print(i)
+
+```
+
 
 ## 关于扩展功能
 
