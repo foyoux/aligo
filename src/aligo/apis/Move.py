@@ -1,9 +1,9 @@
 """..."""
 from typing import List, overload
 
-from aligo.core import *
-from aligo.request import *
-from aligo.response import *
+from aligo.core import Core
+from aligo.request import MoveFileRequest, BatchMoveFilesRequest
+from aligo.response import MoveFileResponse, BatchSubResponse
 
 
 class Move(Core):

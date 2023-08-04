@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass
 
-from .DataClass import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class SystemTag(DataClass):
+class SystemTag(DatClass):
     """..."""
     name: str = None
     en_name: str = None

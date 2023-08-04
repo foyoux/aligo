@@ -5,11 +5,11 @@ from typing import Iterator, List
 
 from tqdm import tqdm
 
-from aligo.core import *
-from aligo.core.Config import *
-from aligo.request import *
-from aligo.response import *
-from aligo.types import *
+from aligo.core import BaseAligo
+from aligo.core.Config import V2_FILE_GET_DOWNLOAD_URL
+from aligo.request import BatchDownloadUrlRequest, GetDownloadUrlRequest, BatchRequest, BatchSubRequest
+from aligo.response import BatchDownloadUrlResponse, GetDownloadUrlResponse
+from aligo.types import BaseFile
 
 
 class Download(BaseAligo):

@@ -7,13 +7,13 @@ from dataclasses import asdict, is_dataclass
 from typing import Generic, List, Iterator, Dict, Callable, Union, Type
 
 import requests
+from datclass import DatClass
 
 from aligo.core import *
 from aligo.core.Config import *
 from aligo.request import *
 from aligo.response import *
 from aligo.types import *
-from aligo.types.DataClass import DataType
 from aligo.types.Enum import *
 
 
@@ -86,7 +86,7 @@ class BaseAligo:
             self,
             path: str,
             host: str = API_HOST,
-            body: Union[DataType, Dict] = None,
+            body: Union[DatClass, Dict] = None,
             headers: dict = None,
             ignore_auth: bool = False,
             params: dict = None,
@@ -94,7 +94,7 @@ class BaseAligo:
         """统一处理数据类型和 drive_id"""
         if body is None:
             body = {}
-        elif isinstance(body, DataClass):
+        elif isinstance(body, DatClass):
             body = asdict(body)
 
         if 'drive_id' in body and body['drive_id'] is None:
@@ -151,8 +151,8 @@ class BaseAligo:
                     for i in field.split('.'):
                         d = d[i]
                 if isinstance(d, list):
-                    return [DataClass.fill_attrs(cls, i) for i in d]
-                return DataClass.fill_attrs(cls, d)
+                    return [cls(**i) for i in d]
+                return cls(**d)
             except TypeError:
                 self._auth.debug_log(response)
                 self._auth.log.error(cls)
@@ -161,7 +161,7 @@ class BaseAligo:
         return Null(response)
 
     def _list_file(
-            self, path: str, body: Union[DataClass, Dict],
+            self, path: str, body: Union[DatClass, Dict],
             resp_type: Generic[DataType], headers: dict = None, params: dict = None) -> Iterator[DataType]:
         """
         枚举文件: 用于统一处理 1.文件列表 2.搜索文件列表 3.收藏列表 4.回收站列表
@@ -245,7 +245,7 @@ class BaseAligo:
                 return
 
             for batch in response.json()['responses']:
-                i = DataClass.fill_attrs(BatchSubResponse, batch)
+                i = BatchSubResponse(**batch)
                 if i.body:
                     try:
                         # 不是都会成功
@@ -255,7 +255,7 @@ class BaseAligo:
                         #                   can't update, file_id 609887cca951bf4feca54c6ebd0a91a03b826949"
                         # }
                         # status 409
-                        i.body = DataClass.fill_attrs(body_type, i.body)
+                        i.body = body_type(**i.body)
                     except TypeError:
                         # self._auth.log.warning(i)
                         pass

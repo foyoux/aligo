@@ -1,15 +1,15 @@
 """..."""
-
 from dataclasses import dataclass, field
 from typing import List
 
-from .DataClass import DataClass
+from datclass import DatClass
+
 from .Enum import *
 from .ShareLinkBaseFile import ShareLinkBaseFile
 
 
 @dataclass
-class ShareLinkSchema(DataClass):
+class ShareLinkSchema(DatClass):
     """
     分享链接结构对象, 类似 BaseShareFile 的含义
     Attributes:

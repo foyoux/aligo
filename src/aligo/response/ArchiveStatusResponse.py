@@ -2,11 +2,11 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class ArchiveStatusResponse(DataClass):
+class ArchiveStatusResponse(DatClass):
     """..."""
     file_list: List[str] = field(default_factory=list)
     progress: int = None

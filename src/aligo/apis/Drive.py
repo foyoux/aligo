@@ -1,9 +1,8 @@
 """drive"""
-
-from aligo.core import *
-from aligo.core.Config import *
-from aligo.request import *
-from aligo.types import *
+from aligo.core import Core
+from aligo.core.Config import ADRIVE_V1_USER_DRIVECAPACITY_DETAILS
+from aligo.request import GetDriveRequest
+from aligo.types import BaseDrive, DriveCapacityDetail
 
 
 class Drive(Core):

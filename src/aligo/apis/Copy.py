@@ -1,9 +1,9 @@
-"""Copy class"""
+"""..."""
 from typing import List, overload
 
-from aligo.core import *
-from aligo.request import *
-from aligo.response import *
+from aligo.core import Core
+from aligo.request import CopyFileRequest, BatchCopyFilesRequest
+from aligo.response import CopyFileResponse, BatchSubResponse
 
 
 class Copy(Core):

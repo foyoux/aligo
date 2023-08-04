@@ -1,13 +1,14 @@
 """GetUploadUrlResponse"""
-
 from dataclasses import dataclass, field
 from typing import List
+
+from datclass import DatClass
 
 from aligo.types import *
 
 
 @dataclass
-class GetUploadUrlResponse(DataClass):
+class GetUploadUrlResponse(DatClass):
     """GetUploadUrlResponse"""
     domain_id: str = None
     drive_id: str = None

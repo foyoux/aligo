@@ -2,11 +2,11 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class BatchShareFileSaveToDriveRequest(DataClass):
+class BatchShareFileSaveToDriveRequest(DatClass):
     """..."""
     share_id: str
     file_id_list: List[str] = field(default_factory=list)

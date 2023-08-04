@@ -1,12 +1,13 @@
 """..."""
 from dataclasses import dataclass
 
-from .MediaTransCodeTemplate import MediaTransCodeTemplate
+from datclass import DatClass
+
 from .Enum import MediaTranscodeStatus
 
 
 @dataclass
-class AudioTranscodeTemplate(MediaTransCodeTemplate):
+class AudioTranscodeTemplate(DatClass):
     """..."""
     template_id: str = None
     status: MediaTranscodeStatus = None

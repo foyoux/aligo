@@ -1,13 +1,13 @@
 """..."""
-
 from dataclasses import dataclass, field
 
-from aligo.types import *
+from datclass import DatClass
+
 from aligo.types.Enum import *
 
 
 @dataclass
-class GetFileListRequest(DataClass):
+class GetFileListRequest(DatClass):
     """..."""
     parent_file_id: str = 'root'
     drive_id: str = None

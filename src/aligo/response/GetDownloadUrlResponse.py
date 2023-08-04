@@ -1,12 +1,14 @@
 """..."""
 from dataclasses import dataclass
 
+from datclass import DatClass
+
 from aligo.types import *
 from aligo.types.Enum import BaseFileContentHashName
 
 
 @dataclass
-class GetDownloadUrlResponse(DataClass):
+class GetDownloadUrlResponse(DatClass):
     """..."""
     expiration: str = None
     method: str = None

@@ -2,12 +2,13 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from aligo.types import *
+from datclass import DatClass
+
 from aligo.types.Enum import *
 
 
 @dataclass
-class UpdateFileRequest(DataClass):
+class UpdateFileRequest(DatClass):
     """...."""
     name: str = None
     file_id: str = None

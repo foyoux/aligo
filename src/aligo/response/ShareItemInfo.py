@@ -1,12 +1,13 @@
 """..."""
 from dataclasses import dataclass
 
-from aligo.types import *
+from datclass import DatClass
+
 from aligo.types.Enum import *
 
 
 @dataclass
-class ShareItemInfo(DataClass):
+class ShareItemInfo(DatClass):
     """..."""
     category: BaseFileCategory = None
     file_extension: str = None

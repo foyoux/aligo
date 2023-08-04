@@ -1,11 +1,11 @@
 """获取下载链接请求"""
 from dataclasses import dataclass
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class GetDownloadUrlRequest(DataClass):
+class GetDownloadUrlRequest(DatClass):
     """
     /**
    * 过期时间

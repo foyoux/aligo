@@ -2,18 +2,19 @@
 from dataclasses import dataclass, field
 from typing import List
 
+from datclass import DatClass
+
 from .BaseFile import BaseFile
-from .DataClass import DataClass
 
 
 @dataclass
-class _BaseAlbumList(DataClass):
+class _BaseAlbumList(DatClass):
     """..."""
     list: List[BaseFile] = field(default_factory=list)
 
 
 @dataclass
-class BaseAlbum(DataClass):
+class BaseAlbum(DatClass):
     """..."""
     owner: str = None
     name: str = None

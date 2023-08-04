@@ -2,14 +2,13 @@
 from dataclasses import dataclass
 from typing import Dict, Union
 
-from aligo.types import DataClass
-from aligo.types.DataClass import DataType
+from datclass import DatClass
 
 
 @dataclass
-class BatchSubRequest(DataClass):
+class BatchSubRequest(DatClass):
     """..."""
-    body: Union[DataType, Dict]
+    body: Union[DatClass, Dict]
     id: str
     url: str
     headers: Dict = None

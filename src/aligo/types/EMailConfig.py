@@ -1,12 +1,11 @@
 """..."""
-
 from dataclasses import dataclass
 
-from .DataClass import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class EMailConfig(DataClass):
+class EMailConfig(DatClass):
     """邮箱配置"""
     email: str  # 接收邮件的邮箱
     host: str  # 示例值 'smtp.163.com'

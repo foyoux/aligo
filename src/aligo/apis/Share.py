@@ -2,11 +2,11 @@
 import warnings
 from typing import List, overload
 
-from aligo.core import *
+from aligo.core import Core
 from aligo.request import *
 from aligo.response import *
-from aligo.types import *
-from aligo.types.Enum import *
+from aligo.types import BaseShareFile, ShareLinkSchema, DriveFile
+from aligo.types.Enum import OrderDirection, SearchFileOrderBy, GetShareLinkListOrderBy
 
 
 def _deprecation_warning(kwargs):

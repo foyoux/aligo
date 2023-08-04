@@ -2,11 +2,13 @@
 from dataclasses import dataclass, field
 from typing import List
 
+from datclass import DatClass
+
 from aligo.types import *
 
 
 @dataclass
-class SearchFileResponse(DataClass):
+class SearchFileResponse(DatClass):
     """..."""
     items: List[BaseFile] = field(default_factory=list)
     next_marker: str = ''

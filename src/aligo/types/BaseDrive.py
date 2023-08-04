@@ -1,12 +1,12 @@
 """..."""
+from dataclasses import dataclass
+from dataclasses import field
 
-from dataclasses import dataclass, field
-
-from .DataClass import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class BaseDrive(DataClass):
+class BaseDrive(DatClass):
     """..."""
     drive_id: str = None
     used_size: int = None

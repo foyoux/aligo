@@ -1,12 +1,11 @@
 """..."""
-
 from dataclasses import dataclass
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class ArchiveUncompressResponse(DataClass):
+class ArchiveUncompressResponse(DatClass):
     """..."""
     state: str = None
     task_id: str = None

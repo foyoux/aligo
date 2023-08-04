@@ -1,11 +1,11 @@
 """..."""
-
 from typing import List
 
-from aligo.core import *
-from aligo.core.Config import *
+from aligo.core import BaseAligo
+from aligo.core.Config import (ADRIVE_V1_USER_CONFIG_GET, MEMBER_HOST, V1_USERS_REWARDS, V2_USER_GET,
+                               BUSINESS_V1_USERS_VIP_INFO, USERS_V2_USERS_DEVICE_LIST)
 from aligo.response import RewardSpaceResponse, UsersVipInfoResponse
-from aligo.types import *
+from aligo.types import BaseUser, UserConfig, LoginDevice
 
 
 class User(BaseAligo):

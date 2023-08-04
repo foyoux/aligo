@@ -2,11 +2,11 @@
 import os
 from typing import List, overload, Callable
 
-from aligo.core import *
+from aligo.core import Core
 from aligo.error import AligoException
-from aligo.request import *
-from aligo.response import *
-from aligo.types import *
+from aligo.request import GetFileRequest, GetFileListRequest, GetDownloadUrlRequest, BatchDownloadUrlRequest
+from aligo.response import GetDownloadUrlResponse, BatchDownloadUrlResponse
+from aligo.types import BaseFile
 
 
 class Download(Core):

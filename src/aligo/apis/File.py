@@ -2,9 +2,9 @@
 import os
 from typing import List, overload, Union, Callable
 
-from aligo.core import *
-from aligo.core.Config import *
-from aligo.request import *
+from aligo.core import Core
+from aligo.core.Config import ADRIVE_V1_FILE_GET_FOLDER_SIZE_INFO
+from aligo.request import GetFileRequest, GetFileListRequest, BatchGetFileRequest, CreateFolderRequest
 from aligo.response import *
 from aligo.types import *
 from aligo.types.Enum import *

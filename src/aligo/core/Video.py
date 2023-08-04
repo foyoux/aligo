@@ -1,8 +1,7 @@
 """..."""
-
-from aligo.core import *
-from aligo.core.Config import *
-from aligo.request import *
+from aligo.core import BaseAligo
+from aligo.core.Config import V2_DATABOX_GET_VIDEO_PLAY_INFO, V2_FILE_GET_VIDEO_PREVIEW_PLAY_INFO
+from aligo.request import GetVideoPlayInfoRequest, GetVideoPreviewPlayInfoRequest
 from aligo.response import *
 
 

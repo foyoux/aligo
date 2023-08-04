@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass, field
 
-from .DataClass import DataClass
+from datclass import DatClass
 
 
 @dataclass(eq=False)
-class Token(DataClass):
+class Token(DatClass):
     """..."""
     user_name: str = None
     nick_name: str = None

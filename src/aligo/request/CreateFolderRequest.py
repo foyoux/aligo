@@ -1,13 +1,13 @@
 """..."""
-
 from dataclasses import dataclass
 
-from aligo.types import *
+from datclass import DatClass
+
 from aligo.types.Enum import *
 
 
 @dataclass
-class CreateFolderRequest(DataClass):
+class CreateFolderRequest(DatClass):
     """..."""
     name: str
     parent_file_id: str = 'root'

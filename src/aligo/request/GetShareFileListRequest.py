@@ -1,12 +1,13 @@
 """获取分享文件列表"""
 from dataclasses import dataclass, field
 
-from aligo.types import *
+from datclass import DatClass
+
 from aligo.types.Enum import *
 
 
 @dataclass
-class GetShareFileListRequest(DataClass):
+class GetShareFileListRequest(DatClass):
     """..."""
     share_id: str = None
     starred: bool = None

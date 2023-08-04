@@ -1,12 +1,13 @@
 """..."""
 from dataclasses import dataclass, field
 
-from aligo.types import *
+from datclass import DatClass
+
 from aligo.types.Enum import *
 
 
 @dataclass
-class GetRecycleBinListRequest(DataClass):
+class GetRecycleBinListRequest(DatClass):
     """..."""
     drive_id: str = None
     fields: str = field(default=None, repr=False)

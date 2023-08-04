@@ -1,8 +1,10 @@
 """基本分享文件"""
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from dataclasses import field
 from typing import List
 
-from .DataClass import DataClass
+from datclass import DatClass
+
 from .Enum import BaseFileCategory, BaseFileType
 from .ImageMedia import ImageMedia
 from .VideoMedia import VideoMedia
@@ -10,7 +12,7 @@ from .VideoPreview import VideoPreview
 
 
 @dataclass
-class BaseShareFile(DataClass):
+class BaseShareFile(DatClass):
     """..."""
     share_id: str = None
     name: str = None
@@ -45,4 +47,4 @@ class BaseShareFile(DataClass):
     starred: bool = False
     content_hash: str = None
     trashed_at: str = None
-    from_share_id : str = None
+    from_share_id: str = None

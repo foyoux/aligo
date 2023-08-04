@@ -1,9 +1,8 @@
 """Other"""
-
 from aligo.request import GetFilePathRequest
 from aligo.response import GetFilePathResponse
 from .BaseAligo import BaseAligo
-from .Config import *
+from .Config import ADRIVE_V1_FILE_GET_PATH
 
 
 class Other(BaseAligo):

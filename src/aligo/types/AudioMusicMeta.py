@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass
 
-from .DataClass import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class AudioMusicMeta(DataClass):
+class AudioMusicMeta(DatClass):
     """..."""
     title: str = None
     artist: str = None

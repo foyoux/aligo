@@ -1,13 +1,13 @@
 """..."""
-
 from dataclasses import dataclass, field
 
-from aligo.types import *
+from datclass import DatClass
+
 from aligo.types.Enum import *
 
 
 @dataclass
-class GetStarredListRequest(DataClass):
+class GetStarredListRequest(DatClass):
     """..."""
 
     drive_id: str = None

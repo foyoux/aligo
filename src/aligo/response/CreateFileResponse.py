@@ -2,12 +2,14 @@
 from dataclasses import dataclass, field
 from typing import List, Dict
 
+from datclass import DatClass
+
 from aligo.types import *
 from aligo.types.Enum import *
 
 
 @dataclass
-class CreateFileResponse(DataClass):
+class CreateFileResponse(DatClass):
     """..."""
     file_name: str = None
     type: BaseFileType = None
@@ -23,10 +25,7 @@ class CreateFileResponse(DataClass):
     upload_id: str = field(default=None, repr=False)
     exist: bool = field(default=None, repr=False)
     location: str = field(default=None, repr=False)
-
-    # pre_hash
-    pre_hash: str = field(default=None, repr=False)
-    # 与批量操作中的错误不同, 此处code为是否命中秒传的结果
-    code: str = field(default=None, repr=False)
+    pre_hash: str = field(default=None, repr=False)  # pre_hash
+    code: str = field(default=None, repr=False)  # 与批量操作中的错误不同, 此处code为是否命中秒传的结果
     message: str = field(default=None, repr=False)
     revision_id: str = field(default=None, repr=False)

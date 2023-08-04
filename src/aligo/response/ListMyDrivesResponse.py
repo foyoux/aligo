@@ -2,11 +2,13 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from aligo.types import DataClass, BaseDrive
+from datclass import DatClass
+
+from aligo.types import BaseDrive
 
 
 @dataclass
-class ListMyDrivesResponse(DataClass):
+class ListMyDrivesResponse(DatClass):
     """..."""
     items: List[BaseDrive] = field(default_factory=list)
     next_marker: str = ''

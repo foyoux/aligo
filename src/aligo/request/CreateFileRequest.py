@@ -2,12 +2,14 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from aligo.types import DataClass, UploadPartInfo
+from datclass import DatClass
+
+from aligo.types import UploadPartInfo
 from aligo.types.Enum import *
 
 
 @dataclass
-class CreateFileRequest(DataClass):
+class CreateFileRequest(DatClass):
     """..."""
     name: str
     file_id: str = None

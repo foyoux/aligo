@@ -1,8 +1,7 @@
-"""Audio class"""
-
-from aligo.core import *
-from aligo.request import *
-from aligo.response import *
+"""..."""
+from aligo.core import Core
+from aligo.request import GetAudioPlayInfoRequest
+from aligo.response import GetAudioPlayInfoResponse
 
 
 class Audio(Core):

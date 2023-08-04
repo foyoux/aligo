@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class RestoreFileResponse(DataClass):
+class RestoreFileResponse(DatClass):
     """..."""
     drive_id: str = None
     file_id: str = None

@@ -1,13 +1,14 @@
-"""Aligo class"""
+"""..."""
 import json
 import logging
 from typing import Callable, Dict
 
+from aligo.core import aligo_config_folder
+from aligo.types import EMailConfig
 from .Album import Album
 from .Audio import Audio
 from .Compress import Compress
 from .Copy import Copy
-from .Copy import aligo_config_folder
 from .Create import Create
 from .CustomShare import CustomShare
 from .Download import Download
@@ -23,7 +24,6 @@ from .Star import Star
 from .SyncFolder import SyncFolder
 from .Update import Update
 from .Video import Video
-from aligo.types import EMailConfig
 
 
 class Aligo(

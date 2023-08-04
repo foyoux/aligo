@@ -1,10 +1,10 @@
 """..."""
 from dataclasses import dataclass
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class GetDriveRequest(DataClass):
+class GetDriveRequest(DatClass):
     """..."""
     drive_id: str = None

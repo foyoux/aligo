@@ -1,12 +1,13 @@
 """..."""
 from dataclasses import dataclass
 
-from aligo.types import DataClass
+from datclass import DatClass
+
 from aligo.types.Enum import AlbumFileListType, OrderDirection
 
 
 @dataclass
-class AlbumListFilesRequest(DataClass):
+class AlbumListFilesRequest(DatClass):
     """..."""
     album_id: str = None
     fields: str = "*"

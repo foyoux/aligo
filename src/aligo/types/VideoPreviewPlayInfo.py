@@ -1,16 +1,14 @@
 """..."""
-# 导包基本原则
-# 1. 包内相对导入: from .DataClass import DataClass
-# 2. 包外包导入: from aligo.dataobj import xxx
 from dataclasses import dataclass, field
 from typing import List
 
-from .DataClass import DataClass
+from datclass import DatClass
+
 from .Enum import VideoTemplateID
 
 
 @dataclass
-class LiveTranscodingMeta(DataClass):
+class LiveTranscodingMeta(DatClass):
     """..."""
     ts_segment: int = None
     ts_total_count: int = None
@@ -18,7 +16,7 @@ class LiveTranscodingMeta(DataClass):
 
 
 @dataclass
-class Meta(DataClass):
+class Meta(DatClass):
     """..."""
     duration: float = None
     width: int = None
@@ -27,7 +25,7 @@ class Meta(DataClass):
 
 
 @dataclass
-class LiveTranscodingTask(DataClass):
+class LiveTranscodingTask(DatClass):
     """..."""
     template_id: VideoTemplateID = None
     status: str = None
@@ -39,7 +37,7 @@ class LiveTranscodingTask(DataClass):
 
 
 @dataclass
-class VideoPreviewPlayInfo(DataClass):
+class VideoPreviewPlayInfo(DatClass):
     """..."""
     category: str = None
     meta: Meta = None

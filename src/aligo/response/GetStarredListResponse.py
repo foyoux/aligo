@@ -2,12 +2,13 @@
 from dataclasses import dataclass, field
 from typing import List
 
+from datclass import DatClass
+
 from aligo.types import BaseFile
-from aligo.types import DataClass
 
 
 @dataclass
-class GetStarredListResponse(DataClass):
+class GetStarredListResponse(DatClass):
     """..."""
     items: List[BaseFile] = field(default_factory=list)
     next_marker: str = ''

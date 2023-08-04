@@ -2,11 +2,13 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from aligo.types import *
+from datclass import DatClass
+
+from aligo.types import AudioTranscodeTemplate, VideoTranscodeTemplate
 
 
 @dataclass
-class GetShareLinkDownloadUrlResponse(DataClass):
+class GetShareLinkDownloadUrlResponse(DatClass):
     """..."""
     download_url: str = None
     url: str = None

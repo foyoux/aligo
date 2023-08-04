@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass
 
-from .DataClass import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class Privilege(DataClass):
+class Privilege(DatClass):
     """..."""
     feature_id: str = None
     feature_attr_id: str = None

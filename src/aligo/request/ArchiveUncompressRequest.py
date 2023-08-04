@@ -1,11 +1,13 @@
 """..."""
 from dataclasses import dataclass
 
-from aligo.types import DataClass
+from datclass import DatClass
+
 from aligo.types.Enum import ArchiveType
 
+
 @dataclass
-class ArchiveUncompressRequest(DataClass):
+class ArchiveUncompressRequest(DatClass):
     """..."""
     file_id: str = None
     target_file_id: str = 'root'

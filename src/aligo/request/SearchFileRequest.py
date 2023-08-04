@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import field, dataclass
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class SearchFileRequest(DataClass):
+class SearchFileRequest(DatClass):
     """..."""
     query: str
     drive_id: str = None

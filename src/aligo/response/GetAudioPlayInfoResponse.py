@@ -2,10 +2,12 @@
 from dataclasses import dataclass
 from typing import List
 
-from aligo.types import DataClass, AudioTranscodeTemplate
+from datclass import DatClass
+
+from aligo.types import AudioTranscodeTemplate
 
 
 @dataclass
-class GetAudioPlayInfoResponse(DataClass):
+class GetAudioPlayInfoResponse(DatClass):
     """..."""
     template_list: List[AudioTranscodeTemplate] = None

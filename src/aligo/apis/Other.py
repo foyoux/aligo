@@ -1,9 +1,8 @@
 """Other"""
-
-from aligo.core import *
-from aligo.core.Config import *
-from aligo.request import *
-from aligo.response import *
+from aligo.core import Core
+from aligo.core.Config import V2_FILE_GET_OFFICE_PREVIEW_URL
+from aligo.request import GetFilePathRequest
+from aligo.response import GetFilePathResponse, GetOfficePreviewUrlResponse
 
 
 class Other(Core):

@@ -1,10 +1,10 @@
 """..."""
 from typing import Iterator
 
-from aligo.core import *
-from aligo.core.Config import *
-from aligo.request import *
-from aligo.response import *
+from aligo.core import BaseAligo
+from aligo.core.Config import V2_FILE_MOVE
+from aligo.request import BatchMoveFilesRequest, MoveFileRequest, BatchRequest, BatchSubRequest
+from aligo.response import BatchSubResponse, MoveFileResponse
 
 
 class Move(BaseAligo):

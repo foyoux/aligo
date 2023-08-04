@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class AlbumInfoResponse(DataClass):
+class AlbumInfoResponse(DatClass):
     """..."""
     driveId: str = None
     driveName: str = None

@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass
 
-from .DataClass import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class ImageQuality(DataClass):
+class ImageQuality(DatClass):
     """..."""
     clarity: int = None
     clarity_score: int = None

@@ -1,9 +1,10 @@
 """..."""
 from typing import Iterator
 
-from aligo.core import *
-from aligo.core.Config import *
-from aligo.request import *
+from aligo.core import BaseAligo
+from aligo.core.Config import V2_RECYCLEBIN_TRASH, V2_RECYCLEBIN_RESTORE, V2_RECYCLEBIN_LIST
+from aligo.request import (MoveFileToTrashRequest, BatchMoveToTrashRequest, RestoreFileRequest, BatchRequest,
+                           BatchSubRequest, BatchRestoreRequest, GetRecycleBinListRequest)
 from aligo.response import *
 from aligo.types import *
 

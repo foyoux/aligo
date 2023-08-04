@@ -1,3 +1,4 @@
+datclass
 requests!=2.8.*
 qrcode[pil]
 coloredlogs

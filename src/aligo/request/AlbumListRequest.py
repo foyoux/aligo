@@ -1,12 +1,13 @@
 """..."""
 from dataclasses import dataclass
 
-from aligo.types import DataClass
+from datclass import DatClass
+
 from aligo.types.Enum import *
 
 
 @dataclass
-class AlbumListRequest(DataClass):
+class AlbumListRequest(DatClass):
     """..."""
     album_drive_id: str = None
     drive_id: str = None

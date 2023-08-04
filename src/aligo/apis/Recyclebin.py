@@ -1,10 +1,11 @@
-"""Recyclebin class"""
+"""..."""
 from typing import List, overload
 
-from aligo.core import *
-from aligo.request import *
-from aligo.response import *
-from aligo.types import *
+from aligo.core import Core
+from aligo.request import (RestoreFileRequest, GetRecycleBinListRequest, MoveFileToTrashRequest,
+                           BatchMoveToTrashRequest, BatchRestoreRequest)
+from aligo.response import MoveFileToTrashResponse, BatchSubResponse, RestoreFileResponse
+from aligo.types import BaseFile
 
 
 class Recyclebin(Core):

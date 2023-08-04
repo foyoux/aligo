@@ -2,16 +2,17 @@
 from dataclasses import dataclass
 from typing import List
 
+from datclass import DatClass
+
 from .AudioMeta import AudioMeta
 from .AudioMusicMeta import AudioMusicMeta
 from .AudioTranscodeTemplate import AudioTranscodeTemplate
-from .DataClass import DataClass
 from .VideoPreviewSprite import VideoPreviewSprite
 from .VideoTranscodeTemplate import VideoTranscodeTemplate
 
 
 @dataclass
-class VideoPreview(DataClass):
+class VideoPreview(DatClass):
     """..."""
     video_format: str = None
     audio_format: str = None

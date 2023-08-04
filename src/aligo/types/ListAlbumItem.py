@@ -1,13 +1,15 @@
 """..."""
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from dataclasses import field
 from typing import List
 
+from datclass import DatClass
+
 from .BaseFile import BaseFile
-from .DataClass import DataClass
 
 
 @dataclass
-class ListAlbumItem(DataClass):
+class ListAlbumItem(DatClass):
     """..."""
     name: str = None
     type: str = None

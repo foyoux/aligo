@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class MoveFileToTrashResponse(DataClass):
+class MoveFileToTrashResponse(DatClass):
     """..."""
     file_id: str = None
     drive_id: str = None

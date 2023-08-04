@@ -1,8 +1,7 @@
 """..."""
-
-from aligo.core import *
-from aligo.request import *
-from aligo.response import *
+from aligo.core import Core
+from aligo.request import GetVideoPlayInfoRequest, GetVideoPreviewPlayInfoRequest
+from aligo.response import GetVideoPlayInfoResponse, GetVideoPreviewPlayInfoResponse
 from aligo.types.Enum import VideoTemplateID
 
 

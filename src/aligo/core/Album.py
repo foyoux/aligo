@@ -4,7 +4,7 @@ from aligo.core import *
 from aligo.core.Config import *
 from aligo.request import AlbumListRequest, AlbumListFilesRequest
 from aligo.response import AlbumInfoResponse, AlbumListResponse, ListResponse
-from aligo.types import DataClass, ListAlbumItem
+from aligo.types import ListAlbumItem
 
 
 class Album(BaseAligo):
@@ -18,7 +18,7 @@ class Album(BaseAligo):
         if self._album_info is None:
             response = self._post(ADRIVE_V1_USER_ALBUMS_INFO)
             data = response.json()['data']
-            self._album_info = DataClass.fill_attrs(AlbumInfoResponse, data)
+            self._album_info = AlbumInfoResponse(**data)
         return self._album_info
 
     def _core_list_album(self, body: AlbumListRequest) -> Iterator[ListAlbumItem]:

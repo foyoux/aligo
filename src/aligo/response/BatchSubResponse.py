@@ -1,13 +1,14 @@
 """批量响应"""
-
 from dataclasses import dataclass
 from typing import Generic
-from aligo.types import *
-from aligo.types.DataClass import DataType
+
+from datclass import DatClass
+
+from aligo.types import DataType
 
 
 @dataclass
-class BatchSubResponse(DataClass, Generic[DataType]):
+class BatchSubResponse(DatClass, Generic[DataType]):
     """..."""
     id: str = None
     status: int = None

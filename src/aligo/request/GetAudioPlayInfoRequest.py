@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class GetAudioPlayInfoRequest(DataClass):
+class GetAudioPlayInfoRequest(DatClass):
     """..."""
     file_id: str
     drive_id: str = None

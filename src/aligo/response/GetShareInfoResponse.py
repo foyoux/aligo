@@ -2,12 +2,13 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from aligo.types import DataClass
+from datclass import DatClass
+
 from .ShareItemInfo import ShareItemInfo
 
 
 @dataclass
-class GetShareInfoResponse(DataClass):
+class GetShareInfoResponse(DatClass):
     """..."""
     avatar: str = None
     creator_id: str = None

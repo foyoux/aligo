@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass
 
-from .DataClass import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class VideoMediaVideoStream(DataClass):
+class VideoMediaVideoStream(DatClass):
     """..."""
     code_name: str = None
     fps: str = None

@@ -2,11 +2,11 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class VipInfo(DataClass):
+class VipInfo(DatClass):
     name: str = None
     code: str = None
     promotedAt: int = None
@@ -14,7 +14,7 @@ class VipInfo(DataClass):
 
 
 @dataclass
-class UsersVipInfoResponse(DataClass):
+class UsersVipInfoResponse(DatClass):
     """..."""
     identity: str = None
     icon: str = None

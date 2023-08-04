@@ -1,11 +1,11 @@
 """更新分享链接请求"""
 from dataclasses import dataclass
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class UpdateShareLinkRequest(DataClass):
+class UpdateShareLinkRequest(DatClass):
     """
     更新分享链接请求
 

@@ -2,19 +2,18 @@
 from dataclasses import dataclass
 from typing import Dict
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class Result:
+class Result(DatClass):
     """..."""
     message: str = None
 
 
 @dataclass
-class RewardSpaceResponse(DataClass):
+class RewardSpaceResponse(DatClass):
     """数据结构, 类型 可能不准确"""
-
     success: bool = None
     code: str = None
     message: str = None

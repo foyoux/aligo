@@ -1,16 +1,18 @@
 """..."""
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from dataclasses import field
 from typing import List
 
-from .FaceThumbnail import FaceThumbnail
+from datclass import DatClass
+
 from .CroppingSuggestionItem import CroppingSuggestionItem
-from .DataClass import DataClass
+from .FaceThumbnail import FaceThumbnail
 from .ImageQuality import ImageQuality
 from .SystemTag import SystemTag
 
 
 @dataclass
-class ImageMedia(DataClass):
+class ImageMedia(DatClass):
     """..."""
     time: str = None
     faces: str = None

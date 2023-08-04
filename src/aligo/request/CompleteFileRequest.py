@@ -2,12 +2,13 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from aligo.types import DataClass
+from datclass import DatClass
+
 from aligo.types import UploadPartInfo
 
 
 @dataclass
-class CompleteFileRequest(DataClass):
+class CompleteFileRequest(DatClass):
     """..."""
     file_id: str = None
     drive_id: str = None

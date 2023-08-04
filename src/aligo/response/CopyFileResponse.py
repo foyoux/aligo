@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass, field
 
-from aligo.types import *
+from datclass import DatClass
 
 
 @dataclass
-class CopyFileResponse(DataClass):
+class CopyFileResponse(DatClass):
     """..."""
     file_id: str = None
     drive_id: str = None

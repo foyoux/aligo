@@ -1,12 +1,13 @@
 """..."""
 from dataclasses import dataclass
 
-from aligo.types import DataClass
+from datclass import DatClass
+
 from aligo.types.Enum import GetVideoPreviewCategory, VideoTemplateID
 
 
 @dataclass
-class GetVideoPreviewPlayInfoRequest(DataClass):
+class GetVideoPreviewPlayInfoRequest(DatClass):
     """..."""
     file_id: str = None
     drive_id: str = None

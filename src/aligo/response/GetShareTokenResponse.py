@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class GetShareTokenResponse(DataClass, str):
+class GetShareTokenResponse(DatClass, str):
     """..."""
     share_token: str = None
     expire_time: str = None
@@ -23,4 +23,4 @@ class GetShareTokenResponse(DataClass, str):
         return self.share_token
 
     def __repr__(self):
-        return '\'' + self.share_token + '\''
+        return f"'{self.share_token}'"

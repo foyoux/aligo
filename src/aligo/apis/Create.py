@@ -1,12 +1,12 @@
-"""Create class"""
+"""..."""
 import os
 from typing import List, Callable
 
-from aligo.core import *
-from aligo.request import *
-from aligo.response import *
-from aligo.types import *
-from aligo.types.Enum import *
+from aligo.core import Core
+from aligo.request import CreateFolderRequest
+from aligo.response import CreateFileResponse
+from aligo.types import BaseFile
+from aligo.types.Enum import CheckNameMode
 
 
 class Create(Core):

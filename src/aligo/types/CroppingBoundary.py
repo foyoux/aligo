@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass
 
-from .DataClass import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class CroppingBoundary(DataClass):
+class CroppingBoundary(DatClass):
     """..."""
     height: int = None
     left: int = None

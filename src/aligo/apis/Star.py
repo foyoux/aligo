@@ -1,10 +1,10 @@
 """收藏相关"""
 from typing import List
 
-from aligo.core import *
-from aligo.request import *
-from aligo.response import *
-from aligo.types import *
+from aligo.core import Core
+from aligo.request import StarredFileRequest, BatchStarFilesRequest, GetStarredListRequest
+from aligo.response import BatchSubResponse
+from aligo.types import BaseFile
 
 
 class Star(Core):

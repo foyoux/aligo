@@ -3,10 +3,10 @@ import base64
 import json
 from typing import List, Dict
 
-from aligo.core import *
-from aligo.request import *
-from aligo.types import *
-from aligo.types.Enum import *
+from aligo.core import Core
+from aligo.request import GetFileListRequest, GetFileRequest, CreateFolderRequest
+from aligo.types import BaseFile
+from aligo.types.Enum import CheckNameMode
 
 
 class CustomShare(Core):

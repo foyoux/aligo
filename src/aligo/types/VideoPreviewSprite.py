@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass
 
-from .DataClass import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class VideoPreviewSprite(DataClass):
+class VideoPreviewSprite(DatClass):
     """..."""
     col: int = None
     count: int = None

@@ -1,13 +1,14 @@
 """分享文件列表响应"""
-
 from dataclasses import dataclass, field
 from typing import List
 
-from aligo.types import DataClass, BaseShareFile
+from datclass import DatClass
+
+from aligo.types import BaseShareFile
 
 
 @dataclass
-class GetShareFileListResponse(DataClass):
+class GetShareFileListResponse(DatClass):
     """..."""
     items: List[BaseShareFile] = field(default_factory=list)
     next_marker: str = ''

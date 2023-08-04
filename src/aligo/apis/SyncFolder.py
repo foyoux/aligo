@@ -7,7 +7,7 @@ from typing import Callable
 from typing import Dict, Union
 from typing import Optional
 
-from aligo.core import *
+from aligo.core import Core
 from aligo.request import GetFileListRequest, MoveFileToTrashRequest, CreateFolderRequest
 from aligo.types import BaseFile
 

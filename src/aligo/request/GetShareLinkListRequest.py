@@ -1,12 +1,13 @@
 """..."""
 from dataclasses import dataclass
 
-from aligo.types import *
+from datclass import DatClass
+
 from aligo.types.Enum import *
 
 
 @dataclass
-class GetShareLinkListRequest(DataClass):
+class GetShareLinkListRequest(DatClass):
     """获取自己的分享列表
 
     Attributes:

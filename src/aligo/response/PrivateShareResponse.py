@@ -2,11 +2,13 @@
 from dataclasses import dataclass, field
 from typing import List
 
+from datclass import DatClass
+
 from aligo.types import *
 
 
 @dataclass
-class PrivateShareResponse(DataClass):
+class PrivateShareResponse(DatClass):
     drive_file_list: List[DriveFile] = field(default_factory=list)
     expiration: str = None
     expired: bool = None

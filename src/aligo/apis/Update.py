@@ -1,10 +1,10 @@
 """..."""
 from typing import List
 
-from aligo.core import *
-from aligo.request import *
-from aligo.types import *
-from aligo.types.Enum import *
+from aligo.core import Core
+from aligo.request import RenameFileRequest, BatchRequest, BatchSubRequest
+from aligo.types import BaseFile
+from aligo.types.Enum import CheckNameMode
 
 
 class Update(Core):

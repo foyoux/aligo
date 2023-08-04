@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass, field
 
-from aligo.types import *
+from datclass import DatClass
 
 
 @dataclass
-class ShareFileSaveToDriveRequest(DataClass):
+class ShareFileSaveToDriveRequest(DatClass):
     """..."""
     share_id: str
     file_id: str

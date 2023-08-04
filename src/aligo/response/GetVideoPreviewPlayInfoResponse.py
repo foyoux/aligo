@@ -1,11 +1,13 @@
 """..."""
 from dataclasses import dataclass
 
-from aligo.types import DataClass, VideoPreviewPlayInfo
+from datclass import DatClass
+
+from aligo.types import VideoPreviewPlayInfo
 
 
 @dataclass
-class GetVideoPreviewPlayInfoResponse(DataClass):
+class GetVideoPreviewPlayInfoResponse(DatClass):
     """..."""
     domain_id: str = None
     drive_id: str = None

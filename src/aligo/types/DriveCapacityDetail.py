@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 
-from .DataClass import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class DriveCapacityDetail(DataClass):
+class DriveCapacityDetail(DatClass):
     drive_used_size: int = None
     drive_total_size: int = None
     default_drive_used_size: int = None

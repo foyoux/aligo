@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass, field
 
-from .DataClass import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class UserConfig(DataClass):
+class UserConfig(DatClass):
     """
     {
       "id": 601978,

@@ -1,13 +1,12 @@
 """..."""
-
 from dataclasses import dataclass, field
 from typing import List
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class BatchMoveFilesRequest(DataClass):
+class BatchMoveFilesRequest(DatClass):
     """..."""
     drive_id: str = None
     file_id_list: List[str] = field(default_factory=list)

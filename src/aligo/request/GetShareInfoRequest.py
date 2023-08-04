@@ -1,10 +1,10 @@
 """..."""
 from dataclasses import dataclass
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class GetShareInfoRequest(DataClass):
+class GetShareInfoRequest(DatClass):
     """..."""
     share_id: str

@@ -1,11 +1,12 @@
 """..."""
 from typing import List, Union
 
-from aligo.core import *
-from aligo.core.Config import *
+from aligo.core import Core
+from aligo.core.Config import (ADRIVE_V1_ALBUM_GET, ADRIVE_V1_ALBUM_CREATE, ADRIVE_V1_ALBUM_DELETE,
+                               ADRIVE_V1_ALBUM_ADD_FILES, ADRIVE_V1_ALBUM_UPDATE)
 from aligo.request import AlbumListRequest, AlbumListFilesRequest
 from aligo.types import ListAlbumItem, BaseAlbum, BaseFile
-from aligo.types.Enum import *
+from aligo.types.Enum import GetShareLinkListOrderBy, OrderDirection
 
 
 class Album(Core):

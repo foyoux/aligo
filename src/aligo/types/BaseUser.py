@@ -1,8 +1,7 @@
 """..."""
-
 from dataclasses import dataclass, field
 
-from .DataClass import DataClass
+from datclass import DatClass
 
 
 # 1. 只 REPR 能理解的数据
@@ -11,7 +10,7 @@ from .DataClass import DataClass
 
 
 @dataclass
-class BaseUser(DataClass):
+class BaseUser(DatClass):
     """..."""
     user_name: str = None
     user_id: str = None

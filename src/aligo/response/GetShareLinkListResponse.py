@@ -2,11 +2,13 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from aligo.types import DataClass, ShareLinkSchema
+from datclass import DatClass
+
+from aligo.types import ShareLinkSchema
 
 
 @dataclass
-class GetShareLinkListResponse(DataClass):
+class GetShareLinkListResponse(DatClass):
     """..."""
     items: List[ShareLinkSchema] = field(default_factory=list)
     next_marker: str = ''

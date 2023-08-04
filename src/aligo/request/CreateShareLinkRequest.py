@@ -2,11 +2,11 @@
 from dataclasses import dataclass
 from typing import List
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class CreateShareLinkRequest(DataClass):
+class CreateShareLinkRequest(DatClass):
     """创建分享链接请求
 
     Attributes:

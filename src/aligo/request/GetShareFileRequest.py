@@ -1,12 +1,13 @@
 """..."""
 from dataclasses import dataclass
 
-from aligo.types import *
+from datclass import DatClass
+
 from aligo.types.Enum import *
 
 
 @dataclass
-class GetShareFileRequest(DataClass):
+class GetShareFileRequest(DatClass):
     """..."""
     share_id: str = None
     fields: GetFileFields = '*'

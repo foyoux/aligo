@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass
 
-from .DataClass import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class UploadPartInfo(DataClass):
+class UploadPartInfo(DatClass):
     """
     {
         "part_number": 1

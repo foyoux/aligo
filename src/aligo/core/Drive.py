@@ -1,12 +1,11 @@
 """..."""
-
 from typing import List
 
-from aligo.core import *
-from aligo.core.Config import *
-from aligo.request import *
-from aligo.response import *
-from aligo.types import *
+from aligo.core import BaseAligo
+from aligo.core.Config import V2_DRIVE_GET, V2_DRIVE_GET_DEFAULT_DRIVE, V2_DRIVE_LIST_MY_DRIVES
+from aligo.request import GetDriveRequest, GetDefaultDriveRequest
+from aligo.response import ListMyDrivesResponse
+from aligo.types import BaseDrive
 
 
 class Drive(BaseAligo):

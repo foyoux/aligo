@@ -2,12 +2,14 @@
 from dataclasses import dataclass, field
 from typing import List
 
+from datclass import DatClass
+
 from aligo.types import *
 from aligo.types.Enum import *
 
 
 @dataclass
-class CreateShareLinkResponse(DataClass):
+class CreateShareLinkResponse(DatClass):
     """
     分享链接结构对象, 类似 BaseShareFile 的含义
     Attributes:

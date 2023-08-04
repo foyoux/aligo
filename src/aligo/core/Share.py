@@ -2,7 +2,7 @@
 from dataclasses import asdict
 from typing import Iterator
 
-from aligo.core import *
+from aligo.core import BaseAligo
 from aligo.core.Config import *
 from aligo.request import *
 from aligo.response import *
@@ -187,10 +187,10 @@ class Share(BaseAligo):
                 return
 
             for batch in response.json()['responses']:
-                i = DataClass.fill_attrs(BatchSubResponse, batch)
+                i = BatchSubResponse(**batch)
                 if i.body:
                     # noinspection PyArgumentList
-                    i.body = DataClass.fill_attrs(BatchShareFileSaveToDriveResponse, i.body)
+                    i.body = BatchShareFileSaveToDriveResponse(i.body)
                 yield i
 
     def _core_search_share_files(self, body: SearchShareFileRequest, share_token) -> Iterator[BaseShareFile]:

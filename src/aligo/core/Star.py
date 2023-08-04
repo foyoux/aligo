@@ -2,10 +2,11 @@
 from dataclasses import asdict
 from typing import Iterator
 
-from aligo.core.Config import *
-from aligo.request import *
-from aligo.response import *
-from aligo.types import *
+from aligo.core.Config import V2_FILE_LIST_BY_CUSTOM_INDEX_KEY
+from aligo.request import (StarredFileRequest, UpdateFileRequest, BatchStarFilesRequest, BatchRequest, BatchSubRequest,
+                           GetStarredListRequest)
+from aligo.response import GetStarredListResponse, BatchSubResponse
+from aligo.types import BaseFile
 from .Update import Update
 
 

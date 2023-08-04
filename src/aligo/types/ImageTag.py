@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass
 
-from .DataClass import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class ImageTag(DataClass):
+class ImageTag(DatClass):
     """..."""
     name: str = None
     parent_name: str = None

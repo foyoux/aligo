@@ -1,10 +1,10 @@
 """..."""
 from dataclasses import dataclass
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class GetDefaultDriveRequest(DataClass):
+class GetDefaultDriveRequest(DatClass):
     """..."""
     user_id: str

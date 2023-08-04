@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass
 
-from aligo.types import *
+from datclass import DatClass
 
 
 @dataclass
-class ShareFileSaveToDriveResponse(DataClass):
+class ShareFileSaveToDriveResponse(DatClass):
     """..."""
     file_id: str = None
     drive_id: str = None

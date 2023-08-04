@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class AimSearchRequest(DataClass):
+class AimSearchRequest(DatClass):
     """..."""
     query: str
     marker: str = ''

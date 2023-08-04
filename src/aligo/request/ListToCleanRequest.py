@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class ListToCleanRequest(DataClass):
+class ListToCleanRequest(DatClass):
     """..."""
     drive_id: str
     album_drive_id: str

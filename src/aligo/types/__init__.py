@@ -1,7 +1,4 @@
 """..."""
-# 必须在头部, 不能使用Pycharm的自动格式化
-# from .Enum import *
-
 from .AudioMeta import AudioMeta
 from .AudioMusicMeta import AudioMusicMeta
 from .AudioTranscodeTemplate import AudioTranscodeTemplate
@@ -12,7 +9,7 @@ from .BaseShareFile import BaseShareFile
 from .BaseUser import BaseUser
 from .CroppingBoundary import CroppingBoundary
 from .CroppingSuggestionItem import CroppingSuggestionItem
-from .DataClass import DataClass
+from .DataType import DataType
 from .DriveCapacityDetail import DriveCapacityDetail
 from .DriveFile import DriveFile
 from .EMailConfig import EMailConfig
@@ -23,7 +20,6 @@ from .ImageQuality import ImageQuality
 from .ImageTag import ImageTag
 from .ListAlbumItem import ListAlbumItem
 from .LoginDevice import LoginDevice
-from .LoginTimout import LoginTimeout
 from .MediaTransCodeTemplate import MediaTransCodeTemplate
 from .Null import Null
 from .PersonalRightsInfo import PersonalRightsInfo

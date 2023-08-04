@@ -1,11 +1,10 @@
 """..."""
-
 from dataclasses import asdict
 
-from aligo.core import *
-from aligo.core.Config import *
-from aligo.request import *
-from aligo.types import *
+from aligo.core import BaseAligo
+from aligo.core.Config import V3_FILE_UPDATE
+from aligo.request import UpdateFileRequest, RenameFileRequest
+from aligo.types import BaseFile
 
 
 class Update(BaseAligo):

@@ -3,15 +3,15 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from aligo.types import DataClass
+from datclass import DatClass
+
 from aligo.types.Enum import *
 from aligo.types.ShareLinkBaseFile import ShareLinkBaseFile
 
 
 @dataclass
-class UpdateShareLinkResponse(DataClass):
+class UpdateShareLinkResponse(DatClass):
     """更新分享链接响应"""
-
     share_id: str
     share_name: str = None
     share_pwd: str = None

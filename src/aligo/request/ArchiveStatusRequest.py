@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class ArchiveStatusRequest(DataClass):
+class ArchiveStatusRequest(DatClass):
     """..."""
     file_id: str = None
     task_id: str = None

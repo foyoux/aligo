@@ -1,11 +1,11 @@
 """GetFilePathRequest"""
 from dataclasses import dataclass
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class GetFilePathRequest(DataClass):
+class GetFilePathRequest(DatClass):
     """GetFilePathRequest"""
     file_id: str = None
     drive_id: str = None

@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass
 
-from .DataClass import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class LoginDevice(DataClass):
+class LoginDevice(DatClass):
     """..."""
     deviceId: str = None
     deviceName: str = None

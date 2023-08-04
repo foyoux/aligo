@@ -1,11 +1,11 @@
-"""Search class"""
+"""..."""
 import warnings
 from typing import List, overload
 
-from aligo.core import *
-from aligo.request import *
-from aligo.types import *
-from aligo.types.Enum import *
+from aligo.core import Core
+from aligo.request import SearchFileRequest, AimSearchRequest
+from aligo.types import BaseFile
+from aligo.types.Enum import SearchCategory, BaseFileCategory
 
 
 class Search(Core):

@@ -1,11 +1,11 @@
 """..."""
 from dataclasses import dataclass
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class ShareLinkExtractCodeResponse(DataClass):
+class ShareLinkExtractCodeResponse(DatClass):
     """..."""
     share_id: str = None
     share_pwd: str = None

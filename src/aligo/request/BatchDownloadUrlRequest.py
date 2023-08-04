@@ -2,11 +2,11 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class BatchDownloadUrlRequest(DataClass):
+class BatchDownloadUrlRequest(DatClass):
     """
     /**
    * 过期时间

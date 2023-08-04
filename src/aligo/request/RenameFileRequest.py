@@ -1,12 +1,13 @@
 """..."""
 from dataclasses import dataclass
 
-from aligo.types import *
+from datclass import DatClass
+
 from aligo.types.Enum import *
 
 
 @dataclass
-class RenameFileRequest(DataClass):
+class RenameFileRequest(DatClass):
     """..."""
     name: str
     file_id: str

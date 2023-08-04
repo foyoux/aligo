@@ -1,9 +1,8 @@
 """..."""
-
-from aligo.core import *
-from aligo.core.Config import *
-from aligo.request import *
-from aligo.response import *
+from aligo.core import BaseAligo
+from aligo.core.Config import V2_DATABOX_GET_AUDIO_PLAY_INFO
+from aligo.request import GetAudioPlayInfoRequest
+from aligo.response import GetAudioPlayInfoResponse
 
 
 class Audio(BaseAligo):

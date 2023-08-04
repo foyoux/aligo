@@ -2,11 +2,11 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from aligo.types import DataClass
+from datclass import DatClass
 
 
 @dataclass
-class DuplicateFileInfo(DataClass):
+class DuplicateFileInfo(DatClass):
     """..."""
     name: str = None
     thumbnail: str = None
@@ -26,14 +26,14 @@ class DuplicateFileInfo(DataClass):
 
 
 @dataclass
-class DuplicateItem(DataClass):
+class DuplicateItem(DatClass):
     """..."""
     items: List[DuplicateFileInfo] = field(default_factory=list)
     group_id: str = ''
 
 
 @dataclass
-class DuplicateListResponse(DataClass):
+class DuplicateListResponse(DatClass):
     """..."""
     items: List[DuplicateItem] = field(default_factory=list)
     next_marker: str = ''

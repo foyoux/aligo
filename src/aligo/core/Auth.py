@@ -23,6 +23,7 @@ from aligo.core.Config import *
 from aligo.error import AligoStatus500, AligoRefreshFailed, AligoFatalError, AligoShareLinkCreateExceedDailyLimit
 from aligo.types import *
 from aligo.types.Enum import *
+from aligo.utils.LoginTimout import LoginTimeout
 from .EMail import send_email
 from .LoginServer import LoginServer
 
@@ -181,7 +182,7 @@ class Auth:
 
         if self._name.exists():
             self.log.info(f'加载配置文件 {self._name}')
-            self.token = DataClass.fill_attrs(Token, json.load(self._name.open(encoding='utf8')))
+            self.token = Token(**json.load(self._name.open(encoding='utf8')))
             self.session.headers.update({
                 'Authorization': self.token.access_token,
             })
@@ -323,7 +324,7 @@ class Auth:
         self._log_response(response)
         if response.status_code == 200:
             self.log.info('刷新 token 成功')
-            self.token = DataClass.fill_attrs(Token, response.json())
+            self.token = Token(**response.json())
             self.session.headers.update({
                 'Authorization': self.token.access_token,
             })

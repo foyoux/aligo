@@ -2,10 +2,12 @@
 from dataclasses import dataclass
 from typing import List
 
-from aligo.types import DataClass, VideoTranscodeTemplate
+from datclass import DatClass
+
+from aligo.types import VideoTranscodeTemplate
 
 
 @dataclass
-class GetVideoPlayInfoResponse(DataClass):
+class GetVideoPlayInfoResponse(DatClass):
     """..."""
     template_list: List[VideoTranscodeTemplate] = None

@@ -1,12 +1,11 @@
 """批量响应"""
-
 from dataclasses import dataclass
 
-from aligo.types import *
+from datclass import DatClass
 
 
 @dataclass
-class BatchShareFileSaveToDriveResponse(DataClass):
+class BatchShareFileSaveToDriveResponse(DatClass):
     """..."""
     file_id: str = None
     drive_id: str = None

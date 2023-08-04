@@ -2,9 +2,11 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from aligo.types import DataClass, DriveFile
+from datclass import DatClass
+
+from aligo.types import DriveFile
 
 
 @dataclass
-class PrivateShareRequest(DataClass):
+class PrivateShareRequest(DatClass):
     drive_file_list: List[DriveFile] = field(default_factory=list)
