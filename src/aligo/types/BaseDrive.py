@@ -27,3 +27,4 @@ class BaseDrive(DataClass):
     created_at: str = field(default=None, repr=False)
     subdomain_id: str = field(default=None, repr=False)
     category: str = field(default=None, repr=False)
+    updated_at: str = field(default=None, repr=False)

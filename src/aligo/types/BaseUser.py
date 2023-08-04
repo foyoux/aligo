@@ -30,6 +30,8 @@ class BaseUser(DataClass):
     deny_change_password_by_self: bool = field(default=False, repr=False)
     need_change_password_next_login: bool = field(default=False, repr=False)
     permission: str = field(default=None, repr=False)
-    creator: str = None
-    expired_at: int = 0
-    default_location: str = ''
+    creator: str = field(default=None, repr=False)
+    expired_at: int = field(default=None, repr=False)
+    default_location: str = field(default=None, repr=False)
+    phone_region: str = field(default=None, repr=False)
+    last_login_time: int = field(default=None, repr=False)
