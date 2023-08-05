@@ -4,17 +4,16 @@ import logging
 import subprocess
 import traceback
 from dataclasses import asdict, is_dataclass
-from typing import Generic, List, Iterator, Dict, Callable, Union, Type
+from typing import Generic, List, Iterator, Dict, Callable, Union
+from typing import Type, Optional
 
 import requests
-from datclass import DatClass
 
-from aligo.core import *
-from aligo.core.Config import *
-from aligo.request import *
-from aligo.response import *
-from aligo.types import *
-from aligo.types.Enum import *
+from aligo.core import Auth
+from aligo.core.Config import API_HOST, V2_FILE_GET, V2_DATABOX_GET_PERSONAL_INFO, V3_BATCH
+from aligo.request import GetFileRequest, BatchRequest
+from aligo.response import GetPersonalInfoResponse, BatchSubResponse
+from aligo.types import DatClass, DataType, Null, EMailConfig, BaseUser, BaseDrive, BaseFile
 
 
 class BaseAligo:
@@ -50,7 +49,7 @@ class BaseAligo:
         :param login_timeout: 登录超时时间，单位：秒
         :param re_login: refresh_token 失效后是否继续登录（弹出二维码或邮件，需等待） fix #73
         """
-        self._auth: Auth = Auth(  # type: ignore
+        self._auth = Auth(
             name=name,
             refresh_token=refresh_token,
             show=show,

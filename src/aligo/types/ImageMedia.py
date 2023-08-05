@@ -1,14 +1,12 @@
 """..."""
-from dataclasses import dataclass
-from dataclasses import field
+from dataclasses import dataclass, field
 from typing import List
-
-from datclass import DatClass
 
 from .CroppingSuggestionItem import CroppingSuggestionItem
 from .FaceThumbnail import FaceThumbnail
 from .ImageQuality import ImageQuality
 from .SystemTag import SystemTag
+from .Type import DatClass
 
 
 @dataclass

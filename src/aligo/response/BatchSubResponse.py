@@ -2,9 +2,7 @@
 from dataclasses import dataclass
 from typing import Generic
 
-from datclass import DatClass
-
-from aligo.types import DataType
+from aligo.types import DatClass, DataType
 
 
 @dataclass

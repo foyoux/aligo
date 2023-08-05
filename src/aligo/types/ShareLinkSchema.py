@@ -2,10 +2,9 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from datclass import DatClass
-
 from .Enum import *
 from .ShareLinkBaseFile import ShareLinkBaseFile
+from .Type import DatClass
 
 
 @dataclass

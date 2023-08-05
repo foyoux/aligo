@@ -2,9 +2,8 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from datclass import DatClass
-
 from .Enum import VideoTemplateID
+from .Type import DatClass
 
 
 @dataclass

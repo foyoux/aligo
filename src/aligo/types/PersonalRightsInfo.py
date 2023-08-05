@@ -2,9 +2,8 @@
 from dataclasses import dataclass
 from typing import List
 
-from datclass import DatClass
-
 from .Privilege import Privilege
+from .Type import DatClass
 
 
 @dataclass

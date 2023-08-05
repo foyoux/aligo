@@ -106,6 +106,22 @@ class Auth:
     ):
         """refresh_token 登录"""
 
+    @overload
+    def __init__(
+            self, name: str = 'aligo',
+            refresh_token: str = None,
+            show: Callable[[str], None] = None,
+            level: int = logging.DEBUG,
+            proxies: Dict = None,
+            port: int = None,
+            email: EMailConfig = None,
+            request_failed_delay: float = 3,
+            requests_timeout: float = None,
+            login_timeout: float = None,
+            re_login: bool = True,
+    ):
+        """..."""
+
     # noinspection PyPep8Naming,SpellCheckingInspection
     def __init__(
             self, name: str = 'aligo',

@@ -1,7 +1,7 @@
 """..."""
 from dataclasses import dataclass, field
 
-from datclass import DatClass
+from .Type import DatClass
 
 
 @dataclass

@@ -2,9 +2,8 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from datclass import DatClass
-
 from aligo.types.Enum import TemplateType
+from aligo.types import DatClass
 
 
 @dataclass

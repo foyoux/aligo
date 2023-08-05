@@ -3,9 +3,8 @@ from dataclasses import dataclass
 from dataclasses import field
 from typing import Dict, List
 
-from datclass import DatClass
-
-from .Enum import *
+from .Type import DatClass
+from .Enum import BaseFileType, BaseFileCategory, BaseFileContentHashName
 from .FieldsInfo import FieldsInfo
 from .ImageMedia import ImageMedia
 from .VideoMedia import VideoMedia

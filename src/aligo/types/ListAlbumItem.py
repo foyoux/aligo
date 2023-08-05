@@ -3,9 +3,8 @@ from dataclasses import dataclass
 from dataclasses import field
 from typing import List
 
-from datclass import DatClass
-
 from .BaseFile import BaseFile
+from .Type import DatClass
 
 
 @dataclass

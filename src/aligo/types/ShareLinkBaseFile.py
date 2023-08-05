@@ -3,11 +3,10 @@ from dataclasses import dataclass
 from dataclasses import field
 from typing import Dict, List
 
-from datclass import DatClass
-
-from .Enum import *
+from .Enum import BaseFileCategory, BaseFileContentHashName, BaseFileType
 from .FieldsInfo import FieldsInfo
 from .ImageMedia import ImageMedia
+from .Type import DatClass
 from .VideoMedia import VideoMedia
 from .VideoPreview import VideoPreview
 

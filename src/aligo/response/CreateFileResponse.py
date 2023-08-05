@@ -2,10 +2,8 @@
 from dataclasses import dataclass, field
 from typing import List, Dict
 
-from datclass import DatClass
-
-from aligo.types import *
-from aligo.types.Enum import *
+from aligo.types import DatClass, UploadPartInfo
+from aligo.types.Enum import BaseFileType, BaseFileStatus
 
 
 @dataclass

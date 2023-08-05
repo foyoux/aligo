@@ -1,9 +1,7 @@
 """..."""
 from dataclasses import dataclass
 
-from datclass import DatClass
-
-from aligo.types import *
+from aligo.types import DatClass, RateLimit
 from aligo.types.Enum import BaseFileContentHashName
 
 

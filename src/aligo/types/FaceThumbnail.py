@@ -1,7 +1,7 @@
 """FaceThumbnail"""
 from dataclasses import dataclass
 
-from datclass import DatClass
+from .Type import DatClass
 
 
 @dataclass

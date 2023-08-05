@@ -1,9 +1,8 @@
 """获取分享文件列表"""
 from dataclasses import dataclass, field
 
-from datclass import DatClass
-
-from aligo.types.Enum import *
+from aligo.types import DatClass
+from aligo.types.Enum import BaseFileCategory, BaseFileType, GetShareFileListOrderBy, OrderDirection
 
 
 @dataclass

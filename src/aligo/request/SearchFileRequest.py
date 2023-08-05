@@ -1,7 +1,7 @@
 """..."""
 from dataclasses import field, dataclass
 
-from datclass import DatClass
+from aligo.types import DatClass
 
 
 @dataclass

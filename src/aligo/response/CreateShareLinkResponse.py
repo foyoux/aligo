@@ -2,10 +2,8 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from datclass import DatClass
-
-from aligo.types import *
-from aligo.types.Enum import *
+from aligo.types import DatClass, ShareLinkBaseFile
+from aligo.types.Enum import SharePolicy
 
 
 @dataclass

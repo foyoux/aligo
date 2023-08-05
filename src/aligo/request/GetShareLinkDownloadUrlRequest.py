@@ -1,7 +1,7 @@
 """分享链接下载链接请求体"""
 from dataclasses import dataclass
 
-from datclass import DatClass
+from aligo.types import DatClass
 
 
 @dataclass

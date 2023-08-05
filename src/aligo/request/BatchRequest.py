@@ -2,8 +2,7 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from datclass import DatClass
-
+from aligo.types import DatClass
 from .BatchSubRequest import BatchSubRequest
 
 

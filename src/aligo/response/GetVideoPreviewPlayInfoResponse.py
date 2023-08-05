@@ -1,9 +1,7 @@
 """..."""
 from dataclasses import dataclass
 
-from datclass import DatClass
-
-from aligo.types import VideoPreviewPlayInfo
+from aligo.types import DatClass, VideoPreviewPlayInfo
 
 
 @dataclass

@@ -1,9 +1,8 @@
 """..."""
 from dataclasses import dataclass
 
-from datclass import DatClass
-
 from .Enum import MediaTranscodeStatus
+from .Type import DatClass
 
 
 @dataclass

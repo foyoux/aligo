@@ -3,10 +3,9 @@ from dataclasses import dataclass
 from dataclasses import field
 from typing import List
 
-from datclass import DatClass
-
 from .Enum import BaseFileCategory, BaseFileType
 from .ImageMedia import ImageMedia
+from .Type import DatClass
 from .VideoMedia import VideoMedia
 from .VideoPreview import VideoPreview
 

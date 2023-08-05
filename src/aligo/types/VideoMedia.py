@@ -2,9 +2,8 @@
 from dataclasses import dataclass
 from typing import List
 
-from datclass import DatClass
-
 from .ImageTag import ImageTag
+from .Type import DatClass
 from .VideoMediaAudioStream import VideoMediaAudioStream
 from .VideoMediaVideoStream import VideoMediaVideoStream
 

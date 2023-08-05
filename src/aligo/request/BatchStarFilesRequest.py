@@ -2,7 +2,7 @@
 from dataclasses import dataclass
 from typing import List
 
-from datclass import DatClass
+from aligo.types import DatClass
 
 
 @dataclass

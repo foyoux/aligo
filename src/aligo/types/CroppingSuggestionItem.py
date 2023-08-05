@@ -2,9 +2,8 @@
 
 from dataclasses import dataclass
 
-from datclass import DatClass
-
 from .CroppingBoundary import CroppingBoundary
+from .Type import DatClass
 
 
 @dataclass

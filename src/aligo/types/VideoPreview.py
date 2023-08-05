@@ -2,11 +2,10 @@
 from dataclasses import dataclass
 from typing import List
 
-from datclass import DatClass
-
 from .AudioMeta import AudioMeta
 from .AudioMusicMeta import AudioMusicMeta
 from .AudioTranscodeTemplate import AudioTranscodeTemplate
+from .Type import DatClass
 from .VideoPreviewSprite import VideoPreviewSprite
 from .VideoTranscodeTemplate import VideoTranscodeTemplate
 

@@ -1,7 +1,7 @@
 """..."""
 from dataclasses import dataclass, field
 
-from datclass import DatClass
+from .Type import DatClass
 
 
 # 1. 只 REPR 能理解的数据

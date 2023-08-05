@@ -9,7 +9,7 @@ from .BaseShareFile import BaseShareFile
 from .BaseUser import BaseUser
 from .CroppingBoundary import CroppingBoundary
 from .CroppingSuggestionItem import CroppingSuggestionItem
-from .DataType import DataType
+from .Type import DataType, DatClass
 from .DriveCapacityDetail import DriveCapacityDetail
 from .DriveFile import DriveFile
 from .EMailConfig import EMailConfig
