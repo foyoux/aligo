@@ -6,6 +6,7 @@ from typing import Any
 class LoginServer(BaseHTTPRequestHandler):
     """..."""
 
+    # noinspection PyPep8Naming
     def do_GET(self):
         """..."""
         if self.path == '/':
