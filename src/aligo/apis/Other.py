@@ -27,7 +27,7 @@ class Other(Core):
         return self._core_get_path(body)
 
     def get_office_preview_url(self, file_id: str, drive_id: str = None):
-        response = self._post(V2_FILE_GET_OFFICE_PREVIEW_URL, body={
+        response = self.post(V2_FILE_GET_OFFICE_PREVIEW_URL, body={
             'file_id': file_id,
             'drive_id': drive_id
         })

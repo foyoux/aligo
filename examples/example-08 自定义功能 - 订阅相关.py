@@ -28,7 +28,7 @@ class CustomAligo(Aligo):
 
     def user_recommend(self, limit: int = 20) -> List[FollowUser]:
         """获取订阅页面推荐用户列表"""
-        resp = self._post('/adrive/v1/timeline/user/recommend', body={
+        resp = self.post('/adrive/v1/timeline/user/recommend', body={
             'limit': limit if limit <= 100 else 100,
             'order_by': "updated_at",
             'order_direction': "DESC",
@@ -39,21 +39,21 @@ class CustomAligo(Aligo):
 
     def follow_user(self, user_id: str) -> bool:
         """订阅用户"""
-        resp = self._post('/adrive/v1/member/follow_user', body={
+        resp = self.post('/adrive/v1/member/follow_user', body={
             'user_id': user_id
         })
         return resp.status_code == 200
 
     def unfollow_user(self, user_id: str) -> bool:
         """取消订阅用户"""
-        resp = self._post('/adrive/v1/member/unfollow_user', body={
+        resp = self.post('/adrive/v1/member/unfollow_user', body={
             'user_id': user_id
         })
         return resp.status_code == 200
 
     def list_following(self, limit: int = 20) -> List[FollowUser]:
         """获取订阅用户列表"""
-        resp = self._post('/adrive/v1/member/list_following', body={
+        resp = self.post('/adrive/v1/member/list_following', body={
             "limit": limit, "order_by": "updated_at", "order_direction": "DESC"
         })
         items = resp.json()['items']

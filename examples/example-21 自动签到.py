@@ -3,7 +3,7 @@ from aligo import Aligo
 
 class CAligo(Aligo):
     def sign_in_list(self):
-        return self._post(
+        return self.post(
             '/v1/activity/sign_in_list',
             host='https://member.aliyundrive.com',
             body={'isReward': True},
@@ -11,7 +11,7 @@ class CAligo(Aligo):
         )
 
     def sign_in_reward(self, day):
-        return self._post(
+        return self.post(
             '/v1/activity/sign_in_reward',
             host='https://member.aliyundrive.com',
             body={'signInDay': day},
@@ -19,7 +19,7 @@ class CAligo(Aligo):
         )
 
     def sign_in_festival(self):
-        return self._post(
+        return self.post(
             '/v1/activity/sign_in_list',
             host='https://member.aliyundrive.com',
             body={},

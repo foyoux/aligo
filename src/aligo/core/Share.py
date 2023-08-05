@@ -13,7 +13,7 @@ class Share(BaseAligo):
     """分享相关"""
 
     def share_link_extract_code(self, content: str) -> ShareLinkExtractCodeResponse:
-        response = self._post(ADRIVE_V2_SHARE_LINK_EXTRACT_CODE, body={
+        response = self.post(ADRIVE_V2_SHARE_LINK_EXTRACT_CODE, body={
             'content': content
         })
         return self._result(response, ShareLinkExtractCodeResponse, field='data')
@@ -23,17 +23,17 @@ class Share(BaseAligo):
 
         目前(2021年07月17日)官方只开放分享部分类型文件
         """
-        response = self._post(ADRIVE_V2_SHARE_LINK_CREATE, body=body)
+        response = self.post(ADRIVE_V2_SHARE_LINK_CREATE, body=body)
         return self._result(response, CreateShareLinkResponse)
 
     def _core_update_share(self, body: UpdateShareLinkRequest) -> UpdateShareLinkResponse:
         """更新分享, 如更新 密码, 有效期 等"""
-        response = self._post(V2_SHARE_LINK_UPDATE, body=body)
+        response = self.post(V2_SHARE_LINK_UPDATE, body=body)
         return self._result(response, UpdateShareLinkResponse)
 
     def _core_cancel_share(self, body: CancelShareLinkRequest) -> CancelShareLinkResponse:
         """取消分享"""
-        response = self._post(ADRIVE_V2_SHARE_LINK_CANCEL, body=body)
+        response = self.post(ADRIVE_V2_SHARE_LINK_CANCEL, body=body)
         return self._result(response, CancelShareLinkResponse)
 
     def _core_batch_cancel_share(self, body: BatchCancelShareRequest) -> Iterator[BatchSubResponse]:
@@ -59,14 +59,14 @@ class Share(BaseAligo):
     # 处理其他人的分享
     def _core_get_share_info(self, body: GetShareInfoRequest) -> GetShareInfoResponse:
         """..."""
-        response = self._post(ADRIVE_V2_SHARE_LINK_GET_SHARE_BY_ANONYMOUS, body=body, ignore_auth=True)
+        response = self.post(ADRIVE_V2_SHARE_LINK_GET_SHARE_BY_ANONYMOUS, body=body, ignore_auth=True)
         share_info = self._result(response, GetShareInfoResponse)
         return share_info
 
     def _core_get_share_token(self, body: GetShareTokenRequest) -> GetShareTokenResponse:
         """..."""
         # noinspection PyProtectedMember
-        response = self._post(V2_SHARE_LINK_GET_SHARE_TOKEN, body=body, ignore_auth=True)
+        response = self.post(V2_SHARE_LINK_GET_SHARE_TOKEN, body=body, ignore_auth=True)
         share_token: GetShareTokenResponse = self._result(response, GetShareTokenResponse)
         share_token.share_id = body.share_id
         share_token.share_pwd = body.share_pwd
@@ -211,5 +211,5 @@ class Share(BaseAligo):
             RECOMMEND_V1_SHARELINK_SEARCH, body, SearchShareFileResponse, headers={'x-share-token': share_token})
 
     def _core_private_share_files(self, body: PrivateShareRequest) -> PrivateShareResponse:
-        response = self._post(ADRIVE_V1_SHARE_CREATE, body=body)
+        response = self.post(ADRIVE_V1_SHARE_CREATE, body=body)
         return self._result(response, PrivateShareResponse)

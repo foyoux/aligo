@@ -82,7 +82,7 @@ class BaseAligo:
         else:
             self._has_aria2c = False
 
-    def _post(
+    def post(
             self,
             path: str,
             host: str = API_HOST,
@@ -102,6 +102,9 @@ class BaseAligo:
             body['drive_id'] = self.default_drive_id
 
         return self._auth.post(path=path, host=host, body=body, headers=headers, ignore_auth=ignore_auth, params=params)
+
+    def _post(self, *args, **kwargs):
+        raise DeprecationWarning('请使用 post 方法')
 
     @property
     def default_drive_id(self):
@@ -177,7 +180,7 @@ class BaseAligo:
         >>> if isinstance(result[-1], Null):
         >>>     print('请求失败')
         """
-        response = self._post(path, body=body, headers=headers, params=params)
+        response = self.post(path, body=body, headers=headers, params=params)
         file_list = self._result(response, resp_type)
         if isinstance(file_list, Null):
             yield file_list
@@ -192,7 +195,7 @@ class BaseAligo:
 
     def _core_get_file(self, body: GetFileRequest) -> BaseFile:
         """获取文件信息, 其他类中可能会用到, 所以放到基类中"""
-        response = self._post(V2_FILE_GET, body=body)
+        response = self.post(V2_FILE_GET, body=body)
         return self._result(response, BaseFile)
 
     def get_personal_info(self) -> GetPersonalInfoResponse:
@@ -200,7 +203,7 @@ class BaseAligo:
         获取个人信息
         :return: [GetPersonalInfoResponse]
         """
-        response = self._post(V2_DATABOX_GET_PERSONAL_INFO)
+        response = self.post(V2_DATABOX_GET_PERSONAL_INFO)
         return self._result(response, GetPersonalInfoResponse)
 
     _BATCH_COUNT = 100
@@ -227,7 +230,7 @@ class BaseAligo:
         >>>     print('请求失败')
         """
         for request_list in self._list_split(body.requests, self._BATCH_COUNT):
-            response = self._post(V3_BATCH, body={
+            response = self.post(V3_BATCH, body={
                 "requests": [
                     {
                         "body": asdict(request.body) if is_dataclass(request.body) else request.body,

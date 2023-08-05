@@ -12,7 +12,7 @@ class Move(BaseAligo):
 
     def _core_move_file(self, body: MoveFileRequest) -> MoveFileResponse:
         """..."""
-        response = self._post(V2_FILE_MOVE, body=body)
+        response = self.post(V2_FILE_MOVE, body=body)
         return self._result(response, MoveFileResponse)
 
     def _core_batch_move_files(self, body: BatchMoveFilesRequest) -> Iterator[BatchSubResponse[MoveFileResponse]]:

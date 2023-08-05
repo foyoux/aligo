@@ -28,12 +28,12 @@ class Album(Core):
 
     def delete_album(self, album_id: str) -> bool:
         """删除 album"""
-        response = self._post(ADRIVE_V1_ALBUM_DELETE, body={'album_id': album_id})
+        response = self.post(ADRIVE_V1_ALBUM_DELETE, body={'album_id': album_id})
         return response.status_code == 200
 
     def create_album(self, name: str, description: str = None) -> BaseAlbum:
         """创建 album"""
-        response = self._post(ADRIVE_V1_ALBUM_CREATE, body={
+        response = self.post(ADRIVE_V1_ALBUM_CREATE, body={
             'name': name,
             'description': description
         })
@@ -41,11 +41,11 @@ class Album(Core):
 
     def get_album(self, album_id: str) -> BaseAlbum:
         """获取相册，通过 album_id"""
-        response = self._post(ADRIVE_V1_ALBUM_GET, body={'album_id': album_id})
+        response = self.post(ADRIVE_V1_ALBUM_GET, body={'album_id': album_id})
         return self._result(response, BaseAlbum)
 
     def add_files_to_album(self, album_id: str, files: List[Union[BaseFile, str]]) -> List[BaseFile]:
-        response = self._post(ADRIVE_V1_ALBUM_ADD_FILES, body={
+        response = self.post(ADRIVE_V1_ALBUM_ADD_FILES, body={
             'album_id': album_id,
             'drive_file_list': [{'drive_id': f.drive_id, 'file_id': f.file_id} for f in files]
         })
@@ -58,7 +58,7 @@ class Album(Core):
         return list(result)
 
     def rename_album(self, album_id: str, name: str):
-        response = self._post(ADRIVE_V1_ALBUM_UPDATE, body={
+        response = self.post(ADRIVE_V1_ALBUM_UPDATE, body={
             'album_id': album_id,
             'name': name
         })

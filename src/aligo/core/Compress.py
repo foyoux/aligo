@@ -12,10 +12,10 @@ class Compress(BaseAligo):
         """新建在线解压缩任务"""
         if body.target_drive_id is None:
             body.target_drive_id = self.default_drive_id
-        response = self._post(V2_ARCHIVE_UNCOMPRESS, body=body)
+        response = self.post(V2_ARCHIVE_UNCOMPRESS, body=body)
         return self._result(response, ArchiveUncompressResponse, status_code=202)
 
     def _core_archive_status(self, body: ArchiveStatusRequest) -> ArchiveStatusResponse:
         """获取在线解压缩任务状态"""
-        response = self._post(V2_ARCHIVE_STATUS, body=body)
+        response = self.post(V2_ARCHIVE_STATUS, body=body)
         return self._result(response, ArchiveStatusResponse)

@@ -12,7 +12,7 @@ class Copy(BaseAligo):
 
     def _core_copy_file(self, body: CopyFileRequest) -> CopyFileResponse:
         """..."""
-        response = self._post(V2_FILE_COPY, body=body)
+        response = self.post(V2_FILE_COPY, body=body)
         return self._result(response, CopyFileResponse, [201, 202])
 
     def _core_batch_copy_files(self, body: BatchCopyFilesRequest) -> Iterator[BatchSubResponse[CopyFileResponse]]:

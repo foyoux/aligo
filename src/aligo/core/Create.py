@@ -35,7 +35,7 @@ class Create(BaseAligo):
         >>> result = ali.create_file(CreateFileRequest(name='test.txt', parent_file_id='root', type='file', size=1024))
         >>> print(result.file_id)
         """
-        response = self._post(ADRIVE_V2_FILE_CREATEWITHFOLDERS, body=body)
+        response = self.post(ADRIVE_V2_FILE_CREATEWITHFOLDERS, body=body)
         return self._result(response, CreateFileResponse, status_code=201)
 
     def _core_create_folder(self, body: CreateFolderRequest) -> CreateFileResponse:
@@ -54,7 +54,7 @@ class Create(BaseAligo):
         >>> result = ali.complete_file(CompleteFileRequest(file_id='file_id', part_info_list=[UploadPartInfo(part_number=1)]))
         >>> print(result.file_id)
         """
-        response = self._post(V2_FILE_COMPLETE, body=body)
+        response = self.post(V2_FILE_COMPLETE, body=body)
         return self._result(response, BaseFile)
 
     @staticmethod
@@ -78,7 +78,7 @@ class Create(BaseAligo):
             size=file_size,
             pre_hash=pre_hash
         )
-        response = self._post(ADRIVE_V2_FILE_CREATEWITHFOLDERS, body=body)
+        response = self.post(ADRIVE_V2_FILE_CREATEWITHFOLDERS, body=body)
         part_info = self._result(response, CreateFileResponse, [201, 409])
         return part_info
 
@@ -127,11 +127,11 @@ class Create(BaseAligo):
             proof_code=proof_code,
             proof_version='v1'
         )
-        response = self._post(ADRIVE_V2_FILE_CREATEWITHFOLDERS, body=body)
+        response = self.post(ADRIVE_V2_FILE_CREATEWITHFOLDERS, body=body)
         # AttributeError: 'Null' object has no attribute 'rapid_upload'
         if response.status_code == 400:
             body.proof_code = self._get_proof_code(file_path, file_size)
-            response = self._post(ADRIVE_V2_FILE_CREATEWITHFOLDERS, body=body)
+            response = self.post(ADRIVE_V2_FILE_CREATEWITHFOLDERS, body=body)
         part_info = self._result(response, CreateFileResponse, 201)
         return part_info
 
@@ -141,7 +141,7 @@ class Create(BaseAligo):
         :param body: [GetUploadUrlRequest]
         :return: [GetUploadUrlResponse]
         """
-        response = self._post(V2_FILE_GET_UPLOAD_URL, body=body)
+        response = self.post(V2_FILE_GET_UPLOAD_URL, body=body)
         return self._result(response, GetUploadUrlResponse)
 
     def _put_data(self, file_path: str, part_info: CreateFileResponse, file_size: int) -> Union[BaseFile, Null]:
@@ -300,5 +300,5 @@ class Create(BaseAligo):
             proof_code=proof_code,
             proof_version='v1'
         )
-        response = self._post(ADRIVE_V2_FILE_CREATEWITHFOLDERS, body=body)
+        response = self.post(ADRIVE_V2_FILE_CREATEWITHFOLDERS, body=body)
         return self._result(response, CreateFileResponse, 201)

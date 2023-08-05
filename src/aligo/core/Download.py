@@ -18,7 +18,7 @@ class Download(BaseAligo):
 
     def _core_get_download_url(self, body: GetDownloadUrlRequest) -> GetDownloadUrlResponse:
         """..."""
-        response = self._post(V2_FILE_GET_DOWNLOAD_URL, body=body)
+        response = self.post(V2_FILE_GET_DOWNLOAD_URL, body=body)
         return self._result(response, GetDownloadUrlResponse)
 
     def _core_batch_download_url(self, body: BatchDownloadUrlRequest) -> Iterator[BatchDownloadUrlResponse]:

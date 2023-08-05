@@ -16,7 +16,7 @@ class Album(BaseAligo):
     @property
     def album_info(self) -> AlbumInfoResponse:
         if self._album_info is None:
-            response = self._post(ADRIVE_V1_USER_ALBUMS_INFO)
+            response = self.post(ADRIVE_V1_USER_ALBUMS_INFO)
             data = response.json()['data']
             self._album_info = AlbumInfoResponse(**data)
         return self._album_info

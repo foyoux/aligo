@@ -22,7 +22,7 @@ class Update(BaseAligo):
         >>> new_file = ali.update_file(UpdateFileRequest(file_id='file_id', name='new_name'))
         >>> print(new_file.name)
         """
-        response = self._post(V3_FILE_UPDATE, body=body)
+        response = self.post(V3_FILE_UPDATE, body=body)
         return self._result(response, BaseFile)
 
     def _core_rename_file(self, body: RenameFileRequest) -> BaseFile:

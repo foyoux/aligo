@@ -225,5 +225,5 @@ class File(Core):
 
     def get_folder_size_info(self, file_id: str, drive_id: str = None) -> FolderSizeInfo:
         """获取文件夹信息，文件夹个数，以及文件个数及其大小，不递归"""
-        response = self._post(ADRIVE_V1_FILE_GET_FOLDER_SIZE_INFO, body={'file_id': file_id, 'drive_id': drive_id})
+        response = self.post(ADRIVE_V1_FILE_GET_FOLDER_SIZE_INFO, body={'file_id': file_id, 'drive_id': drive_id})
         return self._result(response, FolderSizeInfo)

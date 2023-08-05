@@ -14,7 +14,7 @@ class Recyclebin(BaseAligo):
 
     def _core_move_file_to_trash(self, body: MoveFileToTrashRequest) -> MoveFileToTrashResponse:
         """移动文件到回收站"""
-        response = self._post(V2_RECYCLEBIN_TRASH, body=body)
+        response = self.post(V2_RECYCLEBIN_TRASH, body=body)
         return self._result(response, MoveFileToTrashResponse, [202, 204])
 
     def _core_batch_move_to_trash(self, body: BatchMoveToTrashRequest) -> Iterator[BatchSubResponse]:
@@ -34,7 +34,7 @@ class Recyclebin(BaseAligo):
 
     def _core_restore_file(self, body: RestoreFileRequest) -> RestoreFileResponse:
         """恢复文件"""
-        response = self._post(V2_RECYCLEBIN_RESTORE, body=body)
+        response = self.post(V2_RECYCLEBIN_RESTORE, body=body)
         return self._result(response, RestoreFileResponse, 204)
 
     def _core_batch_restore_files(self, body: BatchRestoreRequest) -> Iterator[BatchSubResponse]:

@@ -348,7 +348,7 @@ class CustomAligo(Aligo):
 
     def delete_file(self, file_id: str):
         """删除文件"""
-        response = self._post(self.V2_FILE_DELETE, body={'file_id': file_id})
+        response = self.post(self.V2_FILE_DELETE, body={'file_id': file_id})
         return response.json()
 
 

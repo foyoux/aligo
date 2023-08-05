@@ -25,5 +25,5 @@ class Drive(Core):
 
     def drive_capacity_details(self) -> DriveCapacityDetail:
         """获取网盘容量详细信息"""
-        response = self._post(ADRIVE_V1_USER_DRIVECAPACITY_DETAILS)
+        response = self.post(ADRIVE_V1_USER_DRIVECAPACITY_DETAILS)
         return self._result(response, DriveCapacityDetail)
