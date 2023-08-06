@@ -114,6 +114,18 @@ if __name__ == '__main__':
 
 ```
 
+## 如何自定义配置文件路径
+
+```py
+from aligo import set_config_folder, Aligo
+
+if __name__ == '__main__':
+    # 创建 Aligo 对象前，先设置配置文件目录，默认是 <用户目录>/.aligo
+    set_config_folder('/home/aligo')
+    # 会创建 /home/aligo/一号服务器.json 配置文件
+    ali = Aligo(name='一号服务器')
+
+```
 
 ## 关于扩展功能
 
