@@ -17,10 +17,10 @@ class GetShareTokenResponse(DatClass, str):
         share_token = kwargs.get('share_token')
         if share_token is None:
             share_token = args[0]
-        return super().__new__(cls, share_token)
+        return str.__new__(cls, share_token)
 
     def __str__(self):
         return self.share_token
 
     def __repr__(self):
-        return f"'{self.share_token}'"
+        return f'{self.share_token!r}'

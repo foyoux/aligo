@@ -1,7 +1,6 @@
-datclass>=0.2.5
-requests>=2.31.0
+datclass>=0.2.6
+requests
 qrcode[pil]
 coloredlogs
 tqdm>=4.50.0
 qrcode_terminal
-typing_extensions;python_version<'3.8'
