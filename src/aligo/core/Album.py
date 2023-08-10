@@ -1,7 +1,7 @@
 from typing import Iterator
 
-from aligo.core import *
-from aligo.core.Config import *
+from aligo.core import BaseAligo
+from aligo.core.Config import ADRIVE_V1_ALBUMHOME_ALBUMLIST, ADRIVE_V1_ALBUM_LIST_FILES, ADRIVE_V1_USER_ALBUMS_INFO
 from aligo.request import AlbumListRequest, AlbumListFilesRequest
 from aligo.response import AlbumInfoResponse, AlbumListResponse, ListResponse
 from aligo.types import ListAlbumItem
