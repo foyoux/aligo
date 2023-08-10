@@ -11,6 +11,7 @@ from .File import File
 from .Move import Move
 from .Other import Other
 from .Recyclebin import Recyclebin
+from .SBox import SBox
 from .Search import Search
 from .Share import Share
 from .Star import Star
@@ -31,6 +32,7 @@ class Core(
     Move,
     Other,
     Recyclebin,
+    SBox,
     Search,
     Share,
     Star,
