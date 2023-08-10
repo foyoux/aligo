@@ -110,6 +110,11 @@ class BaseAligo:
         """默认 drive_id"""
         return self._auth.token.default_drive_id
 
+    @default_drive_id.setter
+    def default_drive_id(self, drive_id):
+        """设置默认 drive_id"""
+        self._auth.token.default_drive_id = drive_id
+
     @property
     def default_sbox_drive_id(self):
         """默认保险箱 drive_id"""
