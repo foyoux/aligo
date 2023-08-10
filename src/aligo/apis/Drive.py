@@ -1,6 +1,6 @@
 """drive"""
 from aligo.core import Core
-from aligo.core.Config import ADRIVE_V1_USER_DRIVECAPACITY_DETAILS
+from aligo.core.Config import ADRIVE_V1_USER_DRIVE_CAPACITY_DETAILS
 from aligo.request import GetDriveRequest
 from aligo.types import BaseDrive, DriveCapacityDetail
 
@@ -25,5 +25,5 @@ class Drive(Core):
 
     def drive_capacity_details(self) -> DriveCapacityDetail:
         """获取网盘容量详细信息"""
-        response = self.post(ADRIVE_V1_USER_DRIVECAPACITY_DETAILS)
+        response = self.post(ADRIVE_V1_USER_DRIVE_CAPACITY_DETAILS)
         return self._result(response, DriveCapacityDetail)

@@ -1,11 +1,45 @@
 """..."""
+from dataclasses import dataclass
 from typing import List
 
 from aligo.core import BaseAligo
-from aligo.core.Config import V2_DRIVE_GET, V2_DRIVE_GET_DEFAULT_DRIVE, V2_DRIVE_LIST_MY_DRIVES
+from aligo.core.Config import (V2_DRIVE_GET, V2_DRIVE_GET_DEFAULT_DRIVE, V2_DRIVE_LIST_MY_DRIVES,
+                               ADRIVE_V1_USER_GET_USER_CAPACITY_INFO)
 from aligo.request import GetDriveRequest, GetDefaultDriveRequest
 from aligo.response import ListMyDrivesResponse
 from aligo.types import BaseDrive
+from aligo.types.Type import DatClass
+
+
+@dataclass
+class UserCapacityLimitDetails(DatClass):
+    limit_consume: bool = None
+    limit_download: bool = None
+
+
+@dataclass
+class CapacityLevelInfo(DatClass):
+    capacity_type: str = None
+
+
+@dataclass
+class DriveCapacityDetails(DatClass):
+    album_drive_used_size: int = None
+    backup_drive_used_size: int = None
+    default_drive_used_size: int = None
+    drive_total_size: int = None
+    drive_used_size: int = None
+    note_drive_used_size: int = None
+    resource_drive_used_size: int = None
+    sbox_drive_used_size: int = None
+    share_album_drive_used_size: int = None
+
+
+@dataclass
+class UserCapacityInfo(DatClass):
+    capacity_level_info: CapacityLevelInfo = None
+    drive_capacity_details: DriveCapacityDetails = None
+    user_capacity_limit_details: UserCapacityLimitDetails = None
 
 
 class Drive(BaseAligo):
@@ -46,3 +80,7 @@ class Drive(BaseAligo):
         """
         # noinspection PyTypeChecker
         return list(self._list_file(V2_DRIVE_LIST_MY_DRIVES, {}, ListMyDrivesResponse))
+
+    def get_user_capacity_info(self) -> UserCapacityInfo:
+        response = self.post(ADRIVE_V1_USER_GET_USER_CAPACITY_INFO)
+        return self._result(response, UserCapacityInfo)

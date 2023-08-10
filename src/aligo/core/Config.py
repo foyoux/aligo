@@ -34,7 +34,8 @@ V2_DATABOX_GET_PERSONAL_INFO = '/v2/databox/get_personal_info'
 V2_DATABOX_GET_AUDIO_PLAY_INFO = '/v2/databox/get_audio_play_info'
 V2_DATABOX_GET_VIDEO_PLAY_INFO = '/v2/databox/get_video_play_info'
 BUSINESS_V1_USERS_VIP_INFO = '/business/v1.0/users/vip/info'
-ADRIVE_V1_USER_DRIVECAPACITY_DETAILS = '/adrive/v1/user/driveCapacityDetails'
+ADRIVE_V1_USER_DRIVE_CAPACITY_DETAILS = '/adrive/v1/user/driveCapacityDetails'
+ADRIVE_V1_USER_GET_USER_CAPACITY_INFO = '/adrive/v1/user/getUserCapacityInfo'
 
 #  文件操作
 V2_FILE_GET = '/v2/file/get'
