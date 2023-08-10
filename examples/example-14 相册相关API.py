@@ -34,7 +34,7 @@ if __name__ == '__main__':
     # f = ali.upload_file(r"C:\Users\foyou\Pictures\Avatar\copilot-logo-large.png")  # 如果在云盘中删除此文件，相册中对应图片也会消失
     f = ali.upload_file(r"C:\Users\foyou\Pictures\Avatar\copilot-logo-large.png", drive_id=ali.album_info.driveId)
     # ali.add_files_to_album(album.album_id, [f])
-    ali.add_file_to_album(album.album_id, f)
+    ali.add_files_to_album(album.album_id, [f])
     # ali.add_file_to_album('LTeF1dwB3Wy', f)
 
     ll = ali.list_album_files(album.album_id)

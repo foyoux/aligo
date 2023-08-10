@@ -11,4 +11,4 @@ if __name__ == '__main__':
     if file.type == 'file':
         ali.download_file(file=file, local_folder=local_folder)
     else:
-        ali.download_folder(file.file_id, local_folder=local_folder)
+        ali.download_folder(folder_file_id=file.file_id, local_folder=local_folder)
