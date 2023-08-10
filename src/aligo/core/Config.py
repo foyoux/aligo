@@ -5,6 +5,7 @@ AUTH_HOST = 'https://auth.aliyundrive.com'
 WEBSV_HOST = 'https://websv.aliyundrive.com'
 PASSPORT_HOST = 'https://passport.aliyundrive.com'
 MEMBER_HOST = 'https://member.aliyundrive.com'
+USER_HOST = 'https://user.aliyundrive.com'
 
 # 登录相关
 NEWLOGIN_LOGIN_DO = '/newlogin/login.do'

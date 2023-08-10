@@ -107,7 +107,9 @@ from aligo import Aligo
 if __name__ == '__main__':
     ali = Aligo()
     drives = ali.list_my_drives()
-    resource_drive_id = [drive.drive_id for drive in drives if drive.drive_name == 'resource'][0]
+    # resource_drive_id = [drive.drive_id for drive in drives if drive.drive_name == 'resource'][0]
+    v2_user = ali.v2_user_get()
+    resource_drive_id = v2_user.resource_drive_id
     ll = ali.get_file_list(drive_id=resource_drive_id)
     for i in ll:
         print(i)
