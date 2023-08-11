@@ -69,6 +69,7 @@ class BaseAligo:
         self._user: Optional[BaseUser] = None
         self._personal_info: Optional[GetPersonalInfoResponse] = None
         self._default_drive: Optional[BaseDrive] = None
+        self._default_drive_id: Optional[str] = None
 
         if use_aria2:
             try:
@@ -108,12 +109,12 @@ class BaseAligo:
     @property
     def default_drive_id(self):
         """默认 drive_id"""
-        return self._auth.token.default_drive_id
+        return self._default_drive_id or self._auth.token.default_drive_id
 
     @default_drive_id.setter
     def default_drive_id(self, drive_id):
         """设置默认 drive_id"""
-        self._auth.token.default_drive_id = drive_id
+        self._default_drive_id = drive_id
 
     @property
     def default_sbox_drive_id(self):
