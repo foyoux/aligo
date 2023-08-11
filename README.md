@@ -110,6 +110,8 @@ if __name__ == '__main__':
     # resource_drive_id = [drive.drive_id for drive in drives if drive.drive_name == 'resource'][0]
     v2_user = ali.v2_user_get()
     resource_drive_id = v2_user.resource_drive_id
+    # 如果后续默认操作资源盘
+    # ali.default_drive_id = resource_drive_id
     ll = ali.get_file_list(drive_id=resource_drive_id)
     for i in ll:
         print(i)
