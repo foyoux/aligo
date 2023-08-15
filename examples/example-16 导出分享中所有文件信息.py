@@ -1,6 +1,5 @@
 """导出分享中所有文件信息"""
 import json
-from dataclasses import asdict
 from pathlib import Path
 
 from aligo import Aligo
@@ -17,7 +16,7 @@ def tree_share(share_token, parent_file_id='root'):
 
 def to_file():
     Path('aliyun.json5').write_text(
-        json.dumps([asdict(f) for f in all_files], ensure_ascii=False),
+        json.dumps([f.to_dict() for f in all_files], ensure_ascii=False),
         encoding='utf8'
     )
 
