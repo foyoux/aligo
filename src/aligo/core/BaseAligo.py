@@ -3,7 +3,7 @@ import json
 import logging
 import subprocess
 import traceback
-from dataclasses import asdict, is_dataclass
+from dataclasses import is_dataclass
 from typing import Generic, List, Iterator, Dict, Callable, Union
 from typing import Type, Optional
 
@@ -95,7 +95,7 @@ class BaseAligo:
         if body is None:
             body = {}
         elif isinstance(body, DatClass):
-            body = asdict(body)
+            body = body.to_dict()
 
         if 'drive_id' in body and body['drive_id'] is None:
             # 如果存在 attr drive_id 并且它是 None，并将 default_drive_id 设置为它
@@ -238,7 +238,7 @@ class BaseAligo:
             response = self.post(V3_BATCH, body={
                 "requests": [
                     {
-                        "body": asdict(request.body) if is_dataclass(request.body) else request.body,
+                        "body": request.body.to_dict() if is_dataclass(request.body) else request.body,
                         "headers": request.headers,
                         "id": request.id,
                         "method": request.method,

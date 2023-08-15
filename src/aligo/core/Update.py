@@ -1,6 +1,4 @@
 """..."""
-from dataclasses import asdict
-
 from aligo.core import BaseAligo
 from aligo.core.Config import V3_FILE_UPDATE
 from aligo.request import UpdateFileRequest, RenameFileRequest
@@ -27,4 +25,4 @@ class Update(BaseAligo):
 
     def _core_rename_file(self, body: RenameFileRequest) -> BaseFile:
         """..."""
-        return self.update_file(UpdateFileRequest(**asdict(body)))
+        return self.update_file(UpdateFileRequest(**body.to_dict()))

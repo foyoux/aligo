@@ -8,7 +8,6 @@ import sys
 import tempfile
 import time
 import uuid
-from dataclasses import asdict
 from http.server import HTTPServer
 from pathlib import Path
 from typing import Callable, overload, List, Dict
@@ -242,7 +241,7 @@ class Auth:
     def _save(self):
         """保存配置文件"""
         self.log.info(f'保存配置文件 {self._name}')
-        json.dump(asdict(self.token), self._name.open('w', encoding='utf8'))
+        json.dump(self.token.to_dict(), self._name.open('w', encoding='utf8'))
 
     # noinspection PyPep8Naming
     def _login(self):

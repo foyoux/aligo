@@ -3,7 +3,6 @@ import base64
 import hashlib
 import math
 import os
-from dataclasses import asdict
 from typing import Union, List
 
 import requests.exceptions
@@ -40,7 +39,7 @@ class Create(BaseAligo):
 
     def _core_create_folder(self, body: CreateFolderRequest) -> CreateFileResponse:
         """..."""
-        return self.create_file(CreateFileRequest(**asdict(body)))
+        return self.create_file(CreateFileRequest(**body.to_dict()))
 
     def complete_file(self, body: CompleteFileRequest) -> BaseFile:
         """

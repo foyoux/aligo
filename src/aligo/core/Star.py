@@ -1,5 +1,4 @@
 """收藏相关"""
-from dataclasses import asdict
 from typing import Iterator
 
 from aligo.core.Config import V2_FILE_LIST_BY_CUSTOM_INDEX_KEY
@@ -16,7 +15,7 @@ class Star(Update):
 
     def _core_starred_file(self, body: StarredFileRequest) -> BaseFile:
         """收藏(或取消) 文件"""
-        return self.update_file(UpdateFileRequest(**asdict(body)))
+        return self.update_file(UpdateFileRequest(**body.to_dict()))
 
     def _core_batch_star_files(self, body: BatchStarFilesRequest) -> Iterator[BatchSubResponse[BaseFile]]:
         """批量收藏文件"""

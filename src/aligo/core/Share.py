@@ -1,12 +1,11 @@
 """分享相关"""
-from dataclasses import asdict
 from typing import Iterator
 
 from aligo.core import BaseAligo
 from aligo.core.Config import *
 from aligo.request import *
 from aligo.response import *
-from aligo.types import *
+from aligo.types import ShareLinkSchema, BaseShareFile, Null
 
 
 class Share(BaseAligo):
@@ -78,7 +77,7 @@ class Share(BaseAligo):
             x_share_token: GetShareTokenResponse
     ) -> Iterator[BaseShareFile]:
         """..."""
-        response = self._auth.post(ADRIVE_V3_FILE_LIST, body=asdict(body), headers={'x-share-token': x_share_token},
+        response = self._auth.post(ADRIVE_V3_FILE_LIST, body=body.to_dict(), headers={'x-share-token': x_share_token},
                                    ignore_auth=True)
         file_list = self._result(response, GetShareFileListResponse)
         if isinstance(file_list, Null):
@@ -95,7 +94,7 @@ class Share(BaseAligo):
             x_share_token: GetShareTokenResponse
     ) -> Iterator[BaseShareFile]:
         """..."""
-        response = self._auth.post(ADRIVE_V2_FILE_LIST_BY_SHARE, body=asdict(body),
+        response = self._auth.post(ADRIVE_V2_FILE_LIST_BY_SHARE, body=body.to_dict(),
                                    headers={'x-share-token': x_share_token}, ignore_auth=True)
         file_list = self._result(response, GetShareFileListResponse)
         if isinstance(file_list, Null):
@@ -112,7 +111,7 @@ class Share(BaseAligo):
             x_share_token: GetShareTokenResponse
     ) -> BaseShareFile:
         """..."""
-        response = self._auth.post(V2_FILE_GET, body=asdict(body), headers={'x-share-token': x_share_token},
+        response = self._auth.post(V2_FILE_GET, body=body.to_dict(), headers={'x-share-token': x_share_token},
                                    ignore_auth=True)
         share_file = self._result(response, BaseShareFile)
         return share_file
@@ -123,7 +122,7 @@ class Share(BaseAligo):
             x_share_token: GetShareTokenResponse
     ) -> BaseShareFile:
         """..."""
-        response = self._auth.post(ADRIVE_V2_FILE_GET_BY_SHARE, body=asdict(body),
+        response = self._auth.post(ADRIVE_V2_FILE_GET_BY_SHARE, body=body.to_dict(),
                                    headers={'x-share-token': x_share_token},
                                    ignore_auth=True)
         share_file = self._result(response, BaseShareFile)
@@ -137,7 +136,7 @@ class Share(BaseAligo):
         """..."""
         response = self._auth.post(
             V2_FILE_GET_SHARE_LINK_DOWNLOAD_URL,
-            body=asdict(body),
+            body=body.to_dict(),
             headers={'x-share-token': x_share_token})
         download_url = self._result(response, GetShareLinkDownloadUrlResponse)
         return download_url
@@ -149,7 +148,7 @@ class Share(BaseAligo):
         """..."""
         if body.to_drive_id is None:
             body.to_drive_id = self.default_drive_id
-        response = self._auth.post(V2_FILE_COPY, body=asdict(body), headers={'x-share-token': x_share_token})
+        response = self._auth.post(V2_FILE_COPY, body=body.to_dict(), headers={'x-share-token': x_share_token})
         return self._result(response, ShareFileSaveToDriveResponse, [201, 202])
 
     def _core_batch_share_file_saveto_drive(
@@ -164,13 +163,13 @@ class Share(BaseAligo):
             response = self._auth.post(ADRIVE_V2_BATCH, body={
                 "requests": [
                     {
-                        "body": asdict(ShareFileSaveToDriveRequest(
+                        "body": ShareFileSaveToDriveRequest(
                             file_id=file_id,
                             share_id=body.share_id,
                             to_parent_file_id=body.to_parent_file_id,
                             to_drive_id=body.to_drive_id,
                             auto_rename=body.auto_rename,
-                        )),
+                        ).to_dict(),
                         "headers": {
                             'Content-Type': 'application/json',
                         },
