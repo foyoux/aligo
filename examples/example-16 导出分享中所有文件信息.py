@@ -6,13 +6,13 @@ from pathlib import Path
 from aligo import Aligo
 
 
-def tree_share(share_id, share_token, parent_file_id='root'):
-    file_list = ali.get_share_file_list(share_id, share_token, parent_file_id=parent_file_id)
+def tree_share(share_token, parent_file_id='root'):
+    file_list = ali.get_share_file_list(share_token, parent_file_id=parent_file_id)
     for file in file_list:
         print(file.name)
         all_files.append(file)
         if file.type == 'folder':
-            tree_share(share_id, share_token, file.file_id)
+            tree_share(share_token, file.file_id)
 
 
 def to_file():
@@ -26,7 +26,7 @@ def main():
     # 修改这里
     share_id = '<填写 share_id>'
     share_token = ali.get_share_token(share_id)
-    tree_share(share_id, share_token)
+    tree_share(share_token)
     to_file()
 
 
