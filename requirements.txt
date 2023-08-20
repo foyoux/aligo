@@ -1,5 +1,5 @@
-datclass>=0.2.15
-requests
+datclass>=0.2.21
+requests>=2.9.0
 qrcode[pil]
 coloredlogs
 tqdm>=4.50.0
