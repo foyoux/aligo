@@ -2,11 +2,11 @@
 from typing import Iterator
 
 from aligo.core import BaseAligo
-from aligo.core.Config import ADRIVE_V3_FILE_LIST, V2_FILE_WALK
+from aligo.core.Config import ADRIVE_V3_FILE_LIST, V2_FILE_WALK, V2_FILE_SCAN
 from aligo.request import BatchGetFileRequest, GetFileListRequest, GetFileRequest, BatchRequest, BatchSubRequest
 from aligo.response import BatchSubResponse, GetFileListResponse
 from aligo.types import BaseFile
-from aligo.types.Enum import BaseFileType
+from aligo.types.Enum import BaseFileType, BaseFileCategory
 
 
 class File(BaseAligo):
@@ -50,5 +50,18 @@ class File(BaseAligo):
             'drive_id': drive_id or self.default_drive_id,
             'type': type_,
             'url_expire_sec': url_expire_sec,
+            'limit': limit,
+        }, GetFileListResponse)
+
+    def _core_scan_file(
+            self,
+            drive_id: str = None,
+            category: BaseFileCategory = None,
+            limit: int = 1000,
+    ) -> Iterator[BaseFile]:
+        """..."""
+        yield from self._list_file(V2_FILE_SCAN, {
+            'drive_id': drive_id or self.default_drive_id,
+            'category': category,
             'limit': limit,
         }, GetFileListResponse)
