@@ -1,4 +1,4 @@
-datclass>=0.2.21
+datclass>=0.2.22
 requests>=2.9.0
 qrcode[pil]
 coloredlogs
