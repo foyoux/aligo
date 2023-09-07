@@ -17,7 +17,7 @@ from pathlib import Path
 from aligo import Aligo, BaseFile
 
 # 本地目录，用于存放下载的文件夹
-download_dir = 'C:/Users/foyou/Downloads/AliyunDrive/'
+download_dir = Path.home() / 'Downloads/AliyunDrive/'
 download_path = Path(download_dir)
 
 # IDM 主程序路径
@@ -26,7 +26,7 @@ idm = 'C:/MyProgram/IDM/IDMan.exe'
 
 def callback(file_path: str, file: BaseFile):
     (download_path / file_path).mkdir(parents=True, exist_ok=True)
-    # print(f'"{idm_dir}" /d "{file.download_url}" /p "{download_path / file_path}" /f "{file.name}"')
+    # print(f'"{idm}" /a /n /d "{file.download_url}" /p "{download_path / file_path}" /f "{file.name}"')
     cmd = f'{idm} /a /n /d "{file.download_url}" /p "{download_path / file_path}" /f "{file.name}"'
     print(cmd)
     if os.path.exists(idm):
@@ -43,7 +43,7 @@ def main():
 
     # 必须是一个文件夹
     drive_id = ali.v2_user_get().resource_drive_id
-    parent_file_id = '64f75fba92c4a9efbc264ba097d1790dd30cdcd9'
+    parent_file_id = '64f959e7190076eb9cfa45f09f7b1b98f6a66f6e'
 
     # 创建 parent_file_id 文件夹
     folder = ali.get_file(file_id=parent_file_id, drive_id=drive_id)
