@@ -21,7 +21,8 @@ download_dir = Path.home() / 'Downloads/AliyunDrive/'
 download_path = Path(download_dir)
 
 # IDM 主程序路径
-idm = 'C:/MyProgram/IDM/IDMan.exe'
+# 注意加双引号的方式
+idm = 'C:"/MyProgram/IDM/IDMan.exe"'
 
 
 def callback(file_path: str, file: BaseFile):
@@ -29,7 +30,7 @@ def callback(file_path: str, file: BaseFile):
     # print(f'"{idm}" /a /n /d "{file.download_url}" /p "{download_path / file_path}" /f "{file.name}"')
     cmd = f'{idm} /a /n /d "{file.download_url}" /p "{download_path / file_path}" /f "{file.name}"'
     print(cmd)
-    if os.path.exists(idm):
+    if os.path.exists(idm.replace('"', '')):
         os.system(cmd)
         os.system(f'{idm} /s')
 
@@ -43,7 +44,7 @@ def main():
 
     # 必须是一个文件夹
     drive_id = ali.v2_user_get().resource_drive_id
-    parent_file_id = '64f959e7190076eb9cfa45f09f7b1b98f6a66f6e'
+    parent_file_id = '64f95b3ca82330174171481a9c401612ff63f0cc'
 
     # 创建 parent_file_id 文件夹
     folder = ali.get_file(file_id=parent_file_id, drive_id=drive_id)
