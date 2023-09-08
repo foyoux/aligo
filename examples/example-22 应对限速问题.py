@@ -12,6 +12,7 @@
 """
 import logging
 import os
+import re
 from pathlib import Path
 
 from aligo import Aligo, BaseFile
@@ -25,7 +26,14 @@ download_path = Path(download_dir)
 idm = 'C:"/MyProgram/IDM/IDMan.exe"'
 
 
+def del_special_symbol(s: str) -> str:
+    """删除Windows文件名中不允许的字符"""
+    return re.sub(r'[\\/:*?"<>|]', '_', s)
+
+
 def callback(file_path: str, file: BaseFile):
+    file.name = del_special_symbol(file.name)
+    file_path = del_special_symbol(file_path)
     (download_path / file_path).mkdir(parents=True, exist_ok=True)
     # print(f'"{idm}" /a /n /d "{file.download_url}" /p "{download_path / file_path}" /f "{file.name}"')
     cmd = f'{idm} /a /n /d "{file.download_url}" /p "{download_path / file_path}" /f "{file.name}"'
@@ -48,7 +56,7 @@ def main():
 
     # 创建 parent_file_id 文件夹
     folder = ali.get_file(file_id=parent_file_id, drive_id=drive_id)
-    download_path = download_path / folder.name
+    download_path = download_path / del_special_symbol(folder.name)
 
     ali.walk_files(callback, parent_file_id=parent_file_id, drive_id=drive_id)
 
