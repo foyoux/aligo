@@ -18,17 +18,15 @@ from pathlib import Path
 from aligo import Aligo, BaseFile
 
 # 本地目录，用于存放下载的文件夹
-download_dir = Path.home() / 'Downloads/AliyunDrive/'
-download_path = Path(download_dir)
+download_path = Path.home() / 'Downloads/AliyunDrive/'
 
 # IDM 主程序路径
-# 注意加双引号的方式
-idm = 'C:"/MyProgram/IDM/IDMan.exe"'
+idm = 'C:\\MyProgram\\IDM\\IDMan.exe'
 
 
 def del_special_symbol(s: str) -> str:
     """删除Windows文件名中不允许的字符"""
-    return re.sub(r'[\\/:*?"<>|]', '_', s)
+    return re.sub(r'[:*?"<>|]', '_', s)
 
 
 def callback(file_path: str, file: BaseFile):
@@ -52,7 +50,7 @@ def main():
 
     # 必须是一个文件夹
     drive_id = ali.v2_user_get().resource_drive_id
-    parent_file_id = '64f95b3ca82330174171481a9c401612ff63f0cc'
+    parent_file_id = '64dcd9b5356a247012a44206a6dca0b5ab304c8e'
 
     # 创建 parent_file_id 文件夹
     folder = ali.get_file(file_id=parent_file_id, drive_id=drive_id)
