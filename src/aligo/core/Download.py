@@ -68,7 +68,7 @@ class Download(BaseAligo):
                 f'aria2c "{url}"',
                 f'--referer=https://www.aliyundrive.com/',
                 f'-d "{file_dir}"',
-                f'-o "{file_name}"'
+                f'-o "{file_name}"',
                 f'-x 16',
                 f'-s 8',
             ])
