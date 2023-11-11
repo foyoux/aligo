@@ -3,10 +3,10 @@ from dataclasses import dataclass
 from dataclasses import field
 from typing import Dict, List
 
-from .Type import DatClass
 from .Enum import BaseFileType, BaseFileCategory, BaseFileContentHashName
 from .FieldsInfo import FieldsInfo
 from .ImageMedia import ImageMedia
+from .Type import DatClass
 from .VideoMedia import VideoMedia
 from .VideoPreview import VideoPreview
 
@@ -17,7 +17,7 @@ class BaseFile(DatClass):
     type: BaseFileType = None
     file_id: str = None
     name: str = None
-    parent_file_id: str = field(default=None, repr=False)
+    parent_file_id: str = False
     category: BaseFileCategory = field(default=None, repr=False)
     size: int = field(default=None, repr=False)
     created_at: str = field(default=None, repr=False)
@@ -65,8 +65,8 @@ class BaseFile(DatClass):
     sync_device_flag: bool = field(default=None, repr=False)
     sync_meta: str = field(default=None, repr=False)
     ex_fields_info: FieldsInfo = field(default=None, repr=False)
-    from_share_id: str = None
-    revision_version: int = None
-    channel: str = None
-    meta_name_punish_flag: int = None
-    meta_name_investigation_status: int = None
+    from_share_id: str = field(default=None, repr=False)
+    revision_version: int = field(default=None, repr=False)
+    channel: str = field(default=None, repr=False)
+    meta_name_punish_flag: int = field(default=None, repr=False)
+    meta_name_investigation_status: int = field(default=None, repr=False)
