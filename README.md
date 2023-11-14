@@ -8,6 +8,8 @@
 > 
 > 有任何疑问 请 [issue](https://github.com/foyoux/aligo/issues/new?assignees=&labels=&template=bug_report.md&title=)
 > 或 加入 **aligo交流反馈群** （群二维码在底部）
+> 
+> 附带一份文档 [阿里云盘开放平台文档](https://www.yuque.com/aliyundrive/zpfszx/fitzlb1uyy0pv0iw)
 
 [![python version](https://img.shields.io/pypi/pyversions/aligo)](https://pypi.org/project/aligo/)  [![Downloads](https://static.pepy.tech/personalized-badge/aligo?period=total&units=international_system&left_color=black&right_color=orange&left_text=Downloads)](https://pepy.tech/project/aligo)
 
