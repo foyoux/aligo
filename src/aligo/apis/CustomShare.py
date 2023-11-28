@@ -98,7 +98,7 @@ class CustomShare(Core):
         """
         result = self.__share_folder_by_aligo(parent_file_id=parent_file_id, drive_id=drive_id)
         if parent_file_id != 'root':
-            folder = self._core_get_file(GetFileRequest(file_id=parent_file_id))
+            folder = self._core_get_file(GetFileRequest(file_id=parent_file_id, drive_id=drive_id))
             result = [[folder.name, result]]
         else:
             result = [['root', result]]
