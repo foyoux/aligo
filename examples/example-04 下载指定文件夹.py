@@ -1,14 +1,14 @@
-"""..."""
-
 from aligo import Aligo
 
-if __name__ == '__main__':
+
+def main():
     ali = Aligo()
-    # 获取指定文件/文件夹
-    file = ali.get_file_by_path('我的资源/音乐')
-    #
-    local_folder = 'D:/阿里云盘'
-    if file.type == 'file':
-        ali.download_file(file=file, local_folder=local_folder)
-    else:
-        ali.download_folder(folder_file_id=file.file_id, local_folder=local_folder)
+    file = ali.get_folder_by_path('计算机/Python')
+    if file is None:
+        raise RuntimeError('指定的文件夹不存在')
+    local_folder = 'D:\\阿里云盘'
+    ali.download_folder(folder_file_id=file.file_id, local_folder=local_folder)
+
+
+if __name__ == '__main__':
+    main()
