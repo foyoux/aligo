@@ -311,7 +311,7 @@ class Auth:
             elif qrCodeStatus == 'SCANED':
                 self.log.info('已扫描 等待确认')
             elif qrCodeStatus == 'CONFIRMED':
-                self.log.info(f'已确认 可关闭二维码窗口')
+                self.log.info(f'已确认')
                 if self._port:
                     try:
                         self.session.get(f'http://localhost:{self._port}/close')
