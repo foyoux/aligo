@@ -508,7 +508,6 @@ class Auth:
             self._webServer.serve_forever()            
         except OSError as e:
             os.remove(qr_img_path)
-            self._webServer.shutdown()
             sys.exit(f"Error: {e}. Exiting program.")
             
     def _send_email(self, qr_link: str):
