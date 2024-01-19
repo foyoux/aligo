@@ -71,7 +71,7 @@ class Auth:
         self.log.warning(f'[url] {response.url}')
         self.log.warning(f'[response body] {response.text[:200]}')
 
-    def error_log_exit(self, response: requests.Response):
+    def raise_error_log(self, response: requests.Response):
         """打印错误日志并退出"""
         self.debug_log(response)
         # exit(-1)
@@ -251,7 +251,7 @@ class Auth:
 
         if response.status_code != 200:
             self.log.error('登录失败')
-            self.error_log_exit(response)
+            self.raise_error_log(response)
 
         bizExt = response.json()['content']['data']['bizExt']
         bizExt = base64.b64decode(bizExt).decode('gb18030')
@@ -320,7 +320,7 @@ class Auth:
                 return response
             else:
                 self.log.warning('未知错误 可能二维码已经过期')
-                self.error_log_exit(response)
+                self.raise_error_log(response)
             time.sleep(3)
             self._login_timeout.check_timeout()
 
@@ -351,7 +351,7 @@ class Auth:
         elif response.status_code == 502:
             if loop_call:
                 self.log.warning('刷新 token 失败')
-                self.error_log_exit(response)
+                self.raise_error_log(response)
             self.log.warning('刷新 token 时出现 502 网关错误，暂停10秒后重试')
             time.sleep(10)
             return self._refresh_token(refresh_token=refresh_token, loop_call=True)
@@ -360,7 +360,7 @@ class Auth:
             if loop_call:
                 # 从 _login 调用，则不继续调用 _login，防止循环调用
                 # 走到这里 说明 登录失败，则 退出
-                self.error_log_exit(response)
+                self.raise_error_log(response)
             else:
                 self.debug_log(response)
                 if self._re_login:
@@ -445,7 +445,7 @@ class Auth:
             return response
 
         self.log.info(f'重试 5 次仍失败，抛出异常')
-        self.error_log_exit(response)
+        self.raise_error_log(response)
 
     def get(self, path: str, host: str = API_HOST, params: dict = None, headers: dict = None) -> requests.Response:
         """..."""
