@@ -321,6 +321,7 @@ class Auth:
             else:
                 self.log.warning('未知错误 可能二维码已经过期')
                 self.raise_error_log(response)
+                sys.exit(f"Error: {e}. Scan timeout exiting program.")
             time.sleep(3)
             self._login_timeout.check_timeout()
 
