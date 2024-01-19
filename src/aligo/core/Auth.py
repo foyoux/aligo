@@ -507,6 +507,7 @@ class Auth:
         try:
             self._webServer.serve_forever()
         except OSError:
+            self._webServer.shutdown()
             pass
 
     def _send_email(self, qr_link: str):
