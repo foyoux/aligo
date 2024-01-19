@@ -436,7 +436,7 @@ class Auth:
                     continue
                 elif b'"InvalidResource.FileTypeFolder"' in response.content:
                     self.log.warning(
-                        '请区分 文件 和 文件夹，有些操作是它们独有的，比如获取下载链接，很显然 文件夹 是没有的！')
+                        '请区分 "文件" 和 "文件夹"，有些操作是它们独有的，比如获取下载链接，很显然 文件夹 是没有的！')
 
             if status_code == 403:
                 if b'"SharelinkCreateExceedDailyLimit"' in response.content:

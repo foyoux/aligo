@@ -102,12 +102,16 @@ from aligo import Aligo
 
 if __name__ == '__main__':
     ali = Aligo()
+    
     drives = ali.list_my_drives()
     # resource_drive_id = [drive.drive_id for drive in drives if drive.drive_name == 'resource'][0]
+    
     v2_user = ali.v2_user_get()
     resource_drive_id = v2_user.resource_drive_id
+    
     # 如果后续默认操作资源盘
     # ali.default_drive_id = resource_drive_id
+    
     file_list = ali.get_file_list(drive_id=resource_drive_id)
     for file in file_list:
         print(file)
