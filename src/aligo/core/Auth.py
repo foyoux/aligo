@@ -501,15 +501,16 @@ class Auth:
         qr_img.get_image()
         qr_img_path = tempfile.mktemp()
         qr_img.save(qr_img_path)
-        self._webServer = HTTPServer(('0.0.0.0', self._port), LoginServer)
-        self._webServer.qrData = open(qr_img_path, 'rb').read()
-        os.remove(qr_img_path)
         try:
-            self._webServer.serve_forever()
-        except OSError:
+            self._webServer = HTTPServer(('0.0.0.0', self._port), LoginServer)
+            self._webServer.qrData = open(qr_img_path, 'rb').read()
+            os.remove(qr_img_path)
+            self._webServer.serve_forever()            
+        except OSError as e:
+            os.remove(qr_img_path)
             self._webServer.shutdown()
-            pass
-
+            sys.exit(f"Error: {e}. Exiting program.")
+            
     def _send_email(self, qr_link: str):
         """发送邮件"""
         qr_img = qrcode.make(qr_link)
