@@ -31,6 +31,8 @@ class LoginServer(BaseHTTPRequestHandler):
         elif self.path == '/login.png':
             self.send_response(200)
             self.send_header("content-type", "image/png")
+            self.send_header('Cache-Control', 'no-cache, no-store, must-revalidate')
+            self.send_header('Pragma', 'no-cache')
             self.end_headers()
             # noinspection PyUnresolvedReferences
             self.wfile.write(self.server.qrData)
