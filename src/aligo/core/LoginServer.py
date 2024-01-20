@@ -12,6 +12,8 @@ class LoginServer(BaseHTTPRequestHandler):
         if self.path == '/':
             self.send_response(200)
             self.send_header("content-type", "text/html")
+            self.send_header('Cache-Control', 'no-cache, no-store, must-revalidate')
+            self.send_header('Pragma', 'no-cache')
             self.end_headers()
             self.wfile.write(bytes(
                 f"""
