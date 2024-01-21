@@ -320,6 +320,8 @@ class Auth:
                 return response
             else:
                 self.log.warning('未知错误 可能二维码已经过期')
+                if self._webServer:
+                    self._webServer.shutdown()
                 self.raise_error_log(response)
             time.sleep(3)
             self._login_timeout.check_timeout()

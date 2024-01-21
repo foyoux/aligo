@@ -14,18 +14,16 @@ class LoginServer(BaseHTTPRequestHandler):
             self.send_header("content-type", "text/html")
             self.end_headers()
             self.wfile.write(bytes(
-                f"""
-                    <html>
-                        <head>
-                            <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-                            <title>登录阿里云盘</title>
-                        </head>
-                        <body>
-                            <p align="center"><img src="/login.png"></p>
-                        </body>
-                    </html>
-                """, 'utf8'
-            ))
+                f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>扫码登录阿里云盘</title>
+</head>
+<body>
+<p align="center"><img src="/login.png"></p>
+</body>
+</html>""", 'utf8'))
         elif self.path == '/login.png':
             self.send_response(200)
             self.send_header("content-type", "image/png")
