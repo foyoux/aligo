@@ -24,6 +24,7 @@ from .GetShareFileListResponse import GetShareFileListResponse
 from .GetShareInfoResponse import GetShareInfoResponse
 from .GetShareLinkDownloadUrlResponse import GetShareLinkDownloadUrlResponse
 from .GetShareLinkListResponse import GetShareLinkListResponse
+from .GetShareLinkVideoPreviewPlayInfoResponse import GetShareLinkVideoPreviewPlayInfoResponse
 from .GetShareTokenResponse import GetShareTokenResponse
 from .GetStarredListResponse import GetStarredListResponse
 from .GetUploadUrlResponse import GetUploadUrlResponse

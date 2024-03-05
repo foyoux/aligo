@@ -134,6 +134,7 @@ class Share(BaseAligo):
             x_share_token: GetShareTokenResponse
     ) -> GetShareLinkDownloadUrlResponse:
         """..."""
+        raise NotImplementedError('获取分享文件下载链接功能已被官方下线, 请使用其他方式下载文件')
         response = self._auth.post(
             V2_FILE_GET_SHARE_LINK_DOWNLOAD_URL,
             body=body.to_dict(),
@@ -212,3 +213,15 @@ class Share(BaseAligo):
     def _core_private_share_files(self, body: PrivateShareRequest) -> PrivateShareResponse:
         response = self.post(ADRIVE_V1_SHARE_CREATE, body=body)
         return self._result(response, PrivateShareResponse)
+
+    def _core_get_share_link_video_preview_play_info(
+            self,
+            body: GetShareLinkVideoPreviewPlayInfoRequest,
+            x_share_token: GetShareTokenResponse
+    ) -> GetShareLinkVideoPreviewPlayInfoResponse:
+        response = self.post(
+            V2_FILE_GET_SHARE_LINK_VIDEO_PREVIEW_PLAY_INFO,
+            body=body,
+            headers={'x-share-token': x_share_token}
+        )
+        return self._result(response, GetShareLinkVideoPreviewPlayInfoResponse)

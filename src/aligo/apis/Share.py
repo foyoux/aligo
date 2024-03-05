@@ -401,6 +401,7 @@ class Share(Core):
             **kwargs
     ) -> GetShareLinkDownloadUrlResponse:
         """get_share_link_download_url"""
+        raise NotImplementedError('`get_share_link_download_url` 已失效')
         _deprecation_warning(kwargs)
         if body is None:
             body = GetShareLinkDownloadUrlRequest(share_id=share_token.share_id, file_id=file_id, **kwargs)
@@ -603,3 +604,13 @@ class Share(Core):
                 for file_id in file_id_list
             ]
         ))
+
+    def get_share_link_video_preview_play_info(
+            self,
+            file_id: str,
+            drive_id: str,
+            x_share_token: GetShareTokenResponse,
+            **kwargs,
+    ) -> GetShareLinkVideoPreviewPlayInfoResponse:
+        body = GetShareLinkVideoPreviewPlayInfoRequest(file_id, drive_id, x_share_token.share_id, **kwargs)
+        return self._core_get_share_link_video_preview_play_info(body, x_share_token)
