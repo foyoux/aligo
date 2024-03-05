@@ -21,6 +21,7 @@ class Video(Core):
         >>> video = ali.get_video_play_info('<file_id>')
         >>> print(video)
         """
+        raise NotImplementedError('视频预览功能已下线')
         body = GetVideoPlayInfoRequest(file_id=file_id, drive_id=drive_id)
         return self._core_get_video_play_info(body)
 

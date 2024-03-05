@@ -10,6 +10,7 @@ class Video(BaseAligo):
 
     def _core_get_video_play_info(self, body: GetVideoPlayInfoRequest) -> GetVideoPlayInfoResponse:
         """..."""
+        raise NotImplementedError('视频预览功能已下线')
         response = self.post(V2_DATABOX_GET_VIDEO_PLAY_INFO, body=body)
         return self._result(response, GetVideoPlayInfoResponse)
 
