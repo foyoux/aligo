@@ -66,6 +66,7 @@ ADRIVE_V1_ALBUM_DELETE = '/adrive/v1/album/delete'
 ADRIVE_V1_ALBUM_GET = '/adrive/v1/album/get'
 ADRIVE_V1_ALBUM_CREATE = '/adrive/v1/album/create'
 ADRIVE_V1_ALBUM_LIST_FILES = '/adrive/v1/album/list_files'
+ADRIVE_V1_ALBUM_LIST = '/adrive/v1/album/list'
 ADRIVE_V1_ALBUM_UPDATE = '/adrive/v1/album/update'
 ADRIVE_V1_ALBUM_ADD_FILES = '/adrive/v1/album/add_files'
 
