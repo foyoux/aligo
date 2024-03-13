@@ -12,6 +12,6 @@ class ListAlbumItem(DatClass):
     """..."""
     name: str = None
     type: str = None
-    album_id: int = None
+    album_id: str = None
     total_count: int = None
     file_list: List[BaseFile] = field(default_factory=list)

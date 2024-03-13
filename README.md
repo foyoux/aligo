@@ -125,8 +125,10 @@ from aligo import set_config_folder, Aligo
 if __name__ == '__main__':
     # 创建 Aligo 对象前，先设置配置文件目录，默认是 <用户目录>/.aligo
     set_config_folder('/home/aligo')
-    # 会创建 /home/aligo/一号服务器.json 配置文件
-    ali = Aligo(name='一号服务器')
+    # 会创建 /home/aligo/小号1.json 配置文件
+    ali1 = Aligo(name='小号1')
+    # 会创建 /home/aligo/小号2.json 配置文件
+    ali2 = Aligo(name='小号2')
 ```
 
 ## 关于扩展功能
