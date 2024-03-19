@@ -292,10 +292,11 @@ class Auth:
             if self._email:
                 self._send_email(qr_link)
         else:
-            qrcode_png = self._show(qr_link)
-            if qrcode_png:
-                self.log.info(f'二维码图片文件 {qrcode_png}')
-        self.log.info('等待扫描二维码')
+            self.log.info('等待扫描二维码，扫码结束后关闭二维码窗口')
+            self._show(qr_link)
+            # qrcode_png = self._show(qr_link)
+            # if qrcode_png:
+            #     self.log.info(f'二维码图片文件 {qrcode_png}')
 
         while True:
             response = self.session.post(
