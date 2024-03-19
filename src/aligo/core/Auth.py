@@ -503,6 +503,7 @@ class Auth:
         qr_img.get_image()
         qr_img_path = tempfile.mktemp()
         qr_img.save(qr_img_path)
+        # noinspection PyTypeChecker
         self._webServer = HTTPServer(('0.0.0.0', self._port), LoginServer)
         self._webServer.qrData = open(qr_img_path, 'rb').read()
         os.remove(qr_img_path)
