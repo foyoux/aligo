@@ -218,10 +218,9 @@ class File(Core):
         :return:
         """
         for f in self._core_get_file_list(GetFileListRequest(parent_file_id=parent_file_id, drive_id=drive_id)):
-            if f.type == 'file':
-                callback(_path, f)
-                continue
-            self.walk_files(callback, parent_file_id=f.file_id, drive_id=drive_id, _path=os.path.join(_path, f.name))
+            callback(_path, f)
+            if f.type == 'folder':
+                self.walk_files(callback, parent_file_id=f.file_id, drive_id=drive_id, _path=os.path.join(_path, f.name))
 
     def get_folder_size_info(self, file_id: str, drive_id: str = None) -> FolderSizeInfo:
         """获取文件夹信息，文件夹个数，以及文件个数及其大小，不递归"""
