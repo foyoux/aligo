@@ -107,7 +107,13 @@ class Create(Core):
                 result.append(x)
                 continue
             # 5. 否则为文件夹, 递归
-            x = self.upload_folder(folder_path=file.path, parent_file_id=folder.file_id, drive_id=drive_id,
-                                   check_name_mode=check_name_mode)
+            x = self.upload_folder(
+                file.path,
+                parent_file_id=folder.file_id,
+                drive_id=drive_id,
+                check_name_mode=check_name_mode,
+                folder_check_name_mode=folder_check_name_mode,
+                file_filter=file_filter
+            )
             result.append({file.name: x})
         return result
