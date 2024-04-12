@@ -53,7 +53,7 @@ class Aligo(
             self,
             name: str = 'aligo', *,
             refresh_token: str = None,
-            show: Callable[[str], None] = None,
+            show: Callable[[str], str] = None,
             level: int = logging.DEBUG,
             use_aria2: bool = False,
             proxies: Dict = None,
