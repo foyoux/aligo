@@ -34,7 +34,7 @@ def callback(file_path: str, file: BaseFile):
     file_path = del_special_symbol(file_path)
     (download_path / file_path).mkdir(parents=True, exist_ok=True)
     # print(f'"{idm}" /a /n /d "{file.download_url}" /p "{download_path / file_path}" /f "{file.name}"')
-    cmd = f'{idm} /a /n /d "{file.download_url}" /p "{download_path / file_path}" /f "{file.name}"'
+    cmd = f'{idm} /a /n /d "{file.download_url or file.url}" /p "{download_path / file_path}" /f "{file.name}"'
     print(cmd)
     if os.path.exists(idm.replace('"', '')):
         os.system(cmd)
