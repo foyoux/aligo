@@ -14,7 +14,7 @@ from aligo.types import BaseFile
 
 class Download(BaseAligo):
     """..."""
-    _DOWNLOAD_CHUNK_SIZE = 8388608  # 8 MB
+    _DOWNLOAD_CHUNK_SIZE = 1024 * 1024  # 1 MB
 
     def _core_get_download_url(self, body: GetDownloadUrlRequest) -> GetDownloadUrlResponse:
         """..."""
@@ -135,7 +135,7 @@ class Download(BaseAligo):
             file_path = self._core_download_file(
                 file_path,
                 file.download_url or file.url or self._core_get_download_url(GetDownloadUrlRequest(
-                    file_id=file.id,
+                    file_id=file.file_id,
                     drive_id=file.drive_id,
                     file_name=file.name,
                 )).url
