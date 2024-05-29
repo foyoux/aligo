@@ -20,6 +20,12 @@ pip install -U aligo
 pip install git+https://github.com/foyoux/aligo.git
 ```
 
+> **Notes：** 最近官方更新了接口，导致 `get_file_list` 无法直接获取下载链接，现在需要单独使用 `get_download_url` 接口获取下载链接。
+> 
+> 对于不常用（没有封装）的接口，可以直接通过 `self.post` 方法直接发送请求。
+>
+> 接口变动较多，有问题请反馈，我会尽快修复。
+
 ## 快速入门
 
 ```python
