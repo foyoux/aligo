@@ -34,3 +34,4 @@ class Token(DatClass):
     hlogin_url: str = field(default=None, repr=False)
     # x-signature x-device-id x-nonce
     x_device_id: str = field(default=None, repr=False)
+    path_status: str = None

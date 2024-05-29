@@ -59,6 +59,7 @@ class UserResponse(DatClass):
     user_id: str = None
     user_name: str = None
     vip_identity: str = field(default=None, repr=False)
+    display_name: str = None
 
 
 class User(BaseAligo):

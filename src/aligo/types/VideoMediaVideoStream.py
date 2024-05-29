@@ -12,3 +12,4 @@ class VideoMediaVideoStream(DatClass):
     bitrate: str = None
     clarity: str = None
     duration: str = None
+    frame_count: str = None

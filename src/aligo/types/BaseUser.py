@@ -34,3 +34,4 @@ class BaseUser(DatClass):
     default_location: str = field(default=None, repr=False)
     phone_region: str = field(default=None, repr=False)
     last_login_time: int = field(default=None, repr=False)
+    path_status: str = None
