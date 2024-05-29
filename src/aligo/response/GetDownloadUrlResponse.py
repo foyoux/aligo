@@ -18,3 +18,11 @@ class GetDownloadUrlResponse(DatClass):
     crc64_hash: str = None
     content_hash: str = None
     content_hash_name: BaseFileContentHashName = None
+    domain_id: str = None
+    drive_id: str = None
+    encrypt_url: str = None
+    file_id: str = None
+    meta_name_investigation_status: int = None
+    meta_name_punish_flag: int = None
+    punish_flag: int = None
+    revision_id: str = None
