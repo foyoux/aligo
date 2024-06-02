@@ -62,7 +62,8 @@ class Aligo(
             request_failed_delay: float = 3,
             requests_timeout: float = None,
             login_timeout: float = None,
-            re_login: bool = True
+            re_login: bool = True,
+            request_interval: int = 0,
     ):
         """
         Aligo
@@ -78,6 +79,7 @@ class Aligo(
         :param requests_timeout: (可选) 应网友提议，添加 requests timeout 参数
         :param login_timeout: (可选) 登录超时时间，单位：秒。
         :param re_login: refresh_token 失效后是否继续登录（弹出二维码或邮件，需等待） fix #73
+        :param request_interval: 每次请求等待的时间，避免请求频繁触发风控
 
         level, use_aria2, proxies, port, email 可以通过 配置文件 配置默认值，在 <用户家目录>/.aligo/config.json5 中
         ```json5
@@ -97,23 +99,25 @@ class Aligo(
         if config.exists():
             config = json.loads(config.read_text(encoding='utf8'))
             if level == logging.DEBUG and 'level' in config:
-                level = config.get('level')
+                level = config.get('level', level)
             if not use_aria2:
-                use_aria2 = config.get('use_aria2')
+                use_aria2 = config.get('use_aria2', use_aria2)
             if proxies is None:
-                proxies = config.get('proxies')
+                proxies = config.get('proxies', proxies)
             if port is None:
-                port = config.get('port')
+                port = config.get('port', port)
             if email is None:
-                email = config.get('email')
+                email = config.get('email', email)
             if request_failed_delay == 3:
                 requests_timeout = config.get('request_failed_delay', 3)
             if requests_timeout is None:
-                requests_timeout = config.get('requests_timeout')
-            if requests_timeout is None:
-                login_timeout = config.get('login_timeout')
+                requests_timeout = config.get('requests_timeout', requests_timeout)
+            if login_timeout is None:
+                login_timeout = config.get('login_timeout', login_timeout)
             if re_login is True:
-                re_login = config.get('re_login')
+                re_login = config.get('re_login', re_login)
+            if request_interval is True:
+                request_interval = config.get('request_interval', request_interval)
 
         super().__init__(
             name,
@@ -128,4 +132,5 @@ class Aligo(
             requests_timeout,
             login_timeout,
             re_login,
+            request_interval,
         )

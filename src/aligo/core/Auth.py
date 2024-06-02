@@ -88,6 +88,7 @@ class Auth:
             email: EMailConfig = None,
             request_failed_delay: float = 3,
             requests_timeout: float = None,
+            request_interval: int = 0,
     ):
         """扫描二维码登录"""
 
@@ -102,6 +103,7 @@ class Auth:
             email: EMailConfig = None,
             request_failed_delay: float = 3,
             requests_timeout: float = None,
+            request_interval: int = 0,
     ):
         """refresh_token 登录"""
 
@@ -118,6 +120,7 @@ class Auth:
             requests_timeout: float = None,
             login_timeout: float = None,
             re_login: bool = True,
+            request_interval: int = 0,
     ):
         """..."""
 
@@ -134,6 +137,7 @@ class Auth:
             requests_timeout: float = None,
             login_timeout: float = None,
             re_login: bool = True,
+            request_interval: int = 0,
     ):
         """登录验证
 
@@ -148,6 +152,7 @@ class Auth:
         :param requests_timeout: same as requests timeout
         :param login_timeout: 登录超时时间，单位：秒
         :param re_login: refresh_token 失效后是否继续登录（弹出二维码或邮件，需等待） fix #73
+        :param request_interval: 每次请求等待的时间，避免请求频繁触发风控
         """
         self._name_name = name
         self._name = aligo_config_folder.joinpath(f'{name}.json')
@@ -159,6 +164,7 @@ class Auth:
         self._requests_timeout = requests_timeout
         self._login_timeout = LoginTimeout(login_timeout)
         self._re_login = re_login
+        self._request_interval = request_interval
 
         fmt = f'%(asctime)s.%(msecs)03d {name}.%(levelname)s %(message)s'
 
@@ -374,6 +380,10 @@ class Auth:
     def request(self, method: str, url: str, params: Dict = None,
                 headers: Dict = None, data=None, body: Dict = None) -> requests.Response:
         """统一请求方法"""
+        #
+        if self._request_interval:
+            time.sleep(self._request_interval)
+
         # 删除值为None的键
         if body is not None:
             body = {k: v for k, v in body.items() if v is not None}

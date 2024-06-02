@@ -32,7 +32,8 @@ class BaseAligo:
             request_failed_delay: float = 3,
             requests_timeout: float = None,
             login_timeout: float = None,
-            re_login: bool = True
+            re_login: bool = True,
+            request_interval: int = 0,
     ):
         """
         BaseAligo
@@ -48,6 +49,7 @@ class BaseAligo:
         :param requests_timeout: same as requests timeout
         :param login_timeout: 登录超时时间，单位：秒
         :param re_login: refresh_token 失效后是否继续登录（弹出二维码或邮件，需等待） fix #73
+        :param request_interval: 每次请求等待的时间，避免请求频繁触发风控
         """
         self._auth = Auth(
             name=name,
@@ -61,6 +63,7 @@ class BaseAligo:
             requests_timeout=requests_timeout,
             login_timeout=login_timeout,
             re_login=re_login,
+            request_interval=request_interval,
         )
         # 因为 self._auth.session 没有被重新赋值, 所以可以这么用
         self._session: requests.Session = self._auth.session
