@@ -170,7 +170,7 @@ if __name__ == '__main__':
     </thead>
     <tbody align="center">
     <tr>
-        <td><img src="http://110.42.175.98/github/aligo/wechat.jpg#qrcode" alt="aligo反馈交流群"/></td>
+        <td><img src="images/wechat.jpg" alt="aligo反馈交流群"/></td>
     </tr>
     </tbody>
     <tfoot align="center">
