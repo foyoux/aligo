@@ -4,7 +4,8 @@ import json
 from typing import List, Dict
 
 from aligo.core import Core
-from aligo.request import GetFileListRequest, GetFileRequest, CreateFolderRequest
+from aligo.request import CreateFolderRequest
+from aligo.request import GetFileRequest, GetFileListRequest, GetDownloadUrlRequest
 from aligo.types import BaseFile
 from aligo.types.Enum import CheckNameMode
 
@@ -14,8 +15,7 @@ class CustomShare(Core):
 
     _ALIGO_SHARE_SCHEMA = 'aligo://'
 
-    @staticmethod
-    def __share_files_by_aligo(files: List[BaseFile]) -> List:
+    def __share_files_by_aligo(self, files: List[BaseFile]) -> List:
         """..."""
         result = []
         for file in files:
@@ -23,12 +23,15 @@ class CustomShare(Core):
                 'name': file.name,
                 'content_hash': file.content_hash,
                 'size': file.size,
-                'url': file.download_url or file.url
+                'url': file.download_url or self._core_get_download_url(GetDownloadUrlRequest(
+                    file_id=file.file_id,
+                    drive_id=file.drive_id,
+                    file_name=file.name,
+                )).url
             })
         return result
 
-    @staticmethod
-    def share_file_by_aligo(file: BaseFile) -> str:
+    def share_file_by_aligo(self, file: BaseFile) -> str:
         """
         自定义分享文件
         :param file: [BaseFile] 分享文件（BaseFile对象）
@@ -44,11 +47,10 @@ class CustomShare(Core):
         >>> result = ali.share_file_by_aligo(file)
         >>> print(result)
         """
-        result = CustomShare.__share_files_by_aligo([file])
+        result = self.__share_files_by_aligo([file])
         return CustomShare._ALIGO_SHARE_SCHEMA + base64.b64encode(json.dumps(result).encode()).decode()
 
-    @staticmethod
-    def share_files_by_aligo(files: List[BaseFile]) -> str:
+    def share_files_by_aligo(self, files: List[BaseFile]) -> str:
         """
         自定义分享文件
         :param files: [List[BaseFile]] 分享文件列表（BaseFile对象列表）
@@ -64,7 +66,7 @@ class CustomShare(Core):
         >>> result = ali.share_files_by_aligo(files)
         >>> print(result)
         """
-        result = CustomShare.__share_files_by_aligo(files)
+        result = self.__share_files_by_aligo(files)
         return CustomShare._ALIGO_SHARE_SCHEMA + base64.b64encode(json.dumps(result).encode()).decode()
 
     def __share_folder_by_aligo(self, parent_file_id: str, drive_id: str = None) -> List:

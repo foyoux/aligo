@@ -134,7 +134,7 @@ class Download(BaseAligo):
             file_path = os.path.join(local_folder, file.name)
             file_path = self._core_download_file(
                 file_path,
-                file.download_url or file.url or self._core_get_download_url(GetDownloadUrlRequest(
+                file.download_url or self._core_get_download_url(GetDownloadUrlRequest(
                     file_id=file.file_id,
                     drive_id=file.drive_id,
                     file_name=file.name,
