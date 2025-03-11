@@ -1,4 +1,4 @@
-"""快速入门"""
+"""支持上传 bytes"""
 
 import base64
 import hashlib
@@ -25,7 +25,7 @@ from aligo.types.Enum import CheckNameMode
 
 class CAligo(Aligo):
 
-    def _pre_hash(
+    def _pre_hash_by_bytes(
         self,
         bytes_data,
         file_size: int,
@@ -183,7 +183,7 @@ class CAligo(Aligo):
 
         if file_size > 1024:  # 1kB
             # 1. pre_hash
-            part_info = self._pre_hash(
+            part_info = self._pre_hash_by_bytes(
                 bytes_data,
                 file_size=file_size,
                 name=file_name,
