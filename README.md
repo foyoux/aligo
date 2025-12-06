@@ -5,10 +5,9 @@
 [wiki 文档](https://github.com/foyoux/aligo/wiki) + [examples](https://github.com/foyoux/aligo/tree/main/examples)
 
 > 文档写得很简单，详情请查看 代码提示 + 文档注释
-> 
+>
 > 有任何疑问 请 [issue](https://github.com/foyoux/aligo/issues/new?assignees=&labels=&template=bug_report.md&title=)
-> 或 加入 **aligo交流反馈群** （群二维码在底部）
-> 
+>
 > 附带一份文档 [阿里云盘开放平台文档](https://www.yuque.com/aliyundrive/zpfszx/fitzlb1uyy0pv0iw)
 
 ## 安装
@@ -21,7 +20,7 @@ pip install git+https://github.com/foyoux/aligo.git
 ```
 
 > **Notes：** 最近官方更新了接口，导致 `get_file_list` 无法直接获取下载链接，现在需要单独使用 `get_download_url` 接口获取下载链接。
-> 
+>
 > 对于不常用（没有封装）的接口，可以直接通过 `self.post` 方法直接发送请求。
 >
 > 接口变动较多，有问题请反馈，我会尽快修复。
@@ -84,8 +83,8 @@ https://user-images.githubusercontent.com/35125624/150529002-c2f1b80b-fb11-4e0a-
 
 2. 发送登录二维码到邮箱（推荐）
 
-    **最佳实践**：建议将邮箱绑定到微信，这样能实时收到提醒，登录过期后也可以第一时间收到登录请求。
-    
+   **最佳实践**：建议将邮箱绑定到微信，这样能实时收到提醒，登录过期后也可以第一时间收到登录请求。
+
    ```python
    from aligo import Aligo, EMailConfig
    
@@ -108,16 +107,16 @@ from aligo import Aligo
 
 if __name__ == '__main__':
     ali = Aligo()
-    
+
     drives = ali.list_my_drives()
     # resource_drive_id = [drive.drive_id for drive in drives if drive.drive_name == 'resource'][0]
-    
+
     v2_user = ali.v2_user_get()
     resource_drive_id = v2_user.resource_drive_id
-    
+
     # 如果后续默认操作资源盘
     # ali.default_drive_id = resource_drive_id
-    
+
     file_list = ali.get_file_list(drive_id=resource_drive_id)
     for file in file_list:
         print(file)
@@ -144,40 +143,17 @@ if __name__ == '__main__':
     1. 使用浏览器或其他抓包工具，观察通信过程；
     2. 获取 url/path + 请求体；
     3. 继承 `Aligo`, 使用现有的方法 `self._post` 等，进行发送请求；
-    
+
 会自动维护 **token**, 你只需关注如何发送请求即可
 
 [扩展功能举栗🌰 - 配有视频和代码](https://github.com/foyoux/aligo/issues/24)
 
-
 ## 如何彻底删除文件？
+
 > 无需先移动文件到回收站
 
 此功能太危险，**aligo** 未直接提供。不过 [这里](https://github.com/foyoux/aligo/wiki/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%9F%E8%83%BD---%E5%BD%BB%E5%BA%95%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6) 扩展了该功能，请小心使用！
 
-
 ## 声明
 
 此项目仅供学习交流，若有不妥之处，侵联必删。
-
----
-
-<table align="center">
-    <thead align="center">
-    <tr>
-        <td><h2>❤️‍🔥欢迎加入🤝🏼</h2></td>
-    </tr>
-    </thead>
-    <tbody align="center">
-    <tr>
-        <td><img src="images/wechat.jpg" alt="aligo反馈交流群"/></td>
-    </tr>
-    </tbody>
-    <tfoot align="center">
-    <tr>
-        <td>😃 添加时，请附上留言消息 “aligo” 😜</td>
-    </tr>
-    </tfoot>
-</table>
-
-> 本来是群二维码，但是加进来发广告的太多了，所以改成了个人二维码。
