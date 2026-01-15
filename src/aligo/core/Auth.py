@@ -87,7 +87,7 @@ class Auth:
             port: int = None,
             email: EMailConfig = None,
             request_failed_delay: float = 3,
-            requests_timeout: float = None,
+            requests_timeout: float = 60.0,
             request_interval: int = 0,
     ):
         """扫描二维码登录"""
@@ -102,7 +102,7 @@ class Auth:
             port: int = None,
             email: EMailConfig = None,
             request_failed_delay: float = 3,
-            requests_timeout: float = None,
+            requests_timeout: float = 60.0,
             request_interval: int = 0,
     ):
         """refresh_token 登录"""
@@ -117,7 +117,7 @@ class Auth:
             port: int = None,
             email: EMailConfig = None,
             request_failed_delay: float = 3,
-            requests_timeout: float = None,
+            requests_timeout: float = 60.0,
             login_timeout: float = None,
             re_login: bool = True,
             request_interval: int = 0,
@@ -134,7 +134,7 @@ class Auth:
             port: int = None,
             email: EMailConfig = None,
             request_failed_delay: float = 3,
-            requests_timeout: float = None,
+            requests_timeout: float = 60.0,
             login_timeout: float = None,
             re_login: bool = True,
             request_interval: int = 0,
