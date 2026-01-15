@@ -102,7 +102,8 @@ class CAligo(Aligo):
             part_info_item = part_info.part_info_list[i]
             data = f.read(self.__UPLOAD_CHUNK_SIZE)
             try:
-                resp = self._session.put(data=data, url=part_info_item.upload_url)
+                resp = self._session.put(data=data, url=part_info_item.upload_url,
+                                         timeout=self._auth._requests_timeout)
                 if resp.status_code == 403:
                     raise requests.exceptions.RequestException(
                         f"upload_url({part_info_item.upload_url}) expired"
@@ -120,7 +121,8 @@ class CAligo(Aligo):
                     )
                 )
                 part_info_item = part_info.part_info_list[i]
-                resp = self._session.put(data=data, url=part_info_item.upload_url)
+                resp = self._session.put(data=data, url=part_info_item.upload_url,
+                                         timeout=self._auth._requests_timeout)
             if resp.status_code == 403:
                 raise "这里不对劲，请反馈：https://github.com/foyoux/aligo/issues/new"
             progress_bar.update(len(data))

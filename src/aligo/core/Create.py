@@ -90,7 +90,7 @@ class Create(BaseAligo):
             # noinspection PyProtectedMember
             bys = self._session.get(file_path, headers={
                 'Range': f'bytes={offset}-{min(8 + offset, file_size) - 1}'
-            }).content
+            }, timeout=self._auth._requests_timeout).content
         else:
             with open(file_path, 'rb') as file:
                 file.seek(offset)
@@ -151,7 +151,8 @@ class Create(BaseAligo):
                 part_info_item = part_info.part_info_list[i]
                 data = f.read(Create.__UPLOAD_CHUNK_SIZE)
                 try:
-                    resp = self._session.put(data=data, url=part_info_item.upload_url)
+                    resp = self._session.put(data=data, url=part_info_item.upload_url,
+                                             timeout=self._auth._requests_timeout)
                     if resp.status_code == 403:
                         raise requests.exceptions.RequestException(f'upload_url({part_info_item.upload_url}) expired')
                 except requests.exceptions.RequestException:
@@ -162,7 +163,8 @@ class Create(BaseAligo):
                         part_info_list=[UploadPartInfo(part_number=i.part_number) for i in part_info.part_info_list]
                     ))
                     part_info_item = part_info.part_info_list[i]
-                    resp = self._session.put(data=data, url=part_info_item.upload_url)
+                    resp = self._session.put(data=data, url=part_info_item.upload_url,
+                                             timeout=self._auth._requests_timeout)
                 if resp.status_code == 403:
                     raise '这里不对劲，请反馈：https://github.com/foyoux/aligo/issues/new'
                 progress_bar.update(len(data))

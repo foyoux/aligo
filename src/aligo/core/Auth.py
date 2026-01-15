@@ -87,7 +87,7 @@ class Auth:
             port: int = None,
             email: EMailConfig = None,
             request_failed_delay: float = 3,
-            requests_timeout: float = None,
+            requests_timeout: float = 30.0,
             request_interval: int = 0,
     ):
         """扫描二维码登录"""
@@ -102,7 +102,7 @@ class Auth:
             port: int = None,
             email: EMailConfig = None,
             request_failed_delay: float = 3,
-            requests_timeout: float = None,
+            requests_timeout: float = 30.0,
             request_interval: int = 0,
     ):
         """refresh_token 登录"""
@@ -117,7 +117,7 @@ class Auth:
             port: int = None,
             email: EMailConfig = None,
             request_failed_delay: float = 3,
-            requests_timeout: float = None,
+            requests_timeout: float = 30.0,
             login_timeout: float = None,
             re_login: bool = True,
             request_interval: int = 0,
@@ -134,7 +134,7 @@ class Auth:
             port: int = None,
             email: EMailConfig = None,
             request_failed_delay: float = 3,
-            requests_timeout: float = None,
+            requests_timeout: float = 30.0,
             login_timeout: float = None,
             re_login: bool = True,
             request_interval: int = 0,
@@ -275,14 +275,15 @@ class Auth:
             'client_id': CLIENT_ID,
             'state': r'{"origin":"file://"}',
             # 'state': '{"origin":"https://www.aliyundrive.com"}',
-        }, stream=True).close()
+        }, stream=True, timeout=self._requests_timeout).close()
 
         #
         session_id = self.session.cookies.get('SESSIONID')
         self.log.debug(f'SESSIONID {session_id}')
 
         response = self.session.get(
-            PASSPORT_HOST + NEWLOGIN_QRCODE_GENERATE_DO, params=UNI_PARAMS
+            PASSPORT_HOST + NEWLOGIN_QRCODE_GENERATE_DO, params=UNI_PARAMS,
+            timeout=self._requests_timeout
         )
         self._log_response(response)
         data = response.json()['content']['data']
@@ -307,7 +308,7 @@ class Auth:
         while True:
             response = self.session.post(
                 PASSPORT_HOST + NEWLOGIN_QRCODE_QUERY_DO,
-                data=data, params=UNI_PARAMS
+                data=data, params=UNI_PARAMS, timeout=self._requests_timeout
             )
             login_data = response.json()['content']['data']
             # noinspection PyPep8Naming
@@ -320,10 +321,9 @@ class Auth:
             elif qrCodeStatus == 'CONFIRMED':
                 self.log.info(f'已确认')
                 if self._port:
-                    try:
-                        self.session.get(f'http://localhost:{self._port}/close')
-                    except requests.exceptions.ConnectionError:
-                        pass
+                                    try:
+                                        self.session.get(f'http://localhost:{self._port}/close', timeout=self._requests_timeout)
+                                    except requests.exceptions.ConnectionError:                        pass
                 return response
             else:
                 self.log.warning('未知错误 可能二维码已经过期')
@@ -343,7 +343,8 @@ class Auth:
             json={
                 'refresh_token': refresh_token,
                 'grant_type': 'refresh_token'
-            }
+            },
+            timeout=self._requests_timeout
         )
         self._log_response(response)
         if response.status_code == 200:

@@ -90,7 +90,7 @@ class Download(BaseAligo):
             with self._session.get(url, headers={
                 'Range': f'bytes={tmp_size}-',
                 'Referer': 'https://www.aliyundrive.com/',
-            }, stream=True) as resp:
+            }, stream=True, timeout=self._auth._requests_timeout) as resp:
                 total_size = int(resp.headers.get('content-length', 0))
                 accept_range = resp.headers.get('Accept-Ranges', None)
                 if accept_range == 'bytes':

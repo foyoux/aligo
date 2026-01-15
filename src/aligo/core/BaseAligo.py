@@ -30,7 +30,7 @@ class BaseAligo:
             port: int = None,
             email: EMailConfig = None,
             request_failed_delay: float = 3,
-            requests_timeout: float = None,
+            requests_timeout: float = 30.0,
             login_timeout: float = None,
             re_login: bool = True,
             request_interval: int = 0,
