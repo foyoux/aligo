@@ -1,4 +1,4 @@
-name: Started Notify
+name: Star Notify
 on:
   watch:
     types: [ started ]
@@ -6,9 +6,15 @@ jobs:
   Notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Download Scripts
+      - name: Download Script
         run: |
           wget https://raw.githubusercontent.com/foyoux/started-notify/main/.github/workflows/started_notify.py#${{github.run_id}}
-      - name: Send Notify Email
+      - name: Send Email
+        env:
+          SMTP_HOST: ${{ secrets.NOTIFY_SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.NOTIFY_SMTP_PORT }}
+          SMTP_USER: ${{ secrets.NOTIFY_SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.NOTIFY_SMTP_PASSWORD }}
+          STARGAZER_LOGIN: ${{ github.actor }}
         run: |
-          python started_notify.py ${{github.token}} ${{secrets.NOTIFY_EMAIL}}
+          python started_notify.py ${{github.token}} "${{secrets.NOTIFY_EMAIL}}"
