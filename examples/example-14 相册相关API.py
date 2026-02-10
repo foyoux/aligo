@@ -14,7 +14,7 @@ if __name__ == '__main__':
         iqbf34LjW2 标题。 3 manual
         k6R1nmadvf6 产品标题。 0 manual
         """
-        print(album.album_id, album.name, album.total_count, album.type)
+        print(album.album_id, album.name, album.file_count, album.image_count, album.video_count)
 
     # 创建相册
     album = ali.create_album('aligo', description='create by aligo')
